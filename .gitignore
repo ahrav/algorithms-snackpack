@@ -1,0 +1,6 @@
+/target/
+**/*.profraw
+**/*.profdata
+**/criterion/
+*.swp
+.DS_Store
