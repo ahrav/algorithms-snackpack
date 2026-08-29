@@ -26,6 +26,9 @@ RUSTDOCFLAGS='-D warnings' cargo doc --workspace --no-deps
   topic rather than replacing prior evidence.
 - Every implementation has an explicit contract and an independent oracle.
 - Every claimed invariant names a plausible violation that its test rejects.
+- Every topic records a benchmark decision. Performance-sensitive algorithms
+  include runnable benchmarks and profiles; a topic may omit them only with a
+  concrete explanation of why timing cannot answer its central question.
 - Performance work records the exact source, binary, machine, workload, sample
   unit, ordering, and raw observations.
 - Sampled tests and benchmarks are reported as bounded evidence, not proof.
