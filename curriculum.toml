@@ -1,0 +1,272 @@
+version = 1
+source_conversation = "https://chatgpt.com/c/6984b0e8-e0f8-8323-a05e-73eca3e15849"
+
+[[topics]]
+id = 1
+slug = "prefix-sums-and-scans"
+title = "Prefix sums and scans"
+
+[[topics]]
+id = 2
+slug = "difference-arrays-and-range-updates"
+title = "Difference arrays and deferred range updates"
+
+[[topics]]
+id = 3
+slug = "density-adaptive-bitmaps"
+title = "Bitsets and density-adaptive bitmaps"
+
+[[topics]]
+id = 4
+slug = "interval-sets-and-compressed-ranges"
+title = "Interval sets and compressed ranges"
+
+[[topics]]
+id = 5
+slug = "two-pointers-and-sliding-windows"
+title = "Two pointers and sliding windows"
+
+[[topics]]
+id = 6
+slug = "monotonic-stacks-and-deques"
+title = "Monotonic stacks and deques"
+
+[[topics]]
+id = 7
+slug = "binary-galloping-branch-aware-search"
+title = "Binary, galloping, and branch-aware search"
+
+[[topics]]
+id = 8
+slug = "selection-quickselect-top-k"
+title = "Selection, Quickselect, and Top-K"
+
+[[topics]]
+id = 9
+slug = "reservoir-and-weighted-sampling"
+title = "Reservoir and weighted sampling"
+
+[[topics]]
+id = 10
+slug = "sorting-algorithm-portfolios"
+title = "Sorting algorithm portfolios"
+
+[[topics]]
+id = 11
+slug = "merge-algorithms-and-duplicate-runs"
+title = "Merge algorithms and duplicate-run joins"
+
+[[topics]]
+id = 12
+slug = "radix-partitioning"
+title = "Radix partitioning"
+
+[[topics]]
+id = 13
+slug = "open-addressed-hash-tables"
+title = "Open-addressed hash tables"
+
+[[topics]]
+id = 14
+slug = "swisstable-metadata-filtering"
+title = "SwissTable-style metadata filtering"
+
+[[topics]]
+id = 15
+slug = "robin-hood-hashing"
+title = "Robin Hood hashing"
+
+[[topics]]
+id = 16
+slug = "cuckoo-hashing"
+title = "Cuckoo hashing"
+
+[[topics]]
+id = 17
+slug = "probabilistic-membership-filters"
+title = "Bloom, cuckoo, and quotient filters"
+
+[[topics]]
+id = 18
+slug = "hash-joins-partitioning-and-spill"
+title = "Hash joins, recursive partitioning, and spill"
+
+[[topics]]
+id = 19
+slug = "fenwick-trees"
+title = "Fenwick trees"
+
+[[topics]]
+id = 20
+slug = "segment-trees-and-lazy-propagation"
+title = "Segment trees and lazy propagation"
+
+[[topics]]
+id = 21
+slug = "heaps-and-priority-queues"
+title = "Heaps and priority queues"
+
+[[topics]]
+id = 22
+slug = "skip-lists-and-hybrid-indexes"
+title = "Skip lists and hybrid ordered indexes"
+
+[[topics]]
+id = 23
+slug = "b-trees-and-posting-list-deduplication"
+title = "B-trees and posting-list deduplication"
+
+[[topics]]
+id = 24
+slug = "tries-radix-trees-and-art"
+title = "Tries, radix trees, ART, and sparse radix arrays"
+
+[[topics]]
+id = 25
+slug = "finite-state-transducers"
+title = "Finite-state transducers and compact dictionaries"
+
+[[topics]]
+id = 26
+slug = "dynamic-arrays-and-growth-policies"
+title = "Dynamic arrays and growth policies"
+
+[[topics]]
+id = 27
+slug = "ring-buffers-and-bounded-queues"
+title = "Ring buffers and bounded queues"
+
+[[topics]]
+id = 28
+slug = "work-stealing-deques"
+title = "Work-stealing deques"
+
+[[topics]]
+id = 29
+slug = "union-find-and-equivalence-classes"
+title = "Union-find and equivalence-class indexes"
+
+[[topics]]
+id = 30
+slug = "breadth-first-and-depth-first-traversal"
+title = "Breadth-first and depth-first traversal"
+
+[[topics]]
+id = 31
+slug = "dijkstra-and-shortest-path-queues"
+title = "Dijkstra and shortest-path queues"
+
+[[topics]]
+id = 32
+slug = "topological-order-and-incremental-dags"
+title = "Topological order and incremental DAG evaluation"
+
+[[topics]]
+id = 33
+slug = "tarjan-strongly-connected-components"
+title = "Tarjan strongly connected components"
+
+[[topics]]
+id = 34
+slug = "dominator-trees"
+title = "Dominator trees and incremental maintenance"
+
+[[topics]]
+id = 35
+slug = "reachability-indexes"
+title = "Reachability indexes for large DAGs"
+
+[[topics]]
+id = 36
+slug = "merkle-trees"
+title = "Merkle trees and incremental rebuild caches"
+
+[[topics]]
+id = 37
+slug = "best-first-and-approximate-graph-search"
+title = "Best-first and approximate graph search"
+
+[[topics]]
+id = 38
+slug = "kmp-and-prefix-function-matching"
+title = "KMP and prefix-function matching"
+
+[[topics]]
+id = 39
+slug = "adaptive-string-search"
+title = "Boyer-Moore, Two-Way, and adaptive string search"
+
+[[topics]]
+id = 40
+slug = "rolling-hashes-and-content-defined-chunking"
+title = "Rolling hashes and content-defined chunking"
+
+[[topics]]
+id = 41
+slug = "edit-distance-and-automaton-lookup"
+title = "Edit distance and automaton-guided lookup"
+
+[[topics]]
+id = 42
+slug = "longest-common-subsequence-and-diff"
+title = "Longest common subsequence and diff"
+
+[[topics]]
+id = 43
+slug = "multi-pattern-matching-and-automata"
+title = "Multi-pattern matching and automata"
+
+[[topics]]
+id = 44
+slug = "varints-codecs-and-bounded-decoding"
+title = "Varints, codecs, and bounded decoding"
+
+[[topics]]
+id = 45
+slug = "compression-oriented-transforms"
+title = "Compression-oriented transforms"
+
+[[topics]]
+id = 46
+slug = "streaming-sketches"
+title = "Streaming sketches"
+
+[[topics]]
+id = 47
+slug = "consistent-hashing-and-bounded-load"
+title = "Consistent hashing and bounded-load placement"
+
+[[topics]]
+id = 48
+slug = "lru-clock-and-eviction"
+title = "LRU, CLOCK, and workload-aware eviction"
+
+[[topics]]
+id = 49
+slug = "timing-wheels-heaps-and-timer-trees"
+title = "Timing wheels, heaps, and timer trees"
+
+[[topics]]
+id = 50
+slug = "token-buckets-and-rate-accounting"
+title = "Token buckets and rate accounting"
+
+[[topics]]
+id = 51
+slug = "buddy-allocation"
+title = "Buddy allocation and hierarchical free-space tracking"
+
+[[topics]]
+id = 52
+slug = "red-black-trees-and-intrusive-representation"
+title = "Red-black trees and intrusive representations"
+
+[[topics]]
+id = 53
+slug = "load-balancing-and-stable-assignment"
+title = "Load balancing and stable assignment"
+
+[[topics]]
+id = 54
+slug = "dynamic-programming-state-space-design"
+title = "Dynamic programming as state-space design"
