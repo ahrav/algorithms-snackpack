@@ -12,6 +12,11 @@ Required topic files:
 - `tests/`: exact boundaries, independent-model agreement, properties, and
   invariant-discriminating regressions as justified by the contract;
 - `benches/`: benchmarks only for predeclared performance claims;
+- `BENCHMARK.md`: the mandatory benchmark decision. When it is `true`, include
+  the claim, workloads, unit roles, assignment, controls, stopping rule, counters
+  or profiles, and evidence boundary. When it is `false`, include the concrete
+  reason timing cannot answer the central claim and name the evidence used
+  instead;
 - `measurements/README.md`: workload, artifact identity, environment, commands,
   raw-data paths, operation counts, results, and evidence boundaries;
 - `TEST_STRATEGY.md`: the required test-strategy and invariant-test-audit records.
@@ -27,6 +32,11 @@ Rust requirements:
 - unsafe code is forbidden by default and requires an explicit topic-level
   justification plus dedicated verification if a future topic enables it;
 - benchmarks consume results and pin the intended code path;
+- a performance-sensitive topic benchmarks the reference model and every
+  serious candidate across the workload dimensions that can change the winner;
+- elapsed time is paired with operation counts and profiling or hardware-counter
+  evidence when the claimed mechanism depends on branches, cache behavior,
+  instructions, allocations, contention, or code shape;
 - raw samples are retained; summaries never replace them.
 
 Before publication run:
