@@ -12,9 +12,11 @@ Required topic files:
 - `tests/`: exact boundaries, independent-model agreement, properties, and
   invariant-discriminating regressions as justified by the contract;
 - `benches/`: benchmarks only for predeclared performance claims;
-- `BENCHMARK.md`: the mandatory benchmark decision, claim, workloads, unit
-  roles, assignment, controls, stopping rule, counters or profiles, and evidence
-  boundary. Use `benchmark_required: false` only with a concrete justification;
+- `BENCHMARK.md`: the mandatory benchmark decision. When it is `true`, include
+  the claim, workloads, unit roles, assignment, controls, stopping rule, counters
+  or profiles, and evidence boundary. When it is `false`, include the concrete
+  reason timing cannot answer the central claim and name the evidence used
+  instead;
 - `measurements/README.md`: workload, artifact identity, environment, commands,
   raw-data paths, operation counts, results, and evidence boundaries;
 - `TEST_STRATEGY.md`: the required test-strategy and invariant-test-audit records.

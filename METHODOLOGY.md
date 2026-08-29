@@ -116,13 +116,15 @@ When benchmarking is required, `BENCHMARK.md` must predeclare:
 - treatment-application, randomization, analysis, subsample, and generalization
   units, plus the interference and reset argument;
 - pilot variance, independent-unit count, allocation, sensitivity, effect
-  boundary, confidence-bound direction, and fixed or valid sequential stopping;
+  boundary, nominal confidence level, confidence-bound direction, error-budget
+  allocation across claims and looks, and fixed or valid sequential stopping;
 - the assignment law and recorded seed. Use complete ABBA/BAAB blocks only when
   additive linear position drift is the declared nuisance model and carryover is
   negligible; retain every partial, failed, timed-out, and reset-failed attempt;
-- an identical-artifact A/A run through the same build, label, schedule, parser,
-  missing-data, stopping, and analysis paths, with mechanical integrity kept
-  separate from null-calibration evidence;
+- an identical-artifact A/A run with distinct treatment-arm labels through the
+  same build, scheduling, label handling, parser, missing-data, stopping, and
+  analysis paths, with mechanical integrity kept separate from null-calibration
+  evidence;
 - the benchmark family and multiplicity rule before results are inspected;
 - exact source, compiler, flags, linked-image hash, host, architecture, affinity,
   environment, and raw-output location.
@@ -139,10 +141,15 @@ as instructions, cycles, branches, branch misses, cache or translation misses,
 bytes, allocations, atomics, retries, or generated code. If a required counter
 is unavailable, record that limitation and keep the mechanism as inference.
 
-Only complete independent analysis-unit contrasts enter uncertainty estimates.
-Inner Criterion samples, loop iterations, requests in one process, and repeated
-reads of the same warmed state are subsamples. More subsamples cannot replace
-process, build, host, or time-window replication when the claim varies there.
+Predeclare how failures, timeouts, and censored observations enter each estimand.
+Never silently discard them: report reliability separately and use a declared
+composite outcome, censoring model, or sensitivity analysis when missingness can
+depend on treatment or workload. Timing contrasts may use only complete
+independent analysis units when that complete-case estimand and its missingness
+assumption are justified. Inner Criterion samples, loop iterations, requests in
+one process, and repeated reads of the same warmed state are subsamples. More
+subsamples cannot replace process, build, host, or time-window replication when
+the claim varies there.
 
 The retained result separates:
 
