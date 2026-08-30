@@ -243,6 +243,10 @@ counters or samples, cache and memory-bandwidth explanations remain inferred.
 
 ## Commands
 
+The runner requires Python 3.11 or newer (`tomllib` and `datetime.UTC` are
+standard library only from 3.11); older interpreters exit at startup with a
+version message.
+
 Build and check the harness without collecting confirmatory evidence:
 
 ```bash

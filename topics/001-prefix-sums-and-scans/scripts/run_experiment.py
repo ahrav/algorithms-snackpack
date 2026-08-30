@@ -3,6 +3,14 @@
 
 from __future__ import annotations
 
+import sys
+
+if sys.version_info < (3, 11):
+    raise SystemExit(
+        "run_experiment.py requires Python 3.11 or newer "
+        f"(tomllib, datetime.UTC); running under {sys.version.split()[0]}"
+    )
+
 import argparse
 import csv
 import hashlib
@@ -16,7 +24,6 @@ import signal
 import socket
 import statistics
 import subprocess
-import sys
 import time
 import tomllib
 import traceback
@@ -371,6 +378,16 @@ def inspect_runner_configuration(host_triple: str, build_env: dict[str, str]) ->
                 if build.get(override):
                     findings.append(
                         {"source": f"{path}:build.{override}", "value": repr(build[override])}
+                    )
+        profiles = document.get("profile", {})
+        if isinstance(profiles, dict):
+            for profile_name in ("release", "bench"):
+                if profiles.get(profile_name):
+                    findings.append(
+                        {
+                            "source": f"{path}:profile.{profile_name}",
+                            "value": repr(profiles[profile_name]),
+                        }
                     )
 
     return {
