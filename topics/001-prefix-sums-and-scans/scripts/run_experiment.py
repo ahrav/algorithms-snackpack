@@ -471,6 +471,28 @@ def tool_output(argv: Sequence[str], env: dict[str, str]) -> str:
     return completed.stdout.decode("utf-8", errors="replace").strip()
 
 
+def rustup_dispatched_tool(tool_name: str, build_env: dict[str, str]) -> dict[str, Any] | None:
+    """Resolve the toolchain binary that a rustup proxy dispatches to.
+
+    On rustup-managed hosts the PATH entries for rustc and cargo are the
+    shared rustup proxy, so hashing them does not identify the compiler that
+    runs. `rustup which` reports the dispatched binary for the toolchain
+    active in the repository.
+    """
+    rustup = shutil.which("rustup", path=build_env.get("PATH"))
+    if rustup is None:
+        return None
+    completed = run_capture(
+        [rustup, "which", tool_name], cwd=REPO_ROOT, env=build_env, timeout=15.0
+    )
+    if completed.returncode != 0:
+        return None
+    resolved = Path(completed.stdout.decode("utf-8", errors="replace").strip())
+    if not resolved.is_file():
+        return None
+    return {"path": str(resolved), "sha256": sha256_file(resolved)}
+
+
 def build_benchmark(run_dir: Path, rustflags: str) -> tuple[Path, dict[str, Any]]:
     build_env = safe_base_environment()
     build_env["RUSTFLAGS"] = rustflags
@@ -544,6 +566,8 @@ def build_benchmark(run_dir: Path, rustflags: str) -> tuple[Path, dict[str, Any]
         "binary_sha256": binary_hash,
         "cargo_sha256": sha256_file(Path(cargo)),
         "rustc_sha256": sha256_file(Path(rustc)),
+        "dispatched_cargo": rustup_dispatched_tool("cargo", build_env),
+        "dispatched_rustc": rustup_dispatched_tool("rustc", build_env),
         "runner_configuration": runner_check,
     }
     write_json_once(run_dir / "metadata" / "build.json", metadata)
@@ -1831,7 +1855,9 @@ def phase_sequence(requested: str) -> list[str]:
     return [requested]
 
 
-def protocol_document(requested_phase: str, rustflags: str, timeout: float) -> dict[str, Any]:
+def protocol_document(
+    requested_phase: str, rustflags: str, timeout: float, cpu_list: str | None
+) -> dict[str, Any]:
     phases = phase_sequence(requested_phase)
     return {
         "schema_version": SCHEMA_VERSION,
@@ -1851,6 +1877,7 @@ def protocol_document(requested_phase: str, rustflags: str, timeout: float) -> d
         "timed_subsamples_per_position": DEFAULT_SAMPLES,
         "timeout_seconds": timeout,
         "rustflags": rustflags,
+        "requested_cpu_list": cpu_list,
         "primary_contrasts": [asdict(contrast) for contrast in CONTRASTS],
         "planned_schedule": planned_schedule([phase for phase in phases if phase != "profile"]),
         "retry_rule": (
@@ -1961,7 +1988,7 @@ def parse_cli() -> argparse.Namespace:
 def run_experiment(args: argparse.Namespace) -> int:
     if not math.isfinite(args.timeout_seconds) or args.timeout_seconds <= 0.0:
         raise ValueError("--timeout-seconds must be a finite value greater than zero")
-    protocol = protocol_document(args.phase, args.rustflags, args.timeout_seconds)
+    protocol = protocol_document(args.phase, args.rustflags, args.timeout_seconds, args.cpu_list)
     if args.phase == "plan":
         print(json.dumps(protocol, indent=2, sort_keys=True))
         return 0

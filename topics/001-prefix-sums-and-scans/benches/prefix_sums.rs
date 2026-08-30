@@ -559,7 +559,7 @@ fn real_main() -> Result<(), String> {
 }
 
 fn main() {
-    if env::args_os().len() == 1 {
+    if env::args().skip(1).all(|argument| argument == "--bench") {
         return;
     }
     if let Err(error) = real_main() {
