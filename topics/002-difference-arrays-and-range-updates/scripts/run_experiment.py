@@ -244,6 +244,29 @@ class ExternalSignalRelay:
                 pass
         self.pending.append(signum)
 
+    def adopt_child(self, child: subprocess.Popen[bytes]) -> None:
+        """Register a live child and forward any signal queued before it existed.
+
+        A signal delivered between `Popen` and registration finds no child and
+        lands in `pending`, so without this drain the harness runs to completion
+        and records a VALID attempt while the queued signal ends the whole run at
+        the next checkpoint. Forwarding it here terminates the attempt instead,
+        which is what the declared one-block retry rule acts on.
+        """
+        self.child = child
+        while self.pending:
+            signum = self.pending[0]
+            if child.poll() is not None:
+                return
+            try:
+                os.killpg(child.pid, signum)
+            except ProcessLookupError:
+                return
+            self.pending.pop(0)
+
+    def release_child(self) -> None:
+        self.child = None
+
     def raise_if_pending(self) -> None:
         if self.pending:
             names = ", ".join(signal.Signals(signum).name for signum in self.pending)
@@ -363,7 +386,7 @@ def run_capture_group(
         return None, b"", f"spawn failure: {error!r}".encode("utf-8"), False
     with process:
         if relay is not None:
-            relay.child = process
+            relay.adopt_child(process)
         try:
             stdout, stderr = process.communicate(timeout=timeout)
             return process.returncode, stdout, stderr, False
@@ -376,7 +399,7 @@ def run_capture_group(
             return process.returncode, stdout, stderr, True
         finally:
             if relay is not None:
-                relay.child = None
+                relay.release_child()
 
 
 def safe_base_environment() -> dict[str, str]:
@@ -907,7 +930,7 @@ def linked_library_metadata(
     if sys.platform == "darwin" and Path("/usr/bin/otool").is_file():
         argv = ["/usr/bin/otool", "-L", str(binary)]
     elif sys.platform.startswith("linux") and shutil.which("ldd") is not None:
-        argv = [str(Path(shutil.which("ldd") or "ldd").resolve()), str(binary)]
+        argv = [str(Path(shutil.which("ldd") or "ldd").absolute()), str(binary)]
     else:
         return {
             "status": "UNAVAILABLE",
@@ -1544,7 +1567,7 @@ class HarnessExecutor:
         else:
             with process:
                 if self.relay is not None:
-                    self.relay.child = process
+                    self.relay.adopt_child(process)
                 if hasattr(os, "sched_getaffinity"):
                     try:
                         observed_affinity = sorted(os.sched_getaffinity(process.pid))
@@ -1563,7 +1586,7 @@ class HarnessExecutor:
                     returncode = process.returncode
                 finally:
                     if self.relay is not None:
-                        self.relay.child = None
+                        self.relay.release_child()
         ended_ns = time.time_ns()
         ended_at = utc_now()
         write_bytes_once(attempt_dir / "stdout.jsonl", stdout)
@@ -2495,7 +2518,7 @@ def collect_disassembly(
         selected = shutil.which("llvm-objdump") or shutil.which("objdump")
         if selected is None:
             return {"status": "UNAVAILABLE", "reason": "no supported disassembler found"}
-        argv = [str(Path(selected).resolve()), "-d", "--demangle", str(binary)]
+        argv = [str(Path(selected).absolute()), "-d", "--demangle", str(binary)]
     returncode, stdout, stderr, timed_out = run_capture_group(
         argv,
         cwd=REPO_ROOT,
@@ -2861,7 +2884,7 @@ def collect_dynamic_profile(
 ) -> dict[str, Any]:
     harness_argv = executor.harness_argv(position, DEFAULT_WARMUPS, position.samples)
     if sys.platform.startswith("linux") and shutil.which("perf") is not None:
-        tool = str(Path(shutil.which("perf") or "perf").resolve())
+        tool = str(Path(shutil.which("perf") or "perf").absolute())
         argv = [
             tool,
             "stat",
