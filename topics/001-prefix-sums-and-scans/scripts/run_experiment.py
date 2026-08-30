@@ -834,12 +834,18 @@ def parse_cpu_list(value: str) -> set[int]:
         if not part:
             raise ValueError("empty CPU-list component")
         if "-" in part:
-            start_text, end_text = part.split("-", 1)
+            range_text, _, stride_text = part.partition(":")
+            stride = 1
+            if stride_text:
+                stride = int(stride_text)
+                if stride <= 0:
+                    raise ValueError(f"non-positive CPU-range stride: {part}")
+            start_text, end_text = range_text.split("-", 1)
             start = int(start_text)
             end = int(end_text)
             if end < start:
                 raise ValueError(f"descending CPU range: {part}")
-            cpus.update(range(start, end + 1))
+            cpus.update(range(start, end + 1, stride))
         else:
             cpus.add(int(part))
     if not cpus:
@@ -2022,6 +2028,8 @@ def run_experiment(args: argparse.Namespace) -> int:
         print(json.dumps(result, indent=2, sort_keys=True))
         return 0 if result["status"] == "PASS" else 1
 
+    relay = ExternalSignalRelay()
+    relay.install()
     run_dir = create_run_directory(args.output_dir, args.phase)
     status: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
@@ -2030,16 +2038,15 @@ def run_experiment(args: argparse.Namespace) -> int:
         "requested_phase": args.phase,
         "completed_phases": [],
     }
-    replace_json(run_dir / "run-status.json", status)
-    write_json_once(run_dir / "protocol.json", protocol)
-    initial_source = source_tree_manifest(run_dir)
-    write_json_once(run_dir / "metadata" / "source-tree-before.json", initial_source)
-    initial_source_digest = source_tree_digest(initial_source)
-    build_env = safe_base_environment()
-    relay = ExternalSignalRelay()
-    relay.install()
     failure: BaseException | None = None
     try:
+        replace_json(run_dir / "run-status.json", status)
+        write_json_once(run_dir / "protocol.json", protocol)
+        initial_source = source_tree_manifest(run_dir)
+        write_json_once(run_dir / "metadata" / "source-tree-before.json", initial_source)
+        initial_source_digest = source_tree_digest(initial_source)
+        build_env = safe_base_environment()
+        relay.raise_if_pending()
         write_json_once(run_dir / "metadata" / "host.json", host_metadata())
         write_json_once(run_dir / "metadata" / "git.json", git_metadata(run_dir, build_env))
         binary, build = build_benchmark(run_dir, args.rustflags)
