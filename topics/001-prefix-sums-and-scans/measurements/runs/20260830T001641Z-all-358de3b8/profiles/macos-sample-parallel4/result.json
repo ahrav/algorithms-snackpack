@@ -1,0 +1,20 @@
+{
+  "binary_sha256_after": "0144d4ef720e2f721643a00f3b5d4775b65d753c34781efe6c1e7b714d9dd4a9",
+  "ended_at": "2026-08-30T00:18:45.441081+00:00",
+  "failure_boundary": "A missing process, permission failure, unsupported sampler, timeout, or nonzero exit remains a retained profile failure. It does not become timing evidence.",
+  "harness_pid": 71833,
+  "harness_returncode": 0,
+  "harness_timed_out": false,
+  "profile_output_present": false,
+  "profile_output_sha256": null,
+  "sample_argv": [
+    "/usr/bin/sample",
+    "71833",
+    "1",
+    "-file",
+    "/private/tmp/algorithms-topic-001.vIhLjZ/topics/001-prefix-sums-and-scans/measurements/runs/20260830T001641Z-all-358de3b8/profiles/macos-sample-parallel4/sample.txt"
+  ],
+  "sample_returncode": 255,
+  "sample_timed_out": false,
+  "status": "FAILED"
+}

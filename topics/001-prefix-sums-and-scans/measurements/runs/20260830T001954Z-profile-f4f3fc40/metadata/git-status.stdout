@@ -1,0 +1,11 @@
+ M Cargo.lock
+ M Cargo.toml
+?? topics/001-prefix-sums-and-scans/BENCHMARK.md
+?? topics/001-prefix-sums-and-scans/Cargo.toml
+?? topics/001-prefix-sums-and-scans/README.md
+?? topics/001-prefix-sums-and-scans/TEST_STRATEGY.md
+?? topics/001-prefix-sums-and-scans/benches/prefix_sums.rs
+?? topics/001-prefix-sums-and-scans/measurements/README.md
+?? topics/001-prefix-sums-and-scans/scripts/run_experiment.py
+?? topics/001-prefix-sums-and-scans/src/lib.rs
+?? topics/001-prefix-sums-and-scans/tests/scan.rs

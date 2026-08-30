@@ -1,0 +1,13 @@
+{
+  "attempt_count": 4,
+  "block_record_count": 0,
+  "completed_phases": [
+    "profile"
+  ],
+  "ended_at": "2026-08-30T00:20:12.902486+00:00",
+  "last_progress_at": "2026-08-30T00:20:12.604923+00:00",
+  "requested_phase": "profile",
+  "schema_version": 1,
+  "started_at": "2026-08-30T00:19:54.144629+00:00",
+  "status": "COMPLETE"
+}

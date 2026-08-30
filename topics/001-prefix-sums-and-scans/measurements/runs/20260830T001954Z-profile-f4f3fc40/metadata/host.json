@@ -1,0 +1,12 @@
+{
+  "cpu_description": "Apple M1 Pro",
+  "cpuset_cpus_effective": null,
+  "hostname": "b0f1d8752aba",
+  "logical_cpu_count": 10,
+  "machine": "arm64",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "release": "25.6.0",
+  "runner_process_affinity": null,
+  "system": "Darwin"
+}

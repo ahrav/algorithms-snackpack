@@ -1,0 +1,77 @@
+[
+  {
+    "bytes": 455,
+    "path": "Cargo.toml",
+    "sha256": "f06ec287d5c3175eb211b50b7d8d0406439ea93ad1c7e0226c8c2d01f2d1ab9b"
+  },
+  {
+    "bytes": 234,
+    "path": "Cargo.lock",
+    "sha256": "e25c61cc9027a802436936885451e33358f3c869f75e053bcf7cb443f514d07c"
+  },
+  {
+    "bytes": 86,
+    "path": "rust-toolchain.toml",
+    "sha256": "8bc51ecab82415fddd8489604f2424e137d71856e7f65cbdcfaa48850d794b46"
+  },
+  {
+    "bytes": 7872,
+    "path": "README.md",
+    "sha256": "eac67d3b18373c226ed449defa9cd7f7e07a07d2c27d2e0a08d7796a492eb83c"
+  },
+  {
+    "bytes": 2496,
+    "path": "DOCUMENTATION.md",
+    "sha256": "f87125b698f5e565b9c263728046eec8c15f5189a2777bb546a583a2a38d0a23"
+  },
+  {
+    "bytes": 7689,
+    "path": "METHODOLOGY.md",
+    "sha256": "8b8098ece6874148d82086779bac777d0167e31176bdaa4d6d091ca37b834775"
+  },
+  {
+    "bytes": 13607,
+    "path": "topics/001-prefix-sums-and-scans/BENCHMARK.md",
+    "sha256": "04bb9bb60fd21921ca79a480f3f861e92cdbad277922d38a642bb00211b5abef"
+  },
+  {
+    "bytes": 204,
+    "path": "topics/001-prefix-sums-and-scans/Cargo.toml",
+    "sha256": "f06275fd44895e7fe0439f06e3787fb813018304766ef3ba52e1f21b6e740e1c"
+  },
+  {
+    "bytes": 9325,
+    "path": "topics/001-prefix-sums-and-scans/README.md",
+    "sha256": "52cdbab0501a32bd55d199ec7fa802c0c0383236a2e8f3a3ef4b00ab59c529f5"
+  },
+  {
+    "bytes": 14125,
+    "path": "topics/001-prefix-sums-and-scans/TEST_STRATEGY.md",
+    "sha256": "8c76a7f6da79e83f7655fae44cdfcb08925e3b0e53d313548783fd06de0ffef0"
+  },
+  {
+    "bytes": 19955,
+    "path": "topics/001-prefix-sums-and-scans/benches/prefix_sums.rs",
+    "sha256": "b4d849651bbe10a9bb2e98308cd6e1d0ee74b880d38e4af403086086a259955b"
+  },
+  {
+    "bytes": 7421,
+    "path": "topics/001-prefix-sums-and-scans/measurements/README.md",
+    "sha256": "9285ab638ad726eb24cfed300d2e48e402a907837f45c9a3ef38951542277f09"
+  },
+  {
+    "bytes": 71491,
+    "path": "topics/001-prefix-sums-and-scans/scripts/run_experiment.py",
+    "sha256": "50ec59991a091dac28b860ac8dfc4ab33d348b0b970ff7a935b3085f63b026fb"
+  },
+  {
+    "bytes": 9257,
+    "path": "topics/001-prefix-sums-and-scans/src/lib.rs",
+    "sha256": "1879bffdb2a24d4b42cec8e232445aa89565b416bc5761bded7f91d3bde55b19"
+  },
+  {
+    "bytes": 6248,
+    "path": "topics/001-prefix-sums-and-scans/tests/scan.rs",
+    "sha256": "22f4f88f6f5e424e1ed6960098f05787837fa3d3355f23e5fca7039375a0f9cf"
+  }
+]

@@ -1,0 +1,43 @@
+{
+  "argv": [
+    "/Users/ahrav/.cargo/bin/cargo",
+    "build",
+    "--release",
+    "--package",
+    "prefix-sums-and-scans",
+    "--bench",
+    "prefix_sums",
+    "--message-format=json-render-diagnostics"
+  ],
+  "binary_sha256": "0144d4ef720e2f721643a00f3b5d4775b65d753c34781efe6c1e7b714d9dd4a9",
+  "cargo_profile": "release",
+  "cargo_sha256": "20ef5516c31b1ac2290084199ba77dbbcaa1406c45c1d978ca68558ef5964ef5",
+  "cargo_version": "cargo 1.93.0 (083ac5135 2025-12-15)",
+  "cwd": "/private/tmp/algorithms-topic-001.vIhLjZ",
+  "ended_at": "2026-08-30T00:16:41.420559+00:00",
+  "environment": {
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_TERM_COLOR": "never",
+    "HOME": "/Users/ahrav",
+    "LANG": "C",
+    "LC_ALL": "C",
+    "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Users/ahrav/.local/share/mise/installs/go/1.25.6/bin:/Users/ahrav/.cargo/bin:/Users/ahrav/.codex/tmp/arg0/codex-arg0QTDcl2:/Users/ahrav/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/ahrav/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/Users/ahrav/.orbstack/bin",
+    "RUSTFLAGS": "-C target-cpu=native",
+    "TMPDIR": "/var/folders/21/jzd0kr1j6cj_53w6j490_c3w0000gq/T/",
+    "TZ": "UTC"
+  },
+  "retained_binary": "/private/tmp/algorithms-topic-001.vIhLjZ/topics/001-prefix-sums-and-scans/measurements/runs/20260830T001641Z-all-358de3b8/artifacts/prefix_sums-0144d4ef720e2f721643a00f3b5d4775b65d753c34781efe6c1e7b714d9dd4a9",
+  "runner_configuration": {
+    "ambiguous_or_non_native_findings": [],
+    "config_paths_checked": [
+      "/Users/ahrav/.cargo/config.toml"
+    ],
+    "environment_key_checked": "CARGO_TARGET_AARCH64_APPLE_DARWIN_RUNNER",
+    "host_triple": "aarch64-apple-darwin"
+  },
+  "rustc_sha256": "20ef5516c31b1ac2290084199ba77dbbcaa1406c45c1d978ca68558ef5964ef5",
+  "rustc_verbose": "rustc 1.93.0 (254b59607 2026-01-19)\nbinary: rustc\ncommit-hash: 254b59607d4417e9dffbc307138ae5c86280fe4c\ncommit-date: 2026-01-19\nhost: aarch64-apple-darwin\nrelease: 1.93.0\nLLVM version: 21.1.8",
+  "rustflags": "-C target-cpu=native",
+  "source_binary": "/private/tmp/algorithms-topic-001.vIhLjZ/target/release/deps/prefix_sums-3b7e523e542fb900",
+  "started_at": "2026-08-30T00:16:41.309336+00:00"
+}
