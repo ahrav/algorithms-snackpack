@@ -2448,7 +2448,28 @@ def collect_disassembly(
     symbol_checks = {
         fragment.decode("ascii"): fragment in stdout for fragment in symbol_fragments
     }
-    complete = returncode == 0 and not timed_out and all(symbol_checks.values())
+    timed_call_checks = {
+        "timed_loop_function_present": b"range_updates" in stdout,
+        "clock_read_present": any(
+            source in stdout
+            for source in (
+                b"mach_absolute_time",
+                b"clock_gettime",
+                b"clock_gettime_nsec_np",
+                b"Instant",
+                b"__vdso_clock_gettime",
+            )
+        ),
+        "indirect_candidate_dispatch_present": any(
+            branch in stdout for branch in (b"blr", b"br\tx", b"call\t*", b"callq\t*", b"jmpq\t*")
+        ),
+    }
+    complete = (
+        returncode == 0
+        and not timed_out
+        and all(symbol_checks.values())
+        and all(timed_call_checks.values())
+    )
     return {
         "status": "COMPLETE" if complete else "FAILED",
         "argv": argv,
@@ -2460,9 +2481,15 @@ def collect_disassembly(
         "stdout_sha256": sha256_bytes(stdout),
         "stderr_sha256": sha256_bytes(stderr),
         "candidate_symbol_fragments_present": symbol_checks,
+        "timed_call_checks": timed_call_checks,
         "consumer_boundary": (
-            "The linked image retains all four candidate symbols. The source-tree hash pins "
-            "the black_box result consumer used after each timed call."
+            "The linked image retains all four candidate symbols, the timed loop's own "
+            "symbol, a clock read, and an indirect call through which the candidate "
+            "function pointer is invoked. Candidate selection is an indirect call, so the "
+            "disassembly cannot name a direct call edge from the timed loop to one "
+            "candidate. `black_box` is a compiler hint that emits no instructions, so the "
+            "result consumer is pinned by the retained source-tree and benchmark-source "
+            "hashes rather than by any instruction in this disassembly."
         ),
     }
 

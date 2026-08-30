@@ -328,6 +328,7 @@
   },
   "staged_path_gate": {
     "expected_allowed_paths": [
+      "Cargo.lock",
       "Cargo.toml",
       "topics/002-difference-arrays-and-range-updates/BENCHMARK.md",
       "topics/002-difference-arrays-and-range-updates/Cargo.toml",
@@ -342,7 +343,7 @@
       "topics/002-difference-arrays-and-range-updates/src/lib.rs",
       "topics/002-difference-arrays-and-range-updates/tests/range_updates.rs"
     ],
-    "cached_name_list_sha256": "801d5902d0d1e225ffe4f77670563cc6436024f7bf75216720eaab760f82716f",
+    "cached_name_list_sha256": "6c7d26551360f5023fea9a1f83685e146f30fda24b21dc8165eeabdf8e3cfc85",
     "verified_after_staging": true,
     "forbidden_path_count": 0
   }
