@@ -315,8 +315,15 @@ def inspect_runner_configuration(host_triple: str, build_env: dict[str, str]) ->
         target = document.get("target", {})
         if isinstance(target, dict):
             for key, table in target.items():
-                if isinstance(table, dict) and "runner" in table:
-                    findings.append({"source": f"{path}:target.{key}.runner", "value": repr(table["runner"])})
+                if not (isinstance(table, dict) and "runner" in table):
+                    continue
+                # cfg(...) tables remain flagged because this check cannot
+                # resolve their match set.
+                if key != host_triple and not key.startswith("cfg("):
+                    continue
+                findings.append(
+                    {"source": f"{path}:target.{key}.runner", "value": repr(table["runner"])}
+                )
         build = document.get("build", {})
         if isinstance(build, dict) and "target" in build:
             value = build["target"]
@@ -383,17 +390,21 @@ def source_tree_digest(records: Sequence[dict[str, Any]]) -> str:
 
 def git_metadata(run_dir: Path, env: dict[str, str]) -> dict[str, Any]:
     git = executable("git")
+    status_argv = [
+        git,
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all",
+        "--",
+        ".",
+        ":(exclude)topics/001-prefix-sums-and-scans/measurements/runs",
+    ]
+    if run_dir.resolve().is_relative_to(REPO_ROOT.resolve()):
+        relative_run_dir = run_dir.resolve().relative_to(REPO_ROOT.resolve()).as_posix()
+        status_argv.append(f":(exclude){relative_run_dir}")
     commands = {
         "head": [git, "rev-parse", "HEAD"],
-        "status": [
-            git,
-            "status",
-            "--porcelain=v1",
-            "--untracked-files=all",
-            "--",
-            ".",
-            ":(exclude)topics/001-prefix-sums-and-scans/measurements/runs",
-        ],
+        "status": status_argv,
         "diff": [git, "diff", "--binary", "HEAD"],
     }
     results: dict[str, Any] = {}
