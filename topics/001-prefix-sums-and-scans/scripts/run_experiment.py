@@ -149,6 +149,9 @@ class ExternalSignalRelay:
     record-and-retry path. A signal that arrives with no child in flight is
     held and raised as ExperimentIncomplete at the next safe checkpoint, so
     the run ends with a recorded INCOMPLETE status instead of vanishing.
+    The caller keeps the relay installed through final status and manifest
+    writing; restoring default handlers earlier lets a late signal terminate
+    the runner mid-manifest and leave the bundle unverified.
     """
 
     def __init__(self) -> None:
@@ -319,6 +322,14 @@ def inspect_runner_configuration(host_triple: str, build_env: dict[str, str]) ->
             value = build["target"]
             if value != host_triple:
                 findings.append({"source": f"{path}:build.target", "value": repr(value)})
+        if isinstance(build, dict):
+            # `rustc` overrides bypass the PATH-resolved compiler hash
+            # recorded in build metadata.
+            for override in ("rustc", "rustc-wrapper", "rustc-workspace-wrapper"):
+                if build.get(override):
+                    findings.append(
+                        {"source": f"{path}:build.{override}", "value": repr(build[override])}
+                    )
 
     return {
         "host_triple": host_triple,
@@ -875,6 +886,7 @@ class HarnessExecutor:
             except subprocess.TimeoutExpired:
                 process.kill()
                 stdout, stderr = process.communicate()
+                returncode = process.returncode
                 timed_out = True
             finally:
                 if self.relay is not None:
@@ -1936,8 +1948,8 @@ def parse_cli() -> argparse.Namespace:
 
 
 def run_experiment(args: argparse.Namespace) -> int:
-    if args.timeout_seconds <= 0.0:
-        raise ValueError("--timeout-seconds must be greater than zero")
+    if not math.isfinite(args.timeout_seconds) or args.timeout_seconds <= 0.0:
+        raise ValueError("--timeout-seconds must be a finite value greater than zero")
     protocol = protocol_document(args.phase, args.rustflags, args.timeout_seconds)
     if args.phase == "plan":
         print(json.dumps(protocol, indent=2, sort_keys=True))
@@ -1997,6 +2009,7 @@ def run_experiment(args: argparse.Namespace) -> int:
             raise ExperimentIncomplete("source tree changed during evidence collection")
         if sha256_file(binary) != build["binary_sha256"]:
             raise ExperimentIncomplete("retained benchmark image changed during evidence collection")
+        relay.raise_if_pending()
         status["status"] = "COMPLETE"
         status["ended_at"] = utc_now()
         status["attempt_count"] = len(executor.attempts)
@@ -2008,7 +2021,6 @@ def run_experiment(args: argparse.Namespace) -> int:
         status["failure_type"] = type(error).__name__
         status["failure"] = str(error)
         write_text_once(run_dir / "failure.txt", traceback.format_exc())
-    relay.restore()
     replace_json(run_dir / "run-status.json", status)
     manifest_digest, manifest_count = checksum_manifest(run_dir)
     print(
@@ -2022,6 +2034,7 @@ def run_experiment(args: argparse.Namespace) -> int:
             sort_keys=True,
         )
     )
+    relay.restore()
     if failure is not None:
         return 1
     return 0
