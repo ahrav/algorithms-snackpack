@@ -1,0 +1,350 @@
+{
+  "schema_version": 1,
+  "topic": 2,
+  "title": "Difference arrays and deferred range updates",
+  "receipt_status": "PASS",
+  "verified_at": "2026-08-30T15:56:18Z",
+  "archive": {
+    "absolute_path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-002/topic002-runner-all-20260830d.tar.gz",
+    "sha256": "067350497eca5db9c94b17881932dad357afdd0dab41352d904cb913a1dfadf1",
+    "byte_count": 10117011,
+    "tar_member_count": 28915,
+    "regular_file_count": 24728,
+    "top_level_member_count": 22,
+    "run_bundle_count": 10,
+    "duplicate_member_name_count": 0,
+    "unsafe_path_count": 0,
+    "gzip_test": "PASS",
+    "tar_enumeration": "PASS",
+    "extraction_test": "PASS",
+    "embedded_manifest_verification": "PASS",
+    "ledger_copy_comparison": "PASS",
+    "external_archive_count_after_superseded_removal": 1
+  },
+  "ledger": {
+    "sha256": "afa31a21bbcf998aed01106613bc41f9da39669df31e3621ade376138efdc446",
+    "schema_version": 1,
+    "final_run_id": "topic002-runner-all-20260830d",
+    "run_count": 10,
+    "run_ids": [
+      "topic002-runner-quick-20260830a",
+      "topic002-runner-quick-20260830b",
+      "topic002-runner-quick-20260830c",
+      "topic002-runner-quick-20260830d",
+      "topic002-runner-quick-20260830e",
+      "topic002-runner-quick-20260830f",
+      "topic002-runner-all-20260830a",
+      "topic002-runner-all-20260830b",
+      "topic002-runner-all-20260830c",
+      "topic002-runner-all-20260830d"
+    ]
+  },
+  "runs": [
+    {
+      "run_id": "topic002-runner-quick-20260830a",
+      "status": "COMPLETE",
+      "wall_seconds": 4.176,
+      "manifest_sha256": "65b89c5b51e7e7387ca35aea5eda27c4354c54d7511381300cfa49b48dfa0110",
+      "manifest_file_count": 452,
+      "requested_phase": "quick",
+      "original_manifest_verification": "PASS",
+      "retained_in_external_archive": true
+    },
+    {
+      "run_id": "topic002-runner-quick-20260830b",
+      "status": "INCOMPLETE",
+      "failure": "source tree changed during evidence collection",
+      "wall_seconds": 3.567,
+      "manifest_sha256": "97f7c828570a03b5846d58b699b2f13d68ac22a4ea7277146fa505d6c8c32aba",
+      "manifest_file_count": 455,
+      "requested_phase": "quick",
+      "original_manifest_verification": "PASS",
+      "retained_in_external_archive": true
+    },
+    {
+      "run_id": "topic002-runner-quick-20260830c",
+      "status": "COMPLETE",
+      "wall_seconds": 5.13,
+      "manifest_sha256": "891dc9b5065885adf15e62071d0bfdeb6aef9058f15224267ddfc451f0c90d47",
+      "manifest_file_count": 472,
+      "requested_phase": "quick",
+      "original_manifest_verification": "PASS",
+      "retained_in_external_archive": true
+    },
+    {
+      "run_id": "topic002-runner-quick-20260830d",
+      "status": "COMPLETE",
+      "wall_seconds": 4.703,
+      "manifest_sha256": "08943d70535cdd8b4882f9a04209ea232952692527e777513d1bd5168511d534",
+      "manifest_file_count": 472,
+      "requested_phase": "quick",
+      "original_manifest_verification": "PASS",
+      "retained_in_external_archive": true
+    },
+    {
+      "run_id": "topic002-runner-quick-20260830e",
+      "status": "COMPLETE",
+      "wall_seconds": 4.772,
+      "manifest_sha256": "fbc0d13d522a49a03aa78dd4140c3964b278ba947c5ee2b8442fc19945f7eb87",
+      "manifest_file_count": 472,
+      "requested_phase": "quick",
+      "original_manifest_verification": "PASS",
+      "retained_in_external_archive": true
+    },
+    {
+      "run_id": "topic002-runner-quick-20260830f",
+      "status": "COMPLETE",
+      "wall_seconds": 4.522,
+      "manifest_sha256": "550b02c26dc106dc06e350c0ad9cc6d48e9cd62306ba8b1e131897a94d8acd56",
+      "manifest_file_count": 472,
+      "requested_phase": "quick",
+      "original_manifest_verification": "PASS",
+      "retained_in_external_archive": true
+    },
+    {
+      "run_id": "topic002-runner-all-20260830a",
+      "status": "INCOMPLETE",
+      "failure": "zero-duration subsamples were rejected by the superseded parser",
+      "wall_seconds": 0.735,
+      "manifest_sha256": "960c230c9a055b88c63c4d0732a914fce9b37a3e71e6b91a3fa69fa06071ba41",
+      "manifest_file_count": 68,
+      "requested_phase": "all",
+      "original_manifest_verification": "PASS",
+      "retained_in_external_archive": true
+    },
+    {
+      "run_id": "topic002-runner-all-20260830b",
+      "status": "INCOMPLETE",
+      "failure": "macOS time-l permission denial was classified as a profile failure by the superseded runner",
+      "wall_seconds": 52.016,
+      "manifest_sha256": "08a652bfd535fb1754e98918176b19009db9bbcf7b7e7f390d8385b26f3b1bfa",
+      "manifest_file_count": 7281,
+      "requested_phase": "all",
+      "original_manifest_verification": "PASS",
+      "retained_in_external_archive": true
+    },
+    {
+      "run_id": "topic002-runner-all-20260830c",
+      "status": "COMPLETE",
+      "wall_seconds": 54.47,
+      "attempt_count": 1204,
+      "valid_attempt_count": 1204,
+      "block_count": 300,
+      "valid_block_count": 300,
+      "zero_sample_count": 293,
+      "completed_phases": [
+        "pilot",
+        "main",
+        "aa",
+        "profile"
+      ],
+      "manifest_sha256": "f42ff08e4770ab7fec96729b1f261815555913a501eaa44f91ba4dd1a4f857c9",
+      "manifest_file_count": 7281,
+      "requested_phase": "all",
+      "original_manifest_verification": "PASS",
+      "retained_in_external_archive": true
+    },
+    {
+      "run_id": "topic002-runner-all-20260830d",
+      "status": "COMPLETE",
+      "wall_seconds": 55.301,
+      "attempt_count": 1204,
+      "valid_attempt_count": 1204,
+      "block_count": 300,
+      "valid_block_count": 300,
+      "zero_sample_count": 645,
+      "completed_phases": [
+        "pilot",
+        "main",
+        "aa",
+        "profile"
+      ],
+      "manifest_sha256": "55663961498264192a0a491fc76148f48049482d9815fc8a0bd0e7e2f7d401d0",
+      "manifest_file_count": 7281,
+      "requested_phase": "all",
+      "original_manifest_verification": "PASS",
+      "retained_in_external_archive": true
+    }
+  ],
+  "final_run": {
+    "run_id": "topic002-runner-all-20260830d",
+    "status": "COMPLETE",
+    "started_at": "2026-08-30T15:43:21.325109+00:00",
+    "ended_at": "2026-08-30T15:44:16.626072+00:00",
+    "completed_phases": [
+      "pilot",
+      "main",
+      "aa",
+      "profile"
+    ],
+    "attempt_count": 1204,
+    "valid_attempt_count": 1204,
+    "invalid_attempt_count": 0,
+    "block_count": 300,
+    "valid_block_count": 300,
+    "zero_sample_count": 645,
+    "manifest_sha256": "55663961498264192a0a491fc76148f48049482d9815fc8a0bd0e7e2f7d401d0",
+    "manifest_file_count": 7281,
+    "manifest_verification": "PASS"
+  },
+  "source_identity": {
+    "git_head_during_collection": "6c6533f4259f66bd59723839b9e2004ac68d5e2d",
+    "source_tree_sha256": "0162fbb0ea65379a573e62766265977d35f0d2dc837bb227893512d0899c4e2c",
+    "source_snapshot_file_count": 16,
+    "initial_snapshot_sha256": "fb332572369250f5e588d8bf9acd66aa32a1f616cdda42014383edfc0b7b17b0",
+    "final_snapshot_sha256": "fb332572369250f5e588d8bf9acd66aa32a1f616cdda42014383edfc0b7b17b0",
+    "source_snapshot_verification": "COMPLETE"
+  },
+  "linked_image": {
+    "binary_sha256": "fc988e8cd07ae5f7407905a120883b67766a801867e88610246c6e19e78c1e32",
+    "hash_stable_across_all_attempts": true,
+    "linked_assembly_status": "COMPLETE",
+    "linked_assembly_sha256": "3229d7c67e583a7f60aa4df0f93e0eef20e961a40196c1d17dbe8ed531791583",
+    "candidate_symbols_present": {
+      "apply_reference": true,
+      "apply_dense_sidecar": true,
+      "apply_in_place_difference": true,
+      "apply_sorted_events": true
+    },
+    "timing_boundary_manual_review": "PASS"
+  },
+  "host_identity": {
+    "metadata_sha256": "7ed4cc2d43522daf5a193cd75cd33c90d22cc6c473108915d2223fa09792bce9",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "kernel_release": "25.6.0",
+    "architecture": "arm64",
+    "cpu_description": "Apple M1 Pro",
+    "logical_cpu_count": 10,
+    "affinity": null,
+    "cpuset_cpus_effective": null,
+    "sanitized_hardware_identity": {
+      "command": [
+        "/usr/sbin/system_profiler",
+        "SPHardwareDataType",
+        "-json"
+      ],
+      "fields": {
+        "chip_type": "Apple M1 Pro",
+        "machine_model": "MacBookPro18,3",
+        "machine_name": "MacBook Pro",
+        "model_number": "Z15G001X7LL/A",
+        "number_processors": "proc 10:8:2:0",
+        "physical_memory": "32 GB"
+      },
+      "reason": null,
+      "returncode": 0,
+      "status": "COMPLETE"
+    },
+    "frequency_policy": {
+      "platform": "macos",
+      "reason": "macOS did not expose the documented frequency sysctl values; no governor claim is made",
+      "records": [
+        {
+          "key": "hw.cpufrequency",
+          "returncode": 1,
+          "stderr": "sysctl: sysctl fmt -1 1024 1: Operation not permitted",
+          "stdout": ""
+        },
+        {
+          "key": "hw.cpufrequency_min",
+          "returncode": 1,
+          "stderr": "sysctl: sysctl fmt -1 1024 1: Operation not permitted",
+          "stdout": ""
+        },
+        {
+          "key": "hw.cpufrequency_max",
+          "returncode": 1,
+          "stderr": "sysctl: sysctl fmt -1 1024 1: Operation not permitted",
+          "stdout": ""
+        }
+      ],
+      "status": "UNAVAILABLE"
+    },
+    "raw_system_profiler_output_retained": false,
+    "forbidden_device_identifiers_found": false
+  },
+  "toolchain_identity": {
+    "build_metadata_sha256": "4623e06055ee05133bfa710100ec17b4e14ffad0fc852bf01d218ee4076e0142",
+    "rustc_verbose": "rustc 1.93.0 (254b59607 2026-01-19)\nbinary: rustc\ncommit-hash: 254b59607d4417e9dffbc307138ae5c86280fe4c\ncommit-date: 2026-01-19\nhost: aarch64-apple-darwin\nrelease: 1.93.0\nLLVM version: 21.1.8",
+    "cargo_version": "cargo 1.93.0 (083ac5135 2025-12-15)",
+    "llvm_version": "21.1.8",
+    "target": "aarch64-apple-darwin",
+    "cargo_profile": "release",
+    "rustflags": "-C target-cpu=native",
+    "cargo_proxy_sha256": "20ef5516c31b1ac2290084199ba77dbbcaa1406c45c1d978ca68558ef5964ef5",
+    "rustc_proxy_sha256": "20ef5516c31b1ac2290084199ba77dbbcaa1406c45c1d978ca68558ef5964ef5",
+    "dispatched_cargo": {
+      "path": "/Users/ahrav/.rustup/toolchains/1.93.0-aarch64-apple-darwin/bin/cargo",
+      "sha256": "46c9483604e913070b085dc5acf972bc560395c10dfec1cdb389c4b6bf17cf67"
+    },
+    "dispatched_rustc": {
+      "path": "/Users/ahrav/.rustup/toolchains/1.93.0-aarch64-apple-darwin/bin/rustc",
+      "sha256": "87b02c67012c28083fe485a50b10470a662c828c6e2cd0caf4775e00986cdfc8"
+    },
+    "allocator_boundary": {
+      "boundary": "No #[global_allocator] declaration appears in the topic Rust source. The build therefore uses the Rust target default. This does not by itself identify a concrete allocator implementation.",
+      "global_allocator_declarations": [],
+      "source_defines_global_allocator": false
+    },
+    "linked_libraries": {
+      "argv": [
+        "/usr/bin/otool",
+        "-L",
+        "/private/tmp/algorithms-topic-002.PtwpVS/topic002-runner-all-20260830d/artifacts/range_updates-fc988e8cd07ae5f7407905a120883b67766a801867e88610246c6e19e78c1e32"
+      ],
+      "boundary": "Linked-library identity constrains the system boundary. It does not prove which concrete allocator services every allocation.",
+      "returncode": 0,
+      "status": "COMPLETE",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "cf06d8687638ed8ec52a8a6e1dfac8c809b5378fe1bd901995d534faf2dc79ef",
+      "timed_out": false
+    }
+  },
+  "verification": {
+    "final_manifest": "PASS",
+    "source_snapshot": "PASS",
+    "binary_stability": "PASS",
+    "correctness_canaries": "PASS",
+    "fixed_schedule": "PASS",
+    "aa_mechanical_integrity": "PASS",
+    "linked_assembly": "PASS",
+    "dynamic_resource_profiles": "UNAVAILABLE",
+    "dynamic_resource_profile_boundary": "All four targets completed and matched exact identity, but macOS denied kern.clockrate. No resource total or hardware-counter mechanism claim is made.",
+    "archive": "PASS",
+    "compact_results_json": "PASS"
+  },
+  "evidence_boundary": {
+    "raw_record": "This external archive is the sole raw retention record for Topic 002.",
+    "git_record": "Git contains only the compact aggregate, review, and receipt.",
+    "exclusions": [
+      "measurements/runs",
+      "per-attempt files",
+      "raw stdout or stderr",
+      "executables",
+      "profiler or counter dumps",
+      "run bundles",
+      "raw evidence archives"
+    ]
+  },
+  "staged_path_gate": {
+    "expected_allowed_paths": [
+      "Cargo.lock",
+      "Cargo.toml",
+      "topics/002-difference-arrays-and-range-updates/BENCHMARK.md",
+      "topics/002-difference-arrays-and-range-updates/Cargo.toml",
+      "topics/002-difference-arrays-and-range-updates/README.md",
+      "topics/002-difference-arrays-and-range-updates/TEST_STRATEGY.md",
+      "topics/002-difference-arrays-and-range-updates/benches/range_updates.rs",
+      "topics/002-difference-arrays-and-range-updates/measurements/EVIDENCE_RECEIPT.json",
+      "topics/002-difference-arrays-and-range-updates/measurements/README.md",
+      "topics/002-difference-arrays-and-range-updates/measurements/RESULTS.json",
+      "topics/002-difference-arrays-and-range-updates/measurements/REVIEW.md",
+      "topics/002-difference-arrays-and-range-updates/scripts/run_experiment.py",
+      "topics/002-difference-arrays-and-range-updates/src/lib.rs",
+      "topics/002-difference-arrays-and-range-updates/tests/range_updates.rs"
+    ],
+    "cached_name_list_sha256": "6c7d26551360f5023fea9a1f83685e146f30fda24b21dc8165eeabdf8e3cfc85",
+    "verified_after_staging": true,
+    "forbidden_path_count": 0
+  }
+}

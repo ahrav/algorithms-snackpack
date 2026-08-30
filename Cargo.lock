@@ -9,3 +9,7 @@ version = "0.0.0"
 [[package]]
 name = "prefix-sums-and-scans"
 version = "0.1.0"
+
+[[package]]
+name = "topic-002-difference-arrays-and-range-updates"
+version = "0.1.0"

@@ -1,0 +1,13 @@
+[package]
+name = "topic-002-difference-arrays-and-range-updates"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[[bench]]
+name = "range_updates"
+harness = false

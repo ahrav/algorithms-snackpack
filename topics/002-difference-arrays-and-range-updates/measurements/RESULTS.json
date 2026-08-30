@@ -1,0 +1,3030 @@
+{
+  "schema_version": 1,
+  "topic": 2,
+  "title": "Difference arrays and deferred range updates",
+  "final_run_id": "topic002-runner-all-20260830d",
+  "result_status": "COMPLETE_WITH_EXPLICIT_ADJUDICATION_LIMITS",
+  "artifact": {
+    "run_window": {
+      "started_at": "2026-08-30T15:43:21.325109+00:00",
+      "ended_at": "2026-08-30T15:44:16.626072+00:00"
+    },
+    "source_tree_sha256": "0162fbb0ea65379a573e62766265977d35f0d2dc837bb227893512d0899c4e2c",
+    "source_snapshot_file_count": 16,
+    "library_source_sha256": "19f60ac6e2f02ba46004eff259176170c3eb9ba3ecea9f69deafc03a1194cb17",
+    "benchmark_source_sha256": "4298a9c89a410ea1251f44a1814c27166d74cded94923e7acaa6270660456b96",
+    "runner_source_sha256": "29ba3765b3054461aa735a71f30e25912fb71ceff97811a6909b23974cb7305f",
+    "binary_sha256": "fc988e8cd07ae5f7407905a120883b67766a801867e88610246c6e19e78c1e32",
+    "build_profile": "release",
+    "rustflags": "-C target-cpu=native"
+  },
+  "scope": {
+    "target_population": "Repeated warm calls to the exact linked image on the recorded host and collection window.",
+    "ratio_orientation": "candidate elapsed time divided by in-place elapsed time",
+    "generalization_boundary": "No cross-host, cross-build, allocator, distribution, online-operation, or universal-optimality claim."
+  },
+  "design": {
+    "assignment_seed": 2026083002,
+    "fixture_seed": 2026083002,
+    "primary_family_size": 18,
+    "familywise_alpha": 0.05,
+    "per_contrast_alpha": 0.002777777777777778,
+    "practical_ratio_boundary": 1.05,
+    "pilot_blocks_per_contrast": 4,
+    "main_blocks_per_contrast": 12,
+    "aa_blocks_total": 12,
+    "assignment": "Six ABBA and six BAAB complete blocks per main contrast and A/A campaign.",
+    "stopping": "Fixed schedule. Pilot blocks were excluded. Missing or invalid periods would stop the phase without replacement.",
+    "unit_roles": {
+      "treatment_application": "one fresh native process position",
+      "randomization": "one four-position ABBA or BAAB block",
+      "analysis": "one complete four-position block contrast",
+      "subsample": "one timed candidate call within a process",
+      "generalization": "one linked image on one recorded host and run window"
+    },
+    "model_boundary": "Paired Student t intervals assume iid, approximately normal complete-block log contrasts. One host and build do not estimate host or build variation."
+  },
+  "integrity": {
+    "run_status": "COMPLETE",
+    "completed_phases": [
+      "pilot",
+      "main",
+      "aa",
+      "profile"
+    ],
+    "attempt_count": 1204,
+    "valid_attempt_count": 1204,
+    "invalid_attempt_count": 0,
+    "block_count": 300,
+    "valid_block_count": 300,
+    "retries": 0,
+    "timeouts": 0,
+    "interruptions": 0,
+    "parser_failures": 0,
+    "canary_failures": 0,
+    "manifest_sha256": "55663961498264192a0a491fc76148f48049482d9815fc8a0bd0e7e2f7d401d0",
+    "manifest_file_count": 7281,
+    "source_snapshot_initial_and_final_match": true,
+    "schedule_matches_frozen_plan": true
+  },
+  "pilot_precision": [
+    {
+      "contrast_id": "reference_vs_in_place__tiny_point_sorted",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.0069563639454905965,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.0038490336939391934,
+          "multiplicative_half_width": 1.0038564507372245,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.007698067387878387,
+          "multiplicative_half_width": 1.0077277736867376,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.011547101081817581,
+          "multiplicative_half_width": 1.0116140262024933,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.015396134775756774,
+          "multiplicative_half_width": 1.0155152658596285,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "dense_vs_in_place__tiny_point_sorted",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.09937423461474681,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.05498487145565866,
+          "multiplicative_half_width": 1.0565246308748628,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.10996974291131732,
+          "multiplicative_half_width": 1.1162442956452652,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.16495461436697598,
+          "multiplicative_half_width": 1.1793395924227852,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.21993948582263464,
+          "multiplicative_half_width": 1.2460013275605943,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "sorted_events_vs_in_place__tiny_point_sorted",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.0017337898039615763,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.0009593252201794761,
+          "multiplicative_half_width": 1.0009597855197991,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.0019186504403589523,
+          "multiplicative_half_width": 1.0019204922278422,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.0028779756605384283,
+          "multiplicative_half_width": 1.0028821210082723,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.0038373008807179045,
+          "multiplicative_half_width": 1.0038446727460817,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "reference_vs_in_place__small_full_repeated",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.024603307330244597,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.013613284129252666,
+          "multiplicative_half_width": 1.0137063667889354,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.02722656825850533,
+          "multiplicative_half_width": 1.0276005980684235,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.040839852387757995,
+          "multiplicative_half_width": 1.0416852687780787,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.05445313651701066,
+          "multiplicative_half_width": 1.0559629891505817,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "dense_vs_in_place__small_full_repeated",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.018010022220703657,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.009965146001456525,
+          "multiplicative_half_width": 1.0100149634106137,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.01993029200291305,
+          "multiplicative_half_width": 1.0201302263133432,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.029895438004369574,
+          "multiplicative_half_width": 1.0303467932039323,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.0398605840058261,
+          "multiplicative_half_width": 1.0406656786381128,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "sorted_events_vs_in_place__small_full_repeated",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.021976774280548284,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.012159994122326066,
+          "multiplicative_half_width": 1.01223422743793,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.024319988244652133,
+          "multiplicative_half_width": 1.0246181311968625,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.036479982366978206,
+          "multiplicative_half_width": 1.0371535424509517,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.048639976489304265,
+          "multiplicative_half_width": 1.0498423147773512,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "reference_vs_in_place__cache_short_shuffled",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.02483440986603614,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.013741155737751969,
+          "multiplicative_half_width": 1.0138359993405874,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.027482311475503937,
+          "multiplicative_half_width": 1.0278634335589276,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.041223467213255906,
+          "multiplicative_half_width": 1.042084951347863,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.054964622951007874,
+          "multiplicative_half_width": 1.056503238047548,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "dense_vs_in_place__cache_short_shuffled",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.2512989372128817,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.139046502477851,
+          "multiplicative_half_width": 1.149177538364112,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.278093004955702,
+          "multiplicative_half_width": 1.3206090146806002,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.41713950743355294,
+          "multiplicative_half_width": 1.5176142166321074,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.556186009911404,
+          "multiplicative_half_width": 1.7440081696556655,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "sorted_events_vs_in_place__cache_short_shuffled",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.02191440104384851,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.012125482315362158,
+          "multiplicative_half_width": 1.0121992940084816,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.024250964630724316,
+          "multiplicative_half_width": 1.0245474107912684,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.03637644694608647,
+          "multiplicative_half_width": 1.0370461658811396,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.04850192926144863,
+          "multiplicative_half_width": 1.0496973969590924,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "reference_vs_in_place__cache_clustered",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.011709362338563047,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.006478920673046134,
+          "multiplicative_half_width": 1.0064999542800777,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.012957841346092267,
+          "multiplicative_half_width": 1.0130421579657987,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.0194367620191384,
+          "multiplicative_half_width": 1.0196268856763675,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.025915682692184534,
+          "multiplicative_half_width": 1.026254413816002,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "dense_vs_in_place__cache_clustered",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.3577208304780905,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.1979309220051132,
+          "multiplicative_half_width": 1.218878193251872,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.3958618440102264,
+          "multiplicative_half_width": 1.4856640499849476,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.5937927660153395,
+          "multiplicative_half_width": 1.8108435130249112,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.7917236880204528,
+          "multiplicative_half_width": 2.2071976694176767,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "sorted_events_vs_in_place__cache_clustered",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.04822342548404948,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.02668255873035436,
+          "multiplicative_half_width": 1.0270417255817026,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.05336511746070872,
+          "multiplicative_half_width": 1.0548147060858413,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.08004767619106308,
+          "multiplicative_half_width": 1.0833387159073589,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.10673023492141744,
+          "multiplicative_half_width": 1.1126340641749597,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "reference_vs_in_place__large_sparse_sorted",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.11794207244416952,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.06525866304981115,
+          "multiplicative_half_width": 1.0674350946951283,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.1305173260996223,
+          "multiplicative_half_width": 1.1394176813867978,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.19577598914943345,
+          "multiplicative_half_width": 1.21625442062842,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.2610346521992446,
+          "multiplicative_half_width": 1.298272652656866,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "dense_vs_in_place__large_sparse_sorted",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.34313784089060356,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.1898619913510482,
+          "multiplicative_half_width": 1.2090827222694216,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.3797239827020964,
+          "multiplicative_half_width": 1.4618810292904352,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.5695859740531446,
+          "multiplicative_half_width": 1.7675350945285033,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.7594479654041928,
+          "multiplicative_half_width": 2.137096143799262,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "sorted_events_vs_in_place__large_sparse_sorted",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.3106293794475042,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.17187469735477523,
+          "multiplicative_half_width": 1.187529023363058,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.34374939470955046,
+          "multiplicative_half_width": 1.4102251813296185,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.5156240920643256,
+          "multiplicative_half_width": 1.674683332306353,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.6874987894191009,
+          "multiplicative_half_width": 1.988735062056155,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "reference_vs_in_place__large_wide_shuffled",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.09365059015544291,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.05181791519106153,
+          "multiplicative_half_width": 1.0531839562537608,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.10363583038212305,
+          "multiplicative_half_width": 1.1091964457103238,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.1554537455731846,
+          "multiplicative_half_width": 1.1681879009558087,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.2072716607642461,
+          "multiplicative_half_width": 1.2303167551764151,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "dense_vs_in_place__large_wide_shuffled",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.2647976777439191,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.14651550604592714,
+          "multiplicative_half_width": 1.157792883468894,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.2930310120918543,
+          "multiplicative_half_width": 1.3404843610112158,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.4395465181377814,
+          "multiplicative_half_width": 1.5520032535801331,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.5860620241837086,
+          "multiplicative_half_width": 1.7968983221156474,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    },
+    {
+      "contrast_id": "sorted_events_vs_in_place__large_wide_shuffled",
+      "excluded_from_primary_analysis": true,
+      "pilot_block_count": 4,
+      "observed_pilot_sd": 0.039607981644437386,
+      "fixed_main_block_count": 12,
+      "prospective_interval_sensitivity": [
+        {
+          "log_half_width": 0.021915537641930105,
+          "multiplicative_half_width": 1.0221574469960641,
+          "pilot_sd_multiplier": 0.5
+        },
+        {
+          "log_half_width": 0.04383107528386021,
+          "multiplicative_half_width": 1.0448058464495118,
+          "pilot_sd_multiplier": 1
+        },
+        {
+          "log_half_width": 0.06574661292579032,
+          "multiplicative_half_width": 1.0679560766133949,
+          "pilot_sd_multiplier": 1.5
+        },
+        {
+          "log_half_width": 0.08766215056772042,
+          "multiplicative_half_width": 1.0916192567750809,
+          "pilot_sd_multiplier": 2
+        }
+      ]
+    }
+  ],
+  "primary_contrasts": [
+    {
+      "contrast_id": "reference_vs_in_place__tiny_point_sorted",
+      "cell": "tiny_point_sorted",
+      "candidate": "reference",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        -0.6811709895132299,
+        -0.6811709895132299,
+        -0.6811709895132299,
+        -0.6811709895132299,
+        -0.6811709895132299,
+        -0.6811709895132299,
+        -0.6811709895132299,
+        -0.6932197653027599,
+        -0.6932197653027599,
+        -0.6811709895132299,
+        -0.6811709895132299,
+        -0.6811709895132299
+      ],
+      "point_ratio": 0.5050089541815053,
+      "simultaneous_interval": {
+        "lower_ratio": 0.5023947293706106,
+        "upper_ratio": 0.5076367821832027,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "B_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "INCONCLUSIVE_CLOCK_QUANTIZATION",
+      "review_reason": "Positive position medians sit on a few clock quanta. The formal interval models block variation, not timer resolution.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": -0.6811709895132299,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 0.506024096385542,
+            "upper_log_ratio": -0.6811709895132299,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 0.506024096385542
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": -0.6811709895132299,
+          "median_ratio": 0.506024096385542,
+          "negative_count": 12,
+          "positive_count": 0,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 0.506024096385542,
+          "ols_log_contrast_slope_per_block": -0.0003370286934134268,
+          "second_half_geometric_ratio": 0.503995848468817,
+          "theil_sen_log_contrast_slope_per_block": 0
+        }
+      }
+    },
+    {
+      "contrast_id": "dense_vs_in_place__tiny_point_sorted",
+      "cell": "tiny_point_sorted",
+      "candidate": "dense",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        0.40947312950570325,
+        0.40947312950570325,
+        0.40947312950570325,
+        0.40947312950570325,
+        0.40947312950570325,
+        0.40947312950570325,
+        0.40947312950570325,
+        0.40947312950570325,
+        0.40947312950570325,
+        0.40947312950570325,
+        0.40947312950570325,
+        0.40947312950570325
+      ],
+      "point_ratio": 1.5060240963855422,
+      "simultaneous_interval": {
+        "lower_ratio": 1.5060240963855422,
+        "upper_ratio": 1.5060240963855422,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "INCONCLUSIVE_CLOCK_QUANTIZATION",
+      "review_reason": "Positive position medians sit on a few clock quanta. The formal interval models block variation, not timer resolution.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 0.40947312950570325,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 1.5060240963855422,
+            "upper_log_ratio": 0.40947312950570325,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 1.5060240963855422
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": 0.40947312950570325,
+          "median_ratio": 1.5060240963855422,
+          "negative_count": 0,
+          "positive_count": 12,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 1.5060240963855422,
+          "ols_log_contrast_slope_per_block": 0,
+          "second_half_geometric_ratio": 1.5060240963855422,
+          "theil_sen_log_contrast_slope_per_block": 0
+        }
+      }
+    },
+    {
+      "contrast_id": "sorted_events_vs_in_place__tiny_point_sorted",
+      "cell": "tiny_point_sorted",
+      "candidate": "sorted_events",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        0.6931471805599454,
+        0.6931471805599454,
+        0.6931471805599454,
+        0.6961501925900517,
+        0.6931471805599454,
+        0.6931471805599454,
+        0.6931471805599454,
+        0.6931471805599454,
+        0.6961501925900517,
+        0.6961501925900517,
+        0.6931471805599454,
+        0.6931471805599454
+      ],
+      "point_ratio": 2.001502069786207,
+      "simultaneous_interval": {
+        "lower_ratio": 1.9984961241679742,
+        "upper_ratio": 2.0045125366586722,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "INCONCLUSIVE_CLOCK_QUANTIZATION",
+      "review_reason": "Positive position medians sit on a few clock quanta. The formal interval models block variation, not timer resolution.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 0.6931471805599454,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 2,
+            "upper_log_ratio": 0.6961501925900517,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 2.0060150511753827
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": 0.6931471805599454,
+          "median_ratio": 2,
+          "negative_count": 0,
+          "positive_count": 12,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 2.0010012545540903,
+          "ols_log_contrast_slope_per_block": 0.000073500294443162,
+          "second_half_geometric_ratio": 2.0020030103635214,
+          "theil_sen_log_contrast_slope_per_block": 0
+        }
+      }
+    },
+    {
+      "contrast_id": "reference_vs_in_place__small_full_repeated",
+      "cell": "small_full_repeated",
+      "candidate": "reference",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        3.609320751907763,
+        3.591044094281962,
+        3.608718194914715,
+        3.5955018378720105,
+        3.604297373071372,
+        3.5917542200197037,
+        3.6067038355963206,
+        3.6031879084429725,
+        3.590455604331259,
+        3.6111738268821636,
+        3.6100629142929,
+        3.6104374105230406
+      ],
+      "point_ratio": 36.69797211009036,
+      "simultaneous_interval": {
+        "lower_ratio": 36.36590768650623,
+        "upper_ratio": 37.03306868077118,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_FORMAL_WITHIN_RECORDED_SCOPE",
+      "review_reason": "The simultaneous interval clears the declared 5 percent boundary within the recorded run scope.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 3.5917542200197037,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 36.2976942518178,
+            "upper_log_ratio": 3.6100629142929,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 36.96837858105786
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": 3.6055006043338462,
+          "median_ratio": 36.800101537189846,
+          "negative_count": 0,
+          "positive_count": 12,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 36.602116941923526,
+          "ols_log_contrast_slope_per_block": 0.0006539584007912548,
+          "second_half_geometric_ratio": 36.79407830781594,
+          "theil_sen_log_contrast_slope_per_block": 0.0003626503984593807
+        }
+      }
+    },
+    {
+      "contrast_id": "dense_vs_in_place__small_full_repeated",
+      "cell": "small_full_repeated",
+      "candidate": "dense",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        0.3539757092770657,
+        0.3368250778888946,
+        0.33927300783042647,
+        0.3701627886134595,
+        0.3489912899260119,
+        0.35458991353672786,
+        0.3472817317436103,
+        0.33859125363571607,
+        0.35187415991311966,
+        0.358568137446575,
+        0.3681461030411697,
+        0.3384333505868753
+      ],
+      "point_ratio": 1.4198615643314705,
+      "simultaneous_interval": {
+        "lower_ratio": 1.4022027998444495,
+        "upper_ratio": 1.4377427160247094,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_FORMAL_WITHIN_RECORDED_SCOPE",
+      "review_reason": "The simultaneous interval clears the declared 5 percent boundary within the recorded run scope.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 0.33859125363571607,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 1.402969769204795,
+            "upper_log_ratio": 0.358568137446575,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 1.4312785524716172
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": 0.3504327249195658,
+          "median_ratio": 1.4196817473640535,
+          "negative_count": 0,
+          "positive_count": 12,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 1.4199707855503383,
+          "ols_log_contrast_slope_per_block": 0.0004057264123276815,
+          "second_half_geometric_ratio": 1.4197523515136734,
+          "theil_sen_log_contrast_slope_per_block": 0.0004023162105411969
+        }
+      }
+    },
+    {
+      "contrast_id": "sorted_events_vs_in_place__small_full_repeated",
+      "cell": "small_full_repeated",
+      "candidate": "sorted_events",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        0.10388013048739175,
+        0.1110180631634492,
+        0.11580269007338373,
+        0.07731388240380888,
+        0.1147156487483656,
+        0.10336997735826614,
+        0.09049217542047927,
+        0.09042058581175993,
+        0.0909248904544917,
+        0.10388013048739175,
+        0.10388013048739175,
+        0.08381789803407713
+      ],
+      "point_ratio": 1.1042058074186714,
+      "simultaneous_interval": {
+        "lower_ratio": 1.089224922974595,
+        "upper_ratio": 1.119392734612958,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_FORMAL_WITHIN_RECORDED_SCOPE",
+      "review_reason": "The simultaneous interval clears the declared 5 percent boundary within the recorded run scope.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 0.09042058581175993,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 1.0946345746736694,
+            "upper_log_ratio": 0.1110180631634492,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 1.1174150907235898
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": 0.10362505392282895,
+          "median_ratio": 1.109184492564384,
+          "negative_count": 0,
+          "positive_count": 12,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 1.1099889556084492,
+          "ols_log_contrast_slope_per_block": -0.001349971393940949,
+          "second_half_geometric_ratio": 1.0984527899818313,
+          "theil_sen_log_contrast_slope_per_block": -0.0015548624761807517
+        }
+      }
+    },
+    {
+      "contrast_id": "reference_vs_in_place__cache_short_shuffled",
+      "cell": "cache_short_shuffled",
+      "candidate": "reference",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        -0.9952773964657844,
+        -1.0349322596525372,
+        -0.9760145559940661,
+        -1.0990762443557767,
+        -1.0270332344511761,
+        -0.8505310478023276,
+        -0.9916627210608198,
+        -1.0035895035036866,
+        -0.9533706850833763,
+        -1.0050868979568417,
+        -0.994445505848681,
+        -0.9675670928356404
+      ],
+      "point_ratio": 0.37100159071184335,
+      "simultaneous_interval": {
+        "lower_ratio": 0.3478740171114608,
+        "upper_ratio": 0.39566674583407246,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "B_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_FORMAL_WITHIN_RECORDED_SCOPE",
+      "review_reason": "The simultaneous interval clears the declared 5 percent boundary within the recorded run scope.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": -1.0270332344511761,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 0.3580676892090293,
+            "upper_log_ratio": -0.9675670928356404,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 0.3800064347563859
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": -0.9948614511572327,
+          "median_ratio": 0.36977467284817367,
+          "negative_count": 12,
+          "positive_count": 0,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 0.368931561209561,
+          "ols_log_contrast_slope_per_block": 0.003928024637667271,
+          "second_half_geometric_ratio": 0.3730832348944374,
+          "theil_sen_log_contrast_slope_per_block": 0.004081622891990921
+        }
+      }
+    },
+    {
+      "contrast_id": "dense_vs_in_place__cache_short_shuffled",
+      "cell": "cache_short_shuffled",
+      "candidate": "dense",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        0.9482913824413437,
+        0.4910142149244443,
+        0.4725629579046924,
+        0.49091261057897917,
+        0.015556970957600669,
+        0.0383206620068659,
+        0.5172045424498641,
+        0.13734391713819782,
+        0.4722117523472136,
+        0.026510436414721283,
+        0.021794599231865774,
+        0.6299059631198567
+      ],
+      "point_ratio": 1.4263743914423668,
+      "simultaneous_interval": {
+        "lower_ratio": 1.0216710089569647,
+        "upper_ratio": 1.9913885064035155,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "NO_PRACTICALLY_MEANINGFUL_WINNER_JUSTIFIED",
+      "review_status": "NO_PRACTICALLY_MEANINGFUL_WINNER_JUSTIFIED",
+      "review_reason": "The simultaneous interval crosses the 1.05 practical boundary and the block ratios are heterogeneous.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 0.026510436414721283,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 1.026864963994387,
+            "upper_log_ratio": 0.5172045424498641,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 1.6773321788584663
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": 0.472387355125953,
+          "median_ratio": 1.6038185107416751,
+          "negative_count": 0,
+          "positive_count": 12,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 1.5059789218069846,
+          "ols_log_contrast_slope_per_block": -0.03530364816913776,
+          "second_half_geometric_ratio": 1.3509776764480785,
+          "theil_sen_log_contrast_slope_per_block": -0.025720262040275686
+        }
+      }
+    },
+    {
+      "contrast_id": "sorted_events_vs_in_place__cache_short_shuffled",
+      "cell": "cache_short_shuffled",
+      "candidate": "sorted_events",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        0.9875031404440264,
+        0.988485781574834,
+        1.0563594646959285,
+        0.9963073181860462,
+        0.9843084161452751,
+        0.9750002042965882,
+        0.9996740585435973,
+        1.03847926174857,
+        1.0364458989845318,
+        0.9991204583936568,
+        0.9999857091572384,
+        1.0087766359541384
+      ],
+      "point_ratio": 2.734286512809022,
+      "simultaneous_interval": {
+        "lower_ratio": 2.6599549679672303,
+        "upper_ratio": 2.8106952276123747,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_FORMAL_WITHIN_RECORDED_SCOPE",
+      "review_reason": "The simultaneous interval clears the declared 5 percent boundary within the recorded run scope.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 0.9875031404440264,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 2.684523219853742,
+            "upper_log_ratio": 1.0364458989845318,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 2.819179538954431
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": 0.999397258468627,
+          "median_ratio": 2.7166439007801633,
+          "negative_count": 0,
+          "positive_count": 12,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 2.7128345677880135,
+          "ols_log_contrast_slope_per_block": 0.0011353638104415762,
+          "second_half_geometric_ratio": 2.7559080907116833,
+          "theil_sen_log_contrast_slope_per_block": 0.0013100738539336687
+        }
+      }
+    },
+    {
+      "contrast_id": "reference_vs_in_place__cache_clustered",
+      "cell": "cache_clustered",
+      "candidate": "reference",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        0.4684323014067022,
+        0.5281480151560096,
+        0.5158742564218155,
+        0.5390600717607619,
+        0.5635200389235813,
+        0.522628572383038,
+        0.5368559823236847,
+        0.5257219492947574,
+        0.5768536452533706,
+        0.549439815985572,
+        0.5380241309302942,
+        0.527145321968673
+      ],
+      "point_ratio": 1.7034268368681877,
+      "simultaneous_interval": {
+        "lower_ratio": 1.6537108557014504,
+        "upper_ratio": 1.7546374437579468,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_FORMAL_WITHIN_RECORDED_SCOPE",
+      "review_reason": "The simultaneous interval clears the declared 5 percent boundary within the recorded run scope.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 0.522628572383038,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 1.6864547971160344,
+            "upper_log_ratio": 0.549439815985572,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 1.7322823491357637
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": 0.5325019987398472,
+          "median_ratio": 1.7031883572076656,
+          "negative_count": 0,
+          "positive_count": 12,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 1.6869866262674222,
+          "ols_log_contrast_slope_per_block": 0.0037045041734746656,
+          "second_half_geometric_ratio": 1.7200272624465882,
+          "theil_sen_log_contrast_slope_per_block": 0.0024564568787180567
+        }
+      }
+    },
+    {
+      "contrast_id": "dense_vs_in_place__cache_clustered",
+      "cell": "cache_clustered",
+      "candidate": "dense",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        1.0208022038175297,
+        0.4847728259247823,
+        0.5022054627265078,
+        0.5489444901626719,
+        0.4207150231229395,
+        0.18603805424592146,
+        1.0120709784407964,
+        0.9706007952572904,
+        0.58908774464701,
+        0.9525019757782722,
+        0.10725054674773027,
+        0.6645697291833983
+      ],
+      "point_ratio": 1.8619605390205498,
+      "simultaneous_interval": {
+        "lower_ratio": 1.3166044894605522,
+        "upper_ratio": 2.6332107148519417,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_DIRECTION_WITH_MODEL_SENSITIVE_MARGIN",
+      "review_reason": "The interval supports the in-place direction, but the effect interval is wide and does not justify a precise slowdown.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 0.4207150231229395,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 1.5230501824734322,
+            "upper_log_ratio": 0.9706007952572904,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 2.63952980005923
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": 0.5690161174048409,
+          "median_ratio": 1.7665281398409374,
+          "negative_count": 0,
+          "positive_count": 12,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 1.6942604676159367,
+          "ols_log_contrast_slope_per_block": -0.0052020126894648435,
+          "second_half_geometric_ratio": 2.046259778313844,
+          "theil_sen_log_contrast_slope_per_block": -0.007380272010452037
+        }
+      }
+    },
+    {
+      "contrast_id": "sorted_events_vs_in_place__cache_clustered",
+      "cell": "cache_clustered",
+      "candidate": "sorted_events",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        0.7630977241028543,
+        0.5031945057646201,
+        1.1509328854681478,
+        0.4956872723907786,
+        0.9395892876906871,
+        0.8617797181926701,
+        0.7359152142790535,
+        1.1042771187513978,
+        0.45652411576877583,
+        0.4609268953795418,
+        0.7469130362401089,
+        0.7802512938924586
+      ],
+      "point_ratio": 2.1168393191099253,
+      "simultaneous_interval": {
+        "lower_ratio": 1.6238877108001373,
+        "upper_ratio": 2.7594326092423263,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_FORMAL_WITHIN_RECORDED_SCOPE",
+      "review_reason": "The simultaneous interval clears the declared 5 percent boundary within the recorded run scope.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 0.4956872723907786,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 1.641626095731851,
+            "upper_log_ratio": 0.9395892876906871,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 2.5589302183343166
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": 0.7550053801714816,
+          "median_ratio": 2.127622970300933,
+          "negative_count": 0,
+          "positive_count": 12,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 2.193971925204028,
+          "ols_log_contrast_slope_per_block": -0.007956303085652774,
+          "second_half_geometric_ratio": 2.0424184336420166,
+          "theil_sen_log_contrast_slope_per_block": -0.005538423733337128
+        }
+      }
+    },
+    {
+      "contrast_id": "reference_vs_in_place__large_sparse_sorted",
+      "cell": "large_sparse_sorted",
+      "candidate": "reference",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        -1.5966774713316987,
+        -1.5498636535050494,
+        -1.4717865863602935,
+        -1.5984274928127054,
+        -1.612385886278604,
+        -1.5292716265269064,
+        -1.4894186204682,
+        -1.517674800626617,
+        -1.767829144163695,
+        -1.4611384483180458,
+        -1.6461381254960585,
+        -1.6168609882827383
+      ],
+      "point_ratio": 0.2077424743715823,
+      "simultaneous_interval": {
+        "lower_ratio": 0.18867952410766342,
+        "upper_ratio": 0.228731420974973,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "B_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_FORMAL_WITHIN_RECORDED_SCOPE",
+      "review_reason": "The simultaneous interval clears the declared 5 percent boundary within the recorded run scope.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": -1.6168609882827383,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 0.19852088142681787,
+            "upper_log_ratio": -1.4894186204682,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 0.22550372068400126
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": -1.573270562418374,
+          "median_ratio": 0.20736586907605056,
+          "negative_count": 12,
+          "positive_count": 0,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 0.21019166946334356,
+          "ols_log_contrast_slope_per_block": -0.0053740348315561735,
+          "second_half_geometric_ratio": 0.20532181778761646,
+          "theil_sen_log_contrast_slope_per_block": -0.0031156453352402247
+        }
+      }
+    },
+    {
+      "contrast_id": "dense_vs_in_place__large_sparse_sorted",
+      "cell": "large_sparse_sorted",
+      "candidate": "dense",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        0.09571404050053367,
+        0.4044426226661084,
+        0.8001083302706533,
+        0.3976431217314733,
+        0.24631633809114284,
+        0.5041610914209933,
+        0.5096261175656771,
+        0.6829148913208218,
+        -0.1241297113025297,
+        0.5046911710965816,
+        0.47736653691143616,
+        0.8812916850713606
+      ],
+      "point_ratio": 1.5657195890284408,
+      "simultaneous_interval": {
+        "lower_ratio": 1.146058367719797,
+        "upper_ratio": 2.1390514658907476,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_FORMAL_WITHIN_RECORDED_SCOPE",
+      "review_reason": "The simultaneous interval clears the declared 5 percent boundary within the recorded run scope.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 0.24631633809114284,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 1.2793042021879484,
+            "upper_log_ratio": 0.6829148913208218,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 1.9796397650704447
+          },
+          "exact_two_sided_sign_test_p": 0.00634765625,
+          "median_log_contrast": 0.49076381416621473,
+          "median_ratio": 1.6335634824856788,
+          "negative_count": 1,
+          "positive_count": 11,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 1.5039037950834855,
+          "ols_log_contrast_slope_per_block": 0.020755754282979894,
+          "second_half_geometric_ratio": 1.6300762319249962,
+          "theil_sen_log_contrast_slope_per_block": 0.031128641233394577
+        }
+      }
+    },
+    {
+      "contrast_id": "sorted_events_vs_in_place__large_sparse_sorted",
+      "cell": "large_sparse_sorted",
+      "candidate": "sorted_events",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        0.5433605671569453,
+        0.674557052319603,
+        0.5208935474173959,
+        0.6437793183701963,
+        0.8649572884198946,
+        0.8939993685288297,
+        0.6063273743194166,
+        0.34724579900452923,
+        0.8785995460538771,
+        0.6811083697836704,
+        0.5064208966669952,
+        0.5303740568651172
+      ],
+      "point_ratio": 1.8983186982101194,
+      "simultaneous_interval": {
+        "lower_ratio": 1.57405348297026,
+        "upper_ratio": 2.289384648591543,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_FORMAL_WITHIN_RECORDED_SCOPE",
+      "review_reason": "The simultaneous interval clears the declared 5 percent boundary within the recorded run scope.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 0.5208935474173959,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 1.6835312928494444,
+            "upper_log_ratio": 0.8649572884198946,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 2.374904647880726
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": 0.6250533463448065,
+          "median_ratio": 1.8683456241836558,
+          "negative_count": 0,
+          "positive_count": 12,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 1.99422969310709,
+          "ols_log_contrast_slope_per_block": -0.00420027476068798,
+          "second_half_geometric_ratio": 1.8070204713277471,
+          "theil_sen_log_contrast_slope_per_block": -0.002751524196397548
+        }
+      }
+    },
+    {
+      "contrast_id": "reference_vs_in_place__large_wide_shuffled",
+      "cell": "large_wide_shuffled",
+      "candidate": "reference",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        1.199715079739585,
+        1.2242232068107697,
+        1.1890579469997178,
+        1.2919676572422514,
+        1.2163417083504573,
+        1.295181690227185,
+        1.2087291164513978,
+        1.245201825460276,
+        1.1819004567542049,
+        1.215563334445907,
+        1.243792613761709,
+        1.2046714947253285
+      ],
+      "point_ratio": 3.408806321206749,
+      "simultaneous_interval": {
+        "lower_ratio": 3.273296421116194,
+        "upper_ratio": 3.5499261418972505,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_FORMAL_WITHIN_RECORDED_SCOPE",
+      "review_reason": "The simultaneous interval clears the declared 5 percent boundary within the recorded run scope.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 1.199715079739585,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 3.319171088908322,
+            "upper_log_ratio": 1.245201825460276,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 3.4736357967383924
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": 1.215952521398182,
+          "median_ratio": 3.3735058709504715,
+          "negative_count": 0,
+          "positive_count": 12,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 3.4420981572772105,
+          "ols_log_contrast_slope_per_block": -0.00046861987888673957,
+          "second_half_geometric_ratio": 3.3758364824467355,
+          "theil_sen_log_contrast_slope_per_block": -0.00031270600688285317
+        }
+      }
+    },
+    {
+      "contrast_id": "dense_vs_in_place__large_wide_shuffled",
+      "cell": "large_wide_shuffled",
+      "candidate": "dense",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        0.6238624147422431,
+        0.6183218428833364,
+        0.5743457222643489,
+        0.7819240512555083,
+        -0.2474374105988506,
+        0.5958999213635092,
+        0.1415866059797306,
+        0.5802991874025256,
+        1.079629332045263,
+        0.5955257637657052,
+        1.1162544376548968,
+        0.46176747100764004
+      ],
+      "point_ratio": 1.780388522666304,
+      "simultaneous_interval": {
+        "lower_ratio": 1.1875979528010425,
+        "upper_ratio": 2.669071030449087,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_FORMAL_WITHIN_RECORDED_SCOPE",
+      "review_reason": "The simultaneous interval clears the declared 5 percent boundary within the recorded run scope.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 0.46176747100764004,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 1.5868762655822473,
+            "upper_log_ratio": 0.7819240512555083,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 2.1856735704163976
+          },
+          "exact_two_sided_sign_test_p": 0.00634765625,
+          "median_log_contrast": 0.5957128425646072,
+          "median_ratio": 1.8143238113390199,
+          "negative_count": 1,
+          "positive_count": 11,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 1.6341989688471645,
+          "ols_log_contrast_slope_per_block": 0.022251860646650447,
+          "second_half_geometric_ratio": 1.9396556674356542,
+          "theil_sen_log_contrast_slope_per_block": 0.0005485768140921721
+        }
+      }
+    },
+    {
+      "contrast_id": "sorted_events_vs_in_place__large_wide_shuffled",
+      "cell": "large_wide_shuffled",
+      "candidate": "sorted_events",
+      "ratio_orientation": "B_over_in_place",
+      "independent_block_count": 12,
+      "block_log_contrasts": [
+        0.7255111351037229,
+        0.42354051709377494,
+        0.3862428417162995,
+        1.0962953094527865,
+        0.6910322857027236,
+        0.7277885368515751,
+        0.37940523308150276,
+        0.37294164854318623,
+        0.7256605786466146,
+        1.0353337190458447,
+        0.7783605806481937,
+        0.7395025585695247
+      ],
+      "point_ratio": 1.961026208594549,
+      "simultaneous_interval": {
+        "lower_ratio": 1.496786173719973,
+        "upper_ratio": 2.5692539511085646,
+        "alpha": 0.002777777777777778,
+        "student_t_critical": 3.8334520563829004
+      },
+      "frozen_interpretation": "IN_PLACE_PRACTICALLY_FASTER_IN_CELL",
+      "review_status": "ACCEPT_FORMAL_WITHIN_RECORDED_SCOPE",
+      "review_reason": "The simultaneous interval clears the declared 5 percent boundary within the recorded run scope.",
+      "sensitivity": {
+        "nonparametric_sensitivity": {
+          "decision_role": "sensitivity diagnostic only; no post-data replacement of the primary estimand",
+          "distribution_free_median_interval": {
+            "assumptions": "12 iid continuous complete-block log contrasts",
+            "coverage": 0.96142578125,
+            "lower_log_ratio": 0.3862428417162995,
+            "lower_order_statistic_zero_based_index": 2,
+            "lower_ratio": 1.4714419549210127,
+            "upper_log_ratio": 0.7783605806481937,
+            "upper_order_statistic_zero_based_index": 9,
+            "upper_ratio": 2.1778988476162833
+          },
+          "exact_two_sided_sign_test_p": 0.00048828125,
+          "median_log_contrast": 0.7255858568751687,
+          "median_ratio": 2.065941091283034,
+          "negative_count": 0,
+          "positive_count": 12,
+          "zero_count": 0
+        },
+        "residual_time_order": {
+          "decision_role": "diagnostic only; does not alter the fixed primary interval",
+          "first_half_geometric_ratio": 1.9641673943776685,
+          "ols_log_contrast_slope_per_block": 0.01655627098650651,
+          "second_half_geometric_ratio": 1.957890046338524,
+          "theil_sen_log_contrast_slope_per_block": 0.0061046346248521954
+        }
+      }
+    }
+  ],
+  "portfolio": [
+    {
+      "cell": "tiny_point_sorted",
+      "selection": "TIMING_INCONCLUSIVE",
+      "note": "Retain reference and in-place. Counted logical work favors reference for this fixture."
+    },
+    {
+      "cell": "small_full_repeated",
+      "selection": "in_place",
+      "note": "Supported only for the exact recorded cell and artifact."
+    },
+    {
+      "cell": "cache_short_shuffled",
+      "selection": "reference",
+      "note": "Reference beats in-place; dense versus in-place has no justified 5 percent winner."
+    },
+    {
+      "cell": "cache_clustered",
+      "selection": "in_place",
+      "note": "Direction supported; dense effect size is model-sensitive."
+    },
+    {
+      "cell": "large_sparse_sorted",
+      "selection": "reference",
+      "note": "Supported only for the exact recorded cell and artifact."
+    },
+    {
+      "cell": "large_wide_shuffled",
+      "selection": "in_place",
+      "note": "Supported only for the exact recorded cell and artifact."
+    }
+  ],
+  "timer_quantization": {
+    "adjudication": "The whole tiny timing cell is inconclusive.",
+    "scheduled_zero_sample_count": 645,
+    "scheduled_sample_count": 29532,
+    "scheduled_zero_fraction": 0.021840715833672628,
+    "pilot_reference_zero_samples": 168,
+    "pilot_reference_sample_count": 808,
+    "main_reference_zero_samples": 475,
+    "main_reference_sample_count": 2424,
+    "main_in_place_zero_samples": 2,
+    "main_in_place_sample_count": 7272,
+    "main_position_median_ns": {
+      "reference": "41 or 42",
+      "in_place": "83",
+      "dense": "125",
+      "sorted_events": "166 or 167"
+    },
+    "boundary": "Every position median was positive, so the frozen parser accepted the run. The confidence model does not include timer quantization."
+  },
+  "aa": {
+    "status": "COMPLETE",
+    "mechanical_integrity": {
+      "all_candidates_are_in_place": true,
+      "candidate_parameters_identical_across_labels": true,
+      "executable_hashes_identical": true,
+      "generator_version_identical": true,
+      "input_hashes_identical": true,
+      "label_counts_balanced": true,
+      "output_hashes_identical": true,
+      "schema_v1_parser_path_passed_for_every_attempt": true,
+      "template_counts_balanced": true,
+      "updates_hashes_identical": true,
+      "valid_attempt_count_is_48": true,
+      "work_hashes_identical": true
+    },
+    "block_log_contrasts": [
+      -0.019166877175436525,
+      0.0426451473479279,
+      0.017192668098468644,
+      -0.02573806423124836,
+      -0.010254859523344706,
+      0.004487941158995312,
+      -0.0035465627061359584,
+      -0.040569093966142944,
+      0.027857859855561884,
+      -0.023315893438661917,
+      -0.010728743642999916,
+      0.00631611954860567
+    ],
+    "point_ratio": 0.9971025092962319,
+    "simultaneous_interval": {
+      "lower_ratio": 0.9710396150510233,
+      "upper_ratio": 1.0238649367488484,
+      "alpha": 0.002777777777777778
+    },
+    "maximum_absolute_block_log_contrast": 0.0426451473479279,
+    "interpretation": "Diagnostic only. This run does not prove absence of bias, establish a noise floor, or alter the primary family."
+  },
+  "reliability": {
+    "pilot": {
+      "attempt_count": 288,
+      "boundary": "Counts include valid, partial, failed, timed-out, interrupted, and retried attempts. Timing inference still uses only complete valid blocks.",
+      "by_candidate_and_cell": [
+        {
+          "attempt_count": 8,
+          "candidate": "dense",
+          "cell": "cache_clustered",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "dense",
+          "cell": "cache_short_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "dense",
+          "cell": "large_sparse_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "dense",
+          "cell": "large_wide_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "dense",
+          "cell": "small_full_repeated",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "dense",
+          "cell": "tiny_point_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "in_place",
+          "cell": "cache_clustered",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "in_place",
+          "cell": "cache_short_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "in_place",
+          "cell": "large_sparse_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "in_place",
+          "cell": "large_wide_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "in_place",
+          "cell": "small_full_repeated",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "in_place",
+          "cell": "tiny_point_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "reference",
+          "cell": "cache_clustered",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "reference",
+          "cell": "cache_short_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "reference",
+          "cell": "large_sparse_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "reference",
+          "cell": "large_wide_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "reference",
+          "cell": "small_full_repeated",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "reference",
+          "cell": "tiny_point_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 168
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "sorted_events",
+          "cell": "cache_clustered",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "sorted_events",
+          "cell": "cache_short_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "sorted_events",
+          "cell": "large_sparse_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "sorted_events",
+          "cell": "large_wide_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "sorted_events",
+          "cell": "small_full_repeated",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 8,
+          "candidate": "sorted_events",
+          "cell": "tiny_point_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 8,
+          "zero_sample_count": 0
+        }
+      ],
+      "invalid_attempt_count": 0,
+      "phase": "pilot",
+      "valid_attempt_count": 288,
+      "zero_sample_count": 168
+    },
+    "main": {
+      "attempt_count": 864,
+      "boundary": "Counts include valid, partial, failed, timed-out, interrupted, and retried attempts. Timing inference still uses only complete valid blocks.",
+      "by_candidate_and_cell": [
+        {
+          "attempt_count": 24,
+          "candidate": "dense",
+          "cell": "cache_clustered",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "dense",
+          "cell": "cache_short_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "dense",
+          "cell": "large_sparse_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "dense",
+          "cell": "large_wide_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "dense",
+          "cell": "small_full_repeated",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "dense",
+          "cell": "tiny_point_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 72,
+          "candidate": "in_place",
+          "cell": "cache_clustered",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 72,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 72,
+          "candidate": "in_place",
+          "cell": "cache_short_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 72,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 72,
+          "candidate": "in_place",
+          "cell": "large_sparse_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 72,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 72,
+          "candidate": "in_place",
+          "cell": "large_wide_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 72,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 72,
+          "candidate": "in_place",
+          "cell": "small_full_repeated",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 72,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 72,
+          "candidate": "in_place",
+          "cell": "tiny_point_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 72,
+          "zero_sample_count": 2
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "reference",
+          "cell": "cache_clustered",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "reference",
+          "cell": "cache_short_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "reference",
+          "cell": "large_sparse_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "reference",
+          "cell": "large_wide_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "reference",
+          "cell": "small_full_repeated",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "reference",
+          "cell": "tiny_point_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 475
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "sorted_events",
+          "cell": "cache_clustered",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "sorted_events",
+          "cell": "cache_short_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "sorted_events",
+          "cell": "large_sparse_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "sorted_events",
+          "cell": "large_wide_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "sorted_events",
+          "cell": "small_full_repeated",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 24,
+          "candidate": "sorted_events",
+          "cell": "tiny_point_sorted",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 24,
+          "zero_sample_count": 0
+        }
+      ],
+      "invalid_attempt_count": 0,
+      "phase": "main",
+      "valid_attempt_count": 864,
+      "zero_sample_count": 477
+    },
+    "aa": {
+      "attempt_count": 48,
+      "boundary": "Counts include valid, partial, failed, timed-out, interrupted, and retried attempts. Timing inference still uses only complete valid blocks.",
+      "by_candidate_and_cell": [
+        {
+          "attempt_count": 48,
+          "candidate": "in_place",
+          "cell": "cache_short_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 48,
+          "zero_sample_count": 0
+        }
+      ],
+      "invalid_attempt_count": 0,
+      "phase": "aa",
+      "valid_attempt_count": 48,
+      "zero_sample_count": 0
+    },
+    "profile": {
+      "attempt_count": 4,
+      "boundary": "Counts include valid, partial, failed, timed-out, interrupted, and retried attempts. Timing inference still uses only complete valid blocks.",
+      "by_candidate_and_cell": [
+        {
+          "attempt_count": 1,
+          "candidate": "dense",
+          "cell": "cache_short_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 1,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 1,
+          "candidate": "in_place",
+          "cell": "cache_short_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 1,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 1,
+          "candidate": "reference",
+          "cell": "cache_short_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 1,
+          "zero_sample_count": 0
+        },
+        {
+          "attempt_count": 1,
+          "candidate": "sorted_events",
+          "cell": "cache_short_shuffled",
+          "external_interruption_count": 0,
+          "failure_reason_counts": {},
+          "invalid_attempt_count": 0,
+          "timed_out_attempt_count": 0,
+          "valid_attempt_count": 1,
+          "zero_sample_count": 0
+        }
+      ],
+      "invalid_attempt_count": 0,
+      "phase": "profile",
+      "valid_attempt_count": 4,
+      "zero_sample_count": 0
+    }
+  },
+  "derived_work_counts": {
+    "rows": [
+      {
+        "candidate": "dense",
+        "cell": "cache_clustered",
+        "n": 65536,
+        "m": 2048,
+        "work": {
+          "validation_checks": 2048,
+          "base_reads": 65536,
+          "base_writes": 65536,
+          "range_element_updates": 0,
+          "boundary_updates": 4096,
+          "difference_steps": 0,
+          "scan_steps": 65536,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 2,
+          "allocated_scalar_slots": 131073
+        }
+      },
+      {
+        "candidate": "in_place",
+        "cell": "cache_clustered",
+        "n": 65536,
+        "m": 2048,
+        "work": {
+          "validation_checks": 2048,
+          "base_reads": 65536,
+          "base_writes": 65536,
+          "range_element_updates": 0,
+          "boundary_updates": 4096,
+          "difference_steps": 65535,
+          "scan_steps": 65535,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 1,
+          "allocated_scalar_slots": 65536
+        }
+      },
+      {
+        "candidate": "reference",
+        "cell": "cache_clustered",
+        "n": 65536,
+        "m": 2048,
+        "work": {
+          "validation_checks": 2048,
+          "base_reads": 65536,
+          "base_writes": 65536,
+          "range_element_updates": 696128,
+          "boundary_updates": 0,
+          "difference_steps": 0,
+          "scan_steps": 0,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 1,
+          "allocated_scalar_slots": 65536
+        }
+      },
+      {
+        "candidate": "sorted_events",
+        "cell": "cache_clustered",
+        "n": 65536,
+        "m": 2048,
+        "work": {
+          "validation_checks": 2048,
+          "base_reads": 65536,
+          "base_writes": 65536,
+          "range_element_updates": 0,
+          "boundary_updates": 4096,
+          "difference_steps": 0,
+          "scan_steps": 65536,
+          "event_records": 4096,
+          "sort_comparisons_count_pass": 26656,
+          "vec_constructions": 2,
+          "allocated_scalar_slots": 73728
+        }
+      },
+      {
+        "candidate": "dense",
+        "cell": "cache_short_shuffled",
+        "n": 65536,
+        "m": 2048,
+        "work": {
+          "validation_checks": 2048,
+          "base_reads": 65536,
+          "base_writes": 65536,
+          "range_element_updates": 0,
+          "boundary_updates": 4096,
+          "difference_steps": 0,
+          "scan_steps": 65536,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 2,
+          "allocated_scalar_slots": 131073
+        }
+      },
+      {
+        "candidate": "in_place",
+        "cell": "cache_short_shuffled",
+        "n": 65536,
+        "m": 2048,
+        "work": {
+          "validation_checks": 2048,
+          "base_reads": 65536,
+          "base_writes": 65536,
+          "range_element_updates": 0,
+          "boundary_updates": 4095,
+          "difference_steps": 65535,
+          "scan_steps": 65535,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 1,
+          "allocated_scalar_slots": 65536
+        }
+      },
+      {
+        "candidate": "reference",
+        "cell": "cache_short_shuffled",
+        "n": 65536,
+        "m": 2048,
+        "work": {
+          "validation_checks": 2048,
+          "base_reads": 65536,
+          "base_writes": 65536,
+          "range_element_updates": 34556,
+          "boundary_updates": 0,
+          "difference_steps": 0,
+          "scan_steps": 0,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 1,
+          "allocated_scalar_slots": 65536
+        }
+      },
+      {
+        "candidate": "sorted_events",
+        "cell": "cache_short_shuffled",
+        "n": 65536,
+        "m": 2048,
+        "work": {
+          "validation_checks": 2048,
+          "base_reads": 65536,
+          "base_writes": 65536,
+          "range_element_updates": 0,
+          "boundary_updates": 4095,
+          "difference_steps": 0,
+          "scan_steps": 65536,
+          "event_records": 4095,
+          "sort_comparisons_count_pass": 50588,
+          "vec_constructions": 2,
+          "allocated_scalar_slots": 73728
+        }
+      },
+      {
+        "candidate": "dense",
+        "cell": "large_sparse_sorted",
+        "n": 1048576,
+        "m": 8,
+        "work": {
+          "validation_checks": 8,
+          "base_reads": 1048576,
+          "base_writes": 1048576,
+          "range_element_updates": 0,
+          "boundary_updates": 16,
+          "difference_steps": 0,
+          "scan_steps": 1048576,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 2,
+          "allocated_scalar_slots": 2097153
+        }
+      },
+      {
+        "candidate": "in_place",
+        "cell": "large_sparse_sorted",
+        "n": 1048576,
+        "m": 8,
+        "work": {
+          "validation_checks": 8,
+          "base_reads": 1048576,
+          "base_writes": 1048576,
+          "range_element_updates": 0,
+          "boundary_updates": 16,
+          "difference_steps": 1048575,
+          "scan_steps": 1048575,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 1,
+          "allocated_scalar_slots": 1048576
+        }
+      },
+      {
+        "candidate": "reference",
+        "cell": "large_sparse_sorted",
+        "n": 1048576,
+        "m": 8,
+        "work": {
+          "validation_checks": 8,
+          "base_reads": 1048576,
+          "base_writes": 1048576,
+          "range_element_updates": 8,
+          "boundary_updates": 0,
+          "difference_steps": 0,
+          "scan_steps": 0,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 1,
+          "allocated_scalar_slots": 1048576
+        }
+      },
+      {
+        "candidate": "sorted_events",
+        "cell": "large_sparse_sorted",
+        "n": 1048576,
+        "m": 8,
+        "work": {
+          "validation_checks": 8,
+          "base_reads": 1048576,
+          "base_writes": 1048576,
+          "range_element_updates": 0,
+          "boundary_updates": 16,
+          "difference_steps": 0,
+          "scan_steps": 1048576,
+          "event_records": 16,
+          "sort_comparisons_count_pass": 15,
+          "vec_constructions": 2,
+          "allocated_scalar_slots": 1048608
+        }
+      },
+      {
+        "candidate": "dense",
+        "cell": "large_wide_shuffled",
+        "n": 262144,
+        "m": 64,
+        "work": {
+          "validation_checks": 64,
+          "base_reads": 262144,
+          "base_writes": 262144,
+          "range_element_updates": 0,
+          "boundary_updates": 128,
+          "difference_steps": 0,
+          "scan_steps": 262144,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 2,
+          "allocated_scalar_slots": 524289
+        }
+      },
+      {
+        "candidate": "in_place",
+        "cell": "large_wide_shuffled",
+        "n": 262144,
+        "m": 64,
+        "work": {
+          "validation_checks": 64,
+          "base_reads": 262144,
+          "base_writes": 262144,
+          "range_element_updates": 0,
+          "boundary_updates": 128,
+          "difference_steps": 262143,
+          "scan_steps": 262143,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 1,
+          "allocated_scalar_slots": 262144
+        }
+      },
+      {
+        "candidate": "reference",
+        "cell": "large_wide_shuffled",
+        "n": 262144,
+        "m": 64,
+        "work": {
+          "validation_checks": 64,
+          "base_reads": 262144,
+          "base_writes": 262144,
+          "range_element_updates": 3484424,
+          "boundary_updates": 0,
+          "difference_steps": 0,
+          "scan_steps": 0,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 1,
+          "allocated_scalar_slots": 262144
+        }
+      },
+      {
+        "candidate": "sorted_events",
+        "cell": "large_wide_shuffled",
+        "n": 262144,
+        "m": 64,
+        "work": {
+          "validation_checks": 64,
+          "base_reads": 262144,
+          "base_writes": 262144,
+          "range_element_updates": 0,
+          "boundary_updates": 128,
+          "difference_steps": 0,
+          "scan_steps": 262144,
+          "event_records": 128,
+          "sort_comparisons_count_pass": 920,
+          "vec_constructions": 2,
+          "allocated_scalar_slots": 262400
+        }
+      },
+      {
+        "candidate": "dense",
+        "cell": "small_full_repeated",
+        "n": 4096,
+        "m": 256,
+        "work": {
+          "validation_checks": 256,
+          "base_reads": 4096,
+          "base_writes": 4096,
+          "range_element_updates": 0,
+          "boundary_updates": 512,
+          "difference_steps": 0,
+          "scan_steps": 4096,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 2,
+          "allocated_scalar_slots": 8193
+        }
+      },
+      {
+        "candidate": "in_place",
+        "cell": "small_full_repeated",
+        "n": 4096,
+        "m": 256,
+        "work": {
+          "validation_checks": 256,
+          "base_reads": 4096,
+          "base_writes": 4096,
+          "range_element_updates": 0,
+          "boundary_updates": 256,
+          "difference_steps": 4095,
+          "scan_steps": 4095,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 1,
+          "allocated_scalar_slots": 4096
+        }
+      },
+      {
+        "candidate": "reference",
+        "cell": "small_full_repeated",
+        "n": 4096,
+        "m": 256,
+        "work": {
+          "validation_checks": 256,
+          "base_reads": 4096,
+          "base_writes": 4096,
+          "range_element_updates": 1048576,
+          "boundary_updates": 0,
+          "difference_steps": 0,
+          "scan_steps": 0,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 1,
+          "allocated_scalar_slots": 4096
+        }
+      },
+      {
+        "candidate": "sorted_events",
+        "cell": "small_full_repeated",
+        "n": 4096,
+        "m": 256,
+        "work": {
+          "validation_checks": 256,
+          "base_reads": 4096,
+          "base_writes": 4096,
+          "range_element_updates": 0,
+          "boundary_updates": 256,
+          "difference_steps": 0,
+          "scan_steps": 4096,
+          "event_records": 256,
+          "sort_comparisons_count_pass": 255,
+          "vec_constructions": 2,
+          "allocated_scalar_slots": 5120
+        }
+      },
+      {
+        "candidate": "dense",
+        "cell": "tiny_point_sorted",
+        "n": 64,
+        "m": 8,
+        "work": {
+          "validation_checks": 8,
+          "base_reads": 64,
+          "base_writes": 64,
+          "range_element_updates": 0,
+          "boundary_updates": 16,
+          "difference_steps": 0,
+          "scan_steps": 64,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 2,
+          "allocated_scalar_slots": 129
+        }
+      },
+      {
+        "candidate": "in_place",
+        "cell": "tiny_point_sorted",
+        "n": 64,
+        "m": 8,
+        "work": {
+          "validation_checks": 8,
+          "base_reads": 64,
+          "base_writes": 64,
+          "range_element_updates": 0,
+          "boundary_updates": 16,
+          "difference_steps": 63,
+          "scan_steps": 63,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 1,
+          "allocated_scalar_slots": 64
+        }
+      },
+      {
+        "candidate": "reference",
+        "cell": "tiny_point_sorted",
+        "n": 64,
+        "m": 8,
+        "work": {
+          "validation_checks": 8,
+          "base_reads": 64,
+          "base_writes": 64,
+          "range_element_updates": 8,
+          "boundary_updates": 0,
+          "difference_steps": 0,
+          "scan_steps": 0,
+          "event_records": 0,
+          "sort_comparisons_count_pass": 0,
+          "vec_constructions": 1,
+          "allocated_scalar_slots": 64
+        }
+      },
+      {
+        "candidate": "sorted_events",
+        "cell": "tiny_point_sorted",
+        "n": 64,
+        "m": 8,
+        "work": {
+          "validation_checks": 8,
+          "base_reads": 64,
+          "base_writes": 64,
+          "range_element_updates": 0,
+          "boundary_updates": 16,
+          "difference_steps": 0,
+          "scan_steps": 64,
+          "event_records": 16,
+          "sort_comparisons_count_pass": 15,
+          "vec_constructions": 2,
+          "allocated_scalar_slots": 96
+        }
+      }
+    ],
+    "boundary": "Counts describe selected logical operations and nominal scalar slots. They do not measure allocator metadata, every byte touch, sort moves, cache traffic, or bandwidth."
+  },
+  "observed_profile": {
+    "status": "COMPLETE",
+    "linked_image_disassembly": {
+      "argv": [
+        "/usr/bin/otool",
+        "-tvV",
+        "/private/tmp/algorithms-topic-002.PtwpVS/topic002-runner-all-20260830d/artifacts/range_updates-fc988e8cd07ae5f7407905a120883b67766a801867e88610246c6e19e78c1e32"
+      ],
+      "binary_sha256": "fc988e8cd07ae5f7407905a120883b67766a801867e88610246c6e19e78c1e32",
+      "candidate_symbol_fragments_present": {
+        "apply_dense_sidecar": true,
+        "apply_in_place_difference": true,
+        "apply_reference": true,
+        "apply_sorted_events": true
+      },
+      "consumer_boundary": "The linked image retains all four candidate symbols. The source-tree hash pins the black_box result consumer used after each timed call.",
+      "cwd": "/private/tmp/algorithms-topic-002.PtwpVS/topic-002",
+      "environment": {
+        "LANG": "C",
+        "LC_ALL": "C",
+        "RUST_BACKTRACE": "1",
+        "TZ": "UTC"
+      },
+      "returncode": 0,
+      "status": "COMPLETE",
+      "stderr_sha256": "5c6001ddacab260a32505bb937220fbc152d22c158814ab8e938e47d532cc892",
+      "stdout_sha256": "3229d7c67e583a7f60aa4df0f93e0eef20e961a40196c1d17dbe8ed531791583",
+      "timed_out": false
+    },
+    "manual_timing_boundary_review": {
+      "status": "PASS",
+      "instant_now_address": "0x100002f90",
+      "indirect_candidate_call_address": "0x100002fb4",
+      "instant_elapsed_address": "0x100002fbc",
+      "output_deallocation_begins_at": "0x100003024",
+      "finding": "The candidate call lies between Instant::now and Instant::elapsed. The result remains live until after elapsed. All four candidate symbols remain in the linked image."
+    },
+    "dynamic_profiles": [
+      {
+        "algorithm": "reference",
+        "tool": "time-l",
+        "status": "UNAVAILABLE",
+        "returncode": 1,
+        "timed_out": false,
+        "binary_hash_unchanged": true,
+        "target_output_status": "MATCH",
+        "permission_denial_status": "MATCH",
+        "reason": "macOS /usr/bin/time -l could not read kern.clockrate in this execution environment; the separately retained target output completed, but the partial time output is not resource evidence"
+      },
+      {
+        "algorithm": "in_place",
+        "tool": "time-l",
+        "status": "UNAVAILABLE",
+        "returncode": 1,
+        "timed_out": false,
+        "binary_hash_unchanged": true,
+        "target_output_status": "MATCH",
+        "permission_denial_status": "MATCH",
+        "reason": "macOS /usr/bin/time -l could not read kern.clockrate in this execution environment; the separately retained target output completed, but the partial time output is not resource evidence"
+      },
+      {
+        "algorithm": "dense",
+        "tool": "time-l",
+        "status": "UNAVAILABLE",
+        "returncode": 1,
+        "timed_out": false,
+        "binary_hash_unchanged": true,
+        "target_output_status": "MATCH",
+        "permission_denial_status": "MATCH",
+        "reason": "macOS /usr/bin/time -l could not read kern.clockrate in this execution environment; the separately retained target output completed, but the partial time output is not resource evidence"
+      },
+      {
+        "algorithm": "sorted_events",
+        "tool": "time-l",
+        "status": "UNAVAILABLE",
+        "returncode": 1,
+        "timed_out": false,
+        "binary_hash_unchanged": true,
+        "target_output_status": "MATCH",
+        "permission_denial_status": "MATCH",
+        "reason": "macOS /usr/bin/time -l could not read kern.clockrate in this execution environment; the separately retained target output completed, but the partial time output is not resource evidence"
+      }
+    ],
+    "mechanism_boundary": "Elapsed time and resource totals do not establish a cache, branch, allocation, or bandwidth mechanism. Unsupported or permission-denied counters leave that mechanism inferred."
+  },
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "kernel_release": "25.6.0",
+    "architecture": "arm64",
+    "cpu_description": "Apple M1 Pro",
+    "logical_cpu_count": 10,
+    "affinity": null,
+    "cpuset_cpus_effective": null,
+    "sanitized_hardware_identity": {
+      "command": [
+        "/usr/sbin/system_profiler",
+        "SPHardwareDataType",
+        "-json"
+      ],
+      "fields": {
+        "chip_type": "Apple M1 Pro",
+        "machine_model": "MacBookPro18,3",
+        "machine_name": "MacBook Pro",
+        "model_number": "Z15G001X7LL/A",
+        "number_processors": "proc 10:8:2:0",
+        "physical_memory": "32 GB"
+      },
+      "reason": null,
+      "returncode": 0,
+      "status": "COMPLETE"
+    },
+    "frequency_policy": {
+      "platform": "macos",
+      "reason": "macOS did not expose the documented frequency sysctl values; no governor claim is made",
+      "records": [
+        {
+          "key": "hw.cpufrequency",
+          "returncode": 1,
+          "stderr": "sysctl: sysctl fmt -1 1024 1: Operation not permitted",
+          "stdout": ""
+        },
+        {
+          "key": "hw.cpufrequency_min",
+          "returncode": 1,
+          "stderr": "sysctl: sysctl fmt -1 1024 1: Operation not permitted",
+          "stdout": ""
+        },
+        {
+          "key": "hw.cpufrequency_max",
+          "returncode": 1,
+          "stderr": "sysctl: sysctl fmt -1 1024 1: Operation not permitted",
+          "stdout": ""
+        }
+      ],
+      "status": "UNAVAILABLE"
+    }
+  },
+  "toolchain": {
+    "rustc_verbose": "rustc 1.93.0 (254b59607 2026-01-19)\nbinary: rustc\ncommit-hash: 254b59607d4417e9dffbc307138ae5c86280fe4c\ncommit-date: 2026-01-19\nhost: aarch64-apple-darwin\nrelease: 1.93.0\nLLVM version: 21.1.8",
+    "cargo_version": "cargo 1.93.0 (083ac5135 2025-12-15)",
+    "cargo_profile": "release",
+    "rustflags": "-C target-cpu=native",
+    "cargo_proxy_sha256": "20ef5516c31b1ac2290084199ba77dbbcaa1406c45c1d978ca68558ef5964ef5",
+    "rustc_proxy_sha256": "20ef5516c31b1ac2290084199ba77dbbcaa1406c45c1d978ca68558ef5964ef5",
+    "dispatched_cargo": {
+      "path": "/Users/ahrav/.rustup/toolchains/1.93.0-aarch64-apple-darwin/bin/cargo",
+      "sha256": "46c9483604e913070b085dc5acf972bc560395c10dfec1cdb389c4b6bf17cf67"
+    },
+    "dispatched_rustc": {
+      "path": "/Users/ahrav/.rustup/toolchains/1.93.0-aarch64-apple-darwin/bin/rustc",
+      "sha256": "87b02c67012c28083fe485a50b10470a662c828c6e2cd0caf4775e00986cdfc8"
+    },
+    "allocator_boundary": {
+      "boundary": "No #[global_allocator] declaration appears in the topic Rust source. The build therefore uses the Rust target default. This does not by itself identify a concrete allocator implementation.",
+      "global_allocator_declarations": [],
+      "source_defines_global_allocator": false
+    },
+    "linked_libraries_boundary": {
+      "argv": [
+        "/usr/bin/otool",
+        "-L",
+        "/private/tmp/algorithms-topic-002.PtwpVS/topic002-runner-all-20260830d/artifacts/range_updates-fc988e8cd07ae5f7407905a120883b67766a801867e88610246c6e19e78c1e32"
+      ],
+      "boundary": "Linked-library identity constrains the system boundary. It does not prove which concrete allocator services every allocation.",
+      "returncode": 0,
+      "status": "COMPLETE",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "cf06d8687638ed8ec52a8a6e1dfac8c809b5378fe1bd901995d534faf2dc79ef",
+      "timed_out": false
+    }
+  },
+  "evidence_labels": {
+    "measured": [
+      "elapsed-time ratios",
+      "zero-duration subsample counts",
+      "attempt and block completion",
+      "A/A diagnostics"
+    ],
+    "observed": [
+      "bounded correctness-test outcomes",
+      "linked candidate symbols",
+      "timing-boundary code shape",
+      "host and tool availability"
+    ],
+    "derived": [
+      "endpoint equations",
+      "correctness invariants",
+      "logical work counts",
+      "complexity and lower bounds"
+    ],
+    "inferred": [
+      "cache, allocator, branch, instruction-cost, and bandwidth mechanisms",
+      "cross-machine behavior",
+      "unmeasured dispatch thresholds"
+    ]
+  }
+}
