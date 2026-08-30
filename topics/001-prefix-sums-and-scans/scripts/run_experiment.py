@@ -243,6 +243,41 @@ def run_capture(
     )
 
 
+def run_capture_group(
+    argv: Sequence[str],
+    *,
+    cwd: Path,
+    env: dict[str, str],
+    timeout: float,
+) -> tuple[int | None, bytes, bytes, bool]:
+    """Run a wrapper command and, on timeout, kill its whole process group.
+
+    Killing only the direct child leaves grandchildren running: a timed-out
+    profiler wrapper such as `perf stat -- <harness>` dies while the harness
+    it launched keeps consuming CPU and memory. A new session gives the
+    wrapper its own process group, so the timeout kill reaches every
+    descendant.
+    """
+    with subprocess.Popen(
+        list(argv),
+        cwd=cwd,
+        env=env,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        start_new_session=True,
+    ) as process:
+        try:
+            stdout, stderr = process.communicate(timeout=timeout)
+            return process.returncode, stdout, stderr, False
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            stdout, stderr = process.communicate()
+            return None, stdout, stderr, True
+
+
 def safe_base_environment() -> dict[str, str]:
     inherited_names = (
         "PATH",
@@ -302,10 +337,10 @@ def cargo_config_paths(build_env: dict[str, str]) -> list[Path]:
 def inspect_runner_configuration(host_triple: str, build_env: dict[str, str]) -> dict[str, Any]:
     env_key = "CARGO_TARGET_" + host_triple.upper().replace("-", "_") + "_RUNNER"
     findings: list[dict[str, str]] = []
-    if os.environ.get(env_key):
-        findings.append({"source": env_key, "value": os.environ[env_key]})
-    if os.environ.get("CARGO_BUILD_TARGET") not in (None, "", host_triple):
-        findings.append({"source": "CARGO_BUILD_TARGET", "value": os.environ["CARGO_BUILD_TARGET"]})
+    if build_env.get(env_key):
+        findings.append({"source": env_key, "value": build_env[env_key]})
+    if build_env.get("CARGO_BUILD_TARGET") not in (None, "", host_triple):
+        findings.append({"source": "CARGO_BUILD_TARGET", "value": build_env["CARGO_BUILD_TARGET"]})
 
     parsed_paths: list[str] = []
     for path in cargo_config_paths(build_env):
@@ -1595,22 +1630,12 @@ def collect_dynamic_profile(
     profile_dir = run_dir / "profiles" / profile_id
     profile_dir.mkdir(parents=True, exist_ok=False)
     started = utc_now()
-    try:
-        completed = run_capture(
-            argv,
-            cwd=REPO_ROOT,
-            env=executor.environment,
-            timeout=executor.timeout_seconds,
-        )
-        returncode: int | None = completed.returncode
-        stdout = completed.stdout
-        stderr = completed.stderr
-        timed_out = False
-    except subprocess.TimeoutExpired as error:
-        returncode = None
-        stdout = error.stdout or b""
-        stderr = error.stderr or b""
-        timed_out = True
+    returncode, stdout, stderr, timed_out = run_capture_group(
+        argv,
+        cwd=REPO_ROOT,
+        env=executor.environment,
+        timeout=executor.timeout_seconds,
+    )
     write_bytes_once(profile_dir / "stdout.jsonl", stdout)
     write_bytes_once(profile_dir / "stderr.txt", stderr)
     record = {
