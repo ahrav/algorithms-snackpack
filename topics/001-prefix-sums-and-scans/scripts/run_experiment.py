@@ -39,7 +39,12 @@ BLOCK_SIZE = 16_384
 DEFAULT_WARMUPS = 1
 DEFAULT_SAMPLES = 3
 DEFAULT_TIMEOUT_SECONDS = 120.0
-EXTERNAL_SIGNALS = {signal.SIGINT, signal.SIGTERM, signal.SIGHUP}
+# Windows lacks SIGHUP; name-based lookup keeps this module importable.
+EXTERNAL_SIGNALS = {
+    resolved
+    for name in ("SIGINT", "SIGTERM", "SIGHUP")
+    if (resolved := getattr(signal, name, None)) is not None
+}
 
 SCRIPT = Path(__file__).resolve()
 TOPIC_DIR = SCRIPT.parents[1]
@@ -1620,38 +1625,40 @@ def collect_macos_sample(executor: HarnessExecutor) -> dict[str, Any]:
         "sample_tool_sha256": sha256_file(sample_tool),
     }
     write_json_once(profile_dir / "launch.json", launch)
-    process_handle = subprocess.Popen(
+    # The context manager reaps the harness child even when sampling raises
+    # before communicate(), so no process handle or pipe descriptor leaks.
+    with subprocess.Popen(
         harness_argv,
         cwd=REPO_ROOT,
         env=executor.environment,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-    )
-    time.sleep(0.05)
-    sample_argv = [str(sample_tool), str(process_handle.pid), "1", "-file", str(profile_output)]
-    try:
-        sample_completed = run_capture(
-            sample_argv,
-            cwd=REPO_ROOT,
-            env=executor.environment,
-            timeout=15.0,
-        )
-        sample_timed_out = False
-    except subprocess.TimeoutExpired as error:
-        sample_completed = subprocess.CompletedProcess(
-            sample_argv,
-            returncode=124,
-            stdout=error.stdout or b"",
-            stderr=error.stderr or b"",
-        )
-        sample_timed_out = True
-    harness_timed_out = False
-    try:
-        harness_stdout, harness_stderr = process_handle.communicate(timeout=executor.timeout_seconds)
-    except subprocess.TimeoutExpired:
-        harness_timed_out = True
-        process_handle.kill()
-        harness_stdout, harness_stderr = process_handle.communicate()
+    ) as process_handle:
+        time.sleep(0.05)
+        sample_argv = [str(sample_tool), str(process_handle.pid), "1", "-file", str(profile_output)]
+        try:
+            sample_completed = run_capture(
+                sample_argv,
+                cwd=REPO_ROOT,
+                env=executor.environment,
+                timeout=15.0,
+            )
+            sample_timed_out = False
+        except subprocess.TimeoutExpired as error:
+            sample_completed = subprocess.CompletedProcess(
+                sample_argv,
+                returncode=124,
+                stdout=error.stdout or b"",
+                stderr=error.stderr or b"",
+            )
+            sample_timed_out = True
+        harness_timed_out = False
+        try:
+            harness_stdout, harness_stderr = process_handle.communicate(timeout=executor.timeout_seconds)
+        except subprocess.TimeoutExpired:
+            harness_timed_out = True
+            process_handle.kill()
+            harness_stdout, harness_stderr = process_handle.communicate()
     write_bytes_once(profile_dir / "harness.stdout.jsonl", harness_stdout)
     write_bytes_once(profile_dir / "harness.stderr.txt", harness_stderr)
     write_bytes_once(profile_dir / "sample.stdout", sample_completed.stdout)

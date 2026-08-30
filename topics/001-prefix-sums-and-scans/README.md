@@ -80,8 +80,10 @@ thread pool changes startup cost and may move the crossover.
 
 ## Derived cost model
 
-Let `n > 0`, block size `B`, chunk count `q = ceil(n / B)`, and first chunk
-size `b0 = min(B, n)`.
+Let `n > 0`. The blocked scan uses block size `B`, chunk count
+`q = ceil(n / B)`, and first chunk size `b0 = min(B, n)`. The parallel scan
+chunks by effective worker count `k = min(workers, n)` with first chunk size
+`b0 = ceil(n / k)`; each row's `b0` is that candidate's own first chunk size.
 
 | Candidate | Wrapping additions | Logical main-array traffic | Extra state |
 |---|---:|---|---|

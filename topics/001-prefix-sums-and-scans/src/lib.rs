@@ -185,17 +185,7 @@ pub fn parallel_inclusive(input: &[i64], workers: usize) -> Result<Vec<i64>, Sca
 
     let worker_count = workers.min(input.len());
     if worker_count == 1 {
-        let mut output = Vec::with_capacity(input.len());
-        let Some((&first, remaining)) = input.split_first() else {
-            return Ok(output);
-        };
-        let mut sum = first;
-        output.push(first);
-        for &value in remaining {
-            sum = sum.wrapping_add(value);
-            output.push(sum);
-        }
-        return Ok(output);
+        return Ok(linear_inclusive(input));
     }
 
     let base_chunk_len = input.len() / worker_count;
