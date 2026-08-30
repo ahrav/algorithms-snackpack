@@ -130,6 +130,55 @@ class ExperimentIncomplete(RuntimeError):
     """The fixed schedule could not produce every required complete block."""
 
 
+class ExternalSignalRelay:
+    """Turn external signals delivered to the runner into recorded child outcomes.
+
+    The declared retry rule acts on a harness child terminated by SIGINT,
+    SIGTERM, or SIGHUP, but those signals often land on the runner instead:
+    a terminal Ctrl-C targets the whole process group, and automation
+    usually signals the runner pid. Without a handler, SIGTERM and SIGHUP
+    terminate Python outright and SIGINT raises KeyboardInterrupt out of
+    the attempt in flight, so the started attempt is never recorded and the
+    whole-block retry cannot happen. The relay forwards the signal to the
+    active child, whose recorded exit then drives the normal
+    record-and-retry path. A signal that arrives with no child in flight is
+    held and raised as ExperimentIncomplete at the next safe checkpoint, so
+    the run ends with a recorded INCOMPLETE status instead of vanishing.
+    """
+
+    def __init__(self) -> None:
+        self.child: subprocess.Popen[bytes] | None = None
+        self.pending: list[int] = []
+        self._previous: dict[int, Any] = {}
+
+    def install(self) -> None:
+        for signum in EXTERNAL_SIGNALS:
+            self._previous[int(signum)] = signal.signal(signum, self._relay)
+
+    def restore(self) -> None:
+        for signum, previous in self._previous.items():
+            signal.signal(signum, previous)
+        self._previous.clear()
+
+    def _relay(self, signum: int, frame: Any) -> None:
+        del frame
+        child = self.child
+        if child is not None and child.poll() is None:
+            try:
+                child.send_signal(signum)
+                return
+            except ProcessLookupError:
+                pass
+        self.pending.append(signum)
+
+    def raise_if_pending(self) -> None:
+        if self.pending:
+            names = ", ".join(signal.Signals(signum).name for signum in self.pending)
+            raise ExperimentIncomplete(
+                f"external signal received with no attempt in flight: {names}"
+            )
+
+
 def utc_now() -> str:
     return datetime.now(UTC).isoformat(timespec="microseconds")
 
@@ -274,7 +323,7 @@ def inspect_runner_configuration(host_triple: str, build_env: dict[str, str]) ->
     }
 
 
-def source_paths() -> Iterable[Path]:
+def source_paths(exclude_dir: Path | None = None) -> Iterable[Path]:
     fixed = (
         REPO_ROOT / "Cargo.toml",
         REPO_ROOT / "Cargo.lock",
@@ -293,12 +342,14 @@ def source_paths() -> Iterable[Path]:
             continue
         if "measurements/runs" in path.relative_to(TOPIC_DIR).as_posix():
             continue
+        if exclude_dir is not None and path.is_relative_to(exclude_dir):
+            continue
         yield path
 
 
-def source_tree_manifest() -> list[dict[str, Any]]:
+def source_tree_manifest(exclude_dir: Path | None = None) -> list[dict[str, Any]]:
     records = []
-    for path in source_paths():
+    for path in source_paths(exclude_dir):
         records.append(
             {
                 "path": path.relative_to(REPO_ROOT).as_posix(),
@@ -718,11 +769,13 @@ class HarnessExecutor:
         binary_hash: str,
         timeout_seconds: float,
         cpu_list: str | None,
+        relay: ExternalSignalRelay | None = None,
     ) -> None:
         self.run_dir = run_dir
         self.binary = binary
         self.binary_hash = binary_hash
         self.timeout_seconds = timeout_seconds
+        self.relay = relay
         self.environment = benchmark_environment()
         self.attempts: list[AttemptResult] = []
         self.blocks: list[dict[str, Any]] = []
@@ -770,6 +823,8 @@ class HarnessExecutor:
         ]
 
     def run_position(self, position: Position, warmups: int, samples: int) -> AttemptResult:
+        if self.relay is not None:
+            self.relay.raise_if_pending()
         attempt_id = attempt_identifier(position)
         attempt_dir = self.run_dir / "raw" / "attempts" / attempt_id
         attempt_dir.mkdir(parents=True, exist_ok=False)
@@ -797,20 +852,28 @@ class HarnessExecutor:
         stdout = b""
         stderr = b""
         started_ns = time.time_ns()
-        try:
-            completed = run_capture(
-                expanded_argv,
-                cwd=REPO_ROOT,
-                env=self.environment,
-                timeout=self.timeout_seconds,
-            )
-            returncode = completed.returncode
-            stdout = completed.stdout
-            stderr = completed.stderr
-        except subprocess.TimeoutExpired as error:
-            timed_out = True
-            stdout = error.stdout or b""
-            stderr = error.stderr or b""
+        # A Popen handle (rather than run_capture) lets the signal relay
+        # forward external signals to the child while communicate() blocks;
+        # the forwarded signal then appears as the child's exit status.
+        with subprocess.Popen(
+            expanded_argv,
+            cwd=REPO_ROOT,
+            env=self.environment,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        ) as process:
+            if self.relay is not None:
+                self.relay.child = process
+            try:
+                stdout, stderr = process.communicate(timeout=self.timeout_seconds)
+                returncode = process.returncode
+            except subprocess.TimeoutExpired:
+                process.kill()
+                stdout, stderr = process.communicate()
+                timed_out = True
+            finally:
+                if self.relay is not None:
+                    self.relay.child = None
         ended_ns = time.time_ns()
         write_bytes_once(attempt_dir / "stdout.jsonl", stdout)
         write_bytes_once(attempt_dir / "stderr.txt", stderr)
@@ -1216,9 +1279,32 @@ def analyze_main(executor: HarnessExecutor) -> dict[str, Any]:
     }
 
 
+def attempts_in_valid_blocks(
+    executor: HarnessExecutor, phase: str
+) -> tuple[list[AttemptResult], list[AttemptResult]]:
+    """Split a phase's attempts into members of VALID blocks and the rest.
+
+    A block invalidated by an external interruption is retried, and its
+    recorded attempts stay in ``executor.attempts`` as evidence. Mechanical
+    integrity checks reason over the attempts that constitute the valid
+    blocks; the remainder is reported separately, never silently dropped.
+    """
+    valid_ids = {
+        attempt_id
+        for block in executor.blocks
+        if block["phase"] == phase and block["status"] == "VALID"
+        for attempt_id in block["attempt_ids"].split(";")
+        if attempt_id
+    }
+    phase_attempts = [attempt for attempt in executor.attempts if attempt.phase == phase]
+    included = [attempt for attempt in phase_attempts if attempt.attempt_id in valid_ids]
+    excluded = [attempt for attempt in phase_attempts if attempt.attempt_id not in valid_ids]
+    return included, excluded
+
+
 def analyze_aa(executor: HarnessExecutor) -> dict[str, Any]:
     values = valid_block_values(executor.blocks, "aa", AA_CONTRAST.contrast_id)
-    aa_attempts = [attempt for attempt in executor.attempts if attempt.phase == "aa"]
+    aa_attempts, excluded_attempts = attempts_in_valid_blocks(executor, "aa")
     a_parameters = {
         (
             attempt.algorithm,
@@ -1316,6 +1402,16 @@ def analyze_aa(executor: HarnessExecutor) -> dict[str, Any]:
     return {
         "status": "COMPLETE" if all(mechanical_checks.values()) else "INVALID",
         "mechanical_integrity": mechanical_checks,
+        "attempts_excluded_from_mechanical_checks": [
+            {
+                "attempt_id": attempt.attempt_id,
+                "status": attempt.status,
+                "invalid_reason": attempt.invalid_reason,
+                "external_interruption": attempt.external_interruption,
+                "retry_index": attempt.retry_index,
+            }
+            for attempt in excluded_attempts
+        ],
         "null_calibration_diagnostics": {
             "block_log_contrasts": values,
             "unadjusted_two_sided_95_percent_interval": analyze_values(values, 0.05),
@@ -1352,13 +1448,14 @@ def analyze_distribution(executor: HarnessExecutor) -> dict[str, Any]:
 
 
 def analyze_quick(executor: HarnessExecutor) -> dict[str, Any]:
-    attempts = [attempt for attempt in executor.attempts if attempt.phase == "quick"]
+    attempts, excluded_attempts = attempts_in_valid_blocks(executor, "quick")
     return {
         "status": "COMPLETE" if attempts and all(attempt.status == "VALID" for attempt in attempts) else "INCOMPLETE",
         "confirmatory": False,
         "promotable": False,
         "attempt_count": len(attempts),
         "observations": [asdict(attempt) for attempt in attempts],
+        "attempts_excluded_from_mechanical_checks": [asdict(attempt) for attempt in excluded_attempts],
     }
 
 
@@ -1689,6 +1786,10 @@ def execute_phase(executor: HarnessExecutor, phase: str) -> dict[str, Any]:
     else:
         result = analyze_distribution(executor)
     write_json_once(executor.run_dir / "analysis" / f"{phase}.json", result)
+    if result.get("status") != "COMPLETE":
+        raise ExperimentIncomplete(
+            f"{phase} analysis reported status {result.get('status')!r}"
+        )
     return result
 
 
@@ -1849,10 +1950,12 @@ def run_experiment(args: argparse.Namespace) -> int:
     }
     replace_json(run_dir / "run-status.json", status)
     write_json_once(run_dir / "protocol.json", protocol)
-    initial_source = source_tree_manifest()
+    initial_source = source_tree_manifest(run_dir)
     write_json_once(run_dir / "metadata" / "source-tree-before.json", initial_source)
     initial_source_digest = source_tree_digest(initial_source)
     build_env = safe_base_environment()
+    relay = ExternalSignalRelay()
+    relay.install()
     failure: BaseException | None = None
     try:
         write_json_once(run_dir / "metadata" / "host.json", host_metadata())
@@ -1864,6 +1967,7 @@ def run_experiment(args: argparse.Namespace) -> int:
             build["binary_sha256"],
             args.timeout_seconds,
             args.cpu_list,
+            relay,
         )
         write_json_once(
             run_dir / "metadata" / "benchmark-environment.json",
@@ -1875,11 +1979,12 @@ def run_experiment(args: argparse.Namespace) -> int:
         )
         for phase in phase_sequence(args.phase):
             execute_phase(executor, phase)
+            relay.raise_if_pending()
             status["completed_phases"].append(phase)
             status["last_progress_at"] = utc_now()
             replace_json(run_dir / "run-status.json", status)
 
-        final_source = source_tree_manifest()
+        final_source = source_tree_manifest(run_dir)
         write_json_once(run_dir / "metadata" / "source-tree-after.json", final_source)
         if source_tree_digest(final_source) != initial_source_digest:
             raise ExperimentIncomplete("source tree changed during evidence collection")
@@ -1896,6 +2001,7 @@ def run_experiment(args: argparse.Namespace) -> int:
         status["failure_type"] = type(error).__name__
         status["failure"] = str(error)
         write_text_once(run_dir / "failure.txt", traceback.format_exc())
+    relay.restore()
     replace_json(run_dir / "run-status.json", status)
     manifest_digest, manifest_count = checksum_manifest(run_dir)
     print(

@@ -185,6 +185,8 @@ fn parse_args() -> Result<Config, String> {
                 let value = take_value(&args, &mut index, flag)?;
                 samples = Some(parse_number::<usize>(&value, flag)?);
             }
+            // Accept Cargo's injected `--bench` argument so `cargo bench -- ...` works.
+            "--bench" => {}
             _ => return Err(format!("unknown argument: {flag}\n{}", usage())),
         }
         index += 1;
