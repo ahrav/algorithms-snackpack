@@ -2427,22 +2427,46 @@ def profile_positions() -> list[Position]:
     ]
 
 
-TIMED_LOOP_SYMBOL_FRAGMENTS = (b"range_updates::main", b"range_updates::run")
-CLOCK_SYMBOL_FRAGMENTS = (
-    b"Instant::now",
-    b"Instant::elapsed",
-    b"mach_absolute_time",
-    b"clock_gettime",
-)
+TIMED_LOOP_SYMBOL_PATHS = ("range_updates::main", "range_updates::run")
+CLOCK_SYMBOL_PATHS = ("Instant::now", "Instant::elapsed")
+CLOCK_C_SYMBOLS = ("mach_absolute_time", "clock_gettime")
+
+
+def symbol_fragment_variants(path: str) -> tuple[bytes, ...]:
+    """Return the demangled and legacy-mangled spellings of a symbol path.
+
+    `objdump --demangle` prints `range_updates::main`, while `otool -tvV` has no
+    Rust demangler and prints the mangled `_ZN13range_updates4main17h...E`. A
+    bare identifier survives mangling as a substring, but a `::`-separated path
+    does not, because the mangled form encodes each component as its length
+    followed by its text.
+    """
+    components = path.split("::")
+    mangled = "".join(f"{len(component)}{component}" for component in components)
+    return (path.encode("ascii"), mangled.encode("ascii"))
+
+
+def is_disassembly_symbol_header(line: bytes) -> bool:
+    """Report whether a disassembly line opens a function.
+
+    `objdump` writes `<address> <symbol>:` and indents instructions; `otool`
+    writes `_symbol:` at column 0 and separates an instruction's address from
+    its mnemonic with a tab. A line that starts at column 0, ends with a colon,
+    and holds no tab is a header in both formats.
+    """
+    return bool(line) and line.endswith(b":") and line[:1] not in (b" ", b"\t") and b"\t" not in line
+
+
+def find_symbol_fragment(stdout: bytes, paths: Sequence[str]) -> tuple[str, bytes] | None:
+    for path in paths:
+        for variant in symbol_fragment_variants(path):
+            if variant in stdout:
+                return path, variant
+    return None
 
 
 def disassembly_symbol_region(stdout: bytes, fragment: bytes) -> bytes | None:
-    """Return one symbol's disassembly, from its header to the next header.
-
-    Both `otool -tvV` and `objdump -d` label a function with a header line and
-    then list its instructions, so the bytes between two headers are one
-    function's body.
-    """
+    """Return one symbol's disassembly, from its header to the next header."""
     start = stdout.find(fragment)
     if start < 0:
         return None
@@ -2451,7 +2475,7 @@ def disassembly_symbol_region(stdout: bytes, fragment: bytes) -> bytes | None:
     while cursor != -1:
         line_end = stdout.find(b"\n", cursor + 1)
         line = stdout[cursor + 1 : line_end if line_end != -1 else len(stdout)]
-        if line.endswith(b">:") and not line.startswith((b" ", b"\t")):
+        if is_disassembly_symbol_header(line):
             return stdout[header_start : cursor + 1]
         if line_end == -1:
             break
@@ -2490,22 +2514,22 @@ def collect_disassembly(
     symbol_checks = {
         fragment.decode("ascii"): fragment in stdout for fragment in symbol_fragments
     }
-    timed_loop_fragment = next(
-        (fragment for fragment in TIMED_LOOP_SYMBOL_FRAGMENTS if fragment in stdout), None
-    )
+    timed_loop_match = find_symbol_fragment(stdout, TIMED_LOOP_SYMBOL_PATHS)
     timed_loop_region = (
-        disassembly_symbol_region(stdout, timed_loop_fragment)
-        if timed_loop_fragment is not None
+        disassembly_symbol_region(stdout, timed_loop_match[1])
+        if timed_loop_match is not None
         else None
     )
+    clock_symbols = [
+        path
+        for path in CLOCK_SYMBOL_PATHS
+        if any(variant in stdout for variant in symbol_fragment_variants(path))
+    ]
+    clock_symbols.extend(name for name in CLOCK_C_SYMBOLS if name.encode("ascii") in stdout)
     retention_checks = {
-        "timed_loop_symbol_present": timed_loop_fragment is not None,
+        "timed_loop_symbol_present": timed_loop_match is not None,
         "timed_loop_region_isolated": timed_loop_region is not None,
-        "clock_symbols_present": [
-            fragment.decode("ascii")
-            for fragment in CLOCK_SYMBOL_FRAGMENTS
-            if fragment in stdout
-        ],
+        "clock_symbols_present": clock_symbols,
     }
     complete = (
         returncode == 0
@@ -2527,8 +2551,9 @@ def collect_disassembly(
         "stderr_sha256": sha256_bytes(stderr),
         "candidate_symbol_fragments_present": symbol_checks,
         "retention_checks": retention_checks,
-        "timed_loop_symbol": (
-            timed_loop_fragment.decode("ascii") if timed_loop_fragment is not None else None
+        "timed_loop_symbol": (timed_loop_match[0] if timed_loop_match is not None else None),
+        "timed_loop_symbol_spelling": (
+            timed_loop_match[1].decode("ascii") if timed_loop_match is not None else None
         ),
         "timed_loop_region_sha256": (
             sha256_bytes(timed_loop_region) if timed_loop_region is not None else None
