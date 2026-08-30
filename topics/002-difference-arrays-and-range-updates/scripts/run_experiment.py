@@ -2417,6 +2417,38 @@ def profile_positions() -> list[Position]:
     ]
 
 
+TIMED_LOOP_SYMBOL_FRAGMENTS = (b"range_updates::main", b"range_updates::run")
+CLOCK_SYMBOL_FRAGMENTS = (
+    b"Instant::now",
+    b"Instant::elapsed",
+    b"mach_absolute_time",
+    b"clock_gettime",
+)
+
+
+def disassembly_symbol_region(stdout: bytes, fragment: bytes) -> bytes | None:
+    """Return one symbol's disassembly, from its header to the next header.
+
+    Both `otool -tvV` and `objdump -d` label a function with a header line and
+    then list its instructions, so the bytes between two headers are one
+    function's body.
+    """
+    start = stdout.find(fragment)
+    if start < 0:
+        return None
+    header_start = stdout.rfind(b"\n", 0, start) + 1
+    cursor = stdout.find(b"\n", start)
+    while cursor != -1:
+        line_end = stdout.find(b"\n", cursor + 1)
+        line = stdout[cursor + 1 : line_end if line_end != -1 else len(stdout)]
+        if line.endswith(b">:") and not line.startswith((b" ", b"\t")):
+            return stdout[header_start : cursor + 1]
+        if line_end == -1:
+            break
+        cursor = line_end
+    return stdout[header_start:]
+
+
 def collect_disassembly(
     run_dir: Path,
     binary: Path,
@@ -2448,27 +2480,30 @@ def collect_disassembly(
     symbol_checks = {
         fragment.decode("ascii"): fragment in stdout for fragment in symbol_fragments
     }
-    timed_call_checks = {
-        "timed_loop_function_present": b"range_updates" in stdout,
-        "clock_read_present": any(
-            source in stdout
-            for source in (
-                b"mach_absolute_time",
-                b"clock_gettime",
-                b"clock_gettime_nsec_np",
-                b"Instant",
-                b"__vdso_clock_gettime",
-            )
-        ),
-        "indirect_candidate_dispatch_present": any(
-            branch in stdout for branch in (b"blr", b"br\tx", b"call\t*", b"callq\t*", b"jmpq\t*")
-        ),
+    timed_loop_fragment = next(
+        (fragment for fragment in TIMED_LOOP_SYMBOL_FRAGMENTS if fragment in stdout), None
+    )
+    timed_loop_region = (
+        disassembly_symbol_region(stdout, timed_loop_fragment)
+        if timed_loop_fragment is not None
+        else None
+    )
+    retention_checks = {
+        "timed_loop_symbol_present": timed_loop_fragment is not None,
+        "timed_loop_region_isolated": timed_loop_region is not None,
+        "clock_symbols_present": [
+            fragment.decode("ascii")
+            for fragment in CLOCK_SYMBOL_FRAGMENTS
+            if fragment in stdout
+        ],
     }
     complete = (
         returncode == 0
         and not timed_out
         and all(symbol_checks.values())
-        and all(timed_call_checks.values())
+        and retention_checks["timed_loop_symbol_present"]
+        and retention_checks["timed_loop_region_isolated"]
+        and bool(retention_checks["clock_symbols_present"])
     )
     return {
         "status": "COMPLETE" if complete else "FAILED",
@@ -2481,15 +2516,26 @@ def collect_disassembly(
         "stdout_sha256": sha256_bytes(stdout),
         "stderr_sha256": sha256_bytes(stderr),
         "candidate_symbol_fragments_present": symbol_checks,
-        "timed_call_checks": timed_call_checks,
+        "retention_checks": retention_checks,
+        "timed_loop_symbol": (
+            timed_loop_fragment.decode("ascii") if timed_loop_fragment is not None else None
+        ),
+        "timed_loop_region_sha256": (
+            sha256_bytes(timed_loop_region) if timed_loop_region is not None else None
+        ),
         "consumer_boundary": (
-            "The linked image retains all four candidate symbols, the timed loop's own "
-            "symbol, a clock read, and an indirect call through which the candidate "
-            "function pointer is invoked. Candidate selection is an indirect call, so the "
-            "disassembly cannot name a direct call edge from the timed loop to one "
-            "candidate. `black_box` is a compiler hint that emits no instructions, so the "
-            "result consumer is pinned by the retained source-tree and benchmark-source "
-            "hashes rather than by any instruction in this disassembly."
+            "This check establishes retention only: all four candidate symbols, the timed "
+            "loop's symbol and its isolated region, and at least one clock symbol are "
+            "present in the linked image, and the region's hash is retained so a later run "
+            "can detect that those instructions changed. It does not establish the ordering "
+            "`BENCHMARK.md` asks for. In this image the candidate is reached through a "
+            "function pointer and the clock reads are inlined, so the timed loop's region "
+            "names neither a candidate symbol nor a clock symbol as a call operand; a "
+            "predicate over the whole disassembly would instead be satisfied by unrelated "
+            "indirect calls and clock uses elsewhere in the image. `black_box` emits no "
+            "instructions. The timed call site, its clock ordering, and the result consumer "
+            "are therefore pinned by the retained source-tree and benchmark-source hashes, "
+            "not by this disassembly."
         ),
     }
 
@@ -2856,6 +2902,18 @@ def collect_dynamic_profile(
         "target_output_check": target_output_check,
         "macos_time_denial_check": denial_check,
         "counter_check": counter_check,
+        "counter_scope": "WHOLE_PROCESS",
+        "counter_scope_boundary": (
+            "The tool wraps the whole harness process, so every counter and resource total "
+            "covers process startup, fixture generation, the eager canary, hashing, the "
+            "candidate-specific work-count pass, warmup, the timed calls, and output "
+            "formatting. The timed calls are one part of that total. These numbers are "
+            "whole-process totals for the recorded argv; they do not attribute a cache, "
+            "branch, or instruction mechanism to the candidate, and they are not comparable "
+            "to the per-call timing distribution. Scoping counters to the candidate "
+            "interval requires the harness to gate collection itself, which this runner "
+            "does not do."
+        ),
         "unavailable_or_failure_reason": unavailable_or_failure_reason,
         "failure_boundary": (
             "A failed target, timeout, malformed completed-target output, or unrecognized "
@@ -2895,9 +2953,13 @@ def run_profile_phase(executor: HarnessExecutor) -> dict[str, Any]:
         "linked_image_disassembly": disassembly,
         "reliability": reliability_summary(executor, "profile"),
         "mechanism_boundary": (
-            "Elapsed time and resource totals do not establish a cache, branch, allocation, "
-            "or bandwidth mechanism. Unsupported or permission-denied counters leave that "
-            "mechanism inferred."
+            "Counters and resource totals are whole-process figures that include fixture "
+            "generation, the eager canary, hashing, work-count passes, warmup, and output "
+            "formatting alongside the timed calls, so they do not establish a cache, "
+            "branch, allocation, or bandwidth mechanism for a candidate. Unsupported, "
+            "never-counted, or permission-denied counters leave that mechanism inferred. "
+            "The disassembly establishes symbol and region retention, not the ordering of "
+            "the timed call, its clock reads, and its result consumer."
         ),
     }
 

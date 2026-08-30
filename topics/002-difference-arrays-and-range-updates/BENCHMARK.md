@@ -226,11 +226,33 @@ context-switches
 ```
 
 Record counter support, multiplexing, enabled time, running time, event scaling,
-and process exit status where the selected tool exposes those fields. On macOS,
-where the portable runner cannot request those hardware events, retain
-`/usr/bin/time -l` resource totals and state that hardware counters are
-unavailable. Retain optimized linked assembly for all four candidate functions
-and confirm that the timed call and result consumer remain in the linked image.
+and process exit status where the selected tool exposes those fields. A completed
+target whose requested counters are unsupported, never counted, or absent is
+`UNAVAILABLE`, because a zero exit status from the counter tool reports the
+target rather than counter availability. On macOS, where the portable runner
+cannot request those hardware events, retain `/usr/bin/time -l` resource totals
+and state that hardware counters are unavailable.
+
+Counters and resource totals are whole-process figures. The tool wraps the whole
+harness process, so each total covers process startup, fixture generation, the
+eager canary, hashing, the candidate-specific work-count pass, warmup, the timed
+calls, and output formatting. Report them as whole-process totals for the
+recorded argv. They do not attribute a cache, branch, or instruction mechanism to
+a candidate, and they are not comparable to the per-call timing distribution.
+Scoping counters to the candidate interval requires the harness to gate
+collection itself, which this runner does not do.
+
+Retain optimized linked assembly for all four candidate functions. The runner
+confirms retention: all four candidate symbols, the timed loop's symbol, its
+isolated region and that region's hash, and at least one clock symbol. Retention
+is not ordering. The candidate is reached through a function pointer, the clock
+reads are inlined, and `black_box` emits no instructions, so the timed loop's
+region names neither a candidate nor a clock symbol as a call operand, and a
+predicate over the whole disassembly would instead be satisfied by unrelated
+indirect calls and clock uses elsewhere in the image. The timed call site, its
+clock ordering, and the result consumer are pinned by the retained source-tree
+and benchmark-source hashes rather than by the disassembly.
+
 The profile phase is incomplete if a dynamic collection fails or linked
 disassembly fails. An explicitly unavailable dynamic tool is allowed only when
 the linked disassembly succeeds, and it leaves the corresponding mechanism
