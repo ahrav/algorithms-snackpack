@@ -282,7 +282,7 @@ def run_capture_group(
             except ProcessLookupError:
                 pass
             stdout, stderr = process.communicate()
-            return None, stdout, stderr, True
+            return process.returncode, stdout, stderr, True
 
 
 def safe_base_environment() -> dict[str, str]:
@@ -357,15 +357,20 @@ def inspect_runner_configuration(host_triple: str, build_env: dict[str, str]) ->
         target = document.get("target", {})
         if isinstance(target, dict):
             for key, table in target.items():
-                if not (isinstance(table, dict) and "runner" in table):
+                if not isinstance(table, dict):
                     continue
                 # cfg(...) tables remain flagged because this check cannot
                 # resolve their match set.
                 if key != host_triple and not key.startswith("cfg("):
                     continue
-                findings.append(
-                    {"source": f"{path}:target.{key}.runner", "value": repr(table["runner"])}
-                )
+                for setting in ("runner", "linker"):
+                    if setting in table:
+                        findings.append(
+                            {
+                                "source": f"{path}:target.{key}.{setting}",
+                                "value": repr(table[setting]),
+                            }
+                        )
         build = document.get("build", {})
         if isinstance(build, dict) and "target" in build:
             value = build["target"]
@@ -1064,6 +1069,18 @@ class HarnessExecutor:
                 prior = self.output_checksums.setdefault(key, output_checksum)
                 if prior != output_checksum:
                     invalid_reasons.append("output checksum differs within workload cell")
+            if self.cpu_list is not None:
+                observed = parsed.get("observed_affinity")
+                requested_cpus = parse_cpu_list(self.cpu_list)
+                try:
+                    observed_cpus = parse_cpu_list(str(observed))
+                except ValueError:
+                    observed_cpus = None
+                if observed_cpus != requested_cpus:
+                    invalid_reasons.append(
+                        f"observed affinity {observed!r} does not match "
+                        f"requested CPU list {self.cpu_list!r}"
+                    )
 
         external_interruption = bool(
             returncode is not None
