@@ -30,7 +30,8 @@ RUSTDOCFLAGS='-D warnings' cargo doc --workspace --no-deps
   include runnable benchmarks and profiles; a topic may omit them only with a
   concrete explanation of why timing cannot answer its central question.
 - Performance work records the exact source, binary, machine, workload, sample
-  unit, ordering, and raw observations.
+  unit, ordering, and external raw-evidence receipt. Pull requests keep compact
+  results instead of per-attempt files.
 - Sampled tests and benchmarks are reported as bounded evidence, not proof.
 - The complete lesson is delivered in the daily task; the repository retains a
   compact, runnable learning guide rather than a transcript.

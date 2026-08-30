@@ -18,7 +18,11 @@ Required topic files:
   reason timing cannot answer the central claim and name the evidence used
   instead;
 - `measurements/README.md`: workload, artifact identity, environment, commands,
-  raw-data paths, operation counts, results, and evidence boundaries;
+  external raw-data location, operation counts, results, and evidence
+  boundaries;
+- `measurements/EVIDENCE_RECEIPT.json`: when a benchmark runs, the external
+  archive path, archive hash, size, member count, run IDs, manifest hashes,
+  linked-image hash, environment identity, and verification state;
 - `TEST_STRATEGY.md`: the required test-strategy and invariant-test-audit records.
 
 Keep full lesson transcripts in the task chat. Repository prose should be short,
@@ -37,7 +41,9 @@ Rust requirements:
 - elapsed time is paired with operation counts and profiling or hardware-counter
   evidence when the claimed mechanism depends on branches, cache behavior,
   instructions, allocations, contention, or code shape;
-- raw samples are retained; summaries never replace them.
+- raw samples are retained in the automation-owned evidence store outside Git;
+  the repository keeps a compact summary and verified receipt, not per-attempt
+  files or raw archives.
 
 Before publication run:
 

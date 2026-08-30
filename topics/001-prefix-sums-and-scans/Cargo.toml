@@ -1,0 +1,13 @@
+[package]
+name = "prefix-sums-and-scans"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[[bench]]
+name = "prefix_sums"
+harness = false

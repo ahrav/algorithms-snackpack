@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "topic": {
+    "number": 1,
+    "title": "Prefix sums and scans"
+  },
+  "created_at": "2026-08-30T00:51:12Z",
+  "source_evidence_commit": "c1a013ed21f5c63fcdf9deec43c700daab71f2ce",
+  "storage": {
+    "kind": "external_automation_archive",
+    "git_tracked": false,
+    "path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-001/20260829-topic-001-raw-evidence.tar.gz",
+    "format": "tar.gz",
+    "sha256": "f81918774af39a30cf69d16cd5f4d0a24be118bb895a248d3dcfc5a382b37ee1",
+    "size_bytes": 2052365,
+    "member_count": 4321,
+    "regular_file_count": 3455
+  },
+  "runs": [
+    {
+      "id": "20260830T001429Z-quick-adapter-failure",
+      "status": "INCOMPLETE",
+      "manifest_sha256": "6ae314b61673ca15c7fbdfa584e7c942cd2f61eed463fc86de53ad7f7e006367",
+      "failure": "rustc -vV did not report exactly one host triple"
+    },
+    {
+      "id": "20260830T001641Z-all-358de3b8",
+      "status": "COMPLETE",
+      "attempt_count": 835,
+      "block_record_count": 204,
+      "manifest_sha256": "e7785208c41af1a68966457ee6d74490a60ed1d795359f3ad0e5fee4be031cb5"
+    },
+    {
+      "id": "20260830T001954Z-profile-f4f3fc40",
+      "status": "COMPLETE",
+      "attempt_count": 4,
+      "manifest_sha256": "9a179a80472ea35cea8e6a863cafea5834b25a9a48be0329098e3ebfdb4af2df"
+    }
+  ],
+  "artifact": {
+    "linked_image_sha256": "0144d4ef720e2f721643a00f3b5d4775b65d753c34781efe6c1e7b714d9dd4a9",
+    "rustc": "1.93.0",
+    "llvm": "21.1.8",
+    "cargo": "1.93.0",
+    "profile": "release",
+    "rustflags": "-C target-cpu=native"
+  },
+  "host": {
+    "cpu": "Apple M1 Pro",
+    "logical_cpus": 10,
+    "architecture": "arm64",
+    "operating_system": "macOS 26.6.2 build 25G83",
+    "affinity": "not exposed"
+  },
+  "verification": {
+    "original_manifests": "PASS",
+    "gzip_integrity": "PASS",
+    "tar_listing": "PASS"
+  }
+}

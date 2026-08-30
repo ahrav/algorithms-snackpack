@@ -20,7 +20,8 @@ best implementation means for one explicit workload, contract, and machine.
 10. Make and record the mandatory benchmark decision. Run controlled benchmarks
     and profiles after correctness gates pass whenever runtime, allocation,
     throughput, latency, crossover, or candidate selection is part of the lesson.
-11. Retain raw evidence, state exactly what passed, and list untested domains.
+11. Retain raw evidence outside Git. Commit its verified receipt, state exactly
+    what passed, and list untested domains.
 
 ## Required test-strategy record
 
@@ -78,7 +79,8 @@ after each transition, not only at the final snapshot when history matters.
 - memory, allocation, code-size, and preprocessing budgets;
 - architecture, compiler, flags, source commit, and linked binary identity;
 - the experimental unit and why inner-loop iterations are not independent;
-- ordering, warmup, stopping, exclusions, and retained raw samples;
+- ordering, warmup, stopping, exclusions, external raw-sample archive, and
+  compact evidence receipt;
 - a baseline, an independent correctness oracle, and at least one A/A control;
 - which claims are measured, derived, observed in code generation, or inferred.
 
@@ -127,7 +129,7 @@ When benchmarking is required, `BENCHMARK.md` must predeclare:
   evidence;
 - the benchmark family and multiplicity rule before results are inspected;
 - exact source, compiler, flags, linked-image hash, host, architecture, affinity,
-  environment, and raw-output location.
+  environment, external raw-output archive, and archive hash.
 
 Benchmark every serious candidate against the independent reference model or a
 clearly named baseline. Cover the input dimensions that can change the winner:
