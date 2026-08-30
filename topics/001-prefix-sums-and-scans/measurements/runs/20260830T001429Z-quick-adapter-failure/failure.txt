@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "/private/tmp/algorithms-topic-001.vIhLjZ/topics/001-prefix-sums-and-scans/scripts/run_experiment.py", line 1835, in run_experiment
-    binary, build = build_benchmark(run_dir, args.rustflags)
-                    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/private/tmp/algorithms-topic-001.vIhLjZ/topics/001-prefix-sums-and-scans/scripts/run_experiment.py", line 404, in build_benchmark
-    raise RuntimeError("rustc -vV did not report exactly one host triple")
-RuntimeError: rustc -vV did not report exactly one host triple

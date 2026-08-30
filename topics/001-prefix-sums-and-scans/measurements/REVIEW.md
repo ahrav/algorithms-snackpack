@@ -30,8 +30,9 @@ scan threshold.
 
 The first quick run failed before build or timing because the adapter resolved
 the `rustc` proxy symlink to `rustup`. Its complete failure bundle remains at
-`runs/20260830T001429Z-quick-adapter-failure/`. The adapter now preserves the
-proxy path and checks both `rustc` and Cargo identities during `self-check`.
+`measurements/runs/20260830T001429Z-quick-adapter-failure/` inside the external
+archive named by `EVIDENCE_RECEIPT.json`. The adapter now preserves the proxy
+path and checks both `rustc` and Cargo identities during `self-check`.
 
 The restricted full run retained four failed `/usr/bin/time -l` collections and
 one failed macOS sample. The operating system denied `sysctl` and process
@@ -56,8 +57,9 @@ replication before a production dispatch threshold.
 
 Measured:
 The complete run contains 12 complete main-block contrasts for each cell. The
-profile rerun contains process-wide instructions, cycles, resident size, page
-events, context switches, and one-second stack samples.
+profile rerun contains process-wide resource totals, including instructions,
+cycles, resident size, page events, context switches, and one-second stack
+samples.
 
 Derived:
 The source-level wrapping-add, read, write, explicit `Vec`, thread-spawn, and

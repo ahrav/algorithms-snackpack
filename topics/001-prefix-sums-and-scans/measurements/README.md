@@ -1,9 +1,10 @@
 # Measurement evidence
 
 The fixed benchmark and profiling protocol completed on 2026-08-29 Pacific
-time. The protocol is frozen in [`../BENCHMARK.md`](../BENCHMARK.md). The raw
-bundles under `measurements/runs/` remain authoritative when rounded values in
-this file differ from their machine-readable values.
+time. The protocol is frozen in [`../BENCHMARK.md`](../BENCHMARK.md). Full raw
+bundles are retained outside Git in the archive named by
+[`EVIDENCE_RECEIPT.json`](EVIDENCE_RECEIPT.json). The archive remains
+authoritative when rounded values in this file differ from raw values.
 
 ## Collected runs
 
@@ -109,6 +110,11 @@ Run the complete fixed experiment:
 python3 topics/001-prefix-sums-and-scans/scripts/run_experiment.py all
 ```
 
+The runner writes raw files under the ignored `measurements/runs/` directory.
+Before removing a task worktree, the curriculum automation verifies each run
+manifest and stores one compressed archive in its external evidence directory.
+Do not stage the run directory or the archive.
+
 The separate `pilot`, `main`, `aa`, `distribution`, and `profile` phase commands
 are useful for bounded execution and diagnosis. A phase-only directory is
 partial evidence. It does not satisfy the complete protocol by itself.
@@ -183,13 +189,9 @@ remains in `blocks.csv` and under `raw/attempts/`.
 
 `manifest.sha256` covers every other retained file after the final run status is
 written. The adapter verifies each entry immediately after creating the
-manifest.
-
-The topic's `.gitattributes` disables line-ending normalization and whitespace
-diagnostics under `measurements/runs/`. Some raw CSV files use CRLF records, and
-captured source-tree diffs can contain intentional trailing whitespace. These
-files remain byte-for-byte evidence covered by their manifests. Authored source
-and documentation remain subject to the repository's normal whitespace checks.
+manifest. The external archive preserves those bytes, including CRLF records
+and captured source-tree diffs. The repository keeps only this report, the
+review, and the compact evidence receipt.
 
 ## Profile evidence
 
