@@ -2032,8 +2032,26 @@ def run_experiment(args: argparse.Namespace) -> int:
         status["failure_type"] = type(error).__name__
         status["failure"] = str(error)
         write_text_once(run_dir / "failure.txt", traceback.format_exc())
-    replace_json(run_dir / "run-status.json", status)
-    manifest_digest, manifest_count = checksum_manifest(run_dir)
+    try:
+        try:
+            replace_json(run_dir / "run-status.json", status)
+            manifest_digest, manifest_count = checksum_manifest(run_dir)
+            if failure is None:
+                relay.raise_if_pending()
+        except BaseException as error:
+            if failure is not None:
+                raise
+            failure = error
+            status["status"] = "INCOMPLETE"
+            status["ended_at"] = utc_now()
+            status["failure_type"] = type(error).__name__
+            status["failure"] = str(error)
+            write_text_once(run_dir / "failure.txt", traceback.format_exc())
+            replace_json(run_dir / "run-status.json", status)
+            (run_dir / "manifest.sha256").unlink(missing_ok=True)
+            manifest_digest, manifest_count = checksum_manifest(run_dir)
+    finally:
+        relay.restore()
     print(
         json.dumps(
             {
@@ -2045,7 +2063,6 @@ def run_experiment(args: argparse.Namespace) -> int:
             sort_keys=True,
         )
     )
-    relay.restore()
     if failure is not None:
         return 1
     return 0
