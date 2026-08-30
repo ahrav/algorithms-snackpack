@@ -346,15 +346,22 @@ def run_capture_group(
     wrapper its own process group, so the timeout kill reaches every
     descendant.
     """
-    with subprocess.Popen(
-        list(argv),
-        cwd=cwd,
-        env=env,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        start_new_session=True,
-        preexec_fn=child_affinity_preexec(cpus),
-    ) as process:
+    try:
+        process = subprocess.Popen(
+            list(argv),
+            cwd=cwd,
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            start_new_session=True,
+            preexec_fn=child_affinity_preexec(cpus),
+        )
+    except (OSError, subprocess.SubprocessError) as error:
+        # A caller classifies a `None` return code as a failed collection, so a
+        # spawn or `preexec_fn` failure stays inside the retained record instead
+        # of escaping this helper. commentlint: allow(JUDGE)
+        return None, b"", f"spawn failure: {error!r}".encode("utf-8"), False
+    with process:
         if relay is not None:
             relay.child = process
         try:
@@ -1529,7 +1536,10 @@ class HarnessExecutor:
                 start_new_session=True,
                 preexec_fn=child_affinity_preexec(self.cpus),
             )
-        except OSError as error:
+        except (OSError, subprocess.SubprocessError) as error:
+            # `preexec_fn` failures raise `SubprocessError`, which is not an `OSError`
+            # subclass, so CPU-offline errors after validation are recorded here
+            # rather than escaping before the attempt exists. commentlint: allow(JUDGE)
             spawn_error = repr(error)
         else:
             with process:
