@@ -92,6 +92,30 @@ Do not commit `measurements/runs/`, raw stdout or stderr, executables, profiles,
 counter dumps, per-attempt files, run bundles, or the external archive. The only
 allowed compact result file is `RESULTS.json`.
 
+## Runner revisions after collection
+
+`RESULTS.json` and `EVIDENCE_RECEIPT.json` pin the runner source hash that
+produced them, so the runner in this tree is expected to differ from that hash
+once it is corrected. Reproducing a recorded run requires the runner revision
+its receipt names; a promotable re-collection uses the current runner.
+
+Three corrections landed after `topic002-runner-all-20260830d`:
+
+- `perf stat` counter rows are parsed, and a completed target whose requested
+  counters are unsupported, never counted, or absent is `UNAVAILABLE` rather
+  than `COMPLETE`.
+- A requested CPU list is applied by `sched_setaffinity` in the forked child
+  before `exec` instead of by a `taskset` wrapper, so the recorded
+  `observed_affinity` reflects the mask the harness ran under.
+- The frozen plan states the sample and warmup counts the `quick` phase
+  actually executes.
+
+None of the three can change the numbers in `RESULTS.json`. The final run
+completed `pilot`, `main`, `aa`, and `profile` on an Apple M1 Pro: `quick` was
+not among its phases, the profile phase used `/usr/bin/time -l` and `otool`
+rather than `perf`, and its recorded `affinity` is `null` because no CPU list
+was requested.
+
 ## Result boundary
 
 The compact result separates:

@@ -358,7 +358,10 @@ fn seeded_differential_cases_match_independent_reference() {
     let mut saw_overlap = false;
     let mut saw_min = false;
     let mut saw_max = false;
+    let mut saw_negative_one = false;
     let mut saw_arbitrary_value = false;
+    let mut input_value_classes = [0_usize; 6];
+    let mut input_values = 0_usize;
 
     for case_index in 0..CASES {
         let len = rng.below(129);
@@ -378,6 +381,10 @@ fn seeded_differential_cases_match_independent_reference() {
 
         lengths.insert(len);
         update_counts.insert(update_count);
+        for &value in &input {
+            input_value_classes[value_class(value)] += 1;
+            input_values += 1;
+        }
         saw_empty_range |= updates.iter().any(|update| update.start == update.end);
         saw_end_at_len |= updates.iter().any(|update| update.end == len);
         saw_min |= input
@@ -388,6 +395,10 @@ fn seeded_differential_cases_match_independent_reference() {
             .iter()
             .chain(updates.iter().map(|update| &update.delta))
             .any(|&value| value == i64::MAX);
+        saw_negative_one |= input
+            .iter()
+            .chain(updates.iter().map(|update| &update.delta))
+            .any(|&value| value == -1);
         saw_arbitrary_value |= input
             .iter()
             .chain(updates.iter().map(|update| &update.delta))
@@ -419,7 +430,30 @@ fn seeded_differential_cases_match_independent_reference() {
     assert!(saw_overlap);
     assert!(saw_min);
     assert!(saw_max);
+    assert!(saw_negative_one);
     assert!(saw_arbitrary_value);
+
+    // A state advance that depends on the drawn class can starve classes while presence checks still pass. commentlint: allow(JUDGE)
+    let floor = input_values / 20;
+    for (class, &count) in input_value_classes.iter().enumerate() {
+        assert!(
+            count >= floor,
+            "input value class {class} appeared {count} times, \
+             below the {floor} floor over {input_values} generated elements"
+        );
+    }
+}
+
+/// Classifies values according to [`Lcg::mixed_i64`]'s six output classes.
+fn value_class(value: i64) -> usize {
+    match value {
+        i64::MIN => 0,
+        i64::MAX => 1,
+        -1 => 2,
+        0 => 3,
+        1 => 4,
+        _ => 5,
+    }
 }
 
 fn assert_matches_reference(input: &[i64], updates: &[RangeUpdate]) {
@@ -510,14 +544,19 @@ impl Lcg {
         usize::try_from(self.next_u64() % upper_u64).expect("remainder fits usize")
     }
 
+    /// `mixed_i64` draws both words so state advancement does not depend on `selector`. commentlint: allow(JUDGE)
+    /// Bit `k` of this modulus-`2^64` LCG has period `2^(k+1)`, so bits 61-63 select far more evenly than bits 0-2. commentlint: allow(JUDGE)
+    /// A separate `arbitrary` word keeps the unbiased branch full-range in both signs. commentlint: allow(JUDGE)
     fn mixed_i64(&mut self) -> i64 {
-        match self.next_u64() & 7 {
+        let selector = self.next_u64() >> 61;
+        let arbitrary = self.next_u64();
+        match selector {
             0 => i64::MIN,
             1 => i64::MAX,
             2 => -1,
             3 => 0,
             4 => 1,
-            _ => i64::from_ne_bytes(self.next_u64().to_ne_bytes()),
+            _ => i64::from_ne_bytes(arbitrary.to_ne_bytes()),
         }
     }
 }

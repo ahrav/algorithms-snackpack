@@ -3,6 +3,8 @@
 //! Every update uses a half-open range. Arithmetic wraps modulo `2^64`, which
 //! matches the behavior of [`i64::wrapping_add`] and [`i64::wrapping_sub`].
 
+use std::fmt;
+
 /// One addition over the half-open range `start..end`.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct RangeUpdate {
@@ -26,6 +28,18 @@ pub struct RangeError {
     /// The input length used to validate the range.
     pub len: usize,
 }
+
+impl fmt::Display for RangeError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            formatter,
+            "update {} has invalid half-open range {}..{} for input length {}",
+            self.update_index, self.start, self.end, self.len
+        )
+    }
+}
+
+impl std::error::Error for RangeError {}
 
 /// Applies each update directly to every covered element.
 ///

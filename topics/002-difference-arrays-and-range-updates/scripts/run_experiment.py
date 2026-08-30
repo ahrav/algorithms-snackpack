@@ -43,7 +43,20 @@ PILOT_BLOCKS = 4
 MAIN_BLOCKS = 12
 AA_BLOCKS = 12
 DEFAULT_WARMUPS = 1
+QUICK_WARMUPS = 0
+QUICK_SAMPLES = 1
 DEFAULT_TIMEOUT_SECONDS = 120.0
+PERF_STAT_EVENTS = (
+    "cycles",
+    "instructions",
+    "branches",
+    "branch-misses",
+    "cache-references",
+    "cache-misses",
+    "page-faults",
+    "context-switches",
+)
+PERF_STAT_SEPARATOR = ","
 WORK_FIELDS = (
     "validation_checks",
     "base_reads",
@@ -295,6 +308,27 @@ def run_capture(
     )
 
 
+def child_affinity_preexec(cpus: frozenset[int] | None) -> Any:
+    """Build a `preexec_fn` that pins the child before it execs the target.
+
+    A `taskset` wrapper applies the mask inside its own process and then execs,
+    so a parent that reads the child's affinity right after `Popen` can observe
+    the inherited mask instead of the requested one. Applying the mask in the
+    forked child closes that window: `Popen` returns only after the child execs,
+    so the mask is already in place when the parent validates it.
+
+    `preexec_fn` runs between `fork` and `exec` and is only safe in a
+    single-threaded parent, which this runner is.
+    """
+    if cpus is None:
+        return None
+
+    def apply() -> None:
+        os.sched_setaffinity(0, set(cpus))
+
+    return apply
+
+
 def run_capture_group(
     argv: Sequence[str],
     *,
@@ -302,6 +336,7 @@ def run_capture_group(
     env: dict[str, str],
     timeout: float,
     relay: ExternalSignalRelay | None = None,
+    cpus: frozenset[int] | None = None,
 ) -> tuple[int | None, bytes, bytes, bool]:
     """Run a wrapper command and, on timeout, kill its whole process group.
 
@@ -318,6 +353,7 @@ def run_capture_group(
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         start_new_session=True,
+        preexec_fn=child_affinity_preexec(cpus),
     ) as process:
         if relay is not None:
             relay.child = process
@@ -1002,6 +1038,14 @@ def balanced_templates(block_count: int, label: str) -> list[str]:
     return templates
 
 
+def phase_warmups(phase: str) -> int:
+    return QUICK_WARMUPS if phase == "quick" else DEFAULT_WARMUPS
+
+
+def phase_samples(phase: str, contrast: Contrast) -> int:
+    return QUICK_SAMPLES if phase == "quick" else contrast.samples
+
+
 def positions_for_block(
     phase: str,
     contrast: Contrast,
@@ -1028,7 +1072,7 @@ def positions_for_block(
                 order=contrast.order,
                 max_span=contrast.max_span,
                 seed=ASSIGNMENT_SEED,
-                samples=contrast.samples,
+                samples=phase_samples(phase, contrast),
                 inner=contrast.inner,
                 retry_index=retry_index,
             )
@@ -1394,17 +1438,17 @@ class HarnessExecutor:
         self.fixture_hashes: dict[tuple[Any, ...], tuple[str, str, str]] = {}
         self.work_hashes: dict[tuple[Any, ...], str] = {}
         self.cpu_list = cpu_list
-        self.taskset: str | None = None
+        self.cpus: frozenset[int] | None = None
         if cpu_list is not None:
             requested = parse_cpu_list(cpu_list)
             if not sys.platform.startswith("linux"):
-                raise RuntimeError("--cpu-list requires Linux taskset and affinity validation")
-            self.taskset = executable("taskset")
+                raise RuntimeError("--cpu-list requires Linux affinity control and validation")
             granted = set(os.sched_getaffinity(0))
             if not requested.issubset(granted):
                 raise RuntimeError(
                     f"requested CPUs {sorted(requested)} exceed granted CPUs {sorted(granted)}"
                 )
+            self.cpus = frozenset(requested)
 
     def harness_argv(self, position: Position, warmups: int, samples: int) -> list[str]:
         return [
@@ -1442,8 +1486,6 @@ class HarnessExecutor:
         attempt_dir.mkdir(parents=True, exist_ok=False)
         harness_argv = self.harness_argv(position, warmups, samples)
         expanded_argv = harness_argv
-        if self.taskset is not None:
-            expanded_argv = [self.taskset, "-c", str(self.cpu_list), *harness_argv]
         binary_before = sha256_file(self.binary)
         launch = {
             "schema_version": SCHEMA_VERSION,
@@ -1455,6 +1497,12 @@ class HarnessExecutor:
             "environment": self.environment,
             "timeout_seconds": self.timeout_seconds,
             "executable_sha256_before": binary_before,
+            "requested_affinity": sorted(self.cpus) if self.cpus is not None else None,
+            "affinity_application": (
+                "sched_setaffinity in the forked child before exec"
+                if self.cpus is not None
+                else "inherited from the runner"
+            ),
             "reset": {
                 "action": "launch a fresh process and reconstruct the deterministic fixture",
                 "washout_seconds": 0,
@@ -1479,6 +1527,7 @@ class HarnessExecutor:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 start_new_session=True,
+                preexec_fn=child_affinity_preexec(self.cpus),
             )
         except OSError as error:
             spawn_error = repr(error)
@@ -2529,6 +2578,98 @@ def macos_time_denial_check(stderr: bytes) -> dict[str, Any]:
     }
 
 
+def parse_perf_stat_counters(stderr: bytes) -> dict[str, Any]:
+    """Classify each requested `perf stat -x,` counter row.
+
+    `perf stat` reports the target's exit status, so a zero return code says
+    nothing about whether the PMU delivered the requested events: an
+    unsupported or never-scheduled event still prints a row whose value field
+    is `<not supported>` or `<not counted>`. Virtualized hosts and restricted
+    `perf_event_paranoid` settings both produce that shape.
+
+    Column order for `-x` output is value, unit, event, counter run time in
+    nanoseconds, then the percentage of measurement time the counter ran.
+    """
+    rows: dict[str, dict[str, Any]] = {}
+    malformed: list[str] = []
+    for raw_line in stderr.decode("utf-8", errors="replace").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        fields = line.split(PERF_STAT_SEPARATOR)
+        if len(fields) < 3:
+            continue
+        value_text, _unit, event_text = fields[0].strip(), fields[1].strip(), fields[2].strip()
+        event = event_text.split(":", 1)[0]
+        if event not in PERF_STAT_EVENTS:
+            continue
+        run_time_ns: int | None = None
+        running_percent: float | None = None
+        if len(fields) >= 4 and fields[3].strip():
+            try:
+                run_time_ns = int(fields[3].strip())
+            except ValueError:
+                malformed.append(f"{event}: unparsable counter run time {fields[3]!r}")
+        if len(fields) >= 5 and fields[4].strip():
+            try:
+                running_percent = float(fields[4].strip())
+            except ValueError:
+                malformed.append(f"{event}: unparsable running percentage {fields[4]!r}")
+        counted: bool
+        value: int | None = None
+        if value_text.startswith("<"):
+            counted = False
+        else:
+            counted = True
+            try:
+                value = int(float(value_text))
+            except ValueError:
+                counted = False
+                malformed.append(f"{event}: unparsable counter value {value_text!r}")
+        rows[event] = {
+            "event": event,
+            "raw_value": value_text,
+            "value": value,
+            "counted": counted,
+            "run_time_ns": run_time_ns,
+            "running_percent": running_percent,
+        }
+
+    missing = [event for event in PERF_STAT_EVENTS if event not in rows]
+    unsupported = sorted(
+        event for event, row in rows.items() if row["raw_value"] == "<not supported>"
+    )
+    not_counted = sorted(
+        event
+        for event, row in rows.items()
+        if not row["counted"] and row["raw_value"] != "<not supported>"
+    )
+    scaled = sorted(
+        event
+        for event, row in rows.items()
+        if row["counted"]
+        and row["running_percent"] is not None
+        and row["running_percent"] < 100.0
+    )
+    zero_running = sorted(
+        event
+        for event, row in rows.items()
+        if row["counted"] and (row["run_time_ns"] == 0 or row["running_percent"] == 0.0)
+    )
+    complete = not (missing or unsupported or not_counted or zero_running or malformed)
+    return {
+        "requested_events": list(PERF_STAT_EVENTS),
+        "counters": [rows[event] for event in PERF_STAT_EVENTS if event in rows],
+        "missing_events": missing,
+        "unsupported_events": unsupported,
+        "not_counted_events": not_counted,
+        "multiplexed_events": scaled,
+        "zero_running_events": zero_running,
+        "malformed_rows": malformed,
+        "all_requested_counted": complete,
+    }
+
+
 def classify_dynamic_profile(
     tool_name: str,
     returncode: int,
@@ -2539,13 +2680,42 @@ def classify_dynamic_profile(
     expected_identity: dict[str, str],
     binary_unchanged: bool,
     platform_name: str,
-) -> tuple[str, str | None, dict[str, Any], dict[str, Any]]:
+) -> tuple[str, str | None, dict[str, Any], dict[str, Any], dict[str, Any] | None]:
     target_output = profile_target_output_check(stdout, position, expected_identity)
     denial = macos_time_denial_check(stderr)
+    counters = parse_perf_stat_counters(stderr) if tool_name == "perf-stat" else None
     if timed_out:
-        return "FAILED", "dynamic profile timed out", target_output, denial
+        return "FAILED", "dynamic profile timed out", target_output, denial, counters
     if returncode == 0 and binary_unchanged and target_output["status"] == "MATCH":
-        return "COMPLETE", None, target_output, denial
+        if counters is None or counters["all_requested_counted"]:
+            return "COMPLETE", None, target_output, denial, counters
+        if counters["malformed_rows"]:
+            return (
+                "FAILED",
+                (
+                    "perf stat emitted rows this runner cannot parse: "
+                    f"{'; '.join(counters['malformed_rows'])}"
+                ),
+                target_output,
+                denial,
+                counters,
+            )
+        gaps = []
+        for label in ("missing", "unsupported", "not_counted", "zero_running"):
+            events = counters[f"{label}_events"]
+            if events:
+                gaps.append(f"{label}={sorted(events)}")
+        return (
+            "UNAVAILABLE",
+            (
+                "the target completed and its output was verified, but perf stat did not "
+                f"deliver every requested counter ({', '.join(gaps)}); a zero perf exit "
+                "status reports the target, not counter availability"
+            ),
+            target_output,
+            denial,
+            counters,
+        )
     if (
         platform_name == "darwin"
         and tool_name == "time-l"
@@ -2563,6 +2733,7 @@ def classify_dynamic_profile(
             ),
             target_output,
             denial,
+            counters,
         )
 
     return (
@@ -2570,6 +2741,7 @@ def classify_dynamic_profile(
         f"dynamic profile tool exited with code {returncode} or failed integrity checks",
         target_output,
         denial,
+        counters,
     )
 
 
@@ -2580,20 +2752,15 @@ def collect_dynamic_profile(
     canary: AttemptResult,
 ) -> dict[str, Any]:
     harness_argv = executor.harness_argv(position, DEFAULT_WARMUPS, position.samples)
-    if executor.taskset is not None:
-        harness_argv = [executor.taskset, "-c", str(executor.cpu_list), *harness_argv]
     if sys.platform.startswith("linux") and shutil.which("perf") is not None:
         tool = str(Path(shutil.which("perf") or "perf").resolve())
         argv = [
             tool,
             "stat",
             "-x",
-            ",",
+            PERF_STAT_SEPARATOR,
             "-e",
-            (
-                "cycles,instructions,branches,branch-misses,cache-references,cache-misses,"
-                "page-faults,context-switches"
-            ),
+            ",".join(PERF_STAT_EVENTS),
             "--",
             *harness_argv,
         ]
@@ -2618,6 +2785,7 @@ def collect_dynamic_profile(
         env=executor.environment,
         timeout=executor.timeout_seconds,
         relay=executor.relay,
+        cpus=executor.cpus,
     )
     write_bytes_once(profile_dir / "stdout.jsonl", stdout)
     write_bytes_once(profile_dir / "stderr.txt", stderr)
@@ -2629,7 +2797,7 @@ def collect_dynamic_profile(
         "output_hash": canary.output_hash,
         "work_sha256": canary.work_sha256,
     }
-    status, unavailable_or_failure_reason, target_output_check, denial_check = (
+    status, unavailable_or_failure_reason, target_output_check, denial_check, counter_check = (
         classify_dynamic_profile(
         tool_name,
         returncode,
@@ -2660,11 +2828,14 @@ def collect_dynamic_profile(
         "stderr_sha256": sha256_bytes(stderr),
         "target_output_check": target_output_check,
         "macos_time_denial_check": denial_check,
+        "counter_check": counter_check,
         "unavailable_or_failure_reason": unavailable_or_failure_reason,
         "failure_boundary": (
             "A failed target, timeout, malformed completed-target output, or unrecognized "
             "tool error is FAILED. A recognized host permission denial after verified target "
-            "completion is UNAVAILABLE. Neither status is timing or mechanism evidence."
+            "completion is UNAVAILABLE, as is a completed target whose requested counters "
+            "were unsupported, never counted, or absent. Neither status is timing or "
+            "mechanism evidence."
         ),
     }
     write_json_once(profile_dir / "profile.json", record)
@@ -2728,8 +2899,8 @@ def run_block_phase(executor: HarnessExecutor, phase: str) -> None:
                 contrast,
                 block_index,
                 template,
-                0 if phase == "quick" else DEFAULT_WARMUPS,
-                1 if phase == "quick" else contrast.samples,
+                phase_warmups(phase),
+                phase_samples(phase, contrast),
             )
 
 
@@ -2791,6 +2962,8 @@ def protocol_document(
         "multiplicity": "Bonferroni",
         "practical_ratio_boundary": PRACTICAL_RATIO,
         "warmups_per_position": DEFAULT_WARMUPS,
+        "quick_warmups_per_position": QUICK_WARMUPS,
+        "quick_timed_subsamples_per_position": QUICK_SAMPLES,
         "timed_subsamples_per_position": {
             contrast.contrast_id: contrast.samples for contrast in CONTRASTS
         },
@@ -3119,7 +3292,7 @@ def parse_cli() -> argparse.Namespace:
     parser.add_argument("--rustflags", default="-C target-cpu=native")
     parser.add_argument(
         "--cpu-list",
-        help="Linux taskset CPU list; the runner verifies it is within the granted affinity",
+        help="Linux CPU list to pin the harness to; the runner verifies it is within the granted affinity",
     )
     return parser.parse_args()
 
