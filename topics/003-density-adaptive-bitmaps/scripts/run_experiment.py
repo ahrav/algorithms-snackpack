@@ -36,6 +36,8 @@ PILOT_BLOCKS = 4
 MAIN_BLOCKS = 12
 AA_BLOCKS = 12
 REFERENCE_ATTEMPTS_PER_CELL = 4
+PRIMARY_COMPONENT = "total"
+DESCRIPTIVE_COMPONENTS = ("build", "contains", "intersection")
 DEFAULT_WARMUPS = 1
 DEFAULT_SAMPLES = 3
 DEFAULT_TIMEOUT_SECONDS = 180.0
@@ -268,6 +270,13 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def binary_digest(path: Path) -> str:
+    try:
+        return sha256_file(path)
+    except OSError as error:
+        return f"UNREADABLE:{error.__class__.__name__}"
 
 
 def write_bytes_once(path: Path, value: bytes) -> None:
@@ -550,7 +559,13 @@ def safe_recorded_environment(env: dict[str, str]) -> dict[str, str]:
 
 
 def source_paths() -> Iterable[Path]:
-    roots = [REPO_ROOT / "Cargo.toml", REPO_ROOT / "Cargo.lock"]
+    # `rust-toolchain.toml` selects the toolchain and profile used for builds,
+    # so it affects the digest.
+    roots = [
+        REPO_ROOT / "Cargo.toml",
+        REPO_ROOT / "Cargo.lock",
+        REPO_ROOT / "rust-toolchain.toml",
+    ]
     for path in roots:
         if path.is_file():
             yield path
@@ -1032,7 +1047,7 @@ class Executor:
             "--profile-repetitions",
             "1",
         ]
-        before = sha256_file(self.binary)
+        before = binary_digest(self.binary)
         write_json_once(
             directory / "command.json",
             {
@@ -1049,6 +1064,7 @@ class Executor:
         )
         started = utc_now()
         timed_out = False
+        launch_error: str | None = None
         returncode: int | None
         stdout: bytes
         stderr: bytes
@@ -1070,13 +1086,20 @@ class Executor:
             returncode = None
             stdout = error.stdout or b""
             stderr = error.stderr or b""
+        except OSError as error:
+            launch_error = f"process launch failed: {error!r}"
+            returncode = None
+            stdout = b""
+            stderr = b""
         ended = utc_now()
-        after = sha256_file(self.binary)
+        after = binary_digest(self.binary)
         write_bytes_once(directory / "stdout.txt", stdout)
         write_bytes_once(directory / "stderr.txt", stderr)
         record: dict[str, Any] | None = None
         errors: list[str] = []
         lines = [line for line in stdout.decode("utf-8", "replace").splitlines() if line.strip()]
+        if launch_error is not None:
+            errors.append(launch_error)
         if timed_out:
             errors.append("process timed out")
         if returncode != 0:
@@ -1374,7 +1397,7 @@ def attempts_for_block(executor: Executor, phase: str, contrast_id: str, block: 
     )
 
 
-def component_value(attempt: Attempt, component: str) -> int:
+def component_value(attempt: Attempt, component: str) -> int | None:
     value = {
         "total": attempt.position_ns,
         "build": attempt.build_ns,
@@ -1382,11 +1405,17 @@ def component_value(attempt: Attempt, component: str) -> int:
         "intersection": attempt.intersection_ns,
     }[component]
     if value is None or value <= 0:
-        raise ExperimentIncomplete(f"missing positive {component} value in {attempt.attempt_id}")
+        if component == PRIMARY_COMPONENT:
+            raise ExperimentIncomplete(
+                f"missing positive {component} value in {attempt.attempt_id}"
+            )
+        return None
     return value
 
 
-def block_contrasts(executor: Executor, phase: str, contrast: Contrast, component: str) -> list[float]:
+def block_contrasts(
+    executor: Executor, phase: str, contrast: Contrast, component: str
+) -> list[float] | None:
     count = PILOT_BLOCKS if phase == "pilot" else (AA_BLOCKS if phase == "aa" else MAIN_BLOCKS)
     values = []
     for block_index in range(1, count + 1):
@@ -1395,11 +1424,24 @@ def block_contrasts(executor: Executor, phase: str, contrast: Contrast, componen
             raise ExperimentIncomplete(
                 f"{phase}/{contrast.contrast_id}/{block_index} is not a complete valid block"
             )
-        a_values = [math.log(component_value(attempt, component)) for attempt in attempts if attempt.label == "A"]
-        b_values = [math.log(component_value(attempt, component)) for attempt in attempts if attempt.label == "B"]
-        if len(a_values) != 2 or len(b_values) != 2:
+        a_raw = [component_value(attempt, component) for attempt in attempts if attempt.label == "A"]
+        b_raw = [component_value(attempt, component) for attempt in attempts if attempt.label == "B"]
+        if len(a_raw) != 2 or len(b_raw) != 2:
             raise ExperimentIncomplete("complete block does not contain two A and two B positions")
+        if any(value is None for value in a_raw + b_raw):
+            return None
+        a_values = [math.log(value) for value in a_raw if value is not None]
+        b_values = [math.log(value) for value in b_raw if value is not None]
         values.append(statistics.fmean(b_values) - statistics.fmean(a_values))
+    return values
+
+
+def primary_block_contrasts(
+    executor: Executor, phase: str, contrast: Contrast
+) -> list[float]:
+    values = block_contrasts(executor, phase, contrast, PRIMARY_COMPONENT)
+    if values is None:
+        raise ExperimentIncomplete(f"{phase}/{contrast.contrast_id} lost its primary contrasts")
     return values
 
 
@@ -1418,7 +1460,7 @@ def reliability(executor: Executor, phase: str) -> dict[str, Any]:
 def analyze_pilot(executor: Executor) -> dict[str, Any]:
     rows = []
     for contrast in CONTRASTS:
-        values = block_contrasts(executor, "pilot", contrast, "total")
+        values = primary_block_contrasts(executor, "pilot", contrast)
         pilot_sd = statistics.stdev(values)
         row = asdict(contrast)
         row.update(
@@ -1476,12 +1518,23 @@ def analyze_main(executor: Executor) -> dict[str, Any]:
     per_alpha = FAMILY_ALPHA / FAMILY_SIZE
     rows = []
     for contrast in CONTRASTS:
-        total = block_contrasts(executor, "main", contrast, "total")
+        total = primary_block_contrasts(executor, "main", contrast)
         interval = analyze_values(total, per_alpha)
         components = {}
-        for component in ("build", "contains", "intersection"):
+        for component in DESCRIPTIVE_COMPONENTS:
             values = block_contrasts(executor, "main", contrast, component)
+            if values is None:
+                components[component] = {
+                    "status": "UNAVAILABLE",
+                    "reason": (
+                        "at least one position in a complete valid block reported a "
+                        "nonpositive component median; a log ratio is undefined there"
+                    ),
+                    "decision_role": "descriptive decomposition; not a separate decision family",
+                }
+                continue
             components[component] = {
+                "status": "AVAILABLE",
                 "point_ratio": math.exp(statistics.fmean(values)),
                 "block_log_contrasts": values,
                 "decision_role": "descriptive decomposition; not a separate decision family",
@@ -1549,7 +1602,7 @@ def analyze_direct(executor: Executor, phase: str) -> dict[str, Any]:
 
 
 def analyze_aa(executor: Executor) -> dict[str, Any]:
-    values = block_contrasts(executor, "aa", AA_CONTRAST, "total")
+    values = primary_block_contrasts(executor, "aa", AA_CONTRAST)
     attempts = [attempt for attempt in executor.attempts if attempt.phase == "aa"]
     hashes = {attempt.executable_sha256_before for attempt in attempts} | {
         attempt.executable_sha256_after for attempt in attempts

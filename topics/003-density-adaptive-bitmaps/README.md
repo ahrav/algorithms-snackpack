@@ -208,9 +208,12 @@ range case while retaining high-key indexing.
 
 ## Limits
 
-- Construction, duplicate normalization, insertion, removal, materialized
-  union/intersection, serialization, memory mapping, and iteration throughput
-  are outside the primary benchmark.
+- The primary `total_ns` includes construction: each timed sample builds both
+  operands from the raw, duplicate-containing inputs, so allocation, sorting,
+  duplicate normalization, dense zero-fill, chunking, and run detection are
+  inside the measured cost and inside the representation rankings.
+- Insertion, removal, materialized union/intersection, serialization, memory
+  mapping, and iteration throughput are outside the primary benchmark.
 - `payload_bytes` is not resident memory. In-memory headers, tree nodes,
   capacities, alignment, and allocator fragmentation are excluded.
 - Dense allocation scales with universe span and may fail even for an empty
