@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "topic": 3,
+  "completion_state": "NOT_COLLECTED",
+  "protocol": {
+    "assignment_seed": 2026083103,
+    "pilot_blocks_per_contrast": 4,
+    "main_blocks_per_contrast": 12,
+    "aa_blocks": 12,
+    "dynamic_profile_targets": 3,
+    "timeout_seconds": 180,
+    "automatic_retries": 0,
+    "symmetric_time_ratio_boundary": 1.05,
+    "optimized_pair_contrasts": 21,
+    "workload_cells": 7
+  },
+  "primary_results": [],
+  "aa": null,
+  "profile": null,
+  "reliability": null,
+  "note": "This is an initial schema template, not benchmark evidence."
+}

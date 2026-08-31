@@ -1,0 +1,13 @@
+[package]
+name = "topic-003-density-adaptive-bitmaps"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[[bench]]
+name = "bitmap_sets"
+harness = false

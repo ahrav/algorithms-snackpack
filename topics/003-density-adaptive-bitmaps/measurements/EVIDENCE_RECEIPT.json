@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "topic": 3,
+  "completion_state": "NOT_COLLECTED",
+  "archive": null,
+  "source": null,
+  "linked_image": null,
+  "host": null,
+  "toolchain": null,
+  "run_ids": [],
+  "manifest_hashes": [],
+  "note": "Populate only after the external archive and every embedded manifest pass verification."
+}

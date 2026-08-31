@@ -13,3 +13,7 @@ version = "0.1.0"
 [[package]]
 name = "topic-002-difference-arrays-and-range-updates"
 version = "0.1.0"
+
+[[package]]
+name = "topic-003-density-adaptive-bitmaps"
+version = "0.1.0"
