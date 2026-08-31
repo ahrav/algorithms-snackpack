@@ -1860,7 +1860,8 @@ def dynamic_profile_attempt(
     else:
         argv = []
     started = utc_now()
-    before = sha256_file(executor.binary)
+    before = binary_digest(executor.binary)
+    launch_error: str | None = None
     if tool is None:
         timed_out = False
         returncode = None
@@ -1886,7 +1887,13 @@ def dynamic_profile_attempt(
             returncode = None
             stdout = error.stdout or b""
             stderr = error.stderr or b""
-    after = sha256_file(executor.binary)
+        except OSError as error:
+            launch_error = f"profiler launch failed: {error!r}"
+            timed_out = False
+            returncode = None
+            stdout = b""
+            stderr = launch_error.encode() + b"\n"
+    after = binary_digest(executor.binary)
     write_bytes_once(directory / "stdout.txt", stdout)
     write_bytes_once(directory / "stderr.txt", stderr)
     artifact_bytes = profile_artifact_bytes(artifact)
@@ -1897,6 +1904,7 @@ def dynamic_profile_attempt(
     )
     captured = (
         tool is not None
+        and launch_error is None
         and returncode == 0
         and not timed_out
         and artifact_bytes > 0
@@ -1917,6 +1925,7 @@ def dynamic_profile_attempt(
         "effective_environment": safe_recorded_environment(executor.env),
         "returncode": returncode,
         "timed_out": timed_out,
+        "launch_error": launch_error,
         "stdout_sha256": sha256_bytes(stdout),
         "stderr_sha256": sha256_bytes(stderr),
         "artifact": str(artifact) if artifact is not None else None,
