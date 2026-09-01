@@ -17,3 +17,7 @@ version = "0.1.0"
 [[package]]
 name = "topic-003-density-adaptive-bitmaps"
 version = "0.1.0"
+
+[[package]]
+name = "topic-004-interval-sets-and-compressed-ranges"
+version = "0.1.0"
