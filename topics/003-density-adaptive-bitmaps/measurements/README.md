@@ -59,6 +59,19 @@ The measured source commit was
 The release benchmark image, built with `-C target-cpu=native`, had SHA-256
 `d1e6b77120fd041f617efcfd1bba4110eefdba0090bf0d3745913b0d199f75d9`.
 
+That digest and the archived snapshot cover the 14 files the runner enumerated
+during collection. They exclude the repository's `rust-toolchain.toml`, which
+selects the channel and profile the build resolves, so the digest alone does
+not attest to it. Two independent records bound the toolchain for this
+campaign: the receipt records the resolved `rustc 1.93.0 (254b59607 2026-01-19)`
+with LLVM 21.1.8 and `cargo 1.93.0 (083ac5135 2025-12-15)`, and
+`rust-toolchain.toml` at `45b79fc` is
+`8bc51ecab82415fddd8489604f2424e137d71856e7f65cbdcfaa48850d794b46`, which
+pins channel `1.93.0` and matches the file at the tip unchanged. Later
+campaigns enumerate 15 files and carry the toolchain file inside the digest and
+snapshot; the recorded evidence above is not restated, because a new campaign
+is a new run with its own identity.
+
 ## Raw evidence boundary
 
 Raw attempts, binaries, stdout, stderr, disassembly, symbols, profiler bundles,

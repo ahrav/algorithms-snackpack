@@ -87,3 +87,9 @@ linked image
 and the recorded Apple M1 Pro window. It does not establish a universal
 representation winner, a production latency claim, or a result for another
 host, build, allocator, distribution, operation mix, or concurrency level.
+
+That source-tree digest covers the 14 files the runner enumerated during
+collection and excludes `rust-toolchain.toml`. The toolchain for this campaign
+is established by the resolved `rustc` and `cargo` versions in the receipt
+rather than by the digest. See the source-identity note in
+[EVIDENCE_RECEIPT.json](EVIDENCE_RECEIPT.json).

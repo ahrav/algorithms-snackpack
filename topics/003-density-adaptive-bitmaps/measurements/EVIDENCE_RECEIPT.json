@@ -126,7 +126,10 @@
     "source_snapshot_initial_and_final_match": true,
     "library_source_sha256": "500b754d5c3dd2a629523860605c79effcddc73039badaf0e37dfa1a616faa27",
     "benchmark_source_sha256": "1e3a80e4ba5311c9d665b21989f7768c38025a74ac3e5d6fba5703958fe0c9fb",
-    "runner_source_sha256": "7757031b6411925e8cf30ec93ad208864c6b15cce56732595d6e084e9f76e7d5"
+    "runner_source_sha256": "7757031b6411925e8cf30ec93ad208864c6b15cce56732595d6e084e9f76e7d5",
+    "snapshot_scope": "the digest and snapshot cover the 14 files this runner enumerated and exclude the repository rust-toolchain.toml; the toolchain for this campaign rests on the recorded resolved rustc and cargo versions below",
+    "rust_toolchain_file_covered_by_digest": false,
+    "rust_toolchain_file_sha256_at_collection_commit": "8bc51ecab82415fddd8489604f2424e137d71856e7f65cbdcfaa48850d794b46"
   },
   "linked_image": {
     "binary_sha256": "d1e6b77120fd041f617efcfd1bba4110eefdba0090bf0d3745913b0d199f75d9",
