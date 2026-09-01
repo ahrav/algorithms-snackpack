@@ -9,6 +9,14 @@ identical-artifact A/A campaign, and the linked-image inspection completed.
 [RESULTS.json](RESULTS.json) contains the compact aggregate.
 [BENCHMARK.md](../BENCHMARK.md) contains the frozen design.
 
+The published `aa` aggregate carries the mean ratio, the unadjusted two-sided
+95% paired interval, template balance, and the complete-block count. It omits
+two diagnostics the frozen design asks for: the 12 individual A/A block log
+contrasts and the label-by-position summaries. Those live in the archived
+`analysis/aa.json` for run `all-committed-45b79fc`, so they are outside this
+repository and a reader here cannot check the predeclared A/A ordering.
+[REVIEW.md](REVIEW.md) tracks the omission.
+
 The primary estimand is the geometric mean of complete-block composite-time
 ratios, oriented as candidate B divided by candidate A. The composite is the
 predeclared build, membership, and intersection batch for each cell. The

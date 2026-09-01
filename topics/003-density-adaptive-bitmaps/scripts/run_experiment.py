@@ -2267,7 +2267,29 @@ def run_experiment(args: argparse.Namespace) -> int:
                 pass
         write_text_once(run_dir / "failure.txt", traceback.format_exc())
     replace_json(run_dir / "run-status.json", status)
-    manifest_hash, manifest_count = checksum_manifest(run_dir)
+    manifest_hash: str | None = None
+    manifest_count: int | None = None
+    try:
+        manifest_hash, manifest_count = checksum_manifest(run_dir)
+    except BaseException as error:
+        # checksum_manifest runs last because it hashes run-status.json, so a
+        # bundle whose manifest failed must stop advertising COMPLETE.
+        if failure is None:
+            failure = error
+        status.update(
+            {
+                "status": "INCOMPLETE",
+                "ended_at": status.get("ended_at") or utc_now(),
+                "failure_type": type(error).__name__,
+                "failure": str(error),
+                "manifest_verification": "FAILED",
+            }
+        )
+        try:
+            write_text_once(run_dir / "failure.txt", traceback.format_exc())
+        except FileExistsError:
+            write_text_once(run_dir / "manifest-failure.txt", traceback.format_exc())
+        replace_json(run_dir / "run-status.json", status)
     print(
         json.dumps(
             {

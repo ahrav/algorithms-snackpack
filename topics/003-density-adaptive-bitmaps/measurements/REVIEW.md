@@ -75,6 +75,14 @@ was unavailable.
 - [x] All 7,025 embedded manifest entries passed SHA-256 verification.
 - [x] Archive SHA-256, bytes, members, run IDs, manifest hashes, source, image, host, and toolchain match the receipt.
 - [x] `RESULTS.json` contains only compact aggregates.
+- [ ] The A/A null diagnostics BENCHMARK.md requires — all 12 block log
+      contrasts and the label-by-position summaries — are not in
+      `RESULTS.json`. They exist only in the archived `analysis/aa.json`, which
+      is outside the repository, so a reader of the published evidence cannot
+      inspect the predeclared A/A ordering. Closing this means copying those
+      aggregate fields out of the archive; the mean ratio, unadjusted 95%
+      interval, template balance, and complete-block count are already
+      published.
 - [x] The repository contains no raw run directory, executable, profiler dump, stdout, stderr, or archive.
 
 ## Scope
