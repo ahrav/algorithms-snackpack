@@ -38,6 +38,12 @@ AA_BLOCKS = 12
 REFERENCE_ATTEMPTS_PER_CELL = 4
 PRIMARY_COMPONENT = "total"
 DESCRIPTIVE_COMPONENTS = ("build", "contains", "intersection")
+SAMPLE_FIELDS = (
+    "total_sample_ns",
+    "build_sample_ns",
+    "contains_sample_ns",
+    "intersection_sample_ns",
+)
 DEFAULT_WARMUPS = 1
 DEFAULT_SAMPLES = 3
 DEFAULT_TIMEOUT_SECONDS = 180.0
@@ -779,6 +785,25 @@ def attempt_id(position: Position) -> str:
     )
 
 
+def validated_sample_arrays(
+    record: Any, samples: int
+) -> tuple[dict[str, list[int]], list[str]]:
+    arrays: dict[str, list[int]] = {}
+    errors: list[str] = []
+    if not isinstance(record, dict):
+        return arrays, errors
+    for name in SAMPLE_FIELDS:
+        value = record.get(name)
+        if not isinstance(value, list) or len(value) != samples:
+            errors.append(f"{name} must have exactly {samples} entries")
+            continue
+        if any(not isinstance(item, int) or isinstance(item, bool) or item < 0 for item in value):
+            errors.append(f"{name} entries must be nonnegative integers")
+            continue
+        arrays[name] = value
+    return arrays, errors
+
+
 def validate_record(
     position: Position, record: Any, profile_repetitions: int = 1
 ) -> list[str]:
@@ -839,21 +864,8 @@ def validate_record(
         value = record.get(name)
         if not isinstance(value, int) or isinstance(value, bool) or value < 0:
             errors.append(f"{name} must be a nonnegative integer")
-    arrays: dict[str, list[int]] = {}
-    for name in (
-        "total_sample_ns",
-        "build_sample_ns",
-        "contains_sample_ns",
-        "intersection_sample_ns",
-    ):
-        value = record.get(name)
-        if not isinstance(value, list) or len(value) != position.samples:
-            errors.append(f"{name} must have exactly {position.samples} entries")
-            continue
-        if any(not isinstance(item, int) or isinstance(item, bool) or item < 0 for item in value):
-            errors.append(f"{name} entries must be nonnegative integers")
-            continue
-        arrays[name] = value
+    arrays, array_errors = validated_sample_arrays(record, position.samples)
+    errors.extend(array_errors)
     if len(arrays) == 4:
         for index, total in enumerate(arrays["total_sample_ns"]):
             component_total = (
@@ -1065,6 +1077,7 @@ class Executor:
         started = utc_now()
         timed_out = False
         launch_error: str | None = None
+        interrupted: BaseException | None = None
         returncode: int | None
         stdout: bytes
         stderr: bytes
@@ -1088,6 +1101,14 @@ class Executor:
             stderr = error.stderr or b""
         except OSError as error:
             launch_error = f"process launch failed: {error!r}"
+            returncode = None
+            stdout = b""
+            stderr = b""
+        except BaseException as error:
+            # `subprocess.run` kills and reaps the child before it propagates,
+            # so the position is finished; retain it, then re-raise below.
+            interrupted = error
+            launch_error = f"process wait interrupted: {error!r}"
             returncode = None
             stdout = b""
             stderr = b""
@@ -1119,10 +1140,11 @@ class Executor:
                 errors.append(f"JSON parse failed: {error}")
         if record is not None:
             errors.extend(validate_record(position, record))
-        total_values = record.get("total_sample_ns", []) if record is not None else []
-        build_values = record.get("build_sample_ns", []) if record is not None else []
-        contains_values = record.get("contains_sample_ns", []) if record is not None else []
-        intersection_values = record.get("intersection_sample_ns", []) if record is not None else []
+        sample_arrays, _ = validated_sample_arrays(record, position.samples)
+        total_values = sample_arrays.get("total_sample_ns", [])
+        build_values = sample_arrays.get("build_sample_ns", [])
+        contains_values = sample_arrays.get("contains_sample_ns", [])
+        intersection_values = sample_arrays.get("intersection_sample_ns", [])
         attempt = Attempt(
             attempt_id=identifier,
             phase=position.phase,
@@ -1171,6 +1193,8 @@ class Executor:
         self.attempts.append(attempt)
         if record is not None:
             self.records[identifier] = record
+        if interrupted is not None:
+            raise interrupted
         return attempt
 
     def run_block(self, phase: str, contrast: Contrast, block_index: int, template: str) -> None:
@@ -1862,6 +1886,7 @@ def dynamic_profile_attempt(
     started = utc_now()
     before = binary_digest(executor.binary)
     launch_error: str | None = None
+    interrupted: BaseException | None = None
     if tool is None:
         timed_out = False
         returncode = None
@@ -1889,6 +1914,15 @@ def dynamic_profile_attempt(
             stderr = error.stderr or b""
         except OSError as error:
             launch_error = f"profiler launch failed: {error!r}"
+            timed_out = False
+            returncode = None
+            stdout = b""
+            stderr = launch_error.encode() + b"\n"
+        except BaseException as error:
+            # `subprocess.run` kills and reaps the profiler before re-raising,
+            # so the attempt is finished; retain it, then re-raise.
+            interrupted = error
+            launch_error = f"profiler wait interrupted: {error!r}"
             timed_out = False
             returncode = None
             stdout = b""
@@ -1941,6 +1975,8 @@ def dynamic_profile_attempt(
         ),
     }
     write_json_once(directory / "attempt.json", record)
+    if interrupted is not None:
+        raise interrupted
     return record
 
 
