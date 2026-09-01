@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "topic": 3,
+  "title": "Bitsets and density-adaptive bitmaps",
+  "receipt_status": "PASS",
+  "completion_state": "VERIFIED",
+  "verified_at": "2026-08-31T16:26:08Z",
+  "archive": {
+    "absolute_path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-003/topic003-runner-all-20260831.tar.gz",
+    "sha256": "aea801b861a9cec1ab54b82f82b1f7a7934b84ed95e515a0c0129044ab3bf0e7",
+    "byte_count": 8274256,
+    "tar_member_count": 8818,
+    "regular_file_count": 7033,
+    "top_level_run_bundle_count": 8,
+    "embedded_manifest_entry_count": 7025,
+    "duplicate_member_name_count": 0,
+    "unsafe_path_count": 0,
+    "gzip_test": "PASS",
+    "tar_enumeration": "PASS",
+    "extraction_test": "PASS",
+    "embedded_manifest_verification": "PASS",
+    "extracted_copy_comparison": "PASS",
+    "external_archive_count": 1
+  },
+  "runs": [
+    {
+      "run_id": "all-committed-45b79fc",
+      "status": "COMPLETE",
+      "requested_mode": "all",
+      "attempt_count": 1423,
+      "block_count": 348,
+      "manifest_file_count": 6155,
+      "manifest_sha256": "9fbe55a89013c05f49b34325437bf64e59a82edef82eac0a29de8ffdeb2872d3"
+    },
+    {
+      "run_id": "quick-committed-45b79fc",
+      "status": "COMPLETE",
+      "requested_mode": "quick",
+      "attempt_count": 28,
+      "block_count": 0,
+      "manifest_file_count": 141,
+      "manifest_sha256": "19db46c30dabe9db836730086a72a0e264b7f195769a8896daeea2bf6b5371d5"
+    },
+    {
+      "run_id": "topic003-quick-smoke-final-20260831",
+      "status": "COMPLETE",
+      "requested_mode": "quick",
+      "attempt_count": 28,
+      "block_count": 0,
+      "manifest_file_count": 141,
+      "manifest_sha256": "0d9a326702df5d5c50d650a493cd5f08659f4eb38df8570bbf2afdfc09a46194"
+    },
+    {
+      "run_id": "topic003-quick-smoke-frozen-final-20260831",
+      "status": "COMPLETE",
+      "requested_mode": "quick",
+      "attempt_count": 28,
+      "block_count": 0,
+      "manifest_file_count": 141,
+      "manifest_sha256": "1482f27236a64a6dd28a0daaa3e4960f08dda68f5f8581eda799e4cb64f8e971"
+    },
+    {
+      "run_id": "topic003-quick-smoke-payload-final-20260831",
+      "status": "COMPLETE",
+      "requested_mode": "quick",
+      "attempt_count": 28,
+      "block_count": 0,
+      "manifest_file_count": 141,
+      "manifest_sha256": "58d4f768bed43b8a721e90a0dbb66a07c89c6e4ec17113a2cbee315d8ec7282c"
+    },
+    {
+      "run_id": "topic003-review-quick-v1",
+      "status": "INCOMPLETE",
+      "requested_mode": "quick",
+      "attempt_count": 0,
+      "block_count": 0,
+      "failure": "cargo did not produce the bitmap_sets benchmark image",
+      "manifest_file_count": 24,
+      "manifest_sha256": "636b126c2b3413a5c0556bad1246a935e985827dc368f88d6a5faa61d5c4a13e"
+    },
+    {
+      "run_id": "topic003-review-quick-v2",
+      "status": "COMPLETE",
+      "requested_mode": "quick",
+      "attempt_count": 28,
+      "block_count": 0,
+      "manifest_file_count": 141,
+      "manifest_sha256": "8e194c2daef1b93c8ebdc6537087f9307784a54a20aa0f60a0eeb360621dc135"
+    },
+    {
+      "run_id": "topic003-review-quick-v3",
+      "status": "COMPLETE",
+      "requested_mode": "quick",
+      "attempt_count": 28,
+      "block_count": 0,
+      "manifest_file_count": 141,
+      "manifest_sha256": "c8a3639603d0e5f58f3c89c1b1c7dad23dd187c0d5ca4d2fed2ebe2c7780b509"
+    }
+  ],
+  "final_run": {
+    "run_id": "all-committed-45b79fc",
+    "status": "COMPLETE",
+    "started_at": "2026-08-31T16:12:28.027449+00:00",
+    "ended_at": "2026-08-31T16:13:59.566068+00:00",
+    "completed_phases": [
+      "pilot",
+      "main",
+      "reference",
+      "aa",
+      "profile"
+    ],
+    "attempt_count": 1423,
+    "valid_attempt_count": 1423,
+    "invalid_attempt_count": 0,
+    "timeout_count": 0,
+    "zero_total_sample_count": 0,
+    "block_count": 348,
+    "valid_block_count": 348,
+    "manifest_verification": "PASS"
+  },
+  "source_identity": {
+    "git_head_during_collection": "45b79fccf8d52cb892b602329a4e0a7d935a6f00",
+    "git_tree_clean_during_collection": true,
+    "source_tree_sha256": "1100309780c57db157bb6279395995ea5c09c5213481896b64b5fccca07f285d",
+    "source_snapshot_file_count": 14,
+    "source_snapshot_initial_and_final_match": true,
+    "library_source_sha256": "500b754d5c3dd2a629523860605c79effcddc73039badaf0e37dfa1a616faa27",
+    "benchmark_source_sha256": "1e3a80e4ba5311c9d665b21989f7768c38025a74ac3e5d6fba5703958fe0c9fb",
+    "runner_source_sha256": "7757031b6411925e8cf30ec93ad208864c6b15cce56732595d6e084e9f76e7d5",
+    "snapshot_scope": "the digest and snapshot cover the 14 files this runner enumerated and exclude the repository rust-toolchain.toml; the toolchain for this campaign rests on the recorded resolved rustc and cargo versions below",
+    "rust_toolchain_file_covered_by_digest": false,
+    "rust_toolchain_file_sha256_at_collection_commit": "8bc51ecab82415fddd8489604f2424e137d71856e7f65cbdcfaa48850d794b46",
+    "source_attestation_method": "the tree was hashed at sampled instants and the recorded commit was clean; the image was not built from the archived snapshot, so an edit made and reverted between two samples is outside what this attests",
+    "source_tree_sampled_at": ["before build", "after the final phase"]
+  },
+  "linked_image": {
+    "binary_sha256": "d1e6b77120fd041f617efcfd1bba4110eefdba0090bf0d3745913b0d199f75d9",
+    "hash_stable_across_all_final_run_attempts": true,
+    "symbols_status": "COMPLETE",
+    "symbols_sha256": "a20abd3ae45e2aae8985eb8280b237c2776124453201b2f8980c837e41d7cbd6",
+    "disassembly_status": "COMPLETE",
+    "disassembly_sha256": "d0319e18e8f9e904090789801a8208602a6e1294a36b1c14b55d57f6288e7b49",
+    "all_seven_required_symbols_present": true,
+    "dynamic_profile_captured_count": 0,
+    "dynamic_profile_attempted_unavailable_count": 3
+  },
+  "host_identity": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "build_version": "25G83",
+    "kernel_release": "25.6.0",
+    "architecture": "arm64",
+    "cpu_description": "Apple M1 Pro",
+    "machine_model": "MacBookPro18,3",
+    "logical_cpu_count": 10,
+    "physical_memory": "32 GB",
+    "affinity_policy": "unpinned and uncontrolled",
+    "frequency_policy": "uncontrolled and unobserved",
+    "allocator": "Rust system allocator; allocator calls were not independently traced"
+  },
+  "toolchain": {
+    "rustc": "rustc 1.93.0 (254b59607 2026-01-19)",
+    "rustc_commit": "254b59607d4417e9dffbc307138ae5c86280fe4c",
+    "llvm": "21.1.8",
+    "cargo": "cargo 1.93.0 (083ac5135 2025-12-15)",
+    "python": "3.14.5",
+    "xctrace": "26.0 (17B100)",
+    "rustflags": "-C target-cpu=native"
+  },
+  "evidence_boundary": "Elapsed time is measured, logical payload and work are derived, and linked symbols and disassembly are observed. All three dynamic profiles were attempted but unavailable, so cache, branch, allocation, vectorization, and instruction mechanisms remain unmeasured."
+}
