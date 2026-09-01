@@ -2194,6 +2194,12 @@ def run_experiment(args: argparse.Namespace) -> int:
         write_json_once(run_dir / "metadata" / "toolchain.json", toolchain_metadata(env))
         write_json_once(run_dir / "metadata" / "git.json", git_metadata(env))
         binary, build = build_benchmark(run_dir, args.rustflags)
+        post_build_source = source_manifest()
+        write_json_once(
+            run_dir / "metadata" / "source-tree-after-build.json", post_build_source
+        )
+        if source_digest(post_build_source) != source_digest(initial_source):
+            raise ExperimentIncomplete("source tree changed during the build")
         executor = Executor(run_dir, binary, args.timeout_seconds)
         write_json_once(
             run_dir / "metadata" / "benchmark-environment.json",
@@ -2222,6 +2228,16 @@ def run_experiment(args: argparse.Namespace) -> int:
                 "attempt_count": len(executor.attempts),
                 "block_count": len(executor.blocks),
                 "source_tree_sha256": source_digest(initial_source),
+                "source_tree_sampled_at": [
+                    "before build",
+                    "after build",
+                    "after the final phase",
+                ],
+                "source_attestation_limit": (
+                    "endpoint hashing proves the tree matched at each sampled instant; it "
+                    "cannot exclude an edit made and reverted between two samples, and the "
+                    "image is not built from the archived snapshot"
+                ),
                 "binary_sha256": executor.binary_hash,
             }
         )

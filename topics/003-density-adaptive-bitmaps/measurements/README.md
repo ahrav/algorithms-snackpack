@@ -72,6 +72,15 @@ campaigns enumerate 15 files and carry the toolchain file inside the digest and
 snapshot; the recorded evidence above is not restated, because a new campaign
 is a new run with its own identity.
 
+The source-to-image link rests on hashing the tree at sampled instants, not on
+building from the archived snapshot. The runner samples the manifest before the
+build, after the build, and after the final phase, and requires all three to
+agree, so an edit that persists past any sample fails the campaign. It cannot
+exclude an edit made and reverted between two samples. Treat the digest as
+evidence that the tree matched at those instants, and the recorded clean commit
+as the source identity, rather than as proof that Cargo read exactly the
+archived bytes.
+
 ## Raw evidence boundary
 
 Raw attempts, binaries, stdout, stderr, disassembly, symbols, profiler bundles,

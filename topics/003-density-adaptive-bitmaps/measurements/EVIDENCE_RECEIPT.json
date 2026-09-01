@@ -129,7 +129,9 @@
     "runner_source_sha256": "7757031b6411925e8cf30ec93ad208864c6b15cce56732595d6e084e9f76e7d5",
     "snapshot_scope": "the digest and snapshot cover the 14 files this runner enumerated and exclude the repository rust-toolchain.toml; the toolchain for this campaign rests on the recorded resolved rustc and cargo versions below",
     "rust_toolchain_file_covered_by_digest": false,
-    "rust_toolchain_file_sha256_at_collection_commit": "8bc51ecab82415fddd8489604f2424e137d71856e7f65cbdcfaa48850d794b46"
+    "rust_toolchain_file_sha256_at_collection_commit": "8bc51ecab82415fddd8489604f2424e137d71856e7f65cbdcfaa48850d794b46",
+    "source_attestation_method": "the tree was hashed at sampled instants and the recorded commit was clean; the image was not built from the archived snapshot, so an edit made and reverted between two samples is outside what this attests",
+    "source_tree_sampled_at": ["before build", "after the final phase"]
   },
   "linked_image": {
     "binary_sha256": "d1e6b77120fd041f617efcfd1bba4110eefdba0090bf0d3745913b0d199f75d9",
