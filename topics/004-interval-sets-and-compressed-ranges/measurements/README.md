@@ -1,102 +1,97 @@
 # Measurement record
 
-status: frozen_before_collection
+status: complete_with_dynamic_profile_limit
 
-No decision-grade timing result is recorded yet. [BENCHMARK.md](../BENCHMARK.md)
-freezes the workload, candidates, timing boundary, assignment, fixed stopping,
-analysis, A/A, profile, and retention rules before collection.
+The fixed campaign compared `oracle`, `packed`, `events`, and `btree` with the
+wide `flat` baseline in four workload cells and two operation phases. The ratio
+orientation is candidate time divided by flat time.
 
-## Frozen family
+No candidate had a simultaneous upper bound below `1 / 1.05`. Flat had a
+simultaneous 1.05-factor advantage in 23 of 32 contrasts. Nine contrasts were
+unresolved at the predeclared boundary.
 
-Arm A is `flat`. Arm B is `oracle`, `packed`, `events`, or `btree`. Four
-candidate comparisons cross four workload cells and two operation phases:
+| Candidate | Build: flat advantage | Build: unresolved | Build plus membership: flat advantage | Build plus membership: unresolved |
+|---|---:|---:|---:|---:|
+| Point oracle | 4 | 0 | 4 | 0 |
+| Packed runs | 1 | 3 | 0 | 4 |
+| Event sweep | 4 | 0 | 3 | 1 |
+| Range tree | 3 | 1 | 4 | 0 |
+| Total | 12 | 4 | 11 | 5 |
 
-```text
-4 candidates x 4 cells x 2 phases = 32 primary contrasts
-```
+Flat sort-and-merge is the justified default for this exact matrix. Packed
+runs still use half the endpoint payload of wide runs by construction. This
+campaign did not establish a packed timing advantage.
 
-The root assignment and fixture seed is `2026090104`. The fixture generator is
-`topic004-fixture-v1`. Every position uses one warmup and three timed samples.
-The main outcome is the position median. One complete `ABBA` or `BAAB` block
-log contrast is an analysis unit.
+## Integrity and uncertainty
 
-## Runner commands
+- Pilot: 512 of 512 harness attempts valid.
+- Main: 1,536 of 1,536 harness attempts valid.
+- Identical-artifact A/A: 48 of 48 harness attempts valid.
+- Profile canaries: 5 of 5 harness attempts valid.
+- Total decision-campaign harness attempts: 2,101 of 2,101 valid.
+- Complete analysis blocks: 524 of 524.
+- Invalid attempts, timeouts, external interruptions, and zero samples: zero.
 
-Plan and self-check do not collect timing evidence:
+The identical-flat A/A candidate-to-flat ratio was `1.0041908756`. Its
+Bonferroni interval was `[0.9870439638, 1.0216356633]`; its unadjusted 95%
+interval was `[0.9951038772, 1.0133608539]`. Mechanical integrity passed. One
+A/A campaign does not estimate a false-positive rate or define a noise floor.
 
-```bash
-python3 scripts/run_experiment.py plan
-python3 scripts/run_experiment.py self-check
-```
+All main results retain their 12 block log contrasts, time-order diagnostics,
+and distribution-free median sensitivity in
+[RESULTS.json](RESULTS.json). All pilot results retain the predeclared
+prospective 12-block width calculations at `0.5x`, `1x`, `1.5x`, and `2x` the
+pilot standard deviation.
 
-Collection requires a new absolute directory outside the repository:
+The minimum main position median was 208 ns. Timer overhead can be material at
+that scale. The simultaneous intervals measure process-block variation but do
+not remove systematic timing-boundary bias. The largest absolute time-order
+slope was `0.0738682` log-ratio units per block for event sweep versus flat in
+the clustered build-plus-membership cell. That contrast was unresolved.
 
-```bash
-python3 scripts/run_experiment.py quick --output-dir /absolute/new/quick
-python3 scripts/run_experiment.py pilot --output-dir /absolute/new/pilot
-python3 scripts/run_experiment.py main --output-dir /absolute/new/main
-python3 scripts/run_experiment.py aa --output-dir /absolute/new/aa
-python3 scripts/run_experiment.py profile --output-dir /absolute/new/profile
-python3 scripts/run_experiment.py all --output-dir /absolute/new/all
-```
+## Profile boundary
 
-`quick` checks every candidate, workload cell, and operation phase once. It is
-descriptive and cannot enter the primary result. `all` runs four pilot blocks
-and 12 main blocks for every contrast, 12 identical-artifact A/A blocks, five
-static-profile canaries, linked-image inspection, and five dynamic profile
-attempts.
+The exact linked image retained all eight required symbol substrings. Symbol
+and disassembly capture completed with an unchanged image hash. All five
+same-image profile canaries passed.
 
-## Required identity
-
-A promotable run records:
-
-- source revision, branch, dirty diff hashes, source manifest, and source
-  snapshot;
-- Cargo and rustc versions, target triple, Cargo configuration hashes,
-  compiler flags, profile fields, and `Cargo.lock`;
-- Cargo's exact JSON artifact message and the retained linked-image SHA-256;
-- runner and benchmark-source hashes;
-- host, operating system, architecture, CPU identity, affinity policy,
-  frequency-policy boundary, allocator boundary, and complete controlled
-  environment;
-- exact schedules, derived fixture seeds, fixture and output hashes, canaries,
-  work records, parser results, and attempt timestamps;
-- every valid, invalid, partial, timed-out, signaled, and profile record;
-- verified pre-analysis phase manifests and the verified final bundle manifest.
+All five macOS `xctrace` Time Profiler attempts returned code 2 without a
+validated target record. Their partial trace bundles and stderr remain in raw
+evidence. They are `ATTEMPTED_UNAVAILABLE`, not dynamic mechanism evidence.
+Elapsed time does not establish cache, branch, allocation, instruction, or
+bandwidth mechanisms.
 
 ## Raw evidence boundary
 
-Raw attempts stay in the task-owned external run directory until they are
-archived. The verified archive must use this location:
+The verified external archive is:
 
 ```text
-/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-004/<run-id>.tar.gz
+/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-004/20260901T152408Z-29f91e6-v2.tar.gz
 ```
 
-The archive must retain every complete, partial, failed, timed-out, signaled,
-and profile record. Verify the archive before removing its source directory.
-`EVIDENCE_RECEIPT.json` must record the absolute archive path, SHA-256, byte
-count, member count, run IDs, original manifest hashes, exact linked-image
-hash, host and toolchain identity, and completion state.
+It contains three bundles:
 
-Do not commit raw attempt directories, stdout or stderr, retained executables,
-disassembly, profile data, run bundles, or the raw archive. Git receives only
-the compact result, receipt, and review files named by the automation gate.
+1. a failed-closed quick run whose source changed during the build;
+2. a complete 40-position quick parser run;
+3. the complete fixed pilot, main, A/A, and profile campaign.
 
-## Result boundary
+The first failed archive build was rejected because macOS inserted AppleDouble
+members. The retained replacement has no AppleDouble files, unsafe paths,
+duplicate names, or links. Gzip integrity, clean extraction, extracted-copy
+comparison, and all 11,496 embedded manifest entries passed.
 
-The eventual result will separate:
+[EVIDENCE_RECEIPT.json](EVIDENCE_RECEIPT.json) records the archive hash, size,
+member counts, bundle identities, manifest hashes, source commit, linked image,
+host, toolchain, and evidence limits. Git contains no raw attempt, stdout,
+stderr, executable, disassembly, trace bundle, or archive.
 
-- measured elapsed times and reliability outcomes;
-- untimed logical count passes and elementary derivations;
-- observed optimized linked code and dynamic profile samples;
-- inferred mechanisms and untested generalizations.
+## Scope
 
-`canonical_binary_search_comparisons` is an untimed search over the canonical
-semantic projection. It is not the candidate's actual membership path.
-`result_scalar_slots` counts logical retained result fields. It is not an
-allocation or transient-memory measurement.
-
-No candidate selection is justified until all fixed main blocks, A/A
-mechanical checks, profile gates, external archive checks, and compact receipt
-checks pass.
+The measurements apply only to source commit
+`29f91e6a3237797c876d359a6f9b326d11070e43`, source-tree digest
+`e82c86c533565c5897e7ad72fe48b99f754b6b265d22d3a489dd3bbc41f93633`,
+linked image
+`657e60d2e2b4eb9e235b502bc67a71138f30eb4791bc9bcaf4264ac603e70b8d`,
+the recorded Apple M1 Pro host, Rust 1.93.0, fixed workloads, assignment, and
+2026-09-01 run window. They do not establish a universal representation
+winner or a production service result.

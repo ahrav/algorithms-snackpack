@@ -294,8 +294,12 @@ descriptive sample. Its JSON record must report `oracle_match: true`,
 `membership_match: true`, `domain_end: 4294967296`, and
 `packed_max_decode: 4294967296` in `canaries`.
 
-The frozen experiment is in [BENCHMARK.md](BENCHMARK.md). Correctness scope and
-the invariant-test audit are in [TEST_STRATEGY.md](TEST_STRATEGY.md).
+The frozen experiment is in [BENCHMARK.md](BENCHMARK.md). The measured record is
+in [measurements/README.md](measurements/README.md). No candidate was proven at
+least 5% faster than flat in the fixed 32-contrast family; flat had a justified
+1.05-factor advantage in 23 contrasts and nine were unresolved. Correctness
+scope and the invariant-test audit are in
+[TEST_STRATEGY.md](TEST_STRATEGY.md).
 
 ## Primary sources
 

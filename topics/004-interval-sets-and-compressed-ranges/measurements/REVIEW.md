@@ -1,114 +1,133 @@
 # Measurement review
 
-status: frozen_before_collection
+status: complete_with_dynamic_profile_limit
 
-## Frozen design
+## Frozen design and exact artifact
 
 - [x] `benchmark_required: true` is justified by runtime and crossover claims.
-- [x] The baseline is wide-endpoint flat sort-and-merge.
 - [x] The family contains exactly 32 candidate-to-flat contrasts.
 - [x] Four cells vary size, order, duplicates, overlap shape, and output runs.
-- [x] `build` and `build_membership` have separate primary contrasts.
-- [x] The timing boundary, position outcome, ratio orientation, and population
-  are fixed before collection.
-- [x] Treatment, randomization, analysis, subsample, and generalization units
-  are distinct.
-- [x] `ABBA` and `BAAB` are limited to additive linear position drift with
-  negligible carryover.
-- [x] Pilot blocks cannot enter the main estimate.
-- [x] The main horizon is fixed at 12 complete blocks per contrast.
-- [x] Bonferroni simultaneous intervals cover the 32-member family.
-- [x] The symmetric practical factor is 1.05, with equality inconclusive.
+- [x] `build` and `build_membership` are separate primary outcomes.
+- [x] The treatment, randomization, analysis, subsample, sampling, and
+  generalization units are distinct.
+- [x] The nuisance model limits `ABBA` and `BAAB` to additive linear position
+  drift with negligible carryover.
+- [x] Pilot blocks are excluded from main estimates.
+- [x] Main stopping is fixed at 12 complete blocks per contrast.
+- [x] Bonferroni intervals cover the 32-member family.
+- [x] The symmetric factor boundary is 1.05, with equality inconclusive.
+- [x] Source commit `29f91e6a3237797c876d359a6f9b326d11070e43`
+  was clean at collection.
+- [x] Source digest
+  `e82c86c533565c5897e7ad72fe48b99f754b6b265d22d3a489dd3bbc41f93633`
+  remained unchanged before build, after build, and after collection.
+- [x] Linked-image hash
+  `657e60d2e2b4eb9e235b502bc67a71138f30eb4791bc9bcaf4264ac603e70b8d`
+  remained unchanged.
 
-## Schema and work-count review
+## Collection and reliability
 
-- [x] Every valid attempt emits exactly one schema-v1 JSON record.
-- [x] Canonical intervals, cardinality, membership, and the `2^32` endpoint are
-  checked before timing.
-- [x] Fixture, output, image, parser, and work identities are retained.
-- [x] `canonical_binary_search_comparisons` is labeled as an untimed canonical
-  projection proxy, not an actual candidate hot-path count.
-- [x] `result_scalar_slots` is labeled as logical retained fields, not an
-  allocation, capacity, transient-memory, or allocator measurement.
-- [x] Elapsed time does not establish a cache, branch, instruction,
-  allocation, or bandwidth mechanism.
+- [x] Pilot has four complete blocks per contrast: 512 of 512 attempts valid.
+- [x] Main has 12 complete blocks per contrast: 1,536 of 1,536 attempts valid.
+- [x] Main templates balance six `ABBA` and six `BAAB` blocks per contrast.
+- [x] A/A has 12 complete balanced blocks: 48 of 48 attempts valid.
+- [x] Profile canaries are 5 of 5 valid.
+- [x] The decision campaign has 2,101 of 2,101 valid harness attempts and 524
+  of 524 complete blocks.
+- [x] No harness attempt timed out, received an external interruption, emitted
+  a zero sample, failed parsing, changed the linked image, or failed a canary.
+- [x] The earlier source-change quick failure and later 40-position quick pass
+  are both retained. The failed run contributes no timing result.
+- [x] There were no automatic retries or silent replacements.
 
-## Runner integrity before collection
+## Primary adjudication
 
-- [x] Relative output directories fail closed.
-- [x] Existing output directories fail closed by contract.
-- [x] Output directories inside the repository fail closed by contract.
-- [x] Cargo resolves exactly one optimized bench artifact from JSON in a new
-  target directory.
-- [x] Ambiguous Cargo runners and non-native targets fail closed.
-- [x] A fresh process is used for every schedule position.
-- [x] Timeouts kill the whole attempt process group.
-- [x] `SIGINT`, `SIGTERM`, and `SIGHUP` are relayed and retained.
-- [x] There are no automatic retries or silent replacements.
-- [x] Raw phase inputs are checksummed and verified before reduction.
-- [x] The final bundle manifest is checksummed and verified.
+The ratio orientation is candidate time divided by flat time. No candidate had
+a simultaneous upper bound below `1 / 1.05`. Flat had a simultaneous lower
+bound above `1.05` for 23 contrasts. Nine contrasts were unresolved.
 
-## Collection gates
+The unresolved contrasts were:
 
-- [ ] The measured source commit is clean and matches the source snapshot.
-- [ ] Four complete pilot blocks exist for every contrast.
-- [ ] Pilot sensitivity is reported at `0.5x`, `1x`, `1.5x`, and `2x` pilot
-  standard deviation.
-- [ ] Twelve complete main blocks exist for every contrast.
-- [ ] Every primary template allocation has six `ABBA` and six `BAAB` blocks.
-- [ ] No timing, estimate, or interval changed the fixed main horizon.
-- [ ] Every invalid, partial, timeout, signal, parse failure, canary failure,
-  and reset failure remains in raw evidence.
-- [ ] Reliability outcomes include every started attempt.
+| Phase | Cell | Candidate | Ratio | Simultaneous interval |
+|---|---|---|---:|---|
+| build | tiny sparse | packed | 1.1401 | `[1.0221, 1.2717]` |
+| build | tiny sparse | btree | 1.0330 | `[0.7111, 1.5006]` |
+| build | clustered duplicates | packed | 1.0230 | `[0.9885, 1.0587]` |
+| build | adjacent coalescing | packed | 0.9806 | `[0.9130, 1.0532]` |
+| build plus membership | tiny sparse | packed | 1.0740 | `[1.0092, 1.1430]` |
+| build plus membership | clustered duplicates | packed | 1.0367 | `[0.9148, 1.1749]` |
+| build plus membership | clustered duplicates | events | 1.5501 | `[1.0084, 2.3827]` |
+| build plus membership | large sparse reverse | packed | 1.0151 | `[0.8322, 1.2383]` |
+| build plus membership | adjacent coalescing | packed | 1.0002 | `[0.9317, 1.0736]` |
 
-## A/A gates
+All exact estimates, intervals, classifications, 12 block log contrasts,
+distribution-free median sensitivities, and time-order summaries are in
+[RESULTS.json](RESULTS.json). The same file publishes all 32 predeclared pilot
+width sensitivities. Build and build-plus-membership are separate outcomes;
+there is no post hoc subcomponent timer or candidate ranking.
 
-- [ ] Both labels execute the same `flat` function path and linked image.
-- [ ] Twelve fixed A/A blocks complete with balanced templates.
-- [ ] Fixture, output, work, canary, parser, and missing-data paths are equal
-  across labels.
-- [ ] Mechanical integrity is reported separately from null diagnostics.
-- [ ] A/A spread is not called a noise floor or full null calibration.
+Flat sort-and-merge is the justified default for this fixed matrix. The packed
+form's smaller payload is derived from its representation. The timing evidence
+does not establish a packed speed advantage.
 
-## Analysis gates
+## A/A and diagnostics
 
-- [ ] Only complete main blocks enter the primary estimates.
-- [ ] Candidate-to-flat orientation is consistent in every result.
-- [ ] Each two-sided interval uses alpha `0.05 / 32`.
-- [ ] The 1.05 symmetric boundary uses simultaneous bounds.
-- [ ] Block order and the distribution-free median diagnostic are retained.
-- [ ] Drift, carryover, dependence, nonnormality, and clock resolution are
-  reviewed before interpreting a candidate selection.
-- [ ] Wide or invalid intervals remain inconclusive.
+- [x] Both A/A labels execute the same `flat` path in the same image.
+- [x] Fixture, output, work, canary, parser, and missing-data paths match.
+- [x] The A/A ratio is `1.0041908756`.
+- [x] Its Bonferroni interval is `[0.9870439638, 1.0216356633]`.
+- [x] Its unadjusted 95% interval is `[0.9951038772, 1.0133608539]`.
+- [x] All 12 A/A block contrasts and label-by-position summaries are published.
+- [x] Mechanical integrity is separate from null calibration.
+- [x] One A/A run is not called a noise floor or false-positive calibration.
 
-## Static and dynamic profile gates
+The minimum main position median was 208 ns. Timer overhead can be material at
+that scale. The largest absolute time-order slope was `0.0738682` log-ratio
+units per block for events versus flat in clustered build-plus-membership. Its
+first-half and second-half ratios were `1.3134` and `1.8295`; the simultaneous
+interval remained wide and the result stayed inconclusive. The retained
+diagnostics do not repair nonlinear drift, dependence, carryover, nonnormality,
+or systematic timing-boundary bias.
 
-- [ ] Linked symbols and disassembly retain all five candidate paths, the
-  timed loop, result consumer, and clock boundary.
-- [ ] The linked image hash is unchanged before and after static inspection.
-- [ ] Every dynamic target first passes a same-image correctness canary.
-- [ ] Linux `perf record` or macOS `xctrace` is attempted for every declared
-  target.
-- [ ] Unsupported, denied, or failed dynamic collection stays visible as
+## Static and dynamic profile evidence
+
+- [x] The exact image retains all five candidate paths, the timed loop, result
+  consumer, and clock boundary.
+- [x] `nm` and complete `otool` disassembly succeeded with no missing symbol.
+- [x] The image hash was unchanged before and after static inspection.
+- [x] Every dynamic target first passed a same-image correctness canary.
+- [x] Five `xctrace` Time Profiler attempts ran and remained visible.
+- [x] Every dynamic attempt returned code 2 without a validated target record.
+- [x] Partial trace bundles and stderr are retained as
   `ATTEMPTED_UNAVAILABLE`.
-- [ ] Whole-process dynamic samples are not described as timed-region counters.
-- [ ] Measured, derived, observed, and inferred claims remain separate.
+- [x] No elapsed-time result is used as cache, branch, instruction, allocation,
+  or bandwidth mechanism proof.
 
-## Archive and publication gates
+Static code shape is observed evidence. Dynamic mechanism attribution is
+unavailable for this campaign.
 
-- [ ] The external archive contains every raw attempt and manifest.
-- [ ] Archive SHA-256, byte count, member count, run IDs, original manifest
-  hashes, linked-image hash, host, toolchain, and completion state are verified.
-- [ ] `EVIDENCE_RECEIPT.json` matches the verified archive.
-- [ ] `RESULTS.json` contains only the compact aggregate.
-- [ ] The staged set contains no run directory, attempt file, executable,
-  disassembly, profile dump, raw stdout or stderr, bundle, or archive.
+## Archive and publication
 
-## Adjudication
+- [x] One external archive contains the failed quick, complete quick, and
+  complete decision campaign.
+- [x] Gzip integrity, safe relative paths, unique member names, no links, clean
+  extraction, and extracted-copy comparison passed.
+- [x] All 11,496 embedded manifest entries passed SHA-256 verification.
+- [x] The archive has 13,860 members: 11,499 files and 2,361 directories.
+- [x] Archive hash, bytes, run IDs, manifest hashes, source, image, host, and
+  toolchain match [EVIDENCE_RECEIPT.json](EVIDENCE_RECEIPT.json).
+- [x] An initial archive containing macOS AppleDouble members was rejected and
+  removed only after the clean replacement passed extraction verification.
+- [x] [RESULTS.json](RESULTS.json) contains compact aggregate evidence, not raw
+  process samples or per-attempt files.
+- [x] The explicit staged set contains no run directory, attempt file,
+  executable, disassembly, profile dump, stdout, stderr, manifest, CSV, bundle,
+  or archive.
 
-Mechanical integrity: pending collection.
+## Scope
 
-Primary result: pending collection.
-
-Evidence limits: pending collection. Any result will apply only to the exact
-linked image, workloads, host, toolchain, assignment, and recorded run window.
+The result covers one Apple M1 Pro host, Rust 1.93.0, one exact linked image,
+four synthetic interval shapes, two operation phases, and the recorded
+2026-09-01 window. It does not establish a universal representation winner,
+production latency, online-update behavior, another memory budget, or another
+host. The unavailable dynamic profiles also prevent mechanism claims.

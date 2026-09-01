@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "topic": 4,
+  "title": "Interval sets and compressed ranges",
+  "completion_state": "COMPLETE_WITH_DYNAMIC_PROFILE_LIMIT",
+  "verified_at": "2026-09-01T15:31:59Z",
+  "archive": {
+    "absolute_path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-004/20260901T152408Z-29f91e6-v2.tar.gz",
+    "sha256": "3e8d4a690f8ace165ebe3d7f2c755f09df7864944149536e31480a1b56e1b683",
+    "bytes": 5015612,
+    "member_count": 13860,
+    "file_count": 11499,
+    "directory_count": 2361,
+    "roots": [
+      "complete-quick",
+      "failed-quick",
+      "measured-all"
+    ],
+    "verification": {
+      "gzip_integrity": "PASS",
+      "safe_relative_paths": "PASS",
+      "duplicate_member_names": 0,
+      "symbolic_or_hard_links": 0,
+      "clean_extraction": "PASS",
+      "extracted_copy_comparison": "PASS",
+      "embedded_manifest_verification": "PASS",
+      "apple_double_members": 0
+    }
+  },
+  "run_ids": [
+    "failed-quick",
+    "complete-quick",
+    "measured-all"
+  ],
+  "bundles": [
+    {
+      "run_id": "failed-quick",
+      "archive_prefix": "failed-quick",
+      "original_path": "/private/tmp/topic004-runner-check.Hres27/quick",
+      "requested_mode": "quick",
+      "status": "INCOMPLETE",
+      "started_at": "2026-09-01T15:11:17.352931+00:00",
+      "ended_at": "2026-09-01T15:11:20.387256+00:00",
+      "manifest_sha256": "49e357b2df65b342ce5c0b54bb56cc66b2679231d851e1db8464718eb5c066ba",
+      "manifest_file_count": 37,
+      "failure_type": "ExperimentIncomplete",
+      "failure": "source tree changed during the build",
+      "retention_reason": "The source tree changed during the build; the failed-closed bundle is retained and contributes no timing result."
+    },
+    {
+      "run_id": "complete-quick",
+      "archive_prefix": "complete-quick",
+      "original_path": "/private/tmp/topic004-runner-final.9VIXOa/quick",
+      "requested_mode": "quick",
+      "status": "COMPLETE",
+      "started_at": "2026-09-01T15:18:36.358387+00:00",
+      "ended_at": "2026-09-01T15:18:40.797923+00:00",
+      "manifest_sha256": "838393e017c6523dc63c62dbf63929bb8a739dd3eb89450520c7e1fadb7393f3",
+      "manifest_file_count": 245,
+      "attempt_count": 40,
+      "source_tree_sha256": "e82c86c533565c5897e7ad72fe48b99f754b6b265d22d3a489dd3bbc41f93633",
+      "binary_sha256": "657e60d2e2b4eb9e235b502bc67a71138f30eb4791bc9bcaf4264ac603e70b8d",
+      "decision_role": "descriptive parser and schema check only"
+    },
+    {
+      "run_id": "measured-all",
+      "archive_prefix": "measured-all",
+      "original_path": "/private/tmp/algorithms-topic-004.H2c3Tz/all-29f91e6",
+      "requested_mode": "all",
+      "status": "COMPLETE",
+      "started_at": "2026-09-01T15:24:08.327504+00:00",
+      "ended_at": "2026-09-01T15:25:39.043129+00:00",
+      "manifest_sha256": "e378a90bce2030108ed7895b6a71af09f26e76f72a2e54e9431cf4ea38f2961a",
+      "manifest_file_count": 11214,
+      "attempt_count": 2101,
+      "block_count": 524,
+      "source_tree_sha256": "e82c86c533565c5897e7ad72fe48b99f754b6b265d22d3a489dd3bbc41f93633",
+      "binary_sha256": "657e60d2e2b4eb9e235b502bc67a71138f30eb4791bc9bcaf4264ac603e70b8d",
+      "decision_role": "fixed pilot, main, identical-artifact A/A, static inspection, and dynamic profile campaign"
+    }
+  ],
+  "source_identity": {
+    "measured_source_commit": "29f91e6a3237797c876d359a6f9b326d11070e43",
+    "branch": "curriculum/topic-004-interval-sets-and-compressed-ranges",
+    "git_status_at_collection": "clean",
+    "staged_diff_at_collection": "empty",
+    "source_tree_sha256": "e82c86c533565c5897e7ad72fe48b99f754b6b265d22d3a489dd3bbc41f93633",
+    "source_manifest_record_count": 13,
+    "source_attestation_limit": "endpoint hashing proves the tree matched at each sampled instant; it cannot exclude an edit made and reverted between two samples, and the image is not built from the archived snapshot"
+  },
+  "linked_image": {
+    "sha256": "657e60d2e2b4eb9e235b502bc67a71138f30eb4791bc9bcaf4264ac603e70b8d",
+    "cargo_profile": "optimized bench",
+    "rustflags": "-C target-cpu=native",
+    "exact_image_stable_before_and_after_attempts": true
+  },
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu_count": 10,
+    "hardware": {
+      "chip_type": "Apple M1 Pro",
+      "machine_model": "MacBookPro18,3",
+      "machine_name": "MacBook Pro",
+      "model_number": "Z15G001X7LL/A",
+      "number_processors": "proc 10:8:2:0",
+      "physical_memory": "32 GB"
+    },
+    "affinity_policy": "unpinned and uncontrolled",
+    "frequency_policy": "uncontrolled and unobserved",
+    "allocator": "Rust system allocator; allocator calls were not independently traced"
+  },
+  "toolchain": {
+    "rustc": "rustc 1.93.0 (254b59607 2026-01-19)\nbinary: rustc\ncommit-hash: 254b59607d4417e9dffbc307138ae5c86280fe4c\ncommit-date: 2026-01-19\nhost: aarch64-apple-darwin\nrelease: 1.93.0\nLLVM version: 21.1.8\n",
+    "cargo": "cargo 1.93.0 (083ac5135 2025-12-15)\n",
+    "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "xctrace": "xctrace version 26.0 (17B100)\n"
+  },
+  "evidence_counts": {
+    "retained_bundles": 3,
+    "embedded_manifest_entries": 11496,
+    "harness_attempts_across_complete_bundles": 2141,
+    "decision_campaign_harness_attempts": 2101,
+    "decision_campaign_blocks": 524,
+    "dynamic_profile_attempts": 5,
+    "dynamic_profiles_captured": 0,
+    "dynamic_profiles_attempted_unavailable": 5
+  },
+  "evidence_boundary": {
+    "raw_retention": "Every started failed-closed quick, complete quick, pilot, main, A/A, profile canary, and dynamic profile record is present in the verified external archive.",
+    "git_record": "Git contains compact aggregate results and this receipt, not raw attempts, executables, disassembly, trace bundles, stdout, stderr, or the archive.",
+    "timing_scope": "Timing applies only to the exact source, linked image, workloads, host, toolchain, assignment, and run window recorded here.",
+    "mechanism_scope": "Static linked code is observed. All dynamic xctrace attempts were unavailable, so cache, branch, instruction, allocation, and bandwidth mechanisms remain inferred."
+  }
+}
