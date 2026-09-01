@@ -75,14 +75,16 @@ was unavailable.
 - [x] All 7,025 embedded manifest entries passed SHA-256 verification.
 - [x] Archive SHA-256, bytes, members, run IDs, manifest hashes, source, image, host, and toolchain match the receipt.
 - [x] `RESULTS.json` contains only compact aggregates.
-- [ ] The A/A null diagnostics BENCHMARK.md requires — all 12 block log
-      contrasts and the label-by-position summaries — are not in
-      `RESULTS.json`. They exist only in the archived `analysis/aa.json`, which
-      is outside the repository, so a reader of the published evidence cannot
-      inspect the predeclared A/A ordering. Closing this means copying those
-      aggregate fields out of the archive; the mean ratio, unadjusted 95%
-      interval, template balance, and complete-block count are already
-      published.
+- [ ] Two sets of retained diagnostics the frozen design asks for are absent
+      from `RESULTS.json`: the per-contrast build, contains, and intersection
+      aggregates from `analyze_main`, and the 12 A/A block log contrasts with
+      their label-by-position summaries. Both exist only in the archived
+      `analysis/main.json` and `analysis/aa.json`, which are outside the
+      repository, so a reader of the published evidence cannot see which
+      component drove a ranking or inspect the predeclared A/A ordering.
+      Closing this means copying those aggregate fields out of the archive; the
+      composite ratios, simultaneous intervals, classifications, A/A mean ratio
+      and interval, template balance, and block counts are already published.
 - [x] The repository contains no raw run directory, executable, profiler dump, stdout, stderr, or archive.
 
 ## Scope

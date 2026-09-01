@@ -9,13 +9,19 @@ identical-artifact A/A campaign, and the linked-image inspection completed.
 [RESULTS.json](RESULTS.json) contains the compact aggregate.
 [BENCHMARK.md](../BENCHMARK.md) contains the frozen design.
 
-The published `aa` aggregate carries the mean ratio, the unadjusted two-sided
-95% paired interval, template balance, and the complete-block count. It omits
-two diagnostics the frozen design asks for: the 12 individual A/A block log
-contrasts and the label-by-position summaries. Those live in the archived
-`analysis/aa.json` for run `all-committed-45b79fc`, so they are outside this
-repository and a reader here cannot check the predeclared A/A ordering.
-[REVIEW.md](REVIEW.md) tracks the omission.
+The published aggregate is smaller than the frozen design's reporting list, in
+two places. Each of the 21 `primary_results` rows stops at the composite-time
+ratio, simultaneous interval, block count, and classification; it omits the
+build, contains, and intersection aggregates that `analyze_main` retains, so a
+reader here cannot see which component drove a ranking. The `aa` object
+likewise carries the mean ratio, the unadjusted two-sided 95% paired interval,
+template balance, and the complete-block count, but not the 12 individual A/A
+block log contrasts or the label-by-position summaries.
+
+Both sets exist only in the archived `analysis/main.json` and
+`analysis/aa.json` for run `all-committed-45b79fc`, which is outside this
+repository. Treat the published rows as the decision aggregate and those
+diagnostics as archive-only. [REVIEW.md](REVIEW.md) tracks both omissions.
 
 The primary estimand is the geometric mean of complete-block composite-time
 ratios, oriented as candidate B divided by candidate A. The composite is the
@@ -81,9 +87,12 @@ snapshot; the recorded evidence above is not restated, because a new campaign
 is a new run with its own identity.
 
 The source-to-image link rests on hashing the tree at sampled instants, not on
-building from the archived snapshot. The runner samples the manifest before the
-build, after the build, and after the final phase, and requires all three to
-agree, so an edit that persists past any sample fails the campaign. It cannot
+building from the archived snapshot. This campaign sampled the manifest twice,
+before the build and after the final phase, as `source_tree_sampled_at` in the
+receipt records; it had no post-build gate, so an edit confined to the build
+itself would have passed. The current runner samples three times, adding one
+immediately after the build and requiring all three to agree, which bounds that
+window for later campaigns but says nothing about this one. Neither schedule can
 exclude an edit made and reverted between two samples. Treat the digest as
 evidence that the tree matched at those instants, and the recorded clean commit
 as the source identity, rather than as proof that Cargo read exactly the
