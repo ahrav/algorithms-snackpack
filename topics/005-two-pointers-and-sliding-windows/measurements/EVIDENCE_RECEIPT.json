@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "topic": 5,
+  "title": "Two pointers and sliding windows",
+  "completion_state": "INCOMPLETE_PREFIX_CONTRASTS_SUPERSEDED",
+  "completion_note": "Superseded pending regeneration: these records were validated by the parser at commit 0eecf67, which accepted any positive candidate_value_visits while the benchmark reported a modeled prefix comparison total instead of the count slice::partition_point charges. The corrected parser rejects every prefix B position in this campaign.",
+  "verified_at": "2026-09-02T15:38:38Z",
+  "archive": {
+    "absolute_path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-005/20260902T153049Z-0eecf67-v1.tar.gz",
+    "sha256": "7e5b385706a4cf8e92aabd88de95c3a810247ed9be5cd5b19f4d0c296183c7e6",
+    "bytes": 5716316,
+    "member_count": 6587,
+    "file_count": 5246,
+    "directory_count": 1341,
+    "roots": [
+      "topic005-runner-quick-agent",
+      "topic005-runner-quick-agent-v2",
+      "topic005-runner-profile-agent",
+      "exact-current-quick",
+      "exact-final-quick",
+      "measured-all-0eecf67"
+    ],
+    "verification": {
+      "gzip_integrity": "PASS",
+      "safe_relative_paths": "PASS",
+      "duplicate_member_names": 0,
+      "symbolic_or_hard_links": 0,
+      "clean_extraction": "PASS",
+      "extracted_copy_comparison": "PASS",
+      "embedded_manifest_verification": "PASS",
+      "apple_double_members": 0
+    }
+  },
+  "run_ids": [
+    "topic005-runner-quick-agent",
+    "topic005-runner-quick-agent-v2",
+    "topic005-runner-profile-agent",
+    "exact-current-quick",
+    "exact-final-quick",
+    "measured-all-0eecf67"
+  ],
+  "bundles": [
+    {
+      "run_id": "topic005-runner-quick-agent",
+      "archive_prefix": "topic005-runner-quick-agent",
+      "original_path": "/private/tmp/topic005-runner-quick-agent",
+      "requested_mode": "quick",
+      "status": "INCOMPLETE",
+      "started_at": "2026-09-02T15:18:37.158842+00:00",
+      "ended_at": "2026-09-02T15:18:40.850235+00:00",
+      "manifest_sha256": "260bf33f8535fd2d43ed0b83f00fc6b67a750d988fdd47a38da2db20cd592485",
+      "manifest_file_count": 57,
+      "attempt_count": 3,
+      "valid_attempts": 2,
+      "failure_type": "ExperimentIncomplete",
+      "failure": "invalid quick attempt quick-quick__reference_vs_direct__n8_all_fit-b01-p1-A-direct",
+      "retention_reason": "The one-call timing plan produced a zero-nanosecond sample. The run failed closed and justified freezing 64 calls per timed batch before pilot or main collection."
+    },
+    {
+      "run_id": "topic005-runner-quick-agent-v2",
+      "archive_prefix": "topic005-runner-quick-agent-v2",
+      "original_path": "/private/tmp/topic005-runner-quick-agent-v2",
+      "requested_mode": "quick",
+      "status": "COMPLETE",
+      "started_at": "2026-09-02T15:20:30.290435+00:00",
+      "ended_at": "2026-09-02T15:20:34.294819+00:00",
+      "manifest_sha256": "82bb5cba2b38f1465e95be1056381da56603225fa17a00af72920b11bebb0ad9",
+      "manifest_file_count": 163,
+      "attempt_count": 24,
+      "source_tree_sha256": "d535d749c9297ace3c5d4eb4f29a16c9904c700b362bacf862d2fa28fdb75cd3",
+      "binary_sha256": "9259ae4fdd4471fe30718e88f584d03b22b522b08650ca95ff9e2eccba90dd57",
+      "decision_role": "Pre-final-source parser and 64-call timing-batch feasibility check only."
+    },
+    {
+      "run_id": "topic005-runner-profile-agent",
+      "archive_prefix": "topic005-runner-profile-agent",
+      "original_path": "/private/tmp/topic005-runner-profile-agent",
+      "requested_mode": "profile",
+      "status": "COMPLETE",
+      "started_at": "2026-09-02T15:21:03.421769+00:00",
+      "ended_at": "2026-09-02T15:21:32.302826+00:00",
+      "manifest_sha256": "49c06fb5679e6eb1c04b75d81d43d148fc197e17b397b16f93a021fa0fb140d7",
+      "manifest_file_count": 202,
+      "attempt_count": 5,
+      "source_tree_sha256": "d535d749c9297ace3c5d4eb4f29a16c9904c700b362bacf862d2fa28fdb75cd3",
+      "binary_sha256": "9259ae4fdd4471fe30718e88f584d03b22b522b08650ca95ff9e2eccba90dd57",
+      "dynamic_profile_attempts": 5,
+      "dynamic_profiles_captured": 0,
+      "decision_role": "Pre-final-source static and dynamic profile-path validation only."
+    },
+    {
+      "run_id": "exact-current-quick",
+      "archive_prefix": "exact-current-quick",
+      "original_path": "/private/tmp/algorithms-topic-005-final-runs.AcuVB9/exact-current-quick",
+      "requested_mode": "quick",
+      "status": "COMPLETE",
+      "started_at": "2026-09-02T15:26:28.017454+00:00",
+      "ended_at": "2026-09-02T15:26:32.192230+00:00",
+      "manifest_sha256": "b11e67608709caaa109d102a41550c0e2a03b6857101db6fce0bdbd3bb52f201",
+      "manifest_file_count": 163,
+      "attempt_count": 24,
+      "source_tree_sha256": "0f66d74bd0c1c2fa3c59b1e3530d58a058fe569135fbb1fd600c72327497ea9e",
+      "binary_sha256": "372315c83f8d0ef948433fe9149d00fb2509041710f2c876d956fffe83c8245a",
+      "decision_role": "Post-Clippy parser check before the final README visual correction; no decision estimate."
+    },
+    {
+      "run_id": "exact-final-quick",
+      "archive_prefix": "exact-final-quick",
+      "original_path": "/private/tmp/algorithms-topic-005-final-runs.AcuVB9/exact-final-quick",
+      "requested_mode": "quick",
+      "status": "COMPLETE",
+      "started_at": "2026-09-02T15:30:00.296719+00:00",
+      "ended_at": "2026-09-02T15:30:04.979127+00:00",
+      "manifest_sha256": "b519c8bb79f2e64a19df0ae5039aef737996e4ac5efe20ef4e40f85a554db994",
+      "manifest_file_count": 163,
+      "attempt_count": 24,
+      "source_tree_sha256": "4befbddae044f904abe77f1113d20d0deff437bea24b714093d811d33540f8e9",
+      "binary_sha256": "372315c83f8d0ef948433fe9149d00fb2509041710f2c876d956fffe83c8245a",
+      "decision_role": "Final-source parser, schema, hash, and canary check only; no decision estimate."
+    },
+    {
+      "run_id": "measured-all-0eecf67",
+      "archive_prefix": "measured-all-0eecf67",
+      "original_path": "/private/tmp/algorithms-topic-005-final-runs.AcuVB9/measured-all-0eecf67",
+      "requested_mode": "all",
+      "status": "COMPLETE",
+      "started_at": "2026-09-02T15:30:49.169200+00:00",
+      "ended_at": "2026-09-02T15:33:07.503191+00:00",
+      "manifest_sha256": "0dcd72fc6818809bbc057b22fe423531e87ddc3b772dc1a37da7c3e551e12dbb",
+      "manifest_file_count": 4492,
+      "attempt_count": 821,
+      "block_count": 204,
+      "source_tree_sha256": "4befbddae044f904abe77f1113d20d0deff437bea24b714093d811d33540f8e9",
+      "binary_sha256": "372315c83f8d0ef948433fe9149d00fb2509041710f2c876d956fffe83c8245a",
+      "decision_role": "Fixed pilot, main, identical-artifact A/A, static inspection, and dynamic profile campaign."
+    }
+  ],
+  "source_identity": {
+    "measured_source_commit": "0eecf67dcc299d665bc57773374b6a2983b7d91f",
+    "branch": "curriculum/topic-005-two-pointers-and-sliding-windows",
+    "git_status_at_collection": "clean",
+    "staged_diff_at_collection": "empty",
+    "unstaged_diff_at_collection": "empty",
+    "source_tree_sha256": "4befbddae044f904abe77f1113d20d0deff437bea24b714093d811d33540f8e9",
+    "source_manifest_record_count": 11,
+    "source_attestation_limit": "Endpoint hashing proves the tree matched at each sampled instant. It cannot exclude an edit made and reverted between two samples, and the image is not built from the archived snapshot."
+  },
+  "linked_image": {
+    "sha256": "372315c83f8d0ef948433fe9149d00fb2509041710f2c876d956fffe83c8245a",
+    "bytes": 468720,
+    "cargo_profile": "optimized bench",
+    "rustflags": "-C target-cpu=native",
+    "exact_image_stable_before_and_after_attempts": true
+  },
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu_count": 10,
+    "hardware": {
+      "chip_type": "Apple M1 Pro",
+      "machine_model": "MacBookPro18,3",
+      "machine_name": "MacBook Pro",
+      "model_number": "Z15G001X7LL/A",
+      "number_processors": "proc 10:8:2:0",
+      "physical_memory": "32 GB"
+    },
+    "affinity_policy": "unpinned and uncontrolled",
+    "frequency_policy": "uncontrolled and unobserved",
+    "allocator": "Rust system allocator; allocator calls were not independently traced"
+  },
+  "toolchain": {
+    "rustc": "rustc 1.93.0 (254b59607 2026-01-19)\nbinary: rustc\ncommit-hash: 254b59607d4417e9dffbc307138ae5c86280fe4c\ncommit-date: 2026-01-19\nhost: aarch64-apple-darwin\nrelease: 1.93.0\nLLVM version: 21.1.8\n",
+    "cargo": "cargo 1.93.0 (083ac5135 2025-12-15)\n",
+    "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "xctrace": "xctrace version 26.0 (17B100)\n"
+  },
+  "evidence_counts": {
+    "retained_bundles": 6,
+    "embedded_manifest_entries": 5240,
+    "retained_harness_attempts": 901,
+    "harness_attempts_across_complete_bundles": 898,
+    "decision_campaign_harness_attempts": 821,
+    "decision_campaign_blocks": 204,
+    "dynamic_profile_attempts_across_retained_bundles": 10,
+    "dynamic_profiles_captured": 0,
+    "dynamic_profiles_attempted_unavailable": 10
+  },
+  "evidence_boundary": {
+    "raw_retention": "All failed, superseded, quick, pilot, main, A/A, profile-canary, and dynamic-profile records in the six enumerated source bundles are present in the verified external archive.",
+    "git_record": "Git contains compact aggregate results and this receipt, not raw attempts, executables, disassembly, trace bundles, stdout, stderr, manifests, or the archive.",
+    "timing_scope": "Timing applies only to the measured source, linked image, workloads, host, toolchain, assignment, and run window recorded here.",
+    "mechanism_scope": "Static linked code is observed. All dynamic xctrace attempts were unavailable, so cache, branch, instruction, allocation, and bandwidth mechanisms remain inferred."
+  }
+}

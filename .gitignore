@@ -6,3 +6,5 @@
 /topics/*/measurements/runs/
 *.swp
 .DS_Store
+__pycache__/
+*.py[cod]

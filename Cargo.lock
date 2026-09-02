@@ -21,3 +21,7 @@ version = "0.1.0"
 [[package]]
 name = "topic-004-interval-sets-and-compressed-ranges"
 version = "0.1.0"
+
+[[package]]
+name = "topic-005-two-pointers-and-sliding-windows"
+version = "0.1.0"
