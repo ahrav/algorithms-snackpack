@@ -12,8 +12,10 @@ Four candidate paths had a simultaneous upper bound below `1 / 1.05`:
 - oversized reset for a separator every 64 values and for alternating
   oversized values and zeros.
 
-Direct had a simultaneous lower bound above `1.05` in the other eight
-contrasts. No contrast was unresolved at the declared boundary.
+Direct had a simultaneous lower bound above `1.05` in five further contrasts.
+No contrast was unresolved at the declared boundary. The three `Prefix` rows
+below are superseded pending regeneration and support no conclusion; see
+Integrity and uncertainty.
 
 | Candidate | Workload | Candidate/direct | Simultaneous interval | Result |
 |---|---|---:|---|---|
@@ -26,9 +28,9 @@ contrasts. No contrast was unresolved at the declared boundary.
 | Reset | `n65536_all_fit` | 1.2916 | `[1.2614, 1.3225]` | direct faster |
 | Reset | `n65536_oversized_every64` | 0.7544 | `[0.7386, 0.7705]` | reset faster |
 | Reset | `n65536_half_oversized_alternating_zero` | 0.4442 | `[0.4371, 0.4515]` | reset faster |
-| Prefix | `n64_zero_heavy_budget0` | 3.5496 | `[3.3095, 3.8072]` | direct faster |
-| Prefix | `n4096_uniform_moderate` | 7.8220 | `[7.2407, 8.4499]` | direct faster |
-| Prefix | `n65536_all_fit` | 22.0626 | `[21.6476, 22.4855]` | direct faster |
+| Prefix | `n64_zero_heavy_budget0` | 3.5496 | `[3.3095, 3.8072]` | superseded, pending regeneration |
+| Prefix | `n4096_uniform_moderate` | 7.8220 | `[7.2407, 8.4499]` | superseded, pending regeneration |
+| Prefix | `n65536_all_fit` | 22.0626 | `[21.6476, 22.4855]` | superseded, pending regeneration |
 
 Direct remains the default for the exact public API. The fixed matrix supports
 quadratic early exit for these synthetic immediate-rejection shapes and the

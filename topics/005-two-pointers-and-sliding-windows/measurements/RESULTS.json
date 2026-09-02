@@ -1,7 +1,8 @@
 {
   "schema_version": 1,
   "topic": 5,
-  "completion_state": "COMPLETE_WITH_DYNAMIC_PROFILE_LIMIT",
+  "completion_state": "INCOMPLETE_PREFIX_CONTRASTS_SUPERSEDED",
+  "completion_note": "Superseded pending regeneration: these records were validated by the parser at commit 0eecf67, which accepted any positive candidate_value_visits while the benchmark reported a modeled prefix comparison total instead of the count slice::partition_point charges. The corrected parser rejects every prefix B position in this campaign.",
   "artifact": {
     "measured_source_commit": "0eecf67dcc299d665bc57773374b6a2983b7d91f",
     "source_tree_sha256": "4befbddae044f904abe77f1113d20d0deff437bea24b714093d811d33540f8e9",
@@ -102,8 +103,9 @@
   },
   "classification_summary": {
     "candidate_faster": 4,
-    "direct_faster": 8,
-    "unresolved": 0
+    "direct_faster": 5,
+    "unresolved": 0,
+    "superseded_pending_regeneration": 3
   },
   "primary_results": [
     {
@@ -467,7 +469,9 @@
       "simultaneous_lower": 3.309504852767215,
       "simultaneous_upper": 3.8072004957034955,
       "complete_blocks": 12,
-      "classification": "B_TIME_AT_LEAST_1_05_TIMES_A",
+      "classification": "SUPERSEDED_PENDING_REGENERATION",
+      "superseded_classification": "B_TIME_AT_LEAST_1_05_TIMES_A",
+      "superseded_reason": "Superseded pending regeneration: these records were validated by the parser at commit 0eecf67, which accepted any positive candidate_value_visits while the benchmark reported a modeled prefix comparison total instead of the count slice::partition_point charges. The corrected parser rejects every prefix B position in this campaign.",
       "block_log_contrasts": [
         1.4110422933342175,
         1.294182321844115,
@@ -506,7 +510,9 @@
       "simultaneous_lower": 7.240693136931726,
       "simultaneous_upper": 8.449905464056473,
       "complete_blocks": 12,
-      "classification": "B_TIME_AT_LEAST_1_05_TIMES_A",
+      "classification": "SUPERSEDED_PENDING_REGENERATION",
+      "superseded_classification": "B_TIME_AT_LEAST_1_05_TIMES_A",
+      "superseded_reason": "Superseded pending regeneration: these records were validated by the parser at commit 0eecf67, which accepted any positive candidate_value_visits while the benchmark reported a modeled prefix comparison total instead of the count slice::partition_point charges. The corrected parser rejects every prefix B position in this campaign.",
       "block_log_contrasts": [
         2.235384761622555,
         1.9126796183316923,
@@ -545,7 +551,9 @@
       "simultaneous_lower": 21.647593092712,
       "simultaneous_upper": 22.48551396306924,
       "complete_blocks": 12,
-      "classification": "B_TIME_AT_LEAST_1_05_TIMES_A",
+      "classification": "SUPERSEDED_PENDING_REGENERATION",
+      "superseded_classification": "B_TIME_AT_LEAST_1_05_TIMES_A",
+      "superseded_reason": "Superseded pending regeneration: these records were validated by the parser at commit 0eecf67, which accepted any positive candidate_value_visits while the benchmark reported a modeled prefix comparison total instead of the count slice::partition_point charges. The corrected parser rejects every prefix B position in this campaign.",
       "block_log_contrasts": [
         3.1069624917763896,
         3.0893036173771726,
@@ -1044,7 +1052,8 @@
           "pilot_sd_multiplier": 2.0
         }
       ],
-      "decision_role": "variance and feasibility only; excluded from main estimate"
+      "decision_role": "variance and feasibility only; excluded from main estimate; superseded pending regeneration",
+      "superseded_reason": "Superseded pending regeneration: these records were validated by the parser at commit 0eecf67, which accepted any positive candidate_value_visits while the benchmark reported a modeled prefix comparison total instead of the count slice::partition_point charges. The corrected parser rejects every prefix B position in this campaign."
     },
     {
       "contrast_id": "prefix_vs_direct__n4096_uniform_moderate",
@@ -1091,7 +1100,8 @@
           "pilot_sd_multiplier": 2.0
         }
       ],
-      "decision_role": "variance and feasibility only; excluded from main estimate"
+      "decision_role": "variance and feasibility only; excluded from main estimate; superseded pending regeneration",
+      "superseded_reason": "Superseded pending regeneration: these records were validated by the parser at commit 0eecf67, which accepted any positive candidate_value_visits while the benchmark reported a modeled prefix comparison total instead of the count slice::partition_point charges. The corrected parser rejects every prefix B position in this campaign."
     },
     {
       "contrast_id": "prefix_vs_direct__n65536_all_fit",
@@ -1138,7 +1148,8 @@
           "pilot_sd_multiplier": 2.0
         }
       ],
-      "decision_role": "variance and feasibility only; excluded from main estimate"
+      "decision_role": "variance and feasibility only; excluded from main estimate; superseded pending regeneration",
+      "superseded_reason": "Superseded pending regeneration: these records were validated by the parser at commit 0eecf67, which accepted any positive candidate_value_visits while the benchmark reported a modeled prefix comparison total instead of the count slice::partition_point charges. The corrected parser rejects every prefix B position in this campaign."
     }
   ],
   "aa": {

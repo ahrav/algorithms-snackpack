@@ -2,7 +2,8 @@
   "schema_version": 1,
   "topic": 5,
   "title": "Two pointers and sliding windows",
-  "completion_state": "COMPLETE_WITH_DYNAMIC_PROFILE_LIMIT",
+  "completion_state": "INCOMPLETE_PREFIX_CONTRASTS_SUPERSEDED",
+  "completion_note": "Superseded pending regeneration: these records were validated by the parser at commit 0eecf67, which accepted any positive candidate_value_visits while the benchmark reported a modeled prefix comparison total instead of the count slice::partition_point charges. The corrected parser rejects every prefix B position in this campaign.",
   "verified_at": "2026-09-02T15:38:38Z",
   "archive": {
     "absolute_path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-005/20260902T153049Z-0eecf67-v1.tar.gz",
