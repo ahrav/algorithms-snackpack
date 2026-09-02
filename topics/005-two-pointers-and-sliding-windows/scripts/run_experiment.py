@@ -154,6 +154,44 @@ CELLS = (
 )
 CELL_BY_NAME = {cell.name: cell for cell in CELLS}
 
+# Expected per-call value visits for every supported candidate/cell pair.
+# For `prefix`, value visits equal `length + predicate_calls`.
+CANDIDATE_VALUE_VISITS = {
+    ("reference", "n8_zero_heavy_budget0"): 120,
+    ("reference", "n8_all_fit"): 120,
+    ("quadratic", "n8_all_fit"): 36,
+    ("quadratic", "n64_immediate_reject"): 64,
+    ("quadratic", "n4096_immediate_reject"): 4_096,
+    ("quadratic", "n4096_all_fit"): 8_390_656,
+    ("direct", "n8_zero_heavy_budget0"): 15,
+    ("direct", "n8_all_fit"): 8,
+    ("direct", "n64_immediate_reject"): 128,
+    ("direct", "n4096_immediate_reject"): 8_192,
+    ("direct", "n4096_all_fit"): 4_096,
+    ("direct", "n65536_all_fit"): 65_536,
+    ("direct", "n65536_oversized_every64"): 131_009,
+    ("direct", "n65536_half_oversized_alternating_zero"): 131_071,
+    ("direct", "n64_zero_heavy_budget0"): 128,
+    ("direct", "n4096_uniform_moderate"): 8_160,
+    ("reset", "n65536_all_fit"): 65_536,
+    ("reset", "n65536_oversized_every64"): 65_536,
+    ("reset", "n65536_half_oversized_alternating_zero"): 65_536,
+    ("prefix", "n64_zero_heavy_budget0"): 449,
+    ("prefix", "n4096_uniform_moderate"): 53_249,
+    ("prefix", "n65536_all_fit"): 1_114_113,
+}
+
+
+def prefix_predicate_calls(length: int) -> int:
+    """Returns the predicate calls a branchless binary search charges.
+
+    Each query over a slice of length `L` charges `ceil(log2(L)) + 1` calls,
+    a total fixed by `length` alone because the search never exits early on an
+    exact hit. Recomputing it here checks the `prefix` entries above against a
+    second derivation.
+    """
+    return sum((max(0, (L - 1).bit_length()) + 1) for L in range(1, length + 1))
+
 
 @dataclass(frozen=True)
 class Contrast:
@@ -1141,15 +1179,23 @@ def validate_record(position: Position, record: Any) -> list[str]:
             ),
             "result_scalar_slots": multiplier,
         }
+        per_call_visits = CANDIDATE_VALUE_VISITS.get(
+            (position.candidate, cell.name)
+        )
+        if per_call_visits is None:
+            errors.append(
+                "work.candidate_value_visits has no frozen expectation for "
+                f"candidate {position.candidate!r} on cell {cell.name!r}"
+            )
+        else:
+            expected_exact["candidate_value_visits"] = (
+                per_call_visits * multiplier
+            )
         for name, expected in expected_exact.items():
             if work.get(name) != expected:
                 errors.append(
                     f"work.{name} was {work.get(name)!r}, expected {expected}"
                 )
-        if isinstance(work.get("candidate_value_visits"), int) and work.get(
-            "candidate_value_visits"
-        ) <= 0:
-            errors.append("work.candidate_value_visits must be positive")
 
     canaries = record.get("canaries")
     expected_canaries = {
@@ -2463,7 +2509,7 @@ def self_check() -> dict[str, Any]:
             "zero_values": 5,
             "oversized_values": 3,
             "candidate_calls": 1,
-            "candidate_value_visits": 11,
+            "candidate_value_visits": 15,
             "candidate_prefix_slots": 0,
             "result_scalar_slots": 1,
         },
@@ -2477,6 +2523,26 @@ def self_check() -> dict[str, Any]:
     parser_errors = validate_record(parser_position, parser_record)
     if parser_errors:
         errors.append(f"frozen parser rejected its self-check record: {parser_errors}")
+    for (candidate, cell_name), visits in sorted(CANDIDATE_VALUE_VISITS.items()):
+        if cell_name not in CELL_BY_NAME:
+            errors.append(
+                f"value-visit table references unknown cell {cell_name!r}"
+            )
+            continue
+        if candidate not in CANDIDATES:
+            errors.append(
+                f"value-visit table references unknown candidate {candidate!r}"
+            )
+            continue
+        if candidate != "prefix":
+            continue
+        length = CELL_BY_NAME[cell_name].length
+        derived = length + prefix_predicate_calls(length)
+        if derived != visits:
+            errors.append(
+                f"prefix value visits for {cell_name} were {visits}, "
+                f"second derivation gives {derived}"
+            )
     if not BENCH_SOURCE.is_file():
         errors.append(f"benchmark source is missing: {BENCH_SOURCE}")
     if not (TOPIC_DIR / "src" / "lib.rs").is_file():

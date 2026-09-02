@@ -2,6 +2,7 @@
 
 #![allow(clippy::too_many_lines)]
 
+use std::cell::Cell;
 use std::collections::BTreeMap;
 use std::hint::black_box;
 use std::process::ExitCode;
@@ -537,27 +538,20 @@ fn direct_visits(values: &[u64], budget: u128, resets_oversized: bool) -> u128 {
 fn prefix_search_comparisons(values: &[u64], budget: u128) -> u128 {
     let mut prefix = Vec::with_capacity(values.len() + 1);
     prefix.push(0_u128);
+    let mut running_sum = 0_u128;
     for &value in values {
-        prefix.push(prefix.last().copied().expect("prefix is nonempty") + u128::from(value));
+        running_sum += u128::from(value);
+        prefix.push(running_sum);
     }
-    let mut comparisons = 0_u128;
+    let comparisons = Cell::new(0_u128);
     for end in 1..prefix.len() {
         let threshold = prefix[end].saturating_sub(budget);
-        let mut size = end;
-        let mut base = 0_usize;
-        while size > 0 {
-            let half = size / 2;
-            let middle = base + half;
-            comparisons += 1;
-            if prefix[middle] < threshold {
-                base = middle + 1;
-                size -= half + 1;
-            } else {
-                size = half;
-            }
-        }
+        let _ = prefix[..end].partition_point(|&sum| {
+            comparisons.set(comparisons.get() + 1);
+            sum < threshold
+        });
     }
-    comparisons
+    comparisons.get()
 }
 
 fn hash_byte(state: &mut u64, value: u8) {
