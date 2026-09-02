@@ -1,6 +1,6 @@
 # Measurement record
 
-status: complete_with_dynamic_profile_limit
+status: incomplete_prefix_contrasts_superseded
 
 The fixed campaign compared `reference`, `quadratic`, `reset`, and `prefix`
 with the `direct` sliding-window baseline in 12 predeclared workload
@@ -80,7 +80,9 @@ The smallest decision-campaign position median was 583 ns for a batch of 64
 candidate calls. The largest absolute time-order slope was `-0.0108664`
 log-ratio units per block for prefix versus direct on
 `n64_zero_heavy_budget0`. Its first-half and second-half ratios were `3.6207`
-and `3.4800`; both remain far on the same side of the practical boundary.
+and `3.4800`; both remain far on the same side of the practical boundary. That
+slope comes from a superseded contrast, so it bounds drift only for the run as
+collected and carries no weight for the regenerated campaign.
 These diagnostics do not repair dependence, nonlinear drift, carryover,
 nonnormality, or timing-boundary bias.
 
