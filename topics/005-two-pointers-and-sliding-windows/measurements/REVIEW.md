@@ -1,6 +1,6 @@
 # Measurement review
 
-status: complete_with_dynamic_profile_limit
+status: incomplete_prefix_contrasts_superseded
 
 ## Frozen design and exact artifact
 
@@ -61,12 +61,15 @@ contrasts had a simultaneous upper bound below `1 / 1.05`:
 | Reset | `n65536_half_oversized_alternating_zero` | 0.4442 | `[0.4371, 0.4515]` |
 
 Direct had a simultaneous lower bound above `1.05` for both reference cells,
-the tiny and all-fit quadratic cells, the reset all-fit cell, and all three
-prefix cells. No primary contrast was unresolved.
+the tiny and all-fit quadratic cells, and the reset all-fit cell. No primary
+contrast was unresolved. The three prefix cells are superseded pending
+regeneration and support no conclusion, so this adjudication rests on nine of
+the twelve contrasts.
 
-Direct is the justified default for this fixed matrix. Quadratic early exit is
-favored only in the two immediate-rejection cells. Reset is favored only in
-the two frequent-separator cells. The experiment does not locate a crossover
+Direct is the justified default for the nine contrasts that stand. Quadratic
+early exit is favored only in the two immediate-rejection cells. Reset is
+favored only in the two frequent-separator cells. Prefix is unadjudicated
+until the campaign is regenerated. The experiment does not locate a crossover
 or justify a public dispatch rule.
 
 All exact estimates, intervals, classifications, 12 block log contrasts,

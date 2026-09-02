@@ -193,6 +193,78 @@ def prefix_predicate_calls(length: int) -> int:
     return sum((max(0, (L - 1).bit_length()) + 1) for L in range(1, length + 1))
 
 
+# Fixture hashes detect generator changes that preserve aggregate counts and
+# expected answers but alter value order.
+CELL_FIXTURE_HASHES = {
+    "n8_zero_heavy_budget0": "2b5613698d1664d4",
+    "n8_all_fit": "fdc1753e3a6e292b",
+    "n64_immediate_reject": "8705bda9e60bd5a3",
+    "n4096_immediate_reject": "1018917c604f79cc",
+    "n4096_all_fit": "72889fd6fa31d088",
+    "n65536_all_fit": "4480442666d463bc",
+    "n65536_oversized_every64": "16d7d81d132e6f31",
+    "n65536_half_oversized_alternating_zero": "26536915fdefeff2",
+    "n64_zero_heavy_budget0": "50f277d365c194e4",
+    "n4096_uniform_moderate": "3551f5d0380c02fa",
+}
+
+FNV_OFFSET_BASIS = 0xCBF29CE484222325
+FNV_PRIME_64 = 0x00000100000001B3
+U64_MASK = (1 << 64) - 1
+
+
+def cell_fixture(name: str) -> tuple[list[int], int, int]:
+    """Returns a cell's values, budget, and expected count.
+
+    These reproduce the benchmark's generator from the shapes `CELLS`
+    documents, so the two must agree for a run to validate.
+    """
+    if name == "n8_zero_heavy_budget0":
+        return [0, 2, 0, 0, 5, 0, 1, 0], 0, 6
+    if name == "n8_all_fit":
+        return [2, 0, 3, 2, 1, 4, 0, 1], 13, 8 * 9 // 2
+    if name == "n64_immediate_reject":
+        return [1] * 64, 0, 0
+    if name == "n4096_immediate_reject":
+        return [1] * 4_096, 0, 0
+    if name == "n4096_all_fit":
+        return [1] * 4_096, 4_096, 4_096 * 4_097 // 2
+    if name == "n65536_all_fit":
+        return [1] * 65_536, 65_536, 65_536 * 65_537 // 2
+    if name == "n65536_oversized_every64":
+        values = [64 if index % 64 == 0 else 1 for index in range(65_536)]
+        return values, 63, 1_024 * (63 * 64 // 2)
+    if name == "n65536_half_oversized_alternating_zero":
+        values = [1 if index % 2 == 0 else 0 for index in range(65_536)]
+        return values, 0, 32_768
+    if name == "n64_zero_heavy_budget0":
+        values = [1 if index % 4 == 3 else 0 for index in range(64)]
+        return values, 0, 16 * (3 * 4 // 2)
+    if name == "n4096_uniform_moderate":
+        return [1] * 4_096, 32, 32 * 4_096 - (31 * 32 // 2)
+    raise KeyError(f"no fixture definition for cell {name!r}")
+
+
+def cell_fixture_hash(name: str) -> str:
+    """Recomputes a cell's fixture fingerprint from `cell_fixture`."""
+    values, budget, expected = cell_fixture(name)
+    state = FNV_OFFSET_BASIS
+
+    def absorb(data: bytes) -> None:
+        nonlocal state
+        for byte in data:
+            state = ((state ^ byte) * FNV_PRIME_64) & U64_MASK
+
+    absorb(GENERATOR_VERSION.encode())
+    absorb(name.encode())
+    absorb(len(values).to_bytes(8, "little"))
+    for value in values:
+        absorb(value.to_bytes(8, "little"))
+    absorb(budget.to_bytes(16, "little"))
+    absorb(expected.to_bytes(16, "little"))
+    return f"{state:016x}"
+
+
 @dataclass(frozen=True)
 class Contrast:
     contrast_id: str
@@ -1149,6 +1221,16 @@ def validate_record(position: Position, record: Any) -> list[str]:
     for name in ("fixture_hash", "output_hash"):
         if not valid_hex64(record.get(name)):
             errors.append(f"{name} must be 16 lowercase hexadecimal characters")
+    expected_fixture_hash = CELL_FIXTURE_HASHES.get(position.cell)
+    if expected_fixture_hash is None:
+        errors.append(
+            f"fixture_hash has no frozen expectation for cell {position.cell!r}"
+        )
+    elif record.get("fixture_hash") != expected_fixture_hash:
+        errors.append(
+            f"fixture_hash was {record.get('fixture_hash')!r}, expected "
+            f"{expected_fixture_hash!r}"
+        )
     _, sample_errors = validated_samples(record, position.samples)
     errors.extend(sample_errors)
 
@@ -2500,7 +2582,7 @@ def self_check() -> dict[str, Any]:
         "samples": 3,
         "inner": 1,
         "generator_version": GENERATOR_VERSION,
-        "fixture_hash": "0000000000000001",
+        "fixture_hash": "2b5613698d1664d4",
         "sample_ns": [1, 2, 3],
         "output_hash": "0000000000000002",
         "work": {
@@ -2542,6 +2624,49 @@ def self_check() -> dict[str, Any]:
             errors.append(
                 f"prefix value visits for {cell_name} were {visits}, "
                 f"second derivation gives {derived}"
+            )
+    for cell in CELLS:
+        frozen = CELL_FIXTURE_HASHES.get(cell.name)
+        if frozen is None:
+            errors.append(f"no frozen fixture hash for cell {cell.name!r}")
+            continue
+        try:
+            values, budget, expected = cell_fixture(cell.name)
+            derived = cell_fixture_hash(cell.name)
+        except KeyError as error:
+            errors.append(str(error))
+            continue
+        if derived != frozen:
+            errors.append(
+                f"fixture hash for {cell.name} was {frozen}, second derivation "
+                f"gives {derived}"
+            )
+        if len(values) != cell.length:
+            errors.append(
+                f"fixture length for {cell.name} was {len(values)}, cell "
+                f"declares {cell.length}"
+            )
+        if budget != cell.budget:
+            errors.append(
+                f"fixture budget for {cell.name} was {budget}, cell declares "
+                f"{cell.budget}"
+            )
+        if expected != cell.expected_count:
+            errors.append(
+                f"fixture expected count for {cell.name} was {expected}, cell "
+                f"declares {cell.expected_count}"
+            )
+        zeros = sum(1 for value in values if value == 0)
+        oversized = sum(1 for value in values if value > budget)
+        if zeros != cell.zero_values:
+            errors.append(
+                f"fixture zero count for {cell.name} was {zeros}, cell declares "
+                f"{cell.zero_values}"
+            )
+        if oversized != cell.oversized_values:
+            errors.append(
+                f"fixture oversized count for {cell.name} was {oversized}, cell "
+                f"declares {cell.oversized_values}"
             )
     if not BENCH_SOURCE.is_file():
         errors.append(f"benchmark source is missing: {BENCH_SOURCE}")
