@@ -11,6 +11,7 @@ members = [
     "topics/002-difference-arrays-and-range-updates",
     "topics/003-density-adaptive-bitmaps",
     "topics/004-interval-sets-and-compressed-ranges",
+    "topics/005-two-pointers-and-sliding-windows",
 ]
 resolver = "3"
 
