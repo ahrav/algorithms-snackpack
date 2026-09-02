@@ -105,6 +105,19 @@ The one-warmup regime is part of the claim. Retained sample order must be
 checked for warmup failure or drift. The harness rejects an individual zero-time
 sample. A timeout or other invalid sample makes the block incomplete.
 
+The timed loop reaches every candidate through a `&dyn IntervalSet` view, so
+each `cardinality` and `contains` call inside the timer is an indirect call that
+the compiler cannot inline or specialize to the concrete representation. Every
+candidate pays that cost, including the flat baseline, so the comparison stays
+symmetric. The measured quantity is therefore membership through a uniform
+dynamic interface, not the fastest form each representation could reach after
+inlining. A representation whose advantage depends on inlining a short
+membership path is measured conservatively under this boundary, and a ratio
+close to 1 may reflect the shared indirect-call cost rather than equal
+representation cost. Removing the indirection changes the timed code, so it
+requires a fresh campaign rather than a reinterpretation of the retained
+numbers.
+
 ## Logical work recorded outside timing
 
 Each record contains these nonnegative integer fields for one emitted sample.

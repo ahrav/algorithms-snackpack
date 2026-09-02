@@ -10,6 +10,7 @@ if sys.version_info < (3, 11):
 
 import argparse
 import csv
+import errno
 import hashlib
 import json
 import math
@@ -1394,7 +1395,7 @@ class Executor:
                 f"invalid block {phase}/{contrast.contrast_id}/{block_index}: {errors}"
             )
 
-    def write_tables(self) -> None:
+    def write_attempts_table(self) -> None:
         attempts_path = self.run_dir / "attempts.csv"
         with attempts_path.open("x", newline="", encoding="utf-8") as stream:
             writer = csv.DictWriter(
@@ -1402,6 +1403,8 @@ class Executor:
             )
             writer.writeheader()
             writer.writerows(asdict(attempt) for attempt in self.attempts)
+
+    def write_blocks_table(self) -> None:
         blocks_path = self.run_dir / "blocks.csv"
         fields = (
             "phase",
@@ -1424,6 +1427,20 @@ class Executor:
                     row["attempt_ids"], separators=(",", ":")
                 )
                 writer.writerow(row)
+
+    def write_tables(self) -> None:
+        existing: list[str] = []
+        for write_table in (self.write_attempts_table, self.write_blocks_table):
+            try:
+                write_table()
+            except FileExistsError as error:
+                existing.append(str(error.filename))
+        if existing:
+            raise FileExistsError(
+                errno.EEXIST,
+                "table already written",
+                ", ".join(sorted(existing)),
+            )
 
 
 def beta_continued_fraction(a: float, b: float, x: float) -> float:

@@ -18,7 +18,9 @@ const FNV_OFFSET: u64 = 0xcbf2_9ce4_8422_2325;
 const FNV_PRIME: u64 = 0x0000_0100_0000_01b3;
 
 fn main() -> ExitCode {
-    if !std::env::args().any(|argument| argument == "--candidate") {
+    if !std::env::args()
+        .any(|argument| argument == "--candidate" || argument.starts_with("--candidate="))
+    {
         return ExitCode::SUCCESS;
     }
     match run() {
@@ -202,13 +204,21 @@ fn parse_flags() -> Result<BTreeMap<String, String>, String> {
         if flag == "--bench" {
             continue;
         }
-        let name = flag
+        let body = flag
             .strip_prefix("--")
             .ok_or_else(|| format!("expected --flag, found {flag:?}"))?;
-        let value = arguments
-            .next()
-            .ok_or_else(|| format!("missing value for --{name}"))?;
-        if flags.insert(name.to_owned(), value).is_some() {
+        let (name, value) = if let Some((name, value)) = body.split_once('=') {
+            (name.to_owned(), value.to_owned())
+        } else {
+            let value = arguments
+                .next()
+                .ok_or_else(|| format!("missing value for --{body}"))?;
+            (body.to_owned(), value)
+        };
+        if name.is_empty() {
+            return Err(format!("expected --flag, found {flag:?}"));
+        }
+        if flags.insert(name.clone(), value).is_some() {
             return Err(format!("duplicate flag --{name}"));
         }
     }

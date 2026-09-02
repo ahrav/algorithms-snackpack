@@ -49,6 +49,16 @@ not remove systematic timing-boundary bias. The largest absolute time-order
 slope was `0.0738682` log-ratio units per block for event sweep versus flat in
 the clustered build-plus-membership cell. That contrast was unresolved.
 
+Every candidate was timed through a `&dyn IntervalSet` view, so each timed
+`cardinality` and `contains` call was an indirect call that could not be inlined
+or specialized to the concrete representation. The cost applied to the flat
+baseline as well, so the ratios remain a symmetric comparison, but they estimate
+membership through a uniform dynamic interface rather than the best form each
+representation could reach after inlining. This campaign therefore does not
+exclude a packed or tree advantage that depends on inlining a short membership
+path. Establishing that would require a fresh campaign against a monomorphized
+timed loop.
+
 ## Profile boundary
 
 The exact linked image retained all eight required symbol substrings. Symbol

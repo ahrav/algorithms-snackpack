@@ -389,6 +389,68 @@ fn set_algebra_identities_hold_for_canonical_projection() {
 }
 
 #[test]
+fn set_algebra_identities_hold_for_the_empty_set_and_for_subsets() {
+    let a =
+        FlatIntervalSet::try_from_intervals(&[interval(0, 4), interval(9, 13)]).expect("valid A");
+    let empty = FlatIntervalSet::try_from_intervals(&[]).expect("valid empty set");
+    let subset = PackedIntervalSet::try_from_intervals(&[interval(1, 3), interval(10, 12)])
+        .expect("valid subset of A");
+
+    assert!(empty.canonical_intervals().is_empty(), "empty projection");
+    assert_eq!(empty.cardinality(), 0, "empty cardinality");
+
+    assert_eq!(
+        union(&a, &empty).canonical_intervals(),
+        a.canonical_intervals(),
+        "union right identity"
+    );
+    assert_eq!(
+        union(&empty, &a).canonical_intervals(),
+        a.canonical_intervals(),
+        "union left identity"
+    );
+
+    assert!(
+        intersection(&a, &empty).canonical_intervals().is_empty(),
+        "intersection right annihilator"
+    );
+    assert!(
+        intersection(&empty, &a).canonical_intervals().is_empty(),
+        "intersection left annihilator"
+    );
+
+    assert_eq!(
+        difference(&a, &empty).canonical_intervals(),
+        a.canonical_intervals(),
+        "difference by the empty set"
+    );
+    assert!(
+        difference(&empty, &a).canonical_intervals().is_empty(),
+        "difference of the empty set"
+    );
+
+    assert_eq!(
+        intersection(&subset, &a).canonical_intervals(),
+        subset.canonical_intervals(),
+        "intersection absorbs a subset"
+    );
+    assert!(
+        difference(&subset, &a).canonical_intervals().is_empty(),
+        "subset difference empties"
+    );
+    assert_eq!(
+        difference(&a, &subset).canonical_intervals(),
+        [
+            interval(0, 1),
+            interval(3, 4),
+            interval(9, 10),
+            interval(12, 13)
+        ],
+        "superset difference retains the relative complement"
+    );
+}
+
+#[test]
 fn operations_preserve_domain_end_without_narrowing() {
     let left = FlatIntervalSet::try_from_intervals(&[interval(DOMAIN_END - 10, DOMAIN_END)])
         .expect("valid terminal left run");
