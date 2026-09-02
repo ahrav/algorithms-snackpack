@@ -41,6 +41,12 @@ status: complete_with_dynamic_profile_limit
   canary.
 - [x] The failed quick run and all later complete validation runs are retained.
 - [x] There were no automatic retries or silent replacements.
+- [ ] The prefix records revalidate under the current parser. They do not: each
+  box above reflects the parser at commit `0eecf67`, which accepted any positive
+  `candidate_value_visits`, and the benchmark then reported a modeled prefix
+  comparison total rather than the count `slice::partition_point` charges. The
+  three `prefix_vs_direct` contrasts and their classifications are superseded
+  pending regeneration. The other nine contrasts are unaffected.
 
 ## Primary adjudication
 

@@ -45,6 +45,19 @@ decision campaign both use the 64-call boundary.
 
 ## Integrity and uncertainty
 
+These counts are as judged by the parser at commit `0eecf67`, and the prefix
+figures no longer revalidate. That parser checked `candidate_value_visits` only
+for positivity, and the benchmark supplied a modeled comparison total for the
+prefix candidate instead of the count `slice::partition_point` charges. Both
+were corrected after collection, so the current parser rejects every prefix B
+position in this campaign.
+
+Superseded pending regeneration: the three `prefix_vs_direct` contrasts, their
+36 of 144 primary analysis blocks, their 3 pilot entries, and the three
+`B_TIME_AT_LEAST_1_05_TIMES_A` classifications drawn from them. The remaining
+nine contrasts are unaffected, because the reference, quadratic, reset, and
+direct counters always reported exact walks rather than models.
+
 - Pilot: 192 of 192 harness attempts valid.
 - Main: 576 of 576 harness attempts valid.
 - Identical-artifact A/A: 48 of 48 harness attempts valid.
