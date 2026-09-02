@@ -1,0 +1,13 @@
+[package]
+name = "topic-004-interval-sets-and-compressed-ranges"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[[bench]]
+name = "interval_sets"
+harness = false

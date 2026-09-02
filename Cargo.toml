@@ -10,6 +10,7 @@ members = [
     "topics/001-prefix-sums-and-scans",
     "topics/002-difference-arrays-and-range-updates",
     "topics/003-density-adaptive-bitmaps",
+    "topics/004-interval-sets-and-compressed-ranges",
 ]
 resolver = "3"
 
