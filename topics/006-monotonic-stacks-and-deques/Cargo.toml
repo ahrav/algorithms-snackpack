@@ -1,0 +1,16 @@
+[package]
+name = "topic-006-monotonic-stacks-and-deques"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[lib]
+name = "monotonic_stacks_deques"
+
+[lints]
+workspace = true
+
+[[bench]]
+name = "windows"
+harness = false
