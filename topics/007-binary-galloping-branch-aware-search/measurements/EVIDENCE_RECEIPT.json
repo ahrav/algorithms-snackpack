@@ -1,0 +1,29 @@
+{
+  "source_commit": "ba617e8e93c08767e94d4da33b28693222c51449",
+  "exact_source_and_runner_unchanged": true,
+  "source_files_sha256": {
+    "BENCHMARK.md": "9255b94122cd85af56c55bce5fd5c40a1eb7a9bcd2efa26fad2b200c0e3825c5",
+    "Cargo.toml": "e1bf50b72a9aa2b3d9e2a4de573ea163d7a9bdd939a8a8cdb72a894aaeb0a815",
+    "benches/search.rs": "0ad824eccea3db5237289228e815206fbda260dc889bff4484aae294f2f7e7c2",
+    "examples/search.rs": "5e03eccd3f816f194431dc2e17a11e11ea8228dc1e44eb3c849c1da31ead1834",
+    "scripts/run.py": "0b713e763b1385aebbd05c4c44bcef916faf2341c4ba3a1cec53002c84a89469",
+    "src/lib.rs": "5e610f417dea836f1875fa8de920d28fe0da5e86e0296bd3f03ea9200cbd5f17",
+    "tests/contracts.rs": "91811856ad4942fe65420dc184c8db810af7667c83582bc7c6eae4b1f38384df"
+  },
+  "binary_sha256": "13e9da6caa38d98eecb08685cb9d6d0c0050edef91dd4ae58995df61c70f0829",
+  "processes": 624,
+  "complete_blocks_per_workload": 12,
+  "paired_order_balance": "every pair 6/6; verified from ledger",
+  "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-007/20261003/local-campaign.tar.gz",
+  "raw_archive_sha256": "a3c25209f3667393b781a69cad50e05ccd6905274b913964405db91f304f9760",
+  "raw_regular_files": 1284,
+  "raw_integrity": "all archive files verified against SHA256 manifest",
+  "replay_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-007/20261003/committed-replay.tar.gz",
+  "replay_archive_sha256": "8ae2e20d7fdf0df07b8eb22ad4d7a9f70aa8b05a0042dc9491e40fe7bb5871de",
+  "visual": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-007/20261003/search-states.png",
+  "visual_sha256": "bb9298b5d1fd6e963982cac9b56d807254f53bbfb946b2cfad5b9ad29f2d7a13",
+  "linux_arm": "pending; initial + bounded retry exit255 expired Midway authentication",
+  "linux_x86": "pending; alias resolution obtained, architecture verification unavailable; initial + retry exit255 expired Midway authentication",
+  "actual_build_cfg": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-007/20261003/actual-build-cfg.txt",
+  "note": "environment target_cfg uses rustc default discovery; actual build cfg captured with exact optimization flags; no debug_assertions in optimized build"
+}
