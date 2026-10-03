@@ -12,6 +12,7 @@ members = [
     "topics/003-density-adaptive-bitmaps",
     "topics/004-interval-sets-and-compressed-ranges",
     "topics/005-two-pointers-and-sliding-windows",
+    "topics/007-binary-galloping-branch-aware-search",
 ]
 resolver = "3"
 
