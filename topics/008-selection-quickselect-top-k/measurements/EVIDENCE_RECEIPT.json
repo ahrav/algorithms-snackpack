@@ -1,0 +1,51 @@
+{
+  "source_commit": "5bfb0fdd5e3dac6ceab336b7c5b9a1b38c620d33",
+  "source_files": {
+    "Cargo.lock": "829e83546a0997fa1e5d2c43d4fbc09b41131ce74b7e4dd261b481fd50feb4cb",
+    "Cargo.toml": "c36d473e1114b89c92f2dc97765bf74f57fb35bcb0fca24fe995c2d56c866760",
+    "topics/008-selection-quickselect-top-k/BENCHMARK.md": "5716e09b3a9bd3556857790da60f4400c26ad652d9416ae52dc47c3c470677b4",
+    "topics/008-selection-quickselect-top-k/Cargo.toml": "f3081a8b5c3ff0c5e8d47d69f9fa7ff26b682a72fe3a040ba27d703af7611e2c",
+    "topics/008-selection-quickselect-top-k/README.md": "f9a838f1313416ec06e0c0e49f3a4e98bb544bbd9d0d1b41d1e64a434e863ce6",
+    "topics/008-selection-quickselect-top-k/TEST_STRATEGY.md": "262329ebc89d896ce0335ea7a88662d2edc30637083a7e0c19e4053d1c24e326",
+    "topics/008-selection-quickselect-top-k/assets/selection-states.svg": "6b99c1dd61ed91b40536a7422c5526b42fd4d16932452b2495a92683102e7d46",
+    "topics/008-selection-quickselect-top-k/benches/top_k.rs": "b12056a07a6df59368c00a3375c4737b4bbfe53c35e863c958b554a92d4af810",
+    "topics/008-selection-quickselect-top-k/examples/top_k.rs": "5df2b8283a67ba62e80fed68e10745664ea0ffa13075cda9004fadb07db67516",
+    "topics/008-selection-quickselect-top-k/measurements/README.md": "a444495d3acb123f812279f46e56613730ffafb3eca6c897dd100cbeb7abf4c4",
+    "topics/008-selection-quickselect-top-k/scripts/run.py": "0c4d55fd1280f0821974c079e1d5c2c6ed5ca0353bd006b41f1306152d95f762",
+    "topics/008-selection-quickselect-top-k/src/lib.rs": "7e58e342f98fef3be5befce99e11857e22210ea2a4c3a45cc94e3f7bef263372",
+    "topics/008-selection-quickselect-top-k/tests/contracts.rs": "56873f836b61079b309e3499051417d66c86ca0b3b895afd50767700857bf22e"
+  },
+  "replay_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-008/20261004/committed-replay.tar.gz",
+  "replay_sha256": "42a4a2281460dbde665b2db267094d9cf7e1bd302ddd2ab8eddb30fedb53277b",
+  "hosts": {
+    "arm": {
+      "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "identity": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com\naarch64\nLinux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.110-135.202.amzn2023.aarch64 #1 SMP Fri Sep 25 01:46:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux\n",
+      "remote_path": "/tmp/algorithms-008-final-QdChr0-arm",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-008/20261004/committed-replay.tar.gz",
+      "source_archive_sha256": "42a4a2281460dbde665b2db267094d9cf7e1bd302ddd2ab8eddb30fedb53277b",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-008/20261004/committed/arm-raw.tar.gz",
+      "raw_archive_sha256": "e611002419d2861300b33979519a84441fa5198e31afa42363f0cadeaa8f205e",
+      "files_verified": 2307,
+      "runner": "topics/008-selection-quickselect-top-k/scripts/run.py",
+      "exit": 0
+    },
+    "xxl": {
+      "host": "xxl",
+      "identity": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com\nx86_64\nLinux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.110-135.202.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Fri Sep 25 01:45:58 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux\n",
+      "remote_path": "/tmp/algorithms-008-final-QdChr0-xxl",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-008/20261004/committed-replay.tar.gz",
+      "source_archive_sha256": "42a4a2281460dbde665b2db267094d9cf7e1bd302ddd2ab8eddb30fedb53277b",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-008/20261004/committed/xxl-raw.tar.gz",
+      "raw_archive_sha256": "18f032294a5fdcf2240a78072ca92e09d889e9feda745019824f789ee6ef97b5",
+      "files_verified": 2307,
+      "runner": "topics/008-selection-quickselect-top-k/scripts/run.py",
+      "exit": 0
+    }
+  },
+  "initial_source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-008/20261004/initial-source.tar.gz",
+  "raw_file_integrity": "Every retained raw archive byte and file manifest verified.",
+  "derived_files": [
+    "Cargo.lock"
+  ]
+}
