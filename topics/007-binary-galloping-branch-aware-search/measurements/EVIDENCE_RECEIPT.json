@@ -22,8 +22,30 @@
   "replay_archive_sha256": "8ae2e20d7fdf0df07b8eb22ad4d7a9f70aa8b05a0042dc9491e40fe7bb5871de",
   "visual": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-007/20261003/search-states.png",
   "visual_sha256": "bb9298b5d1fd6e963982cac9b56d807254f53bbfb946b2cfad5b9ad29f2d7a13",
-  "linux_arm": "pending; initial + bounded retry exit255 expired Midway authentication",
-  "linux_x86": "pending; alias resolution obtained, architecture verification unavailable; initial + retry exit255 expired Midway authentication",
+  "linux_arm": {
+    "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+    "identity": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com\naarch64\nLinux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.110-135.202.amzn2023.aarch64 #1 SMP Fri Sep 25 01:46:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux\n",
+    "remote_path": "/tmp/algorithms-007-final-QdChr0-arm",
+    "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-007/20261004-linux/frozen-source.tar.gz",
+    "source_archive_sha256": "adf2e86d7dcea28a688ca8ca81e09522dc193440ad8884896ac430a600641977",
+    "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-007/20261004-linux/campaign/arm-raw.tar.gz",
+    "raw_archive_sha256": "0a3c325330db92ac459c94341b22b980f5df57f762fd6757eaf792c4911b9f7a",
+    "files_verified": 1275,
+    "runner": "topics/007-binary-galloping-branch-aware-search/scripts/run.py",
+    "exit": 0
+  },
+  "linux_x86": {
+    "host": "xxl",
+    "identity": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com\nx86_64\nLinux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.110-135.202.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Fri Sep 25 01:45:58 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux\n",
+    "remote_path": "/tmp/algorithms-007-final-QdChr0-xxl",
+    "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-007/20261004-linux/frozen-source.tar.gz",
+    "source_archive_sha256": "adf2e86d7dcea28a688ca8ca81e09522dc193440ad8884896ac430a600641977",
+    "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-007/20261004-linux/campaign/xxl-raw.tar.gz",
+    "raw_archive_sha256": "a34eae6ed51a29102bed26b92be93337208c8fd9957c0443096bcaab031a6807",
+    "files_verified": 1275,
+    "runner": "topics/007-binary-galloping-branch-aware-search/scripts/run.py",
+    "exit": 0
+  },
   "actual_build_cfg": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-007/20261003/actual-build-cfg.txt",
   "note": "environment target_cfg uses rustc default discovery; actual build cfg captured with exact optimization flags; no debug_assertions in optimized build"
 }

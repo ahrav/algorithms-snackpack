@@ -47,18 +47,28 @@ All candidates reuse 8*n bytes and allocate zero within search; harness setup
 and teardown are recorded separately. First-pass follows construction and is
 not a cache-flushed or DRAM-resident measurement.
 
-Both required Linux hosts rejected initial execution and one retry due to
-expired Midway authentication. xxl resolves to
-`dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com`; live x86-64 verification did
-not execute. No remote transfer or kernel/CPU/compiler receipt is claimed.
-After authentication is restored, verify each declared hostname/architecture,
-transfer and hash-check committed-replay.tar.gz, extract it into a new
-topic-owned scratch directory, and run this exact script on each host:
+Required Linux follow-up completed on 2026-10-04 after authentication became
+available. Both exact declared hostnames/architectures verified; all frozen
+source/protocol/runner SHA256 values match the original source commit above.
+Each host passed contracts/example and completed 624 independent processes.
+Raw archives and file manifests were retrieved and verified before this update.
 
-```bash
-python3 topics/007-binary-galloping-branch-aware-search/scripts/run.py --out /tmp/topic007-results
-```
+Arm: aarch64, 64 available CPUs, ARM r1p1, Rust 1.98.1.
+xxl: dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com, x86_64,
+Xeon Platinum 8488C, 192 available CPUs, Rust 1.98.0.
+Both Linux 6.12.110-135.202.amzn2023, CPU0, opt-level3, debuginfo1,
+compiler-default target features. Full environment receipts remain external.
 
-Retain the complete outputs and frozen hashes; update this open PR by the
-non-force guarded publisher. Current local selections are not Linux results.
-Required runs remain in curriculum pending_work; daily cadence continues.
+`RESULTS-LINUX.json` contains the committed Linux results, separately from
+supplementary local results. Arm selects linear for tiny/low-rank cases,
+conditional-select for five medium workload shapes, standard for large first
+use; large uniform standard/binary is unresolved. x86 selects linear for both
+low-rank cases; every other cell remains unresolved under the declared criterion.
+
+Arm A/A B/A 0.9823 [0.9353,1.0317]; x86 1.0592 [0.6354,1.7657].
+The x86 control is wide and does not establish stable 5% calibration. Preserve
+its unresolved cells, do not pool machines or substitute the earlier M1 ranking.
+These model-based intervals and linked code do not prove candidate-only dynamic
+branch mechanisms. No universal branchless/galloping advantage is claimed.
+The required missing execution is now complete; publication and cleanup are
+verified separately in the automation state.
