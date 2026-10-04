@@ -12,7 +12,9 @@ Arm: declared host, aarch64, 64 available CPUs, ARM r1p1, Rust 1.98.1.
 x86: xxl resolved to dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com,
 x86_64, Xeon Platinum 8488C, 192 available CPUs, Rust 1.98.0.
 Both: Linux 6.12.110-135.202.amzn2023, CPU 0, compiler-default features,
-rustc opt-level=3/debuginfo=1/edition2024. Complete uname/lscpu/cfg in archives.
+rustc opt-level=3/debuginfo=1/edition2024. Complete uname/lscpu in archives.
+Environment target_cfg is default discovery; actual build cfg uses the exact
+flags and is retained in EVIDENCE_RECEIPT.json (no debug_assertions).
 
 Geometric mean microseconds per complete API call. Selection requires
 simultaneous paired log-t intervals to show >5% separation from every rival.

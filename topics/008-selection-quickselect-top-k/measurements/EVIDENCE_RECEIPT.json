@@ -47,5 +47,27 @@
   "raw_file_integrity": "Every retained raw archive byte and file manifest verified.",
   "derived_files": [
     "Cargo.lock"
-  ]
+  ],
+  "actual_build_metadata": {
+    "arm": {
+      "actual_build_cfg": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-008/20261004/arm-actual-build-cfg.txt",
+      "cfg": "panic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"aarch64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"neon\"\ntarget_has_atomic=\"128\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"128\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n",
+      "cpu_identifiers": {
+        "CPU implementer": "0x41",
+        "CPU architecture": "8",
+        "CPU variant": "0x1",
+        "CPU part": "0xd40",
+        "CPU revision": "1"
+      },
+      "default_target_cfg_note": "environment target_cfg is default discovery; this receipt uses exact compiler flags"
+    },
+    "xxl": {
+      "actual_build_cfg": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-008/20261004/xxl-actual-build-cfg.txt",
+      "cfg": "panic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"x86_64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"fxsr\"\ntarget_feature=\"sse\"\ntarget_feature=\"sse2\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n",
+      "cpu_identifiers": {
+        "model name": "Intel(R) Xeon(R) Platinum 8488C"
+      },
+      "default_target_cfg_note": "environment target_cfg is default discovery; this receipt uses exact compiler flags"
+    }
+  }
 }
