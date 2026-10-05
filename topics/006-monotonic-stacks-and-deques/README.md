@@ -26,12 +26,12 @@ Width-three window maxima use indices `[0, 3, 3, 5, 5, 7]`.
 | During arrival of 4 | Pop 2, then 1 | Remove both 3s | Both answers become 3 |
 | After insertion | 0, 3 | 5, 4 | Index 0 still waits |
 
-| Deque update at index 5 | Window | Indices, front to back | Values |
-|---|---|---|---|
-| Before arrival | 2–4 | 3, 4 | 4, 2 |
-| After expiration | 3–5 | 3, 4 | 4, 2 |
-| During dominance removal | 3–5 | empty | New 6 beats both values |
-| After insertion | 3–5 | 5 | 6 |
+| Deque update at index 5 | Window | Indices, front to back | Values | Effect |
+|---|---|---|---|---|
+| Before arrival | 2–4 | 3, 4 | 4, 2 | Index 3 answers window 2–4 |
+| After expiration | 3–5 | 3, 4 | 4, 2 | Front index 3 is still inside the window |
+| During dominance removal | 3–5 | empty | empty | New 6 beats both values |
+| After insertion | 3–5 | 5 | 6 | Index 5 answers window 3–5 |
 
 Read each candidate list left to right. The stack top is last; the deque's answer
 is first. At index 7 the newer equal 6 replaces index 5. The stack retains equal

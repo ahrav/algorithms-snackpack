@@ -1,6 +1,6 @@
 # Measured results
 
-Source commit: `a13f3bf3c89abf7e51980e85e5d6ae956ab2ad35`. Archive and runner identities are in [the receipt](EVIDENCE_RECEIPT.json). All code, tests, generator, and protocol remain identical at the publication head.
+Source commit: `a13f3bf3c89abf7e51980e85e5d6ae956ab2ad35`. Archive and runner identities are in [the receipt](EVIDENCE_RECEIPT.json). The library, input generator, runner, and protocol remain identical at the publication head. Later review commits in the same pull request change only the driver's argument filtering (`--bench` is dropped before the existing argument checks), add extreme-value test assertions, and edit documentation; the timed `--measure` path and its inputs are unchanged, and the archived binary identities refer to the measured commit.
 
 Arm host: `dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com`, aarch64, ARM Model 1 stepping r1p1, 64 available CPUs, Linux `6.12.103-129.197.amzn2023.aarch64`, Rust 1.98.1.
 x86 host: `xxl` resolved to `dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com`, x86_64, Intel Xeon Platinum 8488C, 192 available CPUs, Linux `6.12.103-127.188.amzn2023.x86_64`, Rust 1.98.0.

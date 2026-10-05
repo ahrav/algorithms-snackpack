@@ -34,7 +34,8 @@ fn input(shape: &str, n: usize, w: usize) -> Vec<i64> {
 /// Run the focused example or one process sample.
 pub fn main() {
     let start = Instant::now();
-    let args: Vec<String> = std::env::args().collect();
+    // Cargo passes `--bench` to this driver when it runs as the bench target.
+    let args: Vec<String> = std::env::args().filter(|a| a != "--bench").collect();
     if args.len() == 1 {
         let a = [5, 3, 3, 4, 2, 6, 1, 6];
         assert_eq!(window_deque(&a, 3), Some(vec![0, 3, 3, 5, 5, 7]));

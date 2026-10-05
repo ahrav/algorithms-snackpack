@@ -53,6 +53,18 @@ fn invalid_widths_and_extreme_values() {
     }
     assert_eq!(next_greater_stack(&[]), vec![]);
     assert_eq!(window_blocks(&[i64::MIN, i64::MAX], 1), Some(vec![0, 1]));
+    for extremes in [[i64::MIN, i64::MAX], [i64::MAX, i64::MIN]] {
+        let oracle = window_scan(&extremes, 2);
+        assert_eq!(window_deque(&extremes, 2), oracle);
+        assert_eq!(window_blocks(&extremes, 2), oracle);
+        assert_eq!(next_greater_stack(&extremes), next_greater_scan(&extremes));
+    }
+    assert_eq!(window_scan(&[i64::MIN, i64::MAX], 2), Some(vec![1]));
+    assert_eq!(window_scan(&[i64::MAX, i64::MIN], 2), Some(vec![0]));
+    assert_eq!(
+        next_greater_stack(&[i64::MIN, i64::MAX]),
+        vec![Some(1), None]
+    );
 }
 
 #[test]
