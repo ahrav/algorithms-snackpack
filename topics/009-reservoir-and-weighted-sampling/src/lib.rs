@@ -208,7 +208,7 @@ pub fn weighted_heap(weights: &[f64], k: usize, seed: u64) -> Option<Vec<Key>> {
     Some(out)
 }
 /// Keep global k smallest retained keys. Disjoint unique IDs and finite scores required.
-/// Each shard must retain at least global k keys (or all its items).
+/// Each shard retains local Top-K under the same order (or all its items).
 /// Caller owns these preconditions; never regenerate keys during combination.
 #[must_use]
 pub fn combine(shards: &[Vec<Key>], k: usize) -> Vec<Key> {

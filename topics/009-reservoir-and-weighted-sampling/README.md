@@ -51,7 +51,7 @@ E's direct clock is.173287; a weight-one clock is.693147. Choose a separate
 proportional-inclusion or with-replacement design when required.
 
 `combine` preserves assigned keys and one comparator. Preconditions: disjoint
-unique IDs, finite scores, each local sample keeps at least global k or all its
+unique IDs, finite scores, each local sample keeps local Top-K under that order, with global k or all its
 items. Any locally discarded item has k better peers, so cannot be global Top-K.
 Unequal shards are safe under these conditions. Equal per-shard quotas, key
 regeneration, insufficient local capacity or deduplication after truncation can
