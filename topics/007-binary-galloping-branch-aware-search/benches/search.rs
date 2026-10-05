@@ -5,9 +5,14 @@ use std::{hint::black_box, time::Instant};
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
-    if args.len() != 6 {
-        println!("usage: search CANDIDATE N SHAPE warm|first REPEATS");
+    // `cargo test --all-targets` executes harness-free bench binaries without
+    // arguments; that invocation exits successfully.
+    if args.len() == 1 {
         return;
+    }
+    if args.len() != 6 {
+        eprintln!("usage: search CANDIDATE N SHAPE warm|first REPEATS");
+        std::process::exit(2);
     }
     let n: usize = args[2].parse().expect("n");
     let repeats: usize = args[5].parse().expect("repeats");

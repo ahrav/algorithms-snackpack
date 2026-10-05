@@ -17,6 +17,7 @@ fn empty_singletons_duplicates_and_extrema() {
         vec![],
         vec![0],
         vec![u64::MAX],
+        vec![4, 4],
         vec![4; 17],
         vec![0, 0, 4, 4, 4, u64::MAX, u64::MAX],
     ] {

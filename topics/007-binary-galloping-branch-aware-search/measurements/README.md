@@ -2,7 +2,12 @@
 
 Exact committed source: `ba617e8e93c08767e94d4da33b28693222c51449`. The source, runner and protocol hashes in
 EVIDENCE_RECEIPT.json match the campaign. Final documentation/receipt commits
-change no measured Rust, runner, or protocol input.
+change no measured Rust, runner, or protocol input. A later review commit in
+the same pull request changes only the bench binary's argument-count check
+(malformed arguments now report usage on stderr with exit 2; the no-argument
+`cargo test` invocation still exits 0) and adds a `[4, 4]` contract fixture;
+the library, timed path, runner, and protocol are unchanged, and the receipt
+hashes refer to the measured commit.
 
 Supplementary local machine: b0f1d8752aba, Apple M1 Pro, arm64, Darwin 25.6.0,
 10 available CPUs, no affinity, Rust 1.93.0/LLVM 21.1.8. Flags: edition 2024,
