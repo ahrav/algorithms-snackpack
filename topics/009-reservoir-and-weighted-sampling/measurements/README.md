@@ -1,11 +1,5 @@
-# Retained measurement boundary
+# Replay and evidence
 
-Initial scratch campaign passed on both declared Linux hosts, 432 independent
-method processes each. Exact committed-source replay and final summaries are
-added in the evidence-only follow-up commit. Source/runner hashes and raw bundles
-are retained outside Git at:
-/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005
+Frozen source commit9c8b02bb7b5ad8a17c2c4b75fd8ca6933a25a4b7 and unchanged exact runner passed eight checks/example and432 processes on EACH Linux host. Initial scratch also ran432 each. EVIDENCE_RECEIPT.json binds hashes/archives/environments; raw data and exact replay archive remain at /Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005. Source uses standalone rustc opt-level3, compiler-default target features, first available CPU affinity. Workspace Cargo gates pass locally. See RESULTS.md and summary.json for every winner, unresolved rival and interval.
 
-Uniform streams are generated indices; weighted arrays are resident before
-measurement. Whole-call boundaries and paired assignment are in BENCHMARK.md.
-No data-decoding, storage, communication, CPU-frequency or random-quality claim.
+To replay: extract committed-replay.tar.gz in a new declared Linux scratch directory and run python3 campaign.py. To regenerate summaries, run python3 summarize.py DIRECTORY containing arm-attempts.jsonl and xxl-attempts.jsonl. Weight setup is excluded, sampler/math/allocation/ID output/checksum/destruction included; process wall separate. No source decoding or communication claim.

@@ -1,0 +1,67 @@
+{
+  "source_identity": {
+    "source_commit": "9c8b02bb7b5ad8a17c2c4b75fd8ca6933a25a4b7",
+    "origin_main": "24178154940a8ac584951f84401f436433d53c3b",
+    "manifest": {
+      "topic/src/lib.rs": "2d1b7df077146e1476859fd592c427820267acac70dfb97f0728516d4f84dac4",
+      "topic/tests/contracts.rs": "145a945358ff85accc1ef27d4605d1aca87b465e817f47c06e0758f2d088e8c1",
+      "topic/benches/sampling.rs": "af5fbc9e917d25da503de8f89f11ea7cee23c38f75b42edd5a18f0fabc5e95bb",
+      "topic/examples/stream.rs": "2dc07caf2ab462ae849b7cac8cd98f74d5997b30413274db5427442fad946e77",
+      "topic/Cargo.toml": "78a3c8f461dc37e3ff0020814f9aebf6eb8f4b5ae71c75c3d7a65104bd1020a0",
+      "campaign.py": "61991457e38f565bd0cf32b1ef9a02235d26ab3c3fd81ad219484dda73bae233"
+    },
+    "runner_sha256": "61991457e38f565bd0cf32b1ef9a02235d26ab3c3fd81ad219484dda73bae233",
+    "build": "standalone exact Rust source; workspace gates recorded separately"
+  },
+  "archives": [
+    {
+      "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "identity": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com\naarch64\nLinux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.110-135.202.amzn2023.aarch64 #1 SMP Fri Sep 25 01:46:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux\n",
+      "remote_path": "/tmp/algorithms-topic-009-20261005-initial-lg3WFR-arm",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/initial-source.tar.gz",
+      "source_archive_sha256": "5f035babd794c536f43aa295ac54789b95ef13f5cedada1e31017eb9add608f6",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/initial/arm-raw.tar.gz",
+      "raw_archive_sha256": "f4dda04bd8e09ea7442d9ea9260b76bad1abe70cb1e86aacd0ebe8d43acd9ea9",
+      "files_verified": 7,
+      "runner": "campaign.py",
+      "exit": 0
+    },
+    {
+      "host": "xxl",
+      "identity": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com\nx86_64\nLinux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.110-135.202.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Fri Sep 25 01:45:58 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux\n",
+      "remote_path": "/tmp/algorithms-topic-009-20261005-initial-lg3WFR-xxl",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/initial-source.tar.gz",
+      "source_archive_sha256": "5f035babd794c536f43aa295ac54789b95ef13f5cedada1e31017eb9add608f6",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/initial/xxl-raw.tar.gz",
+      "raw_archive_sha256": "dad7abe9caa65827b1920446775a7d793d1d67ab6ffb2c2fa06a67387999c228",
+      "files_verified": 7,
+      "runner": "campaign.py",
+      "exit": 0
+    },
+    {
+      "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "identity": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com\naarch64\nLinux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.110-135.202.amzn2023.aarch64 #1 SMP Fri Sep 25 01:46:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux\n",
+      "remote_path": "/tmp/algorithms-topic-009-20261005-committed-lg3WFR-arm",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/committed-replay.tar.gz",
+      "source_archive_sha256": "fafb41bd6ffaa952cae114f704219395b0275588ba5ec4604d7e0bc449d588f1",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/committed/arm-raw.tar.gz",
+      "raw_archive_sha256": "da1b4ff06acf5b8241f3c93e4e7ecd56542dd2b8f6683e957869a3bda682cda8",
+      "files_verified": 7,
+      "runner": "campaign.py",
+      "exit": 0
+    },
+    {
+      "host": "xxl",
+      "identity": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com\nx86_64\nLinux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.110-135.202.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Fri Sep 25 01:45:58 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux\n",
+      "remote_path": "/tmp/algorithms-topic-009-20261005-committed-lg3WFR-xxl",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/committed-replay.tar.gz",
+      "source_archive_sha256": "fafb41bd6ffaa952cae114f704219395b0275588ba5ec4604d7e0bc449d588f1",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/committed/xxl-raw.tar.gz",
+      "raw_archive_sha256": "05c45049b33bcd7fa659b0fd75360b40dd377678f2d4bb8ef462d36f1ea5871b",
+      "files_verified": 7,
+      "runner": "campaign.py",
+      "exit": 0
+    }
+  ],
+  "boundary": "raw retained externally; archive SHA and all embedded files verified before cleanup"
+}
