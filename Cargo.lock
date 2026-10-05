@@ -25,3 +25,7 @@ version = "0.1.0"
 [[package]]
 name = "topic-005-two-pointers-and-sliding-windows"
 version = "0.1.0"
+
+[[package]]
+name = "topic-006-monotonic-stacks-and-deques"
+version = "0.1.0"
