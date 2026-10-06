@@ -18,7 +18,7 @@ fn main() {
     let shape = &args[4];
     let boundary = &args[5];
     let calls: u32 = args[6].parse().unwrap();
-    assert!(calls > 0 && k <= n);
+    assert!(calls > 0 && k > 0 && k <= n, "calls > 0 and 1 <= k <= n");
     let f = CANDIDATES.iter().find(|(x, _)| *x == name).unwrap().1;
     let mut state = 0xa11c_0008_6a30_u64;
     let input: Vec<i64> = (0..n)
@@ -65,15 +65,15 @@ fn main() {
         black_box(&result);
         // Result drop is inside this loop and therefore inside the boundary.
     }
-    let elapsed = start.elapsed().as_nanos();
+    let timed = start.elapsed();
+    let elapsed = timed.as_nanos();
     assert_eq!(f(&input, k).unwrap(), expected);
     let mut copy = input.clone();
     let counters = select_three_way(&mut copy, k - 1).unwrap();
     assert!(elapsed > 0);
     println!(
         "{{\"candidate\":\"{name}\",\"n\":{n},\"k\":{k},\"shape\":\"{shape}\",\"boundary\":\"{boundary}\",\"calls\":{calls},\"elapsed_ns\":{elapsed},\"ns_per_call\":{},\"checksum\":{checksum},\"classified\":{},\"partitions\":{},\"swaps\":{},\"fallback\":{}}}",
-        f64::from(u32::try_from(elapsed).expect("timed batch must fit in u32 nanoseconds"))
-            / f64::from(calls),
+        timed.as_secs_f64() * 1e9 / f64::from(calls),
         counters.classified,
         counters.partitions,
         counters.swaps,

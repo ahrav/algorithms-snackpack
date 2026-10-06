@@ -1,6 +1,14 @@
 # Committed-source Linux results
 
-Source commit: `5bfb0fdd5e3dac6ceab336b7c5b9a1b38c620d33`. Later commits change evidence prose only.
+Source commit: `5bfb0fdd5e3dac6ceab336b7c5b9a1b38c620d33`. Later commits change evidence prose,
+and one review commit changes untimed driver code, the runner's analysis
+assertions, and contract tests only: the bench binary rejects `k == 0` at
+argument validation and derives `ns_per_call` from the `Duration` instead of a
+`u32` nanosecond cast (output changes only for batches above 4.29 s, which no
+frozen workload reaches); `summarize` asserts complete A/A blocks; the contract
+tests gain out-of-range ranks and fallback partition/multiset checks. The
+library, input generators, timed loop, and protocol are unchanged, and the
+receipt hashes refer to the measured commit.
 The source/runner identities and verified external archives are in
 [EVIDENCE_RECEIPT.json](EVIDENCE_RECEIPT.json). Raw records remain outside Git.
 

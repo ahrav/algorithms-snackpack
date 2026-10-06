@@ -50,7 +50,8 @@ python3 topics/008-selection-quickselect-top-k/scripts/run.py --out /tmp/top-k-r
 ```
 
 Use a new output directory. The example prints `[1, 2, 3]` for all candidates.
-The runner needs Python 3, rustc, and objdump on Linux (otool on macOS).
+The runner needs Python 3, rustc, and on Linux `lscpu` and `objdump` (`sysctl`
+and `otool` on macOS); it uses `taskset` when present.
 The Cargo bench executable is a parameterized driver, not an automatic campaign;
 use the Python runner for the fixed order and independent process schedule.
 

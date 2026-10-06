@@ -104,6 +104,8 @@ def summarize(records):
     aa = sorted([r for r in records if r['workload']=='aa'],key=lambda r:(r['block'],r['label']))
     aa_a = [r for r in aa if r['label']=='aa_a']
     aa_b = [r for r in aa if r['label']=='aa_b']
+    assert [r['block'] for r in aa_a] == list(range(BLOCKS))
+    assert [r['block'] for r in aa_b] == list(range(BLOCKS))
     aa_ci = interval([math.log(b['ns_per_call']/a['ns_per_call']) for a,b in zip(aa_a,aa_b)],critical)
     return dict(family=FAMILY,alpha=.05,critical_t=critical,interval_method='paired log t; Bonferroni two-sided familywise 95%; normal log-ratio model',
                 aa=aa_ci,aa_mechanical='pass; same linked binary/candidate, complete blocks, equal checksums',results=results)

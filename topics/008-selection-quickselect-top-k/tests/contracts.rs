@@ -111,9 +111,12 @@ fn equal_band_is_one_partition() {
 #[test]
 fn invalid_rank_does_not_mutate() {
     let mut a = [3, 1, 2];
-    assert_eq!(select_three_way(&mut a, 3), None);
-    assert_eq!(a, [3, 1, 2]);
+    for rank in [3, 4, usize::MAX] {
+        assert_eq!(select_three_way(&mut a, rank), None);
+        assert_eq!(a, [3, 1, 2]);
+    }
     assert_eq!(select_three_way(&mut [], 0), None);
+    assert_eq!(select_three_way(&mut [], usize::MAX), None);
 }
 
 #[test]
@@ -128,4 +131,7 @@ fn organ_pipe_scan_budget_and_fallback() {
         "adversarial organ pipe must exercise the fallback"
     );
     assert_eq!(b[2047], expected[2047]);
+    assert!(b[..2047].iter().all(|&x| x <= b[2047]));
+    assert!(b[2048..].iter().all(|&x| x >= b[2047]));
+    assert_eq!(oracle(&b, b.len()), oracle(&a, a.len()));
 }
