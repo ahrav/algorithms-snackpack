@@ -44,7 +44,7 @@ for host in ['arm','xxl']:
    if lo<=1.05:unresolved.append(other)
   for m in methods:del methods[m]['values']
   cells[cell]={'fastest_point_estimate':fastest,'unique_winner':not unresolved,'unresolved_rivals':unresolved,'methods':methods,'contrasts':contrasts}
- 
+
  for cell,c in cells.items():
   eligible=[m for m in c['methods'] if m in ['stable','merge','radix','dispatch','groups']]
   fastest=min(eligible,key=lambda m:c['methods'][m]['gm_ns']); unresolved=[]
