@@ -1,0 +1,3608 @@
+{
+  "host": "arm",
+  "processes": 1200,
+  "critical_t": 6.0709236842129055,
+  "family": 620,
+  "cells": {
+    "cold16": {
+      "fastest_point_estimate": "dispatch",
+      "unique_winner": false,
+      "unresolved_rivals": [
+        "unstable"
+      ],
+      "methods": {
+        "unstable": {
+          "gm_ns": 466.32104018890794,
+          "median_ns": 435.5,
+          "min_ns": 354.0,
+          "max_ns": 1029.0
+        },
+        "stable": {
+          "gm_ns": 477.51809345333226,
+          "median_ns": 482.0,
+          "min_ns": 394.0,
+          "max_ns": 598.0
+        },
+        "quick": {
+          "gm_ns": 533.356439368235,
+          "median_ns": 535.0,
+          "min_ns": 463.0,
+          "max_ns": 598.0
+        },
+        "heap": {
+          "gm_ns": 714.8528741464366,
+          "median_ns": 712.5,
+          "min_ns": 606.0,
+          "max_ns": 823.0
+        },
+        "merge": {
+          "gm_ns": 1493.1771397318355,
+          "median_ns": 1498.0,
+          "min_ns": 1346.0,
+          "max_ns": 1649.0
+        },
+        "radix": {
+          "gm_ns": 2527.5998697903356,
+          "median_ns": 2537.0,
+          "min_ns": 2450.0,
+          "max_ns": 2567.0
+        },
+        "dispatch": {
+          "gm_ns": 361.95978146502785,
+          "median_ns": 360.5,
+          "min_ns": 324.0,
+          "max_ns": 451.0
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 0.9765515623011286,
+          "simultaneous_95_bounds": [
+            0.6975442482209063,
+            1.3671576480848013
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 0.874314071732721,
+          "simultaneous_95_bounds": [
+            0.5764921446191813,
+            1.3259939500733577
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.6523314895330233,
+          "simultaneous_95_bounds": [
+            0.4014295093604707,
+            1.0600525430088774
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 0.3123012185095842,
+          "simultaneous_95_bounds": [
+            0.19036768613250982,
+            0.5123351187589769
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.18449163800106896,
+          "simultaneous_95_bounds": [
+            0.11660257741902645,
+            0.291907479626291
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.2883228028856657,
+          "simultaneous_95_bounds": [
+            0.8955065193452101,
+            1.8534489795214413
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 0.895307637082166,
+          "simultaneous_95_bounds": [
+            0.7269507465775253,
+            1.1026548480642735
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.6679949269610311,
+          "simultaneous_95_bounds": [
+            0.5357295838917405,
+            0.8329150300123136
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 0.31980002957927095,
+          "simultaneous_95_bounds": [
+            0.2522453406088683,
+            0.4054467712745017
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 0.18892155327296406,
+          "simultaneous_95_bounds": [
+            0.15369655510158126,
+            0.23221960484072166
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.3192573261056333,
+          "simultaneous_95_bounds": [
+            1.1301480720957549,
+            1.5400104954883485
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 0.7461065887230075,
+          "simultaneous_95_bounds": [
+            0.6055282246725995,
+            0.9193213776894865
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 0.35719569043497573,
+          "simultaneous_95_bounds": [
+            0.2866409686905868,
+            0.4451169762932391
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 0.21101300318253177,
+          "simultaneous_95_bounds": [
+            0.1828526803643735,
+            0.24351017126674057
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.4735240396308154,
+          "simultaneous_95_bounds": [
+            1.2161131833920358,
+            1.7854202429692503
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 0.47874619502600974,
+          "simultaneous_95_bounds": [
+            0.40077389254616513,
+            0.5718883478056915
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 0.2828188443472792,
+          "simultaneous_95_bounds": [
+            0.24018609676799527,
+            0.3330188541062496
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.9749511154335377,
+          "simultaneous_95_bounds": [
+            1.6161932470880178,
+            2.4133450101835243
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 0.5907490175079388,
+          "simultaneous_95_bounds": [
+            0.5322765371700664,
+            0.6556449088325903
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 4.125257048416314,
+          "simultaneous_95_bounds": [
+            3.448543754802107,
+            4.934762881233918
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 6.983095910711145,
+          "simultaneous_95_bounds": [
+            6.0592710936143055,
+            8.047771381211403
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "dispatch",
+        "unique_winner": true,
+        "unresolved_rivals": []
+      }
+    },
+    "tiny16": {
+      "fastest_point_estimate": "dispatch",
+      "unique_winner": false,
+      "unresolved_rivals": [
+        "unstable",
+        "stable",
+        "quick"
+      ],
+      "methods": {
+        "unstable": {
+          "gm_ns": 89.77952714479085,
+          "median_ns": 89.79638671875,
+          "min_ns": 78.8466796875,
+          "max_ns": 107.04296875
+        },
+        "stable": {
+          "gm_ns": 86.72706790953039,
+          "median_ns": 87.26171875,
+          "min_ns": 76.263671875,
+          "max_ns": 94.4150390625
+        },
+        "quick": {
+          "gm_ns": 82.44903551392963,
+          "median_ns": 82.3544921875,
+          "min_ns": 74.4052734375,
+          "max_ns": 91.4404296875
+        },
+        "heap": {
+          "gm_ns": 151.52400711339723,
+          "median_ns": 152.73779296875,
+          "min_ns": 146.0087890625,
+          "max_ns": 155.482421875
+        },
+        "merge": {
+          "gm_ns": 325.5350002146473,
+          "median_ns": 300.48681640625,
+          "min_ns": 285.7314453125,
+          "max_ns": 843.6162109375
+        },
+        "radix": {
+          "gm_ns": 1899.5734023889859,
+          "median_ns": 1873.3759765625,
+          "min_ns": 1834.7626953125,
+          "max_ns": 2231.8544921875
+        },
+        "dispatch": {
+          "gm_ns": 81.29810227990392,
+          "median_ns": 81.43701171875,
+          "min_ns": 73.923828125,
+          "max_ns": 91.2626953125
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 1.0351961539671164,
+          "simultaneous_95_bounds": [
+            0.9229956502146996,
+            1.1610358910565135
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 1.0889093678921529,
+          "simultaneous_95_bounds": [
+            0.9385756987008405,
+            1.263322301146882
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.592510248739672,
+          "simultaneous_95_bounds": [
+            0.5051999075085534,
+            0.6949098557695285
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 0.2757907047954692,
+          "simultaneous_95_bounds": [
+            0.15666879920709026,
+            0.4854860268064109
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.0472629944343715,
+          "simultaneous_95_bounds": [
+            0.03855579464059115,
+            0.057936573833488554
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.1043250042379331,
+          "simultaneous_95_bounds": [
+            0.9746522407781353,
+            1.2512501012786563
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 1.0518869913872795,
+          "simultaneous_95_bounds": [
+            0.915232365737801,
+            1.2089457104784762
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.5723651952038583,
+          "simultaneous_95_bounds": [
+            0.5061250031621015,
+            0.6472747140212448
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 0.2664139581069481,
+          "simultaneous_95_bounds": [
+            0.1530999173018443,
+            0.46359526722850614
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 0.04565607614870722,
+          "simultaneous_95_bounds": [
+            0.03902386318941813,
+            0.05341545195509467
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.0667785037704194,
+          "simultaneous_95_bounds": [
+            0.967580505270059,
+            1.1761464497354934
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 0.5441318315468427,
+          "simultaneous_95_bounds": [
+            0.47825212846390586,
+            0.6190865288012347
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 0.2532724145163051,
+          "simultaneous_95_bounds": [
+            0.1474637603862635,
+            0.4350012219062771
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 0.04340397449776784,
+          "simultaneous_95_bounds": [
+            0.03840607215226573,
+            0.049052269514411724
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.014156950798964,
+          "simultaneous_95_bounds": [
+            0.9563806623745719,
+            1.0754235853119216
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 0.4654614926612718,
+          "simultaneous_95_bounds": [
+            0.2754890147303483,
+            0.7864357181810784
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 0.07976738720537675,
+          "simultaneous_95_bounds": [
+            0.072907351033018,
+            0.08727290144845512
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.863807430482328,
+          "simultaneous_95_bounds": [
+            1.6635291531909253,
+            2.0881979322441415
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 0.17137268810209724,
+          "simultaneous_95_bounds": [
+            0.09984511310322629,
+            0.2941415690217663
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 4.004214010972264,
+          "simultaneous_95_bounds": [
+            2.349176095798884,
+            6.825256682264171
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 23.365531901948742,
+          "simultaneous_95_bounds": [
+            20.493842004115304,
+            26.639615985687517
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "dispatch",
+        "unique_winner": false,
+        "unresolved_rivals": [
+          "stable"
+        ]
+      }
+    },
+    "random4096": {
+      "fastest_point_estimate": "unstable",
+      "unique_winner": true,
+      "unresolved_rivals": [],
+      "methods": {
+        "unstable": {
+          "gm_ns": 48484.79820500512,
+          "median_ns": 48379.03125,
+          "min_ns": 47864.5,
+          "max_ns": 49347.1875
+        },
+        "stable": {
+          "gm_ns": 61417.39760643778,
+          "median_ns": 60923.71875,
+          "min_ns": 58435.5,
+          "max_ns": 71584.4375
+        },
+        "quick": {
+          "gm_ns": 241876.88304248982,
+          "median_ns": 241835.25,
+          "min_ns": 236090.75,
+          "max_ns": 251136.875
+        },
+        "heap": {
+          "gm_ns": 271598.102088431,
+          "median_ns": 269690.5625,
+          "min_ns": 268109.125,
+          "max_ns": 292204.1875
+        },
+        "merge": {
+          "gm_ns": 233705.39726671576,
+          "median_ns": 233207.8125,
+          "min_ns": 231702.125,
+          "max_ns": 241450.0
+        },
+        "radix": {
+          "gm_ns": 79714.0710931841,
+          "median_ns": 79487.875,
+          "min_ns": 79014.3125,
+          "max_ns": 81391.75
+        },
+        "dispatch": {
+          "gm_ns": 60756.10752258726,
+          "median_ns": 60493.53125,
+          "min_ns": 58874.8125,
+          "max_ns": 62618.75
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 0.7894310096903704,
+          "simultaneous_95_bounds": [
+            0.7251095867119421,
+            0.8594581156852522
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 0.20045238550758032,
+          "simultaneous_95_bounds": [
+            0.19288725419727867,
+            0.2083142249232479
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.1785167047640807,
+          "simultaneous_95_bounds": [
+            0.16975901833661625,
+            0.18772619087979336
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 0.2074611830623319,
+          "simultaneous_95_bounds": [
+            0.20112713274286065,
+            0.21399471016498234
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.6082338731430162,
+          "simultaneous_95_bounds": [
+            0.5932555365578367,
+            0.6235903782458647
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.7980234445891701,
+          "simultaneous_95_bounds": [
+            0.7635710946171728,
+            0.8340302855927956
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 0.2539200804718851,
+          "simultaneous_95_bounds": [
+            0.2293210365031463,
+            0.28115783989997783
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.2261333828704022,
+          "simultaneous_95_bounds": [
+            0.20229411114986312,
+            0.2527819843976042
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 0.2627983706184814,
+          "simultaneous_95_bounds": [
+            0.23880641541458417,
+            0.28920070459510333
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 0.7704712200013235,
+          "simultaneous_95_bounds": [
+            0.699779030785258,
+            0.8483047858467403
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.0108843392181537,
+          "simultaneous_95_bounds": [
+            0.9324504947403885,
+            1.0959157113869467
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 0.8905691210012059,
+          "simultaneous_95_bounds": [
+            0.8528834827490706,
+            0.9299199425511736
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 1.0349648997042569,
+          "simultaneous_95_bounds": [
+            0.9976953317482525,
+            1.0736266969826065
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 3.034305985448176,
+          "simultaneous_95_bounds": [
+            2.9369167954807547,
+            3.134924635077889
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 3.981112235548785,
+          "simultaneous_95_bounds": [
+            3.7824093077972845,
+            4.190253709286206
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 1.162138766433667,
+          "simultaneous_95_bounds": [
+            1.1103389770513792,
+            1.216355131506358
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 3.4071538232056753,
+          "simultaneous_95_bounds": [
+            3.261475784575106,
+            3.559338760044601
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 4.4703012283573145,
+          "simultaneous_95_bounds": [
+            4.260890353717491,
+            4.690004063309884
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 2.93179603126177,
+          "simultaneous_95_bounds": [
+            2.8569142536903485,
+            3.0086405140859003
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 3.8466157032826866,
+          "simultaneous_95_bounds": [
+            3.673676731127305,
+            4.027695807682163
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.3120338735253698,
+          "simultaneous_95_bounds": [
+            1.2477207054829362,
+            1.3796620331083607
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "dispatch",
+        "unique_winner": false,
+        "unresolved_rivals": [
+          "stable"
+        ]
+      }
+    },
+    "random65536": {
+      "fastest_point_estimate": "unstable",
+      "unique_winner": false,
+      "unresolved_rivals": [
+        "radix"
+      ],
+      "methods": {
+        "unstable": {
+          "gm_ns": 1239301.539829896,
+          "median_ns": 1237114.0,
+          "min_ns": 1230000.5,
+          "max_ns": 1258427.0
+        },
+        "stable": {
+          "gm_ns": 1557345.9523018422,
+          "median_ns": 1543566.75,
+          "min_ns": 1522902.5,
+          "max_ns": 1751167.5
+        },
+        "quick": {
+          "gm_ns": 5523401.067853196,
+          "median_ns": 5535993.5,
+          "min_ns": 5429223.0,
+          "max_ns": 5602214.5
+        },
+        "heap": {
+          "gm_ns": 6449168.939253567,
+          "median_ns": 6477377.25,
+          "min_ns": 6338333.5,
+          "max_ns": 6551013.0
+        },
+        "merge": {
+          "gm_ns": 5141307.089145119,
+          "median_ns": 5122499.5,
+          "min_ns": 5110784.0,
+          "max_ns": 5344296.5
+        },
+        "radix": {
+          "gm_ns": 1309605.8972535261,
+          "median_ns": 1292886.75,
+          "min_ns": 1287755.0,
+          "max_ns": 1524192.0
+        },
+        "dispatch": {
+          "gm_ns": 1566121.4788113812,
+          "median_ns": 1550070.75,
+          "min_ns": 1533710.5,
+          "max_ns": 1771674.5
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 0.795777931035902,
+          "simultaneous_95_bounds": [
+            0.7428239105296742,
+            0.8525069084976409
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 0.22437290441260352,
+          "simultaneous_95_bounds": [
+            0.22080444246317607,
+            0.227999036943938
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.1921645333690599,
+          "simultaneous_95_bounds": [
+            0.18745037333219405,
+            0.19699724907726496
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 0.24104795110302674,
+          "simultaneous_95_bounds": [
+            0.23460590557991032,
+            0.24766688880803145
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.9463164013150289,
+          "simultaneous_95_bounds": [
+            0.8670319840216073,
+            1.032850861215184
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.7913189089076755,
+          "simultaneous_95_bounds": [
+            0.7355771790610519,
+            0.8512847236426587
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 0.28195416794296707,
+          "simultaneous_95_bounds": [
+            0.2630281661781795,
+            0.30224197649827944
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.24148009874929577,
+          "simultaneous_95_bounds": [
+            0.22689536301775512,
+            0.25700233498119807
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 0.30290856494253765,
+          "simultaneous_95_bounds": [
+            0.28962216230521237,
+            0.31680448065592054
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 1.189171456518232,
+          "simultaneous_95_bounds": [
+            1.162146591264495,
+            1.2168247651606712
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.9943966501779938,
+          "simultaneous_95_bounds": [
+            0.9798823758961006,
+            1.0091259136903417
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 0.8564516017303273,
+          "simultaneous_95_bounds": [
+            0.8378119142427053,
+            0.8755059860535155
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 1.0743184509469965,
+          "simultaneous_95_bounds": [
+            1.045478358927949,
+            1.1039541126691987
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 4.217605525018431,
+          "simultaneous_95_bounds": [
+            3.86662378839594,
+            4.600446626860843
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 3.526802449606412,
+          "simultaneous_95_bounds": [
+            3.2826105655207796,
+            3.7891596551833047
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 1.2543831417636482,
+          "simultaneous_95_bounds": [
+            1.2254140681387664,
+            1.2840370510277668
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 4.924511223398281,
+          "simultaneous_95_bounds": [
+            4.548424943106073,
+            5.331694178252176
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 4.117923817856206,
+          "simultaneous_95_bounds": [
+            3.8650672599569553,
+            4.3873225041512685
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 3.9258429577381557,
+          "simultaneous_95_bounds": [
+            3.6875874754686926,
+            4.179492156145631
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 3.282827774667358,
+          "simultaneous_95_bounds": [
+            3.129020664301364,
+            3.4441952784398366
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.8362096522981486,
+          "simultaneous_95_bounds": [
+            0.8211419799675292,
+            0.8515538112230495
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "radix",
+        "unique_winner": true,
+        "unresolved_rivals": []
+      }
+    },
+    "large1048576": {
+      "fastest_point_estimate": "unstable",
+      "unique_winner": false,
+      "unresolved_rivals": [
+        "radix"
+      ],
+      "methods": {
+        "unstable": {
+          "gm_ns": 23051363.819829483,
+          "median_ns": 23049285.0,
+          "min_ns": 22995695.0,
+          "max_ns": 23106887.0
+        },
+        "stable": {
+          "gm_ns": 32496911.86040712,
+          "median_ns": 32506078.0,
+          "min_ns": 32411792.0,
+          "max_ns": 32555021.0
+        },
+        "quick": {
+          "gm_ns": 112311058.32169423,
+          "median_ns": 112359843.5,
+          "min_ns": 111509471.0,
+          "max_ns": 113190769.0
+        },
+        "heap": {
+          "gm_ns": 181096445.26087096,
+          "median_ns": 180859743.0,
+          "min_ns": 175161890.0,
+          "max_ns": 188401241.0
+        },
+        "merge": {
+          "gm_ns": 105681654.95186606,
+          "median_ns": 105194549.5,
+          "min_ns": 104862163.0,
+          "max_ns": 108325488.0
+        },
+        "radix": {
+          "gm_ns": 23526519.420747608,
+          "median_ns": 23473994.5,
+          "min_ns": 23274304.0,
+          "max_ns": 23864155.0
+        },
+        "dispatch": {
+          "gm_ns": 32548029.15126112,
+          "median_ns": 32553023.0,
+          "min_ns": 32426687.0,
+          "max_ns": 32645656.0
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 0.7093401341902391,
+          "simultaneous_95_bounds": [
+            0.7070366946903224,
+            0.7116510780157015
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 0.20524571813581502,
+          "simultaneous_95_bounds": [
+            0.2032023581692151,
+            0.20730962569837158
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.12728777633721003,
+          "simultaneous_95_bounds": [
+            0.12333871496406411,
+            0.1313632788341622
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 0.21812076874012334,
+          "simultaneous_95_bounds": [
+            0.21430430186615787,
+            0.22200520167577417
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.9798034043021654,
+          "simultaneous_95_bounds": [
+            0.9662491542764888,
+            0.9935477892355367
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.7082261021920073,
+          "simultaneous_95_bounds": [
+            0.7059904802880732,
+            0.710468803519017
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 0.2893473923763207,
+          "simultaneous_95_bounds": [
+            0.28642432956527086,
+            0.2923002860896905
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.17944533264358128,
+          "simultaneous_95_bounds": [
+            0.1739071135701563,
+            0.1851599209860694
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 0.3074981355582302,
+          "simultaneous_95_bounds": [
+            0.30181666776219634,
+            0.3132865526376045
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 1.3812885484347772,
+          "simultaneous_95_bounds": [
+            1.3643731703814688,
+            1.39841364185108
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.9984294812255287,
+          "simultaneous_95_bounds": [
+            0.9952413604038148,
+            1.0016278147602367
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 0.620172627684156,
+          "simultaneous_95_bounds": [
+            0.6008646052446962,
+            0.640101088950048
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 1.062729935227144,
+          "simultaneous_95_bounds": [
+            1.043592268015765,
+            1.0822185539715288
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 4.773806797050016,
+          "simultaneous_95_bounds": [
+            4.685367595159325,
+            4.863915343399216
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 3.4506254679737607,
+          "simultaneous_95_bounds": [
+            3.4168302376067303,
+            3.4847549606588273
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 1.7136034190924905,
+          "simultaneous_95_bounds": [
+            1.6733883280597226,
+            1.754784964545703
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 7.697545141384793,
+          "simultaneous_95_bounds": [
+            7.432283629493828,
+            7.972273954740337
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 5.5639757608443,
+          "simultaneous_95_bounds": [
+            5.3961711238028,
+            5.7369986156862725
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 4.492022515607109,
+          "simultaneous_95_bounds": [
+            4.394987826480325,
+            4.591199584022683
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 3.246944829154772,
+          "simultaneous_95_bounds": [
+            3.1934968360674136,
+            3.3012873551356035
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.7228247004269386,
+          "simultaneous_95_bounds": [
+            0.7139136953207222,
+            0.7318469318795935
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "radix",
+        "unique_winner": true,
+        "unresolved_rivals": []
+      }
+    },
+    "equal4096": {
+      "fastest_point_estimate": "stable",
+      "unique_winner": false,
+      "unresolved_rivals": [
+        "unstable"
+      ],
+      "methods": {
+        "unstable": {
+          "gm_ns": 2221.023170055975,
+          "median_ns": 2156.25,
+          "min_ns": 2112.5625,
+          "max_ns": 3199.375
+        },
+        "stable": {
+          "gm_ns": 2216.723009873384,
+          "median_ns": 2219.3125,
+          "min_ns": 2196.625,
+          "max_ns": 2233.4375
+        },
+        "quick": {
+          "gm_ns": 5065.59742476662,
+          "median_ns": 5007.53125,
+          "min_ns": 4943.75,
+          "max_ns": 5649.0625
+        },
+        "heap": {
+          "gm_ns": 17602.64631474687,
+          "median_ns": 17387.03125,
+          "min_ns": 17296.5,
+          "max_ns": 19115.1875
+        },
+        "merge": {
+          "gm_ns": 2796.3105432635757,
+          "median_ns": 2796.1875,
+          "min_ns": 2789.875,
+          "max_ns": 2802.4375
+        },
+        "radix": {
+          "gm_ns": 149586.20266923614,
+          "median_ns": 148618.9375,
+          "min_ns": 147864.4375,
+          "max_ns": 162707.3125
+        },
+        "dispatch": {
+          "gm_ns": 8074.851590865003,
+          "median_ns": 8072.5,
+          "min_ns": 8044.25,
+          "max_ns": 8126.6875
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 1.0019398725792248,
+          "simultaneous_95_bounds": [
+            0.8147883867616525,
+            1.2320788128239926
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 0.43845236480834265,
+          "simultaneous_95_bounds": [
+            0.3553804834070648,
+            0.5409426943286283
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.12617552669880552,
+          "simultaneous_95_bounds": [
+            0.10357661189527712,
+            0.15370519701703933
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 0.7942691398873809,
+          "simultaneous_95_bounds": [
+            0.6492392521733528,
+            0.9716964346588728
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.014847780947866441,
+          "simultaneous_95_bounds": [
+            0.01206999048379316,
+            0.01826485276619242
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.2750543641654784,
+          "simultaneous_95_bounds": [
+            0.2248728659512307,
+            0.33643411323304456
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 0.43760346983663306,
+          "simultaneous_95_bounds": [
+            0.41059102757492705,
+            0.46639303821152195
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.12593123614693624,
+          "simultaneous_95_bounds": [
+            0.11951465993101533,
+            0.13269230943424976
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 0.7927313420941604,
+          "simultaneous_95_bounds": [
+            0.7865530819047589,
+            0.7989581316197837
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 0.014819033910333193,
+          "simultaneous_95_bounds": [
+            0.014139473882812255,
+            0.015531254405622
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.27452182680126797,
+          "simultaneous_95_bounds": [
+            0.27187323186186996,
+            0.27719622441018577
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 0.28777476603178936,
+          "simultaneous_95_bounds": [
+            0.2798369209524593,
+            0.295937775768767
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 1.811528922268611,
+          "simultaneous_95_bounds": [
+            1.6999911737430577,
+            1.9303847495808661
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 0.033864068573006195,
+          "simultaneous_95_bounds": [
+            0.031039441179212066,
+            0.036945740540112924
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.6273300961341851,
+          "simultaneous_95_bounds": [
+            0.589003220169642,
+            0.6681509303164411
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 6.2949540268881625,
+          "simultaneous_95_bounds": [
+            5.986232459993592,
+            6.619596961103964
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 0.11767560109584237,
+          "simultaneous_95_bounds": [
+            0.10937253788983965,
+            0.1266089949125539
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 2.179934345129088,
+          "simultaneous_95_bounds": [
+            2.0709831533446894,
+            2.2946172890873604
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 0.01869363947587301,
+          "simultaneous_95_bounds": [
+            0.017835077057035433,
+            0.01959353221387226
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.3462986919074789,
+          "simultaneous_95_bounds": [
+            0.34429644620784,
+            0.348312581607182
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 18.524947608753777,
+          "simultaneous_95_bounds": [
+            17.65644033978088,
+            19.436176109285412
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "stable",
+        "unique_winner": true,
+        "unresolved_rivals": []
+      }
+    },
+    "duplicates4096": {
+      "fastest_point_estimate": "unstable",
+      "unique_winner": true,
+      "unresolved_rivals": [],
+      "methods": {
+        "unstable": {
+          "gm_ns": 14426.378499417091,
+          "median_ns": 14361.875,
+          "min_ns": 13923.25,
+          "max_ns": 15492.9375
+        },
+        "stable": {
+          "gm_ns": 18993.837451690262,
+          "median_ns": 19018.28125,
+          "min_ns": 17846.75,
+          "max_ns": 19934.3125
+        },
+        "quick": {
+          "gm_ns": 34570.56095291688,
+          "median_ns": 35923.625,
+          "min_ns": 27977.6875,
+          "max_ns": 40848.125
+        },
+        "heap": {
+          "gm_ns": 210312.03728186368,
+          "median_ns": 209156.90625,
+          "min_ns": 205569.375,
+          "max_ns": 220535.625
+        },
+        "merge": {
+          "gm_ns": 164947.85154061773,
+          "median_ns": 162536.65625,
+          "min_ns": 157675.5,
+          "max_ns": 182440.125
+        },
+        "radix": {
+          "gm_ns": 140818.23868349168,
+          "median_ns": 139841.90625,
+          "min_ns": 138780.5,
+          "max_ns": 152592.375
+        },
+        "dispatch": {
+          "gm_ns": 25876.808188863004,
+          "median_ns": 24871.78125,
+          "min_ns": 24164.5625,
+          "max_ns": 37677.8125
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 0.7595294282216404,
+          "simultaneous_95_bounds": [
+            0.7130254519746178,
+            0.8090664235576654
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 0.4173024128554055,
+          "simultaneous_95_bounds": [
+            0.3299772344876879,
+            0.5277373272289814
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.06859511555243317,
+          "simultaneous_95_bounds": [
+            0.06435736890888365,
+            0.07311190555837278
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 0.08746023888564955,
+          "simultaneous_95_bounds": [
+            0.07857439443519332,
+            0.09735096835195947
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.10244680400982965,
+          "simultaneous_95_bounds": [
+            0.09573634398897868,
+            0.1096276211783969
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.5575022388435826,
+          "simultaneous_95_bounds": [
+            0.44797512376268595,
+            0.6938080483242579
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 0.5494223098537155,
+          "simultaneous_95_bounds": [
+            0.4298797207929377,
+            0.7022077571097916
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.09031265018004837,
+          "simultaneous_95_bounds": [
+            0.0838607278044482,
+            0.09726095868811617
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 0.11515055985444653,
+          "simultaneous_95_bounds": [
+            0.10371883065806074,
+            0.1278422765727736
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 0.13488194163812495,
+          "simultaneous_95_bounds": [
+            0.12405301150980654,
+            0.1466561589972554
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.7340100569228982,
+          "simultaneous_95_bounds": [
+            0.6074202510419263,
+            0.8869818922562863
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 0.16437747168311068,
+          "simultaneous_95_bounds": [
+            0.12724885443346837,
+            0.2123394612645345
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 0.20958479076888153,
+          "simultaneous_95_bounds": [
+            0.15959467153454104,
+            0.27523340284032605
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 0.2454977514000795,
+          "simultaneous_95_bounds": [
+            0.19313320240927861,
+            0.3120599937797115
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.3359669670464045,
+          "simultaneous_95_bounds": [
+            0.9970456085328926,
+            1.7900963825169771
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 1.2750213798939685,
+          "simultaneous_95_bounds": [
+            1.159245642458315,
+            1.4023598274989217
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 1.4934999844343249,
+          "simultaneous_95_bounds": [
+            1.429737873680712,
+            1.560105698090678
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 8.127433482015718,
+          "simultaneous_95_bounds": [
+            6.529415628478316,
+            10.116552347577286
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 1.1713528949283385,
+          "simultaneous_95_bounds": [
+            1.055637283912637,
+            1.2997528842213097
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 6.374350744370735,
+          "simultaneous_95_bounds": [
+            4.967996388941813,
+            8.178819836242765
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 5.44187048324212,
+          "simultaneous_95_bounds": [
+            4.337369625633178,
+            6.8276298568994385
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "stable",
+        "unique_winner": true,
+        "unresolved_rivals": []
+      }
+    },
+    "sorted4096": {
+      "fastest_point_estimate": "unstable",
+      "unique_winner": false,
+      "unresolved_rivals": [
+        "stable"
+      ],
+      "methods": {
+        "unstable": {
+          "gm_ns": 2143.1781883839312,
+          "median_ns": 2153.75,
+          "min_ns": 2111.625,
+          "max_ns": 2162.3125
+        },
+        "stable": {
+          "gm_ns": 2218.7383160416343,
+          "median_ns": 2221.34375,
+          "min_ns": 2209.3125,
+          "max_ns": 2227.3125
+        },
+        "quick": {
+          "gm_ns": 274526.68012436613,
+          "median_ns": 271980.6875,
+          "min_ns": 270318.3125,
+          "max_ns": 284544.25
+        },
+        "heap": {
+          "gm_ns": 208234.25693955758,
+          "median_ns": 206010.21875,
+          "min_ns": 203736.875,
+          "max_ns": 222833.5625
+        },
+        "merge": {
+          "gm_ns": 2795.660601629049,
+          "median_ns": 2793.90625,
+          "min_ns": 2788.3125,
+          "max_ns": 2807.9375
+        },
+        "radix": {
+          "gm_ns": 129662.19552296896,
+          "median_ns": 129669.96875,
+          "min_ns": 129306.25,
+          "max_ns": 130248.0625
+        },
+        "dispatch": {
+          "gm_ns": 8083.211653263033,
+          "median_ns": 8081.65625,
+          "min_ns": 8049.1875,
+          "max_ns": 8118.9375
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 0.965944551860218,
+          "simultaneous_95_bounds": [
+            0.9485106305362677,
+            0.9836989140974743
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 0.007806812027934874,
+          "simultaneous_95_bounds": [
+            0.007526905239485728,
+            0.00809712785007411
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.010292149907908839,
+          "simultaneous_95_bounds": [
+            0.009698600395760114,
+            0.010922024354480678
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 0.766608860580246,
+          "simultaneous_95_bounds": [
+            0.7538885981188459,
+            0.779543750345323
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.016528936439336155,
+          "simultaneous_95_bounds": [
+            0.016276144513237344,
+            0.01678565458751101
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.26513943718382915,
+          "simultaneous_95_bounds": [
+            0.26101334850686747,
+            0.26933075090720143
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 0.008082049857727851,
+          "simultaneous_95_bounds": [
+            0.00778725510321118,
+            0.008388004378572803
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.010655011085354937,
+          "simultaneous_95_bounds": [
+            0.010100174555810245,
+            0.011240326649971369
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 0.7936365075033646,
+          "simultaneous_95_bounds": [
+            0.7898438357047846,
+            0.7974473909517942
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 0.01711168245372335,
+          "simultaneous_95_bounds": [
+            0.016994032934217404,
+            0.017230146459672486
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.2744872225566396,
+          "simultaneous_95_bounds": [
+            0.27218123259928684,
+            0.27681274945866935
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 1.3183550303351428,
+          "simultaneous_95_bounds": [
+            1.2271821052233243,
+            1.416301605615151
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 98.1974278152354,
+          "simultaneous_95_bounds": [
+            94.67885706948412,
+            101.84675996301515
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 2.1172453467806305,
+          "simultaneous_95_bounds": [
+            2.0426633051125656,
+            2.1945505396040788
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 33.962574766125925,
+          "simultaneous_95_bounds": [
+            32.821189324096785,
+            35.14365288091021
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 74.48481293409436,
+          "simultaneous_95_bounds": [
+            70.67294375003591,
+            78.50228196875145
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 1.6059750962852544,
+          "simultaneous_95_bounds": [
+            1.5178475294607923,
+            1.6992194273983927
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 25.76132679335414,
+          "simultaneous_95_bounds": [
+            24.38956859246977,
+            27.210237673448855
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 0.021561108003402687,
+          "simultaneous_95_bounds": [
+            0.02142658243903633,
+            0.0216964781787806
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.3458601260923924,
+          "simultaneous_95_bounds": [
+            0.34348762315928755,
+            0.34824901613754455
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 16.040925449555285,
+          "simultaneous_95_bounds": [
+            15.952521462013406,
+            16.129819344917188
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "stable",
+        "unique_winner": true,
+        "unresolved_rivals": []
+      }
+    },
+    "reverse4096": {
+      "fastest_point_estimate": "unstable",
+      "unique_winner": false,
+      "unresolved_rivals": [
+        "stable"
+      ],
+      "methods": {
+        "unstable": {
+          "gm_ns": 3796.284298934528,
+          "median_ns": 3796.3125,
+          "min_ns": 3751.125,
+          "max_ns": 3817.5
+        },
+        "stable": {
+          "gm_ns": 3859.877556087854,
+          "median_ns": 3861.0,
+          "min_ns": 3851.4375,
+          "max_ns": 3865.1875
+        },
+        "quick": {
+          "gm_ns": 192977.86390244067,
+          "median_ns": 192535.1875,
+          "min_ns": 190924.125,
+          "max_ns": 195964.9375
+        },
+        "heap": {
+          "gm_ns": 208630.59793518292,
+          "median_ns": 208784.03125,
+          "min_ns": 206266.8125,
+          "max_ns": 211009.3125
+        },
+        "merge": {
+          "gm_ns": 4440.553981563752,
+          "median_ns": 4427.5625,
+          "min_ns": 4421.25,
+          "max_ns": 4513.1875
+        },
+        "radix": {
+          "gm_ns": 130662.7454249192,
+          "median_ns": 129568.9375,
+          "min_ns": 129045.5,
+          "max_ns": 143071.3125
+        },
+        "dispatch": {
+          "gm_ns": 9696.306367011866,
+          "median_ns": 9694.46875,
+          "min_ns": 9656.8125,
+          "max_ns": 9743.375
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 0.9835245402919506,
+          "simultaneous_95_bounds": [
+            0.974958975042972,
+            0.9921653588694411
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 0.019672123124203106,
+          "simultaneous_95_bounds": [
+            0.01933387338090928,
+            0.02001629061023705
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.018196201019919183,
+          "simultaneous_95_bounds": [
+            0.01791714117854396,
+            0.018479607224047952
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 0.8549123183044054,
+          "simultaneous_95_bounds": [
+            0.8432734998527678,
+            0.8667117751432019
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.029054068063462862,
+          "simultaneous_95_bounds": [
+            0.027523589636800128,
+            0.030669650368122244
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.3915186005106022,
+          "simultaneous_95_bounds": [
+            0.38718609529803794,
+            0.39589958525702584
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 0.020001659662059492,
+          "simultaneous_95_bounds": [
+            0.019704001362585464,
+            0.020303814533656882
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.018501013726121982,
+          "simultaneous_95_bounds": [
+            0.01825466060747598,
+            0.01875069146746965
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 0.8692333371271368,
+          "simultaneous_95_bounds": [
+            0.8590189016657156,
+            0.879569230558334
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 0.029540765759478067,
+          "simultaneous_95_bounds": [
+            0.028106446854133153,
+            0.03104828035309004
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.3980771037948716,
+          "simultaneous_95_bounds": [
+            0.3964815206038956,
+            0.3996791081822641
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 0.9249739290992919,
+          "simultaneous_95_bounds": [
+            0.9074969640877713,
+            0.9427874729844631
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 43.45806057164137,
+          "simultaneous_95_bounds": [
+            42.93542187872477,
+            43.98706117254399
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 1.4769157289238857,
+          "simultaneous_95_bounds": [
+            1.4143923171957022,
+            1.5422029968796556
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 19.902203643129248,
+          "simultaneous_95_bounds": [
+            19.585243300253254,
+            20.224293555110705
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 46.98301130925857,
+          "simultaneous_95_bounds": [
+            46.290499040156114,
+            47.68588365770347
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 1.596710655793354,
+          "simultaneous_95_bounds": [
+            1.5095563314359122,
+            1.6888968402384394
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 21.51650226780914,
+          "simultaneous_95_bounds": [
+            21.192215070105963,
+            21.84575176823746
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 0.03398485136006391,
+          "simultaneous_95_bounds": [
+            0.032324572962196374,
+            0.03573040619334328
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.4579634567520592,
+          "simultaneous_95_bounds": [
+            0.4522351296530817,
+            0.4637643428567425
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 13.475517426867983,
+          "simultaneous_95_bounds": [
+            12.836237114497282,
+            14.146635676956677
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "stable",
+        "unique_winner": true,
+        "unresolved_rivals": []
+      }
+    },
+    "organ4096": {
+      "fastest_point_estimate": "merge",
+      "unique_winner": true,
+      "unresolved_rivals": [],
+      "methods": {
+        "unstable": {
+          "gm_ns": 52280.46690170223,
+          "median_ns": 52280.8125,
+          "min_ns": 52065.5,
+          "max_ns": 52898.5
+        },
+        "stable": {
+          "gm_ns": 16887.295987083213,
+          "median_ns": 16783.5625,
+          "min_ns": 16675.5,
+          "max_ns": 18121.8125
+        },
+        "quick": {
+          "gm_ns": 262398.2859727426,
+          "median_ns": 259537.5,
+          "min_ns": 257394.625,
+          "max_ns": 277858.125
+        },
+        "heap": {
+          "gm_ns": 216974.19421267245,
+          "median_ns": 217522.84375,
+          "min_ns": 213723.5,
+          "max_ns": 220941.625
+        },
+        "merge": {
+          "gm_ns": 11803.060689330503,
+          "median_ns": 11794.5625,
+          "min_ns": 11694.0,
+          "max_ns": 11924.625
+        },
+        "radix": {
+          "gm_ns": 132262.78272633062,
+          "median_ns": 131028.03125,
+          "min_ns": 130503.4375,
+          "max_ns": 144474.5625
+        },
+        "dispatch": {
+          "gm_ns": 22884.23234905224,
+          "median_ns": 22799.4375,
+          "min_ns": 22679.0625,
+          "max_ns": 23478.6875
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 3.095845950807675,
+          "simultaneous_95_bounds": [
+            2.9694740253667318,
+            3.2275958871028063
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 0.19924088569363996,
+          "simultaneous_95_bounds": [
+            0.18959880689506603,
+            0.20937331401012704
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.24095246483763078,
+          "simultaneous_95_bounds": [
+            0.23567388926898325,
+            0.2463492688622195
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 4.429399142966512,
+          "simultaneous_95_bounds": [
+            4.374914896575724,
+            4.484561924408826
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.39527723388277364,
+          "simultaneous_95_bounds": [
+            0.3751873149949795,
+            0.4164428950059458
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 2.2845628424091506,
+          "simultaneous_95_bounds": [
+            2.234698140650814,
+            2.33554021725573
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 0.06435749351212387,
+          "simultaneous_95_bounds": [
+            0.060382460854403214,
+            0.06859420620749727
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.07783089619648828,
+          "simultaneous_95_bounds": [
+            0.07406527389408835,
+            0.08178797004667576
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 1.4307556685147482,
+          "simultaneous_95_bounds": [
+            1.3735480477297202,
+            1.490345959408254
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 0.12767987818633217,
+          "simultaneous_95_bounds": [
+            0.1192945748461838,
+            0.13665459066094426
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.7379446131074873,
+          "simultaneous_95_bounds": [
+            0.7025413503630683,
+            0.7751319573330924
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 1.2093525081399614,
+          "simultaneous_95_bounds": [
+            1.165814856222572,
+            1.2545160847265744
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 22.231376494568075,
+          "simultaneous_95_bounds": [
+            21.246498346990574,
+            23.261908516479796
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 1.983916265512724,
+          "simultaneous_95_bounds": [
+            1.8477692109178943,
+            2.1300948870182506
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 11.46633550867656,
+          "simultaneous_95_bounds": [
+            10.871454414067989,
+            12.093768229152664
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 18.382875418814766,
+          "simultaneous_95_bounds": [
+            18.034194352510955,
+            18.73829803861535
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 1.6404780675272892,
+          "simultaneous_95_bounds": [
+            1.557344615168246,
+            1.7280493115182038
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 9.481383989778383,
+          "simultaneous_95_bounds": [
+            9.259921609491341,
+            9.708142914458643
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 0.08923947043933453,
+          "simultaneous_95_bounds": [
+            0.08530408533389713,
+            0.09335640905264296
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.5157726293501528,
+          "simultaneous_95_bounds": [
+            0.5033294752160115,
+            0.5285233992557319
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 5.779646907483363,
+          "simultaneous_95_bounds": [
+            5.460193768436839,
+            6.117789915859541
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "merge",
+        "unique_winner": true,
+        "unresolved_rivals": []
+      }
+    },
+    "runs4096": {
+      "fastest_point_estimate": "merge",
+      "unique_winner": true,
+      "unresolved_rivals": [],
+      "methods": {
+        "unstable": {
+          "gm_ns": 44859.30112342892,
+          "median_ns": 44777.625,
+          "min_ns": 44555.8125,
+          "max_ns": 45482.375
+        },
+        "stable": {
+          "gm_ns": 33971.67666545263,
+          "median_ns": 33856.21875,
+          "min_ns": 33823.3125,
+          "max_ns": 34533.8125
+        },
+        "quick": {
+          "gm_ns": 92084.822125404,
+          "median_ns": 91022.125,
+          "min_ns": 90621.0,
+          "max_ns": 102980.0625
+        },
+        "heap": {
+          "gm_ns": 208144.40914657552,
+          "median_ns": 208011.53125,
+          "min_ns": 207178.8125,
+          "max_ns": 209078.6875
+        },
+        "merge": {
+          "gm_ns": 29207.822235021387,
+          "median_ns": 29181.53125,
+          "min_ns": 28840.125,
+          "max_ns": 29565.8125
+        },
+        "radix": {
+          "gm_ns": 129684.48021222155,
+          "median_ns": 129505.34375,
+          "min_ns": 129250.3125,
+          "max_ns": 130465.5625
+        },
+        "dispatch": {
+          "gm_ns": 41313.02395737813,
+          "median_ns": 39780.90625,
+          "min_ns": 39568.875,
+          "max_ns": 52394.875
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 1.3204912305387755,
+          "simultaneous_95_bounds": [
+            1.2961549256964642,
+            1.3452844682072762
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 0.48715195499143354,
+          "simultaneous_95_bounds": [
+            0.4569161907622911,
+            0.5193885269332443
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.21552008678666423,
+          "simultaneous_95_bounds": [
+            0.21281007811918984,
+            0.21826460578862417
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 1.535866000637349,
+          "simultaneous_95_bounds": [
+            1.506617711333474,
+            1.5656820931873745
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.3459110993853635,
+          "simultaneous_95_bounds": [
+            0.3426714037292765,
+            0.34918142388246215
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.0858392058085475,
+          "simultaneous_95_bounds": [
+            0.9458998545286161,
+            1.2464816177168232
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 0.3689172208986727,
+          "simultaneous_95_bounds": [
+            0.34524952266456177,
+            0.39420739766766394
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.1632120545766363,
+          "simultaneous_95_bounds": [
+            0.16128045929187557,
+            0.1651667838502292
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 1.1631020071301028,
+          "simultaneous_95_bounds": [
+            1.137767765397093,
+            1.1890003567801288
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 0.26195637758550494,
+          "simultaneous_95_bounds": [
+            0.25831185798904976,
+            0.26565231767497327
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.8222994448554669,
+          "simultaneous_95_bounds": [
+            0.712544172903182,
+            0.9489606437375014
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 0.4424083380522492,
+          "simultaneous_95_bounds": [
+            0.4154468954623423,
+            0.47111950941487907
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 3.152745226413711,
+          "simultaneous_95_bounds": [
+            2.9647076643986963,
+            3.352709132854904
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 0.7100681745010061,
+          "simultaneous_95_bounds": [
+            0.666472512477798,
+            0.7565155396502379
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 2.2289538093460832,
+          "simultaneous_95_bounds": [
+            1.8916590318276219,
+            2.62639038040506
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 7.1263241563077555,
+          "simultaneous_95_bounds": [
+            7.0150891538146025,
+            7.239322960444531
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 1.605006310747122,
+          "simultaneous_95_bounds": [
+            1.5934137140722227,
+            1.6166832472871049
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 5.038227396796576,
+          "simultaneous_95_bounds": [
+            4.359538456110138,
+            5.822574008093649
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 0.22522218685863116,
+          "simultaneous_95_bounds": [
+            0.2219141311185899,
+            0.2285795555140963
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.7069882433480195,
+          "simultaneous_95_bounds": [
+            0.6093609468915405,
+            0.8202566619703034
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 3.139070147612882,
+          "simultaneous_95_bounds": [
+            2.719743370227649,
+            3.623048225616073
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "merge",
+        "unique_winner": true,
+        "unresolved_rivals": []
+      }
+    },
+    "nearly4096": {
+      "fastest_point_estimate": "stable",
+      "unique_winner": false,
+      "unresolved_rivals": [
+        "unstable",
+        "merge"
+      ],
+      "methods": {
+        "unstable": {
+          "gm_ns": 42250.8475319581,
+          "median_ns": 42007.375,
+          "min_ns": 41937.1875,
+          "max_ns": 43865.375
+        },
+        "stable": {
+          "gm_ns": 39207.62056671214,
+          "median_ns": 39059.0,
+          "min_ns": 38917.0625,
+          "max_ns": 40461.9375
+        },
+        "quick": {
+          "gm_ns": 272736.9897047798,
+          "median_ns": 272938.1875,
+          "min_ns": 270163.875,
+          "max_ns": 275039.8125
+        },
+        "heap": {
+          "gm_ns": 207968.35909490078,
+          "median_ns": 206708.28125,
+          "min_ns": 204919.5,
+          "max_ns": 218842.3125
+        },
+        "merge": {
+          "gm_ns": 41017.65632561729,
+          "median_ns": 40819.9375,
+          "min_ns": 40272.9375,
+          "max_ns": 42177.3125
+        },
+        "radix": {
+          "gm_ns": 129862.44426758899,
+          "median_ns": 129842.5,
+          "min_ns": 129107.875,
+          "max_ns": 131079.5625
+        },
+        "dispatch": {
+          "gm_ns": 44941.04652469415,
+          "median_ns": 44897.1875,
+          "min_ns": 44795.625,
+          "max_ns": 45493.25
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 1.077618251790309,
+          "simultaneous_95_bounds": [
+            1.0417568178326515,
+            1.1147141796562232
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 0.15491425485663649,
+          "simultaneous_95_bounds": [
+            0.15017055593590153,
+            0.15980780125786012
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.20315997931530563,
+          "simultaneous_95_bounds": [
+            0.1950566415330661,
+            0.2115999582018776
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 1.0300648870952347,
+          "simultaneous_95_bounds": [
+            0.9978269819642052,
+            1.0633443380513647
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.3253507799752931,
+          "simultaneous_95_bounds": [
+            0.31754651222707464,
+            0.333346851420736
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.9401393781237865,
+          "simultaneous_95_bounds": [
+            0.9169733941462642,
+            0.9638906166104064
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 0.14375615353513974,
+          "simultaneous_95_bounds": [
+            0.1407137623226281,
+            0.14686432469793617
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.18852685445683973,
+          "simultaneous_95_bounds": [
+            0.18035968554929993,
+            0.19706385461442377
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 0.9558717898327437,
+          "simultaneous_95_bounds": [
+            0.9232560906108396,
+            0.9896396979017401
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 0.3019165455250681,
+          "simultaneous_95_bounds": [
+            0.2954317045499364,
+            0.30854373128522145
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.8724233990672291,
+          "simultaneous_95_bounds": [
+            0.852742389958624,
+            0.8925586392825485
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 1.3114350225763118,
+          "simultaneous_95_bounds": [
+            1.256269375817215,
+            1.369023118406389
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 6.649258249658792,
+          "simultaneous_95_bounds": [
+            6.477149104564202,
+            6.82594063482351
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 2.1001991087029723,
+          "simultaneous_95_bounds": [
+            2.0722363312093126,
+            2.1285392161919536
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 6.068772554170866,
+          "simultaneous_95_bounds": [
+            5.984432893701362,
+            6.154300828240765
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 5.070215554100679,
+          "simultaneous_95_bounds": [
+            4.841953733264764,
+            5.309238208625148
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 1.6014511375311107,
+          "simultaneous_95_bounds": [
+            1.5410885244031765,
+            1.6641780827567376
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 4.627581580251512,
+          "simultaneous_95_bounds": [
+            4.480682691623654,
+            4.779296539323376
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 0.31585464571341393,
+          "simultaneous_95_bounds": [
+            0.3083439932364357,
+            0.32354824289457745
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.9126991803156821,
+          "simultaneous_95_bounds": [
+            0.888668320131534,
+            0.9373798692695839
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 2.889617717207194,
+          "simultaneous_95_bounds": [
+            2.8548299553193166,
+            2.9248293881881198
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "stable",
+        "unique_winner": false,
+        "unresolved_rivals": [
+          "merge"
+        ]
+      }
+    },
+    "groups4096x16": {
+      "fastest_point_estimate": "dispatch",
+      "unique_winner": false,
+      "unresolved_rivals": [
+        "groups"
+      ],
+      "methods": {
+        "unstable": {
+          "gm_ns": 46520.73595348837,
+          "median_ns": 46327.25,
+          "min_ns": 45665.3125,
+          "max_ns": 47887.3125
+        },
+        "stable": {
+          "gm_ns": 55693.94206081846,
+          "median_ns": 55085.625,
+          "min_ns": 53782.8125,
+          "max_ns": 64509.9375
+        },
+        "quick": {
+          "gm_ns": 294188.32429387904,
+          "median_ns": 293399.34375,
+          "min_ns": 289209.9375,
+          "max_ns": 303415.1875
+        },
+        "heap": {
+          "gm_ns": 218820.64395497114,
+          "median_ns": 218687.09375,
+          "min_ns": 217358.625,
+          "max_ns": 220925.4375
+        },
+        "merge": {
+          "gm_ns": 131687.93153144038,
+          "median_ns": 131682.5,
+          "min_ns": 129579.3125,
+          "max_ns": 135751.5625
+        },
+        "radix": {
+          "gm_ns": 105191.70614069409,
+          "median_ns": 104910.9375,
+          "min_ns": 104574.3125,
+          "max_ns": 106482.875
+        },
+        "dispatch": {
+          "gm_ns": 28926.89649269502,
+          "median_ns": 29038.75,
+          "min_ns": 27445.0625,
+          "max_ns": 30002.3125
+        },
+        "groups": {
+          "gm_ns": 30016.747995426198,
+          "median_ns": 30075.59375,
+          "min_ns": 28680.5625,
+          "max_ns": 31089.4375
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 0.8352925692113364,
+          "simultaneous_95_bounds": [
+            0.7599505312750815,
+            0.9181040705491944
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 0.15813250259047187,
+          "simultaneous_95_bounds": [
+            0.15264538686871218,
+            0.16381686265457043
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.21259756443757372,
+          "simultaneous_95_bounds": [
+            0.20584841562043896,
+            0.21956799749252265
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 0.3532649910472747,
+          "simultaneous_95_bounds": [
+            0.341389637706152,
+            0.36555343254749934
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.44224718526065915,
+          "simultaneous_95_bounds": [
+            0.43092012426742893,
+            0.45387198660881584
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.6082173200030763,
+          "simultaneous_95_bounds": [
+            1.5298141747809306,
+            1.6906386350670624
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "groups",
+          "ratio_a_over_b": 1.5498259825007354,
+          "simultaneous_95_bounds": [
+            1.4729768274951431,
+            1.6306845642093375
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 0.1893139103820555,
+          "simultaneous_95_bounds": [
+            0.173925234994748,
+            0.20606415547017767
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.2545186827632183,
+          "simultaneous_95_bounds": [
+            0.23351568960615143,
+            0.2774107383738608
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 0.42292366060531245,
+          "simultaneous_95_bounds": [
+            0.38602162980907123,
+            0.4633533690541253
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 0.5294518370709541,
+          "simultaneous_95_bounds": [
+            0.4864543267576758,
+            0.576249880736383
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.9253341634794108,
+          "simultaneous_95_bounds": [
+            1.7325703276923716,
+            2.139544687919386
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "groups",
+          "ratio_a_over_b": 1.8554289115298184,
+          "simultaneous_95_bounds": [
+            1.68062303546064,
+            2.048416791334259
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 1.3444267367863918,
+          "simultaneous_95_bounds": [
+            1.3181841765971387,
+            1.3711917368421775
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 2.23398090373712,
+          "simultaneous_95_bounds": [
+            2.1570348969473025,
+            2.3136717376826215
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 2.7966874489173263,
+          "simultaneous_95_bounds": [
+            2.7349792947184692,
+            2.8597878974936886
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 10.17006177514311,
+          "simultaneous_95_bounds": [
+            9.726552460518247,
+            10.633794135184882
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "groups",
+          "ratio_a_over_b": 9.80080601465242,
+          "simultaneous_95_bounds": [
+            9.342220292263383,
+            10.281902538349925
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 1.6616605744371358,
+          "simultaneous_95_bounds": [
+            1.6261450210331667,
+            1.697951799455429
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 2.080208145519554,
+          "simultaneous_95_bounds": [
+            2.0483275456811576,
+            2.11258494170516
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 7.56460839171705,
+          "simultaneous_95_bounds": [
+            7.216704259355376,
+            7.929284346917025
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "groups",
+          "ratio_a_over_b": 7.289951729225101,
+          "simultaneous_95_bounds": [
+            6.93899585084767,
+            7.658658018644011
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 1.2518851187308186,
+          "simultaneous_95_bounds": [
+            1.2233504736531768,
+            1.2810853342947952
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 4.552438992710322,
+          "simultaneous_95_bounds": [
+            4.282358494126551,
+            4.839552973151183
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "groups",
+          "ratio_a_over_b": 4.387148519603331,
+          "simultaneous_95_bounds": [
+            4.165971962446509,
+            4.620067611245915
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 3.6364670564385797,
+          "simultaneous_95_bounds": [
+            3.4747476813140845,
+            3.805713066210908
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "groups",
+          "ratio_a_over_b": 3.5044337966498826,
+          "simultaneous_95_bounds": [
+            3.342895819690664,
+            3.67377773568736
+          ]
+        },
+        {
+          "a": "dispatch",
+          "b": "groups",
+          "ratio_a_over_b": 0.9636918861797676,
+          "simultaneous_95_bounds": [
+            0.9049683531846869,
+            1.0262259980920987
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "dispatch",
+        "unique_winner": false,
+        "unresolved_rivals": [
+          "groups"
+        ]
+      }
+    },
+    "skew4096": {
+      "fastest_point_estimate": "unstable",
+      "unique_winner": true,
+      "unresolved_rivals": [],
+      "methods": {
+        "unstable": {
+          "gm_ns": 49648.408077786444,
+          "median_ns": 48619.875,
+          "min_ns": 47845.125,
+          "max_ns": 62008.8125
+        },
+        "stable": {
+          "gm_ns": 61818.03603601317,
+          "median_ns": 60905.125,
+          "min_ns": 59331.375,
+          "max_ns": 72060.1875
+        },
+        "quick": {
+          "gm_ns": 230920.22527619658,
+          "median_ns": 229678.0625,
+          "min_ns": 225832.0,
+          "max_ns": 237494.8125
+        },
+        "heap": {
+          "gm_ns": 262097.85612842612,
+          "median_ns": 261352.71875,
+          "min_ns": 259559.8125,
+          "max_ns": 271431.9375
+        },
+        "merge": {
+          "gm_ns": 222039.49624867822,
+          "median_ns": 222074.625,
+          "min_ns": 219981.9375,
+          "max_ns": 223525.75
+        },
+        "radix": {
+          "gm_ns": 112263.9104559966,
+          "median_ns": 112274.625,
+          "min_ns": 110244.75,
+          "max_ns": 114393.6875
+        },
+        "dispatch": {
+          "gm_ns": 63010.62398428681,
+          "median_ns": 63079.75,
+          "min_ns": 61629.8125,
+          "max_ns": 65292.0
+        },
+        "groups": {
+          "gm_ns": 63034.966674157884,
+          "median_ns": 62806.8125,
+          "min_ns": 62084.6875,
+          "max_ns": 64868.125
+        }
+      },
+      "contrasts": [
+        {
+          "a": "unstable",
+          "b": "stable",
+          "ratio_a_over_b": 0.8031379070157274,
+          "simultaneous_95_bounds": [
+            0.6798329702494359,
+            0.9488073187285057
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "quick",
+          "ratio_a_over_b": 0.21500242353567578,
+          "simultaneous_95_bounds": [
+            0.18903478610180827,
+            0.24453722555232874
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "heap",
+          "ratio_a_over_b": 0.18942699040414548,
+          "simultaneous_95_bounds": [
+            0.1660914576106432,
+            0.21604112101712844
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "merge",
+          "ratio_a_over_b": 0.22360169661969323,
+          "simultaneous_95_bounds": [
+            0.19636672466340585,
+            0.2546140076273458
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "radix",
+          "ratio_a_over_b": 0.44224727141717374,
+          "simultaneous_95_bounds": [
+            0.3878463176892763,
+            0.5042787314346161
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.7879370959755532,
+          "simultaneous_95_bounds": [
+            0.6837299349273163,
+            0.908026452403882
+          ]
+        },
+        {
+          "a": "unstable",
+          "b": "groups",
+          "ratio_a_over_b": 0.7876328123473187,
+          "simultaneous_95_bounds": [
+            0.7020915684478446,
+            0.8835962073403404
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "quick",
+          "ratio_a_over_b": 0.26770299553481974,
+          "simultaneous_95_bounds": [
+            0.2472113929500781,
+            0.28989316779905744
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "heap",
+          "ratio_a_over_b": 0.23585861002129987,
+          "simultaneous_95_bounds": [
+            0.22002929120915418,
+            0.25282671964024944
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "merge",
+          "ratio_a_over_b": 0.27841008955802476,
+          "simultaneous_95_bounds": [
+            0.25564114829912277,
+            0.3032069699397972
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "radix",
+          "ratio_a_over_b": 0.5506492316624192,
+          "simultaneous_95_bounds": [
+            0.505115543007653,
+            0.6002875590106689
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "dispatch",
+          "ratio_a_over_b": 0.9810732242776873,
+          "simultaneous_95_bounds": [
+            0.900254531309809,
+            1.069147266600523
+          ]
+        },
+        {
+          "a": "stable",
+          "b": "groups",
+          "ratio_a_over_b": 0.980694355809923,
+          "simultaneous_95_bounds": [
+            0.8934826273938878,
+            1.0764187126085574
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "heap",
+          "ratio_a_over_b": 0.8810458379447687,
+          "simultaneous_95_bounds": [
+            0.8617948559936348,
+            0.9007268529873109
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "merge",
+          "ratio_a_over_b": 1.0399961681482657,
+          "simultaneous_95_bounds": [
+            1.013965126682604,
+            1.066695492084355
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "radix",
+          "ratio_a_over_b": 2.056940866733025,
+          "simultaneous_95_bounds": [
+            1.9776184061295414,
+            2.139444958705173
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "dispatch",
+          "ratio_a_over_b": 3.6647823918357334,
+          "simultaneous_95_bounds": [
+            3.5663825543309855,
+            3.765897173089071
+          ]
+        },
+        {
+          "a": "quick",
+          "b": "groups",
+          "ratio_a_over_b": 3.6633671350994117,
+          "simultaneous_95_bounds": [
+            3.521205732159601,
+            3.811268010828681
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "merge",
+          "ratio_a_over_b": 1.1804109654206905,
+          "simultaneous_95_bounds": [
+            1.1579169163681327,
+            1.2033419907671656
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "radix",
+          "ratio_a_over_b": 2.334658173439974,
+          "simultaneous_95_bounds": [
+            2.27115341538485,
+            2.3999386170425034
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "dispatch",
+          "ratio_a_over_b": 4.159581980870186,
+          "simultaneous_95_bounds": [
+            4.038068523723668,
+            4.284752017933799
+          ]
+        },
+        {
+          "a": "heap",
+          "b": "groups",
+          "ratio_a_over_b": 4.157975643633949,
+          "simultaneous_95_bounds": [
+            4.028041943812823,
+            4.292100651933166
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "radix",
+          "ratio_a_over_b": 1.9778350437535268,
+          "simultaneous_95_bounds": [
+            1.9418169669721252,
+            2.0145212071141976
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "dispatch",
+          "ratio_a_over_b": 3.5238422064198116,
+          "simultaneous_95_bounds": [
+            3.420263961376575,
+            3.6305571838811854
+          ]
+        },
+        {
+          "a": "merge",
+          "b": "groups",
+          "ratio_a_over_b": 3.5224813776209496,
+          "simultaneous_95_bounds": [
+            3.428056572416047,
+            3.6195070861801684
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "dispatch",
+          "ratio_a_over_b": 1.781666381910333,
+          "simultaneous_95_bounds": [
+            1.709230190232979,
+            1.8571723776987437
+          ]
+        },
+        {
+          "a": "radix",
+          "b": "groups",
+          "ratio_a_over_b": 1.7809783423272751,
+          "simultaneous_95_bounds": [
+            1.721502924102977,
+            1.8425085496102669
+          ]
+        },
+        {
+          "a": "dispatch",
+          "b": "groups",
+          "ratio_a_over_b": 0.9996138224360948,
+          "simultaneous_95_bounds": [
+            0.9557919823886387,
+            1.0454448378067687
+          ]
+        }
+      ],
+      "stable_selection": {
+        "fastest_point_estimate": "stable",
+        "unique_winner": false,
+        "unresolved_rivals": [
+          "dispatch",
+          "groups"
+        ]
+      }
+    }
+  }
+}
