@@ -1,0 +1,625 @@
+{
+  "family": 101,
+  "alpha": 0.05,
+  "critical_t": 4.869568399286933,
+  "interval_method": "paired log t; Bonferroni two-sided familywise 95%; normal log-ratio model",
+  "aa": {
+    "ratio": 1.0169685487272384,
+    "low": 0.9482850995671183,
+    "high": 1.0906266792260026
+  },
+  "aa_mechanical": "pass; same linked binary/candidate, complete blocks, equal checksums",
+  "source_commit": "ba617e8e93c08767e94d4da33b28693222c51449",
+  "machine": {
+    "hostname": "b0f1d8752aba",
+    "architecture": "arm64",
+    "cpu_model": "Apple M1 Pro",
+    "available_cpus": 10,
+    "compiler": "rustc 1.93.0 (254b59607 2026-01-19)\nbinary: rustc\ncommit-hash: 254b59607d4417e9dffbc307138ae5c86280fe4c\ncommit-date: 2026-01-19\nhost: aarch64-apple-darwin\nrelease: 1.93.0\nLLVM version: 21.1.8\n",
+    "flags": [
+      "--edition",
+      "2024",
+      "-C",
+      "opt-level=3",
+      "-C",
+      "debuginfo=1"
+    ],
+    "binary_sha256": "13e9da6caa38d98eecb08685cb9d6d0c0050edef91dd4ae58995df61c70f0829"
+  },
+  "results": [
+    {
+      "workload": "tiny_uniform",
+      "geomean_ns": {
+        "linear": 3.3351517012236185,
+        "binary": 3.0740430998810395,
+        "select": 2.993287093109886,
+        "gallop": 4.2301589163904705,
+        "standard": 3.3234689874954717
+      },
+      "point_fastest": "select",
+      "selection": "unresolved",
+      "unresolved_set": [
+        "select",
+        "binary"
+      ],
+      "fastest_contrasts": {
+        "linear/select": {
+          "ratio": 1.1142104307003011,
+          "low": 1.0749963109686393,
+          "high": 1.1548550178397474
+        },
+        "binary/select": {
+          "ratio": 1.0269790381808153,
+          "low": 1.0044486659989205,
+          "high": 1.050014779813472
+        },
+        "gallop/select": {
+          "ratio": 1.41321523288818,
+          "low": 1.3793821458534126,
+          "high": 1.4478781681138513
+        },
+        "standard/select": {
+          "ratio": 1.1103074593631919,
+          "low": 1.0763797913183513,
+          "high": 1.1453045330845837
+        }
+      },
+      "min_max_ns": {
+        "linear": [
+          3.225170135498047,
+          3.6409683227539062
+        ],
+        "binary": [
+          2.98309326171875,
+          3.22723388671875
+        ],
+        "select": [
+          2.920307159423828,
+          3.1709671020507812
+        ],
+        "gallop": [
+          4.098575592041016,
+          4.456043243408203
+        ],
+        "standard": [
+          3.1905174255371094,
+          3.5203323364257812
+        ]
+      }
+    },
+    {
+      "workload": "medium_uniform",
+      "geomean_ns": {
+        "linear": 708.9006283563566,
+        "binary": 15.602026838553236,
+        "select": 10.646429890608697,
+        "gallop": 17.823085094445698,
+        "standard": 8.07971951224147
+      },
+      "point_fastest": "standard",
+      "selection": "standard",
+      "unresolved_set": [
+        "standard"
+      ],
+      "fastest_contrasts": {
+        "linear/standard": {
+          "ratio": 87.7382720133181,
+          "low": 86.42718104637122,
+          "high": 89.06925208809886
+        },
+        "binary/standard": {
+          "ratio": 1.9310109484512208,
+          "low": 1.8762353049233393,
+          "high": 1.9873857363486918
+        },
+        "select/standard": {
+          "ratio": 1.3176732031945464,
+          "low": 1.2788259297081968,
+          "high": 1.3577005517968799
+        },
+        "gallop/standard": {
+          "ratio": 2.2059039385516033,
+          "low": 2.11275371391006,
+          "high": 2.303161108689748
+        }
+      },
+      "min_max_ns": {
+        "linear": [
+          685.953857421875,
+          743.7998046875
+        ],
+        "binary": [
+          14.862060546875,
+          16.3675537109375
+        ],
+        "select": [
+          10.279296875,
+          11.0931396484375
+        ],
+        "gallop": [
+          17.4407958984375,
+          18.829345703125
+        ],
+        "standard": [
+          7.7972412109375,
+          8.504150390625
+        ]
+      }
+    },
+    {
+      "workload": "large_uniform",
+      "geomean_ns": {
+        "linear": 163376.76573573553,
+        "binary": 72.76408532926938,
+        "select": 52.794319596557976,
+        "gallop": 98.67150906068994,
+        "standard": 48.01216692979704
+      },
+      "point_fastest": "standard",
+      "selection": "unresolved",
+      "unresolved_set": [
+        "standard",
+        "select"
+      ],
+      "fastest_contrasts": {
+        "linear/standard": {
+          "ratio": 3402.820080473011,
+          "low": 3169.2627276023695,
+          "high": 3653.5893345864406
+        },
+        "binary/standard": {
+          "ratio": 1.515534290207405,
+          "low": 1.3599355880519746,
+          "high": 1.6889360091565462
+        },
+        "select/standard": {
+          "ratio": 1.0996029334346304,
+          "low": 1.0038068917810505,
+          "high": 1.2045410537804695
+        },
+        "gallop/standard": {
+          "ratio": 2.0551355077342484,
+          "low": 1.8269377972892633,
+          "high": 2.3118367584363777
+        }
+      },
+      "min_max_ns": {
+        "linear": [
+          158934,
+          170650.796875
+        ],
+        "binary": [
+          68.1953125,
+          83.49609375
+        ],
+        "select": [
+          48.2578125,
+          60.955078125
+        ],
+        "gallop": [
+          89.84375,
+          135.578125
+        ],
+        "standard": [
+          45.328125,
+          54.931640625
+        ]
+      }
+    },
+    {
+      "workload": "medium_low",
+      "geomean_ns": {
+        "linear": 3.3123324764298503,
+        "binary": 17.05923267055672,
+        "select": 10.63413837538461,
+        "gallop": 4.131454019626603,
+        "standard": 8.059273638390337
+      },
+      "point_fastest": "linear",
+      "selection": "linear",
+      "unresolved_set": [
+        "linear"
+      ],
+      "fastest_contrasts": {
+        "binary/linear": {
+          "ratio": 5.150217495359575,
+          "low": 5.017724958202602,
+          "high": 5.286208485012156
+        },
+        "select/linear": {
+          "ratio": 3.2104682881491606,
+          "low": 3.1104783449307023,
+          "high": 3.313672524359282
+        },
+        "gallop/linear": {
+          "ratio": 1.2472944817664051,
+          "low": 1.1906316320309707,
+          "high": 1.3066539493757183
+        },
+        "standard/linear": {
+          "ratio": 2.4331113183048902,
+          "low": 2.355106552076284,
+          "high": 2.5136997228614595
+        }
+      },
+      "min_max_ns": {
+        "linear": [
+          3.1472854614257812,
+          3.5039596557617188
+        ],
+        "binary": [
+          16.521453857421875,
+          17.77633285522461
+        ],
+        "select": [
+          10.155040740966797,
+          11.167366027832031
+        ],
+        "gallop": [
+          3.8895606994628906,
+          4.435855865478516
+        ],
+        "standard": [
+          7.877510070800781,
+          8.22305679321289
+        ]
+      }
+    },
+    {
+      "workload": "large_low",
+      "geomean_ns": {
+        "linear": 3.2270104945153366,
+        "binary": 54.725399646181515,
+        "select": 33.21825202157007,
+        "gallop": 3.996748922566395,
+        "standard": 30.438566608852963
+      },
+      "point_fastest": "linear",
+      "selection": "linear",
+      "unresolved_set": [
+        "linear"
+      ],
+      "fastest_contrasts": {
+        "binary/linear": {
+          "ratio": 16.958544057787662,
+          "low": 16.277141014600925,
+          "high": 17.66847238725457
+        },
+        "select/linear": {
+          "ratio": 10.293815925925308,
+          "low": 9.634091655606294,
+          "high": 10.998716859328555
+        },
+        "gallop/linear": {
+          "ratio": 1.2385298806307925,
+          "low": 1.22114865104745,
+          "high": 1.2561585060914262
+        },
+        "standard/linear": {
+          "ratio": 9.432434961270406,
+          "low": 8.271178160257255,
+          "high": 10.75672988475792
+        }
+      },
+      "min_max_ns": {
+        "linear": [
+          3.1609535217285156,
+          3.3458099365234375
+        ],
+        "binary": [
+          52.641075134277344,
+          57.20869827270508
+        ],
+        "select": [
+          31.03573989868164,
+          36.8504524230957
+        ],
+        "gallop": [
+          3.8860626220703125,
+          4.136241912841797
+        ],
+        "standard": [
+          27.954578399658203,
+          40.023643493652344
+        ]
+      }
+    },
+    {
+      "workload": "medium_repeat",
+      "geomean_ns": {
+        "linear": 699.9826835504988,
+        "binary": 15.859661383674311,
+        "select": 10.67593789583085,
+        "gallop": 16.738424933935626,
+        "standard": 8.35137750400711
+      },
+      "point_fastest": "standard",
+      "selection": "standard",
+      "unresolved_set": [
+        "standard"
+      ],
+      "fastest_contrasts": {
+        "linear/standard": {
+          "ratio": 83.81643426065183,
+          "low": 80.5368774041774,
+          "high": 87.2295385493277
+        },
+        "binary/standard": {
+          "ratio": 1.8990473578837284,
+          "low": 1.7730362907204806,
+          "high": 2.034014129524502
+        },
+        "select/standard": {
+          "ratio": 1.278344547436442,
+          "low": 1.1922573431822947,
+          "high": 1.3706476972485462
+        },
+        "gallop/standard": {
+          "ratio": 2.004271142803004,
+          "low": 1.9194144176693182,
+          "high": 2.092879357835967
+        }
+      },
+      "min_max_ns": {
+        "linear": [
+          665.0186767578125,
+          732.2998046875
+        ],
+        "binary": [
+          14.8721923828125,
+          17.68994140625
+        ],
+        "select": [
+          10.152099609375,
+          11.1185302734375
+        ],
+        "gallop": [
+          15.6962890625,
+          18.0511474609375
+        ],
+        "standard": [
+          7.893798828125,
+          8.94677734375
+        ]
+      }
+    },
+    {
+      "workload": "medium_monotone",
+      "geomean_ns": {
+        "linear": 694.8137076620279,
+        "binary": 15.904106933040815,
+        "select": 10.962113252725183,
+        "gallop": 16.884333829243108,
+        "standard": 8.314625542589457
+      },
+      "point_fastest": "standard",
+      "selection": "standard",
+      "unresolved_set": [
+        "standard"
+      ],
+      "fastest_contrasts": {
+        "linear/standard": {
+          "ratio": 83.5652434499942,
+          "low": 79.6457370720769,
+          "high": 87.67763560951501
+        },
+        "binary/standard": {
+          "ratio": 1.9127869140439648,
+          "low": 1.7732627984025509,
+          "high": 2.0632890859909954
+        },
+        "select/standard": {
+          "ratio": 1.3184133424379336,
+          "low": 1.2267600488640504,
+          "high": 1.4169142067577982
+        },
+        "gallop/standard": {
+          "ratio": 2.0306788011988757,
+          "low": 1.8899688871629616,
+          "high": 2.1818646971636326
+        }
+      },
+      "min_max_ns": {
+        "linear": [
+          659.0169677734375,
+          720.9625244140625
+        ],
+        "binary": [
+          15.2130126953125,
+          17.6492919921875
+        ],
+        "select": [
+          10.2996826171875,
+          12.0443115234375
+        ],
+        "gallop": [
+          15.93017578125,
+          18.559814453125
+        ],
+        "standard": [
+          7.6497802734375,
+          8.9365234375
+        ]
+      }
+    },
+    {
+      "workload": "medium_duplicates",
+      "geomean_ns": {
+        "linear": 665.4101141361708,
+        "binary": 15.97477532921976,
+        "select": 10.895158566700058,
+        "gallop": 17.21591573797337,
+        "standard": 8.546086342219454
+      },
+      "point_fastest": "standard",
+      "selection": "unresolved",
+      "unresolved_set": [
+        "standard",
+        "select"
+      ],
+      "fastest_contrasts": {
+        "linear/standard": {
+          "ratio": 77.86138443850092,
+          "low": 65.22518087395491,
+          "high": 92.94562476408267
+        },
+        "binary/standard": {
+          "ratio": 1.8692504018244036,
+          "low": 1.5600131816400635,
+          "high": 2.239786885035998
+        },
+        "select/standard": {
+          "ratio": 1.274871108296168,
+          "low": 1.0365705377219692,
+          "high": 1.567955371701139
+        },
+        "gallop/standard": {
+          "ratio": 2.0144794995720026,
+          "low": 1.7008902925682656,
+          "high": 2.3858844229560985
+        }
+      },
+      "min_max_ns": {
+        "linear": [
+          632.7615966796875,
+          695.68896484375
+        ],
+        "binary": [
+          15.1722412109375,
+          16.825439453125
+        ],
+        "select": [
+          10.1572265625,
+          12.1256103515625
+        ],
+        "gallop": [
+          16.138671875,
+          18.39697265625
+        ],
+        "standard": [
+          7.8785400390625,
+          12.3748779296875
+        ]
+      }
+    },
+    {
+      "workload": "medium_endpoints",
+      "geomean_ns": {
+        "linear": 689.5463507942405,
+        "binary": 17.0053234175885,
+        "select": 10.807051701446737,
+        "gallop": 10.64100221591213,
+        "standard": 8.445151019251924
+      },
+      "point_fastest": "standard",
+      "selection": "standard",
+      "unresolved_set": [
+        "standard"
+      ],
+      "fastest_contrasts": {
+        "linear/standard": {
+          "ratio": 81.64997277400028,
+          "low": 71.65968505847214,
+          "high": 93.03303591908261
+        },
+        "binary/standard": {
+          "ratio": 2.0136198131711844,
+          "low": 1.763416603077714,
+          "high": 2.2993232256738976
+        },
+        "select/standard": {
+          "ratio": 1.2796753636270712,
+          "low": 1.1281145408831876,
+          "high": 1.4515981994098253
+        },
+        "gallop/standard": {
+          "ratio": 1.2600132539553703,
+          "low": 1.0911795044083825,
+          "high": 1.4549699602394806
+        }
+      },
+      "min_max_ns": {
+        "linear": [
+          649.907470703125,
+          714.7420654296875
+        ],
+        "binary": [
+          15.7012939453125,
+          17.730712890625
+        ],
+        "select": [
+          10.294677734375,
+          11.1236572265625
+        ],
+        "gallop": [
+          9.9029541015625,
+          12.12060546875
+        ],
+        "standard": [
+          7.9090576171875,
+          10.5794677734375
+        ]
+      }
+    },
+    {
+      "workload": "large_first",
+      "geomean_ns": {
+        "linear": 165428.61206495672,
+        "binary": 251.31089226050952,
+        "select": 202.81632364857978,
+        "gallop": 313.3617299959599,
+        "standard": 174.9084635366749
+      },
+      "point_fastest": "standard",
+      "selection": "unresolved",
+      "unresolved_set": [
+        "standard",
+        "select"
+      ],
+      "fastest_contrasts": {
+        "linear/standard": {
+          "ratio": 945.8010705712338,
+          "low": 756.1139420415914,
+          "high": 1183.0752157252064
+        },
+        "binary/standard": {
+          "ratio": 1.4368137892184643,
+          "low": 1.1250368548315803,
+          "high": 1.8349922102750764
+        },
+        "select/standard": {
+          "ratio": 1.159556945087755,
+          "low": 0.8585449695492492,
+          "high": 1.5661058611841505
+        },
+        "gallop/standard": {
+          "ratio": 1.7915755684987418,
+          "low": 1.232461444337056,
+          "high": 2.6043354397736294
+        }
+      },
+      "min_max_ns": {
+        "linear": [
+          162044.921875,
+          171379.5546875
+        ],
+        "binary": [
+          191.40625,
+          370.1171875
+        ],
+        "select": [
+          150.7109375,
+          298.828125
+        ],
+        "gallop": [
+          244.46875,
+          570.9609375
+        ],
+        "standard": [
+          144.859375,
+          251.625
+        ]
+      }
+    }
+  ]
+}
