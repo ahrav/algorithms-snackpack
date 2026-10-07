@@ -32,13 +32,13 @@ a production mark/restore example; this lab implements only integer inner equali
 | Linear merge | O(m+n), N output rows | Sequential output/decision path |
 | Galloping merge | O(N) output plus prefix searches | Short alternating winning blocks add overhead |
 | Parallel-4 | Roughly N/4 rows plus logarithmic co-ranks | Thread startup, output initialization, bandwidth limits |
-| Probe join | O(m log(n+1)+z) worst-case work | Searches repeat for duplicate left keys |
+| Probe join | O(m*(1+log(n+1))+z) worst-case work | Searches repeat for duplicate left keys |
 | Replay join | O(m+n+z) worst-case work | z may be quadratic; right run must be replayable |
 | Left cascade | Repeated accumulated-prefix copies | Quadratic-in-run-count writes for equal runs |
 | Adjacent balanced cascade | O(N log k) merge rows | Leaf clones/allocations included; equal-depth tree may miss weighted optimum |
-| Heap cascade | N final writes, O(N log k) selection | Heap overhead; key includes source-run precedence |
+| Heap cascade | N final writes, O(k+N*(1+log(h+1))) work | Heap overhead; key includes source-run precedence |
 
-m,n are input lengths, N=m+n, z=sum(p_k*q_k), k is run count. Example: m=4,n=5,N=9,z=6.
+m,n are input lengths, N=m+n, z=sum(p_k*q_k), k is supplied run count and h is active nonempty run count. Example: m=4,n=5,N=9,z=6.
 Linear merge uses at most 8 comparisons. Read-plus-write row bytes are 2*9*16=288 logical bytes,
 not measured hardware traffic. Count-only can return 6 without storing six pairs; its contract
 cannot compete for the row-join timing title.
