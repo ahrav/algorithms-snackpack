@@ -15,7 +15,15 @@ name = "prefix-sums-and-scans"
 version = "0.1.0"
 
 [[package]]
+name = "sampling-lab"
+version = "0.1.0"
+
+[[package]]
 name = "sorting_lab"
+version = "0.1.0"
+
+[[package]]
+name = "top-k-portfolio"
 version = "0.1.0"
 
 [[package]]

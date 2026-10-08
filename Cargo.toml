@@ -7,6 +7,7 @@ publish = false
 
 [workspace]
 members = [
+    "topics/009-reservoir-and-weighted-sampling",
     "topics/010-sorting-algorithm-portfolios",
     "topics/001-prefix-sums-and-scans",
     "topics/002-difference-arrays-and-range-updates",
@@ -15,6 +16,7 @@ members = [
     "topics/005-two-pointers-and-sliding-windows",
     "topics/006-monotonic-stacks-and-deques",
     "topics/007-binary-galloping-branch-aware-search",
+    "topics/008-selection-quickselect-top-k",
 ]
 resolver = "3"
 
