@@ -1,0 +1,52 @@
+{
+  "source_commit": "3fae2aced4bef391c2e99abee2f66b3242222517",
+  "source_files": {
+    "topics/010-sorting-algorithm-portfolios/Cargo.toml": "5424a1a9df14e17a7932e4d276c89d9d02796d93fdc6eab33bb282342937e731",
+    "topics/010-sorting-algorithm-portfolios/src/lib.rs": "57138593e03f07dff1ac292547b3be72331d8e19696d20b90db6484fab7ebf1d",
+    "topics/010-sorting-algorithm-portfolios/tests/contracts.rs": "b2eb0ab96cf35a1b6026f1bcf8e887a7a82a7bf0032f0d3c1a8c0475c3e4afc5",
+    "topics/010-sorting-algorithm-portfolios/benches/portfolio.rs": "924126c890417b7e0317ef4078c10fd7e423d79aa08ba4e9953794c3db179d90",
+    "topics/010-sorting-algorithm-portfolios/examples/portfolio.rs": "6738d89a92c510200bcaa7d76f7046a58428cf09514be5a56896064417a6f064",
+    "topics/010-sorting-algorithm-portfolios/scripts/run_linux.py": "a29fe6992381a80a6d9612f42867b8614ce4fa020105d87928ab5fe90c66f94b",
+    "topics/010-sorting-algorithm-portfolios/scripts/summarize.py": "fb7ed6b6c1594234ee55de7a4efd75e0eeaaa7cc4d68671d8b7c4e6ea3f293b8"
+  },
+  "replay_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-010/20261006/committed-replay.tar.gz",
+  "replay_sha256": "58c9cb38770225d1cabef58f69d65bc13b7147eadf103af9403056c19d57399e",
+  "raw_receipts": [
+    {
+      "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "identity": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com\naarch64\nLinux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.110-135.202.amzn2023.aarch64 #1 SMP Fri Sep 25 01:46:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux\n",
+      "remote_path": "/tmp/codex-algorithms-topic010-20261006-final-arm",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-010/20261006/committed-replay.tar.gz",
+      "source_archive_sha256": "58c9cb38770225d1cabef58f69d65bc13b7147eadf103af9403056c19d57399e",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-010/20261006/final/arm-raw.tar.gz",
+      "raw_archive_sha256": "1ce813b5cc4a4bd055c5370b67ac56cf4dd08cd46513c6d56323e263e9a74a0a",
+      "files_verified": 8,
+      "runner": "campaign.py",
+      "exit": 0
+    },
+    {
+      "host": "xxl",
+      "identity": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com\nx86_64\nLinux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.110-135.202.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Fri Sep 25 01:45:58 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux\n",
+      "remote_path": "/tmp/codex-algorithms-topic010-20261006-final-xxl",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-010/20261006/committed-replay.tar.gz",
+      "source_archive_sha256": "58c9cb38770225d1cabef58f69d65bc13b7147eadf103af9403056c19d57399e",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-010/20261006/final/xxl-raw.tar.gz",
+      "raw_archive_sha256": "a05fb744c5cec5e3cc90135a904c8089da0eac9ea0f9e17a380a042eb959ee7b",
+      "files_verified": 8,
+      "runner": "campaign.py",
+      "exit": 0
+    }
+  ],
+  "protocol_repair": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-010/20261006/protocol-repair.md",
+  "validation": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-010/20261006/lesson-validation.json",
+  "runner_attestation": {
+    "recorded_runner": "campaign.py",
+    "retained_in_tree": false,
+    "hash_recorded": false,
+    "note": "Both raw receipts name campaign.py, the automation wrapper staged beside the transferred source on each host (files_verified is 8 against 7 hashed source files). That wrapper was not committed and no hash of it is retained in this receipt. scripts/run_linux.py is the committed replay of the 12-block schedule; its hash above attests to the committed script, not to the executed campaign.py. The published exact-source selections therefore rest on the archived raw samples and environment receipts, with the executed runner text unattested."
+  },
+  "balanced": true,
+  "processes_per_host": 1200,
+  "family": 620,
+  "quality": "model-based simultaneous intervals, limited host/workload transfer"
+}
