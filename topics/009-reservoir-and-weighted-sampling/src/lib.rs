@@ -212,6 +212,7 @@ pub fn weighted_heap(weights: &[f64], k: usize, seed: u64) -> Option<Vec<Key>> {
 /// Caller owns these preconditions; never regenerate keys during combination.
 #[must_use]
 pub fn combine(shards: &[Vec<Key>], k: usize) -> Vec<Key> {
+    let k = k.min(shards.iter().map(Vec::len).sum());
     let mut heap = BinaryHeap::with_capacity(k);
     if k == 0 {
         return Vec::new();

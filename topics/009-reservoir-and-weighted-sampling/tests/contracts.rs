@@ -139,6 +139,11 @@ fn unequal_shards_and_ties_preserve_retained_keys() {
         combine(&[oracle(&keys[..50], 3), oracle(&keys[50..], 3)], 3),
         oracle(&keys, 3)
     );
+    assert_eq!(combine(&[], usize::MAX), Vec::new());
+    assert_eq!(
+        combine(&[oracle(&keys[..3], 2)], usize::MAX),
+        oracle(&keys[..3], 2)
+    );
 }
 
 #[test]
