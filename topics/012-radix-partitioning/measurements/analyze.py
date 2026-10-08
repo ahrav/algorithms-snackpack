@@ -5,14 +5,19 @@ Applies the BENCHMARK.md rule: per-call time is elapsed_ns/reps; medians and obs
 ranges span blocks; each pair entry is [min, median, max] over paired blocks of the
 second-named candidate divided by the first (matching committed RESULTS.json keys);
 the leader has the lowest median among contract-valid candidates and is unique only when
-every paired rival/leader ratio exceeds 1.05. Usage: analyze.py raw/samples.jsonl
+every paired rival/leader ratio exceeds 1.05. The input must hold the complete frozen
+schedule from runner.py (every workload cell, every block, every candidate at its scheduled
+position); a partial campaign is rejected before any summary is computed.
+Usage: analyze.py raw/samples.jsonl
 """
 import itertools
 import json
 import statistics
 import sys
 
-CANDIDATES = ["buckets", "scatter", "two_pass", "cycles"]
+import runner
+
+CANDIDATES = runner.CANDIDATES
 CONTRACTS = {"stable": ["buckets", "scatter", "two_pass"], "unordered": CANDIDATES}
 THRESHOLD = 1.05
 FIELDS = ["n", "bits", "shape", "width", "cold"]
@@ -28,12 +33,29 @@ def ratio(per, num, den):
     return [x / y for x, y in zip(per[num], per[den])]  # noqa: B905 (python3.9 hosts)
 
 
+def check_schedule(cells):
+    expected_cells = {w[0] for w in runner.WORKLOADS}
+    if set(cells) != expected_cells:
+        raise ValueError(f"incomplete campaign: cells {sorted(cells)} != {sorted(expected_cells)}")
+    for cell, blocks in cells.items():
+        if set(blocks) != set(range(len(runner.ORDERS))):
+            raise ValueError(f"incomplete campaign: {cell} has blocks {sorted(blocks)}, expected 0..{len(runner.ORDERS) - 1}")
+        for block, by_candidate in blocks.items():
+            order = runner.ORDERS[block]
+            if set(by_candidate) != set(order):
+                raise ValueError(f"incomplete campaign: {cell} block {block} has {sorted(by_candidate)}")
+            for name, s in by_candidate.items():
+                if s["position"] != order.index(name):
+                    raise ValueError(f"schedule mismatch: {cell} block {block} {name} at position {s['position']}")
+
+
 def analyze(samples):
     cells = {}
     for s in samples:
         if s["oracle"] != "pass":
             raise ValueError(f"oracle failure in sample: {s}")
         cells.setdefault(s["cell"], {}).setdefault(s["block"], {})[s["candidate"]] = s
+    check_schedule(cells)
     out = {}
     for cell, blocks in cells.items():
         per = {c: [blocks[b][c]["elapsed_ns"] / blocks[b][c]["reps"] for b in sorted(blocks)] for c in CANDIDATES}

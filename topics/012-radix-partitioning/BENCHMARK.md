@@ -16,7 +16,11 @@ All cases use immutable materialized input; grouping/hash generation excluded. T
 calls except first-call zero. First-call means no candidate warmup, not guaranteed cold cache.
 
 12 independent paired blocks, four separate candidate processes per block, every pair
-six forward/six reverse. Process pins to lowest allowed CPU. Tiny1024 and small16 calls
+six forward/six reverse. Orders are the first six lexicographic permutations and their
+reversals, so buckets runs only at process positions 0 and 3 while the other candidates
+occupy all four positions; endpoint-position effects are aliased with buckets, and the
+forward/reverse pairing cancels only a linear position trend. Process pins to lowest allowed
+CPU. Tiny1024 and small16 calls
 within process reduce clock overhead; others1 call. Repetitions are not independent units.
 Oracle and input prep outside timer; count/prefix/alloc/zero-fill/clone/scatter/output
 observation/teardown inside. Process wall time and warmup recorded separately.

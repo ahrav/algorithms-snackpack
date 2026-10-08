@@ -10,7 +10,9 @@ both the9lib and2integration tests plus running example before benchmarking.
 
 Run from workspace root with `python3 topics/012-radix-partitioning/measurements/runner.py`.
 Derive a host's compact cells with `python3 measurements/analyze.py raw/samples.jsonl` from
-the topic directory; it applies the BENCHMARK.md rule and emits the RESULTS.json cell schema.
+the topic directory; it applies the BENCHMARK.md rule, rejects any samples file missing the
+complete 11-cell x 12-block schedule, and emits the RESULTS.json cell schema. Its schedule
+checks run with `python3 measurements/test_analyze.py`.
 `analyze.py` postdates the campaigns: the committed RESULTS.json came from an uncommitted
 analysis step and has not yet been regenerated from the archived samples with this script.
 Do not overwrite raw; use a fresh retained exact-source extraction. Source is prehashed,
