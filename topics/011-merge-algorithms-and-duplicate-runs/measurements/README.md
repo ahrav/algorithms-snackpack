@@ -56,3 +56,12 @@ expects the archive layout (`source-manifest.json` beside `campaign.py`, sources
 Linux host (`sched_getaffinity`, `taskset`, `lscpu`). Runner/source hashes and safe archive
 membership were checked on both transfers and raw retrievals. No raw process records or executable
 binaries enter Git.
+
+Replay regenerates environment files, contracts output, `binary.sha256`, linked assembly and
+`attempts.jsonl`. The analysis step that turned each host's `attempts.jsonl` into RESULTS.json
+(geometric means, paired log-ratio intervals, family-152 critical t, winner and unresolved-rival
+fields) is not committed and its hash is not retained; BENCHMARK.md specifies the rule, the executed
+analysis text is unattested. Per-host `binary.sha256` values live in the raw archives named by
+`raw_archive_sha256`, not in the receipt. The runner aborts on the first nonzero candidate exit
+before writing that attempt, so a failed process leaves `attempts.jsonl` short of 672 records with no
+`CONTRACTS_AND_CAMPAIGN_OK` marker; both hosts completed all 672 scheduled processes.

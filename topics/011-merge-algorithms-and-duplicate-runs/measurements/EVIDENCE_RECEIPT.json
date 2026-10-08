@@ -116,7 +116,28 @@
         "--no-deps"
       ],
       "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--all-targets"
+      ],
+      "exit": 0,
+      "commit": "74786e9b0ae47876e17126353c9332b746f10896",
+      "note": "Run after review on the merged PR head; the publication-time list above recorded --lib --examples and --doc, which skip integration-test targets. CI also ran this command on 3ba5a14 and 74786e9 with success."
     }
   ],
-  "initial_unpooled": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-011/20261007/initial"
+  "initial_unpooled": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-011/20261007/initial",
+  "analysis_attestation": {
+    "retained_in_tree": false,
+    "hash_recorded": false,
+    "note": "RESULTS.json (per-method geometric mean, median, min, max; paired log-ratio intervals with critical_t over family 152; unique_winner and unresolved_rivals) was derived from each host's attempts.jsonl by an analysis step that is not committed and whose hash is not retained. campaign.py regenerates environment files, contracts output, binary hash, linked assembly and attempts.jsonl only. The selection rule is specified in BENCHMARK.md; the executed analysis text is unattested."
+  },
+  "linked_image_attestation": {
+    "in_receipt": false,
+    "note": "Each host's results/binary.sha256 (SHA-256 of the linked experiment image) and linked-assembly.txt are inside the external raw archives identified by raw_archive_sha256; the values are not copied into this receipt."
+  },
+  "failed_attempt_handling": "campaign.py aborts on the first nonzero candidate exit before writing that attempt, so a failed process leaves attempts.jsonl incomplete without the CONTRACTS_AND_CAMPAIGN_OK marker instead of recording its exit code and stderr. Both hosts completed all 672 scheduled processes (56 per block, 12 blocks), so the retained attempts are the complete set for the published campaign."
 }
