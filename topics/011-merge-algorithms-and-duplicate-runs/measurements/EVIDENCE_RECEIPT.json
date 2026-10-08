@@ -1,0 +1,143 @@
+{
+  "source_commit": "4ec5c71a1bad9462ef72bb63083a5f471a84495b",
+  "input_sha256": {
+    "topics/011-merge-algorithms-and-duplicate-runs/src/lib.rs": "b248cfb8e2e9f9ffbff1716747a1115f2f875119c020d9d3bef8ac04f42ef3b3",
+    "topics/011-merge-algorithms-and-duplicate-runs/benches/portfolio.rs": "b16216465cea50b1b90be0d911944d54126b3845d19a1d453ae360b3472b5a43",
+    "topics/011-merge-algorithms-and-duplicate-runs/tests/contracts.rs": "d103133d388f3d12c2e624d0fceec3f6f6e5e6dbdc2ad8e7f88d2d0062c747f6",
+    "topics/011-merge-algorithms-and-duplicate-runs/measurements/campaign.py": "afa47875cb3fb60bd4d5f3a54f12a27a67520c2f8e69e7ca7c1202fd93215c96"
+  },
+  "evidence_root": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-011/20261007",
+  "hosts": {
+    "arm": {
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "kernel": "Linux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.110-135.202.amzn2023.aarch64 #1 SMP Fri Sep 25 01:46:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+      "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+      "available_cpu_count": 64,
+      "cpuset": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "default_target_features": "debug_assertions\npanic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"aarch64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"neon\"\ntarget_has_atomic=\"128\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"128\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n",
+      "source_archive_sha256": "5418aab07fce0563dd4087b444076ee21bfd4840c656cb829fdc63331dba71a4",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-011/20261007/committed/arm-raw.tar.gz",
+      "raw_archive_sha256": "ef88aceca1ac79e57a31230360105e8508e47ac162f94e822846a81d9048eebf",
+      "verified_raw_files": 8,
+      "processes": 672,
+      "tests": 6
+    },
+    "xxl": {
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "kernel": "Linux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.110-135.202.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Fri Sep 25 01:45:58 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux",
+      "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+      "available_cpu_count": 192,
+      "cpuset": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "default_target_features": "debug_assertions\npanic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"x86_64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"fxsr\"\ntarget_feature=\"sse\"\ntarget_feature=\"sse2\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n",
+      "source_archive_sha256": "5418aab07fce0563dd4087b444076ee21bfd4840c656cb829fdc63331dba71a4",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-011/20261007/committed/xxl-raw.tar.gz",
+      "raw_archive_sha256": "8f88e989b134fa0f33914e6d93ebc8c1e55b339dce4f0527726107c346af5b8a",
+      "verified_raw_files": 8,
+      "processes": 672,
+      "tests": 6
+    }
+  },
+  "validation": [
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--lib",
+        "--examples"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--doc"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "bench",
+        "--workspace",
+        "--no-run"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "doc",
+        "--workspace",
+        "--no-deps"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--all-targets"
+      ],
+      "exit": 0,
+      "commit": "74786e9b0ae47876e17126353c9332b746f10896",
+      "note": "Run after review on the merged PR head; the publication-time list above recorded --lib --examples and --doc, which skip integration-test targets. CI also ran this command on 3ba5a14 and 74786e9 with success."
+    }
+  ],
+  "initial_unpooled": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-011/20261007/initial",
+  "analysis_attestation": {
+    "retained_in_tree": false,
+    "hash_recorded": false,
+    "note": "RESULTS.json (per-method geometric mean, median, min, max; paired log-ratio intervals with critical_t over family 152; unique_winner and unresolved_rivals) was derived from each host's attempts.jsonl by an analysis step that is not committed and whose hash is not retained. campaign.py regenerates environment files, contracts output, binary hash, linked assembly and attempts.jsonl only. The selection rule is specified in BENCHMARK.md; the executed analysis text is unattested."
+  },
+  "linked_image_attestation": {
+    "in_receipt": false,
+    "note": "Each host's results/binary.sha256 (SHA-256 of the linked experiment image) and linked-assembly.txt are inside the external raw archives identified by raw_archive_sha256; the values are not copied into this receipt."
+  },
+  "failed_attempt_handling": "campaign.py aborts on the first nonzero candidate exit before writing that attempt, so a failed process leaves attempts.jsonl incomplete without the CONTRACTS_AND_CAMPAIGN_OK marker instead of recording its exit code and stderr. Both hosts completed all 672 scheduled processes (56 per block, 12 blocks), so the retained attempts are the complete set for the published campaign."
+}

@@ -11,6 +11,10 @@ name = "lower-bound-portfolio"
 version = "0.1.0"
 
 [[package]]
+name = "merge-lab"
+version = "0.1.0"
+
+[[package]]
 name = "prefix-sums-and-scans"
 version = "0.1.0"
 
