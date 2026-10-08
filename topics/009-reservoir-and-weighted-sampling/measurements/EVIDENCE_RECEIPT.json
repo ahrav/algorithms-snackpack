@@ -1,0 +1,100 @@
+{
+  "source_identity": {
+    "source_commit": "c91029179f5c4b6c59a0f490a528f5c63af9b914",
+    "manifest": {
+      "topic/src/lib.rs": "136932db01ab2d88e7d0ba9f2d480d2d8a19ce8db658190cfb664d15bee78e46",
+      "topic/tests/contracts.rs": "145a945358ff85accc1ef27d4605d1aca87b465e817f47c06e0758f2d088e8c1",
+      "topic/benches/sampling.rs": "af5fbc9e917d25da503de8f89f11ea7cee23c38f75b42edd5a18f0fabc5e95bb",
+      "topic/examples/stream.rs": "2dc07caf2ab462ae849b7cac8cd98f74d5997b30413274db5427442fad946e77",
+      "topic/Cargo.toml": "78a3c8f461dc37e3ff0020814f9aebf6eb8f4b5ae71c75c3d7a65104bd1020a0",
+      "campaign.py": "61991457e38f565bd0cf32b1ef9a02235d26ab3c3fd81ad219484dda73bae233"
+    },
+    "runner_sha256": "61991457e38f565bd0cf32b1ef9a02235d26ab3c3fd81ad219484dda73bae233",
+    "change_from_first_replay": "documentation-only local Top-K precondition correction; experiment unchanged",
+    "origin_main": "24178154940a8ac584951f84401f436433d53c3b",
+    "post_replay_changes": {
+      "commit": "36ddffd0c8cdf9cf869894d62cf8fc880da7bff7",
+      "topic/src/lib.rs": "8879a3a099ccf831cf8d8f76ec5a069d1cab9f03889d48bdc3a06f55d5ecc53d",
+      "topic/tests/contracts.rs": "1dd8ac7ad04cf071dfe2dfa4a6cf1570b0af030783135359c72a7668f27eafaf",
+      "description": "combine clamps k to the total retained shard length before allocating; contracts gains two combine regression assertions. combine is absent from benches/sampling.rs and examples/stream.rs, so the measured binaries are unchanged. The replay archive's source-manifest.json still names the c910291 hashes above; packaging this tree with that manifest fails campaign.py's assertion by design."
+    },
+    "known_limitations": {
+      "two_method_block_order": "campaign.py rotates then reverses odd blocks. With two methods the reversal undoes the rotation, so every weighted cell ran wsort before wheap in all 12 blocks. The six uniform cells rotate through four distinct orders. Weighted contrasts are confounded with fixed within-block process order and any drift across a block. The runner stays frozen at runner_sha256; a corrected assignment requires a new weighted campaign on both hosts."
+    }
+  },
+  "archives": [
+    {
+      "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "identity": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com\naarch64\nLinux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.110-135.202.amzn2023.aarch64 #1 SMP Fri Sep 25 01:46:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux\n",
+      "remote_path": "/tmp/algorithms-topic-009-20261005-initial-lg3WFR-arm",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/initial-source.tar.gz",
+      "source_archive_sha256": "5f035babd794c536f43aa295ac54789b95ef13f5cedada1e31017eb9add608f6",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/initial/arm-raw.tar.gz",
+      "raw_archive_sha256": "f4dda04bd8e09ea7442d9ea9260b76bad1abe70cb1e86aacd0ebe8d43acd9ea9",
+      "files_verified": 7,
+      "runner": "campaign.py",
+      "exit": 0
+    },
+    {
+      "host": "xxl",
+      "identity": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com\nx86_64\nLinux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.110-135.202.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Fri Sep 25 01:45:58 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux\n",
+      "remote_path": "/tmp/algorithms-topic-009-20261005-initial-lg3WFR-xxl",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/initial-source.tar.gz",
+      "source_archive_sha256": "5f035babd794c536f43aa295ac54789b95ef13f5cedada1e31017eb9add608f6",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/initial/xxl-raw.tar.gz",
+      "raw_archive_sha256": "dad7abe9caa65827b1920446775a7d793d1d67ab6ffb2c2fa06a67387999c228",
+      "files_verified": 7,
+      "runner": "campaign.py",
+      "exit": 0
+    },
+    {
+      "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "identity": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com\naarch64\nLinux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.110-135.202.amzn2023.aarch64 #1 SMP Fri Sep 25 01:46:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux\n",
+      "remote_path": "/tmp/algorithms-topic-009-20261005-committed-lg3WFR-arm",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/committed-replay.tar.gz",
+      "source_archive_sha256": "fafb41bd6ffaa952cae114f704219395b0275588ba5ec4604d7e0bc449d588f1",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/committed/arm-raw.tar.gz",
+      "raw_archive_sha256": "da1b4ff06acf5b8241f3c93e4e7ecd56542dd2b8f6683e957869a3bda682cda8",
+      "files_verified": 7,
+      "runner": "campaign.py",
+      "exit": 0
+    },
+    {
+      "host": "xxl",
+      "identity": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com\nx86_64\nLinux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.110-135.202.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Fri Sep 25 01:45:58 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux\n",
+      "remote_path": "/tmp/algorithms-topic-009-20261005-committed-lg3WFR-xxl",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/committed-replay.tar.gz",
+      "source_archive_sha256": "fafb41bd6ffaa952cae114f704219395b0275588ba5ec4604d7e0bc449d588f1",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/committed/xxl-raw.tar.gz",
+      "raw_archive_sha256": "05c45049b33bcd7fa659b0fd75360b40dd377678f2d4bb8ef462d36f1ea5871b",
+      "files_verified": 7,
+      "runner": "campaign.py",
+      "exit": 0
+    },
+    {
+      "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "identity": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com\naarch64\nLinux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.110-135.202.amzn2023.aarch64 #1 SMP Fri Sep 25 01:46:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux\n",
+      "remote_path": "/tmp/algorithms-topic-009-20261005-final-lg3WFR-arm",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/final-replay.tar.gz",
+      "source_archive_sha256": "872593d8a7bbebb5c1c4f440b41b72ece85bf04710e992f6f8b78e3188bb5cea",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/final/arm-raw.tar.gz",
+      "raw_archive_sha256": "08123d412bed7c68ea1336bc93116914a26ca975b780fb514326a2e3833d8e34",
+      "files_verified": 7,
+      "runner": "campaign.py",
+      "exit": 0
+    },
+    {
+      "host": "xxl",
+      "identity": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com\nx86_64\nLinux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.110-135.202.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Fri Sep 25 01:45:58 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux\n",
+      "remote_path": "/tmp/algorithms-topic-009-20261005-final-lg3WFR-xxl",
+      "source_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/final-replay.tar.gz",
+      "source_archive_sha256": "872593d8a7bbebb5c1c4f440b41b72ece85bf04710e992f6f8b78e3188bb5cea",
+      "raw_archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-009/20261005/final/xxl-raw.tar.gz",
+      "raw_archive_sha256": "f95a6634bcb29333cd6346bc609a963bbb84b8d4e380e845bae923d11ce9a6fe",
+      "files_verified": 7,
+      "runner": "campaign.py",
+      "exit": 0
+    }
+  ],
+  "boundary": "raw retained externally; archive SHA and all embedded files verified before cleanup"
+}
