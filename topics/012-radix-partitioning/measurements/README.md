@@ -9,6 +9,10 @@ assembly, failures and replay archives stay outside Git under automation evidenc
 both the9lib and2integration tests plus running example before benchmarking.
 
 Run from workspace root with `python3 topics/012-radix-partitioning/measurements/runner.py`.
+Derive a host's compact cells with `python3 measurements/analyze.py raw/samples.jsonl` from
+the topic directory; it applies the BENCHMARK.md rule and emits the RESULTS.json cell schema.
+`analyze.py` postdates the campaigns: the committed RESULTS.json came from an uncommitted
+analysis step and has not yet been regenerated from the archived samples with this script.
 Do not overwrite raw; use a fresh retained exact-source extraction. Source is prehashed,
 single-threaded, materialized in memory. Consumer, hashing, storage, thread lifetime and
 cross-machine attribution remain outside the measured claim.
