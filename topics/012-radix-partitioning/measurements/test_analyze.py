@@ -42,6 +42,7 @@ def main():
     expect_rejection(bad_shape, "shape mismatch")
     bad_cold = [dict(s, cold=False) if s["cell"] == "first_call" else s for s in full]
     expect_rejection(bad_cold, "cold mismatch")
+    expect_rejection(full + [full[100]], "duplicate coordinate")
     print(json.dumps({"cells": len(out), "blocks": len(runner.ORDERS), "status": "ok"}))
 
 

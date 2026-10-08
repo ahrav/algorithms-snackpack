@@ -60,7 +60,10 @@ def analyze(samples):
     for s in samples:
         if s["oracle"] != "pass":
             raise ValueError(f"oracle failure in sample: {s}")
-        cells.setdefault(s["cell"], {}).setdefault(s["block"], {})[s["candidate"]] = s
+        by_candidate = cells.setdefault(s["cell"], {}).setdefault(s["block"], {})
+        if s["candidate"] in by_candidate:
+            raise ValueError(f"duplicate sample: {s['cell']} block {s['block']} {s['candidate']}")
+        by_candidate[s["candidate"]] = s
     check_schedule(cells)
     out = {}
     for cell, blocks in cells.items():
