@@ -49,5 +49,10 @@ External retention root:
 
 Initial and committed source archives/raw bundles are separately retained and hash verified.
 Replay: extract committed-source.tar.gz in an empty directory on a declared Linux host, then run
-`python3 campaign.py --out results`. Runner/source hashes and safe archive membership were checked
-on both transfers and raw retrievals. No raw process records or executable binaries enter Git.
+`python3 campaign.py --out results`. Run it with plain `python3`: the runner's fail-closed checks
+(source-manifest hashes, 4-CPU cpuset, subprocess exit codes, sample validity) are `assert`
+statements, which `-O` and `PYTHONOPTIMIZE` remove. The runner is frozen at the receipt hash and
+expects the archive layout (`source-manifest.json` beside `campaign.py`, sources under `topic/`) on a
+Linux host (`sched_getaffinity`, `taskset`, `lscpu`). Runner/source hashes and safe archive
+membership were checked on both transfers and raw retrievals. No raw process records or executable
+binaries enter Git.
