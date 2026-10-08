@@ -36,6 +36,12 @@ def main():
     expect_rejection([s for s in full if not (s["block"] == 3 and s["candidate"] == "cycles")], "missing candidate")
     swapped = [dict(s, position=(s["position"] + 1) % 4) for s in full]
     expect_rejection(swapped, "position mismatch")
+    bad_reps = [dict(s, reps=s["reps"] * 2) if s["cell"] == "tiny" and s["block"] == 5 and s["candidate"] == "scatter" else s for s in full]
+    expect_rejection(bad_reps, "reps mismatch")
+    bad_shape = [dict(s, shape="uniform") if s["cell"] == "skew90" and s["block"] == 0 else s for s in full]
+    expect_rejection(bad_shape, "shape mismatch")
+    bad_cold = [dict(s, cold=False) if s["cell"] == "first_call" else s for s in full]
+    expect_rejection(bad_cold, "cold mismatch")
     print(json.dumps({"cells": len(out), "blocks": len(runner.ORDERS), "status": "ok"}))
 
 

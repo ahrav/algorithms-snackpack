@@ -34,9 +34,12 @@ def ratio(per, num, den):
 
 
 def check_schedule(cells):
-    expected_cells = {w[0] for w in runner.WORKLOADS}
-    if set(cells) != expected_cells:
-        raise ValueError(f"incomplete campaign: cells {sorted(cells)} != {sorted(expected_cells)}")
+    keys = ["n", "bits", "shape", "width", "reps", "cold"]  # runner.WORKLOADS order after the cell name
+    if any(len(w) != len(keys) + 1 for w in runner.WORKLOADS):
+        raise ValueError("runner.WORKLOADS tuple shape changed")
+    workloads = {w[0]: {k: w[i + 1] for i, k in enumerate(keys)} for w in runner.WORKLOADS}
+    if set(cells) != set(workloads):
+        raise ValueError(f"incomplete campaign: cells {sorted(cells)} != {sorted(workloads)}")
     for cell, blocks in cells.items():
         if set(blocks) != set(range(len(runner.ORDERS))):
             raise ValueError(f"incomplete campaign: {cell} has blocks {sorted(blocks)}, expected 0..{len(runner.ORDERS) - 1}")
@@ -47,6 +50,9 @@ def check_schedule(cells):
             for name, s in by_candidate.items():
                 if s["position"] != order.index(name):
                     raise ValueError(f"schedule mismatch: {cell} block {block} {name} at position {s['position']}")
+                actual = {k: s[k] for k in workloads[cell]}
+                if actual != workloads[cell]:
+                    raise ValueError(f"workload mismatch: {cell} block {block} {name} has {actual}, expected {workloads[cell]}")
 
 
 def analyze(samples):

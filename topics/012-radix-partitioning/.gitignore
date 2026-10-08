@@ -1,0 +1,7 @@
+# runner.py outputs in the topic root; raw evidence is archived outside Git.
+/raw/
+/bench
+/checks
+/integration
+/example
+/libradix_partitioning.rlib
