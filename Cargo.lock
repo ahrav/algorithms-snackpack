@@ -19,6 +19,10 @@ name = "prefix-sums-and-scans"
 version = "0.1.0"
 
 [[package]]
+name = "radix-partitioning"
+version = "0.1.0"
+
+[[package]]
 name = "sampling-lab"
 version = "0.1.0"
 

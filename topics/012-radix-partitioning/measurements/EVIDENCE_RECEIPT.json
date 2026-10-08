@@ -1,0 +1,215 @@
+{
+  "source_commit": "d0e7a04fe9c63cadd3b8ebac10a205451b0eefc4",
+  "source_sha256": {
+    "src/lib.rs": "bb26e4196668055a02e0e0f3de8acfeef7b1284d689ce331438763673f6e6a58",
+    "benches/partition.rs": "4ba87504496f6e59fa83a3fc64526079fcbb465c3f29ff2180e43600c92b80f1",
+    "measurements/runner.py": "80ed64305a7bc5af77f9d1b8d1affe817522abf1ff740fc45e7e12ee484ee92a",
+    "tests/contracts.rs": "c3d4838d195163346aee7dd234640f3f8f953008986858cbccd704250757def6",
+    "examples/partition.rs": "36bd8e6bc0b911fd4009301b0b2b56591af9aba3e452ac49ffb58e5b7ccc3bf3"
+  },
+  "external_evidence": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-012/20261008",
+  "campaigns": {
+    "initial": {
+      "arm": {
+        "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+        "path": "/tmp/codex-algorithms-topic012-initial-EzBsi1",
+        "archive_sha256": "218ca80f87cc5936ed4ea4525874abda45a2a81a53363e5d57b52de565a5a1ae",
+        "processes": 528,
+        "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+        "architecture": "aarch64",
+        "kernel": "6.12.110-135.202.amzn2023.aarch64",
+        "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+        "available_cpu_count": 64,
+        "affinity": 0,
+        "flags": [
+          "--edition",
+          "2024",
+          "-C",
+          "opt-level=3",
+          "-C",
+          "target-cpu=native",
+          "-A",
+          "dead_code"
+        ],
+        "source_hashes": {
+          "lib.rs": "0e7fc3ffc064b488ff7829496d8d5589b7a8f03767c9c57a26dd733979fdaec9",
+          "bench.rs": "7f6d5e39adf3b4e96533d142c45fcec6d169505eda148a07679bfe5d31e5175c",
+          "runner.py": "27fcb9155f249899e3d270d5e9b0ea4b5f3f1d075e676024d2c80d1ffca73252"
+        }
+      },
+      "x86": {
+        "host": "xxl",
+        "path": "/tmp/codex-algorithms-topic012-initial-3tkv8J",
+        "archive_sha256": "8de1bc3b6ec08a40cbcd52aa4815128e063f9ee002b0c8198065010ba4a0f485",
+        "processes": 528,
+        "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+        "architecture": "x86_64",
+        "kernel": "6.12.110-135.202.amzn2023.x86_64",
+        "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+        "available_cpu_count": 192,
+        "affinity": 0,
+        "flags": [
+          "--edition",
+          "2024",
+          "-C",
+          "opt-level=3",
+          "-C",
+          "target-cpu=native",
+          "-A",
+          "dead_code"
+        ],
+        "source_hashes": {
+          "lib.rs": "0e7fc3ffc064b488ff7829496d8d5589b7a8f03767c9c57a26dd733979fdaec9",
+          "bench.rs": "7f6d5e39adf3b4e96533d142c45fcec6d169505eda148a07679bfe5d31e5175c",
+          "runner.py": "27fcb9155f249899e3d270d5e9b0ea4b5f3f1d075e676024d2c80d1ffca73252"
+        }
+      }
+    },
+    "committed": {
+      "arm": {
+        "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+        "path": "/tmp/codex-algorithms-topic012-committed-DwP36V",
+        "archive_sha256": "7fcace14db18a4c03996a95e5d748e8cd54988b91103ce9359de3d6a4581cb17",
+        "processes": 528,
+        "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+        "architecture": "aarch64",
+        "kernel": "6.12.110-135.202.amzn2023.aarch64",
+        "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+        "available_cpu_count": 64,
+        "affinity": 0,
+        "flags": [
+          "--edition",
+          "2024",
+          "-C",
+          "opt-level=3",
+          "-C",
+          "target-cpu=native",
+          "-A",
+          "dead_code"
+        ],
+        "source_hashes": {
+          "src/lib.rs": "bb26e4196668055a02e0e0f3de8acfeef7b1284d689ce331438763673f6e6a58",
+          "benches/partition.rs": "4ba87504496f6e59fa83a3fc64526079fcbb465c3f29ff2180e43600c92b80f1",
+          "measurements/runner.py": "80ed64305a7bc5af77f9d1b8d1affe817522abf1ff740fc45e7e12ee484ee92a",
+          "tests/contracts.rs": "c3d4838d195163346aee7dd234640f3f8f953008986858cbccd704250757def6",
+          "examples/partition.rs": "36bd8e6bc0b911fd4009301b0b2b56591af9aba3e452ac49ffb58e5b7ccc3bf3"
+        }
+      },
+      "x86": {
+        "host": "xxl",
+        "path": "/tmp/codex-algorithms-topic012-committed-p6y8Q1",
+        "archive_sha256": "e63af05f32e26f2e83abcd9fa4854aabb6994b947d2f1107fe11d8cb521dedc9",
+        "processes": 528,
+        "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+        "architecture": "x86_64",
+        "kernel": "6.12.110-135.202.amzn2023.x86_64",
+        "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+        "available_cpu_count": 192,
+        "affinity": 0,
+        "flags": [
+          "--edition",
+          "2024",
+          "-C",
+          "opt-level=3",
+          "-C",
+          "target-cpu=native",
+          "-A",
+          "dead_code"
+        ],
+        "source_hashes": {
+          "src/lib.rs": "bb26e4196668055a02e0e0f3de8acfeef7b1284d689ce331438763673f6e6a58",
+          "benches/partition.rs": "4ba87504496f6e59fa83a3fc64526079fcbb465c3f29ff2180e43600c92b80f1",
+          "measurements/runner.py": "80ed64305a7bc5af77f9d1b8d1affe817522abf1ff740fc45e7e12ee484ee92a",
+          "tests/contracts.rs": "c3d4838d195163346aee7dd234640f3f8f953008986858cbccd704250757def6",
+          "examples/partition.rs": "36bd8e6bc0b911fd4009301b0b2b56591af9aba3e452ac49ffb58e5b7ccc3bf3"
+        }
+      }
+    }
+  },
+  "validation": [
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--lib",
+        "--examples"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--doc"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "bench",
+        "--workspace",
+        "--no-run"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "doc",
+        "--workspace",
+        "--no-deps"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--all-targets"
+      ],
+      "exit": 0
+    }
+  ],
+  "source_commit_note": "Published commit whose five source files carry exactly the source_sha256 values above (verified with git show <commit>:topics/012-radix-partitioning/<path> | sha256sum). The measurement checkout was an unpublished local commit (4e2e13c0265607e7641104bd3208224f12c74d92) with identical file contents; its object was never pushed.",
+  "analysis": {
+    "script": "measurements/analyze.py",
+    "sha256": "eea53c921ae74c87456d2ec1a231e5c7cde3cc399225d88d04767a7a5cd1667c",
+    "note": "analyze.py implements the BENCHMARK.md selection rule over raw/samples.jsonl (per-call elapsed_ns/reps; medians and observed ranges across 12 blocks; paired [min, median, max] ratios; lowest median leader, unique only when every rival/leader ratio exceeds 1.05) and emits the RESULTS.json cell schema. It was added after the campaigns; the committed RESULTS.json was derived by an uncommitted analysis step and has not yet been regenerated from the archived samples with this script. analyze.py rejects any samples file that lacks the complete runner.py schedule (11 cells x 12 blocks x 4 candidates at their scheduled positions); test_analyze.py covers that rejection with synthetic samples. Each sample must also carry the exact workload tuple (n, bits, shape, width, reps, cold) that runner.WORKLOADS declares for its cell. Repeated (cell, block, candidate) rows are rejected.",
+    "test": "measurements/test_analyze.py"
+  },
+  "binary_sha256_note": "runner.py records the SHA-256 of the linked bench image as binary_sha256 in raw/identity.json inside each per-host archive identified by archive_sha256; the per-host values are not yet copied into this receipt."
+}
