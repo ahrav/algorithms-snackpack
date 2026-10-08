@@ -13,6 +13,12 @@ Input generation, BTreeMap oracle and separately instrumented standard compariso
 sort timing. Input cloning has its own timing. Counts do not identify candidate-only dynamic
 mechanisms. Raw disassembly and process wall times are external. No cache/branch causal attribution.
 
+Runner attestation gap: the raw receipts name `campaign.py` as the executed runner. That wrapper
+was staged beside the transferred source on each host and was not committed; no hash of it is
+retained. `scripts/run_linux.py` is the committed replay of the same 12-block schedule, and the
+receipt hash covers that committed script only. The exact-source selections below rest on the
+archived raw samples and environment receipts; the executed runner text is unattested.
+
 
 ## Exact-source results
 

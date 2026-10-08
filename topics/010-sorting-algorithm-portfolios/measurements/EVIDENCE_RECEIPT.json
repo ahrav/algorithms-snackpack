@@ -39,6 +39,12 @@
   ],
   "protocol_repair": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-010/20261006/protocol-repair.md",
   "validation": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-010/20261006/lesson-validation.json",
+  "runner_attestation": {
+    "recorded_runner": "campaign.py",
+    "retained_in_tree": false,
+    "hash_recorded": false,
+    "note": "Both raw receipts name campaign.py, the automation wrapper staged beside the transferred source on each host (files_verified is 8 against 7 hashed source files). That wrapper was not committed and no hash of it is retained in this receipt. scripts/run_linux.py is the committed replay of the 12-block schedule; its hash above attests to the committed script, not to the executed campaign.py. The published exact-source selections therefore rest on the archived raw samples and environment receipts, with the executed runner text unattested."
+  },
   "balanced": true,
   "processes_per_host": 1200,
   "family": 620,
