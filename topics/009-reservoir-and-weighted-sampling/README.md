@@ -33,7 +33,7 @@ ranks. Cross-host/libm bit replay is not promised.
 | Candidate | Mechanism and cost | Choose / limitation |
 |---|---|---|
 | R | one bounded admission draw per postfill record; O(n) plus output sorting, O(k) entries | simple count-based stream; does not save decoding |
-| X | one uniform skip draw then sequential survival-product factors | fewer random calls, still O(n) count work; finite rounding |
+| X | one uniform skip draw then sequential survival-product factors; one replacement draw per acceptance | fewer random calls only for sparse reservoirs, about 2k*ln(n/k) draws versus R's n-k; dense k (near n) draws more than R; still O(n) count work; finite rounding |
 | Uniform priority sort | sort (word,ID), retain smallest k | simple materialized baseline; O(n log n), O(n) keys |
 | Uniform priority heap | retain smallest k in max-heap | O(n + accepted*log k) after fill, bounded entries; finite ties |
 | Weighted sort/heap | smallest retained log exponential clocks | successive weight-proportional draws without replacement; not general proportional final inclusion |

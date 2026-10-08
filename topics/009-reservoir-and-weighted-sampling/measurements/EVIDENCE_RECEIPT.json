@@ -11,7 +11,16 @@
     },
     "runner_sha256": "61991457e38f565bd0cf32b1ef9a02235d26ab3c3fd81ad219484dda73bae233",
     "change_from_first_replay": "documentation-only local Top-K precondition correction; experiment unchanged",
-    "origin_main": "24178154940a8ac584951f84401f436433d53c3b"
+    "origin_main": "24178154940a8ac584951f84401f436433d53c3b",
+    "post_replay_changes": {
+      "commit": "36ddffd0c8cdf9cf869894d62cf8fc880da7bff7",
+      "topic/src/lib.rs": "8879a3a099ccf831cf8d8f76ec5a069d1cab9f03889d48bdc3a06f55d5ecc53d",
+      "topic/tests/contracts.rs": "1dd8ac7ad04cf071dfe2dfa4a6cf1570b0af030783135359c72a7668f27eafaf",
+      "description": "combine clamps k to the total retained shard length before allocating; contracts gains two combine regression assertions. combine is absent from benches/sampling.rs and examples/stream.rs, so the measured binaries are unchanged. The replay archive's source-manifest.json still names the c910291 hashes above; packaging this tree with that manifest fails campaign.py's assertion by design."
+    },
+    "known_limitations": {
+      "two_method_block_order": "campaign.py rotates then reverses odd blocks. With two methods the reversal undoes the rotation, so every weighted cell ran wsort before wheap in all 12 blocks. The six uniform cells rotate through four distinct orders. Weighted contrasts are confounded with fixed within-block process order and any drift across a block. The runner stays frozen at runner_sha256; a corrected assignment requires a new weighted campaign on both hosts."
+    }
   },
   "archives": [
     {
