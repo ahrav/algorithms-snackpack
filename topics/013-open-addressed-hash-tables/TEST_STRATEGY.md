@@ -2,7 +2,7 @@
 
 BTreeMap is an independent oracle; it shares no hashing/deletion helper.
 Seven library test groups: wraparound/extreme keys/update; all-used termination;
-no shift before home;32768 five-step histories for each policy;20000 seeded
+no shift before home; 32768 five-step histories for each policy; 20000 seeded
 operations/policy with growth; snapshot/value mutation; extendible aliases,
 update/delete,split/doubling,depth-cap overflow. Two public contract tests
 reject duplicate keys after tombstone update and validate same-cap cleanup.

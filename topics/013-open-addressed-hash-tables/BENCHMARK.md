@@ -7,11 +7,11 @@ final map against independent BTreeMap before timing. No incorrect candidates
 are admitted. Deterministic identical workload generation, fixed mixer or
 explicit identity-hash cluster, native optimized builds.
 
-Ten workloads: tiny8 live/32 slots; clean4096/16384,12288/16384,14336/16384;
+Ten workloads: tiny 8 live/32 slots; clean 4096/16384,12288/16384,14336/16384;
 read after two full churn rounds at75%; mixed25%/75% delete/insert/hit/miss;
-identity-hash256-key cluster/512 slots;8192-key build from8 slots; first lookup
-without warmup. Read batches have65536 queries with half hits/misses (tiny512).
-Mixed batches have16384 cycles (cluster4096), four operations each.
+identity-hash256-key cluster/512 slots;8192-key build from 8 slots; first lookup
+without warmup. Read batches have65536 queries with half hits/misses (tiny 512).
+Mixed batches have 16384 cycles (cluster 4096), four operations each.
 
 Twelve process blocks use all six candidate orders twice. Workload order
 rotates per block. Pin the first allowed logical CPU. Two untimed warmup calls
@@ -27,7 +27,7 @@ Oracle/setup and whole-process elapsed are recorded separately. Churn_read
 excludes its preparation maintenance, so it cannot decide total churn cost.
 
 Selection: lowest median is descriptive. Name a unique selected option only
-if every paired rival/selected ratio exceeds1.05 in all12 blocks. Otherwise
+if every paired rival/selected ratio exceeds1.05 in all 12 blocks. Otherwise
 unresolved, with medians and full observed ranges. No confidence interpretation
 is assigned to those ranges; no A/A calibration or tail statistic is claimed.
 

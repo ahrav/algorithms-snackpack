@@ -1,0 +1,1272 @@
+{
+  "arm": {
+    "processes": 360,
+    "results": [
+      {
+        "workload": "tiny",
+        "medians_ns": {
+          "lazy": 1942.0,
+          "rebuild": 1941.5,
+          "shift": 1942.0
+        },
+        "fastest_median": "rebuild",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            1931,
+            1963
+          ],
+          "rebuild": [
+            1933,
+            2000
+          ],
+          "shift": [
+            1936,
+            2006
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            0.969,
+            1.014994829369183
+          ],
+          "shift": [
+            0.972,
+            1.025562372188139
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 512,
+            "reps": 128,
+            "lookup_probe_sum": 576,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 512,
+            "reps": 128,
+            "lookup_probe_sum": 576,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 512,
+            "reps": 128,
+            "lookup_probe_sum": 576,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          }
+        }
+      },
+      {
+        "workload": "clean25",
+        "medians_ns": {
+          "lazy": 443022.5,
+          "rebuild": 443775.0,
+          "shift": 442503.5
+        },
+        "fastest_median": "shift",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            434285,
+            446314
+          ],
+          "rebuild": [
+            435822,
+            507651
+          ],
+          "shift": [
+            434950,
+            460202
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            0.9596112142059356,
+            1.0261271410506956
+          ],
+          "rebuild": [
+            0.9535986371202211,
+            1.1508359498090068
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 84400,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 84400,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 84400,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          }
+        }
+      },
+      {
+        "workload": "clean75",
+        "medians_ns": {
+          "lazy": 1335987.0,
+          "rebuild": 1347927.0,
+          "shift": 1336957.0
+        },
+        "fastest_median": "lazy",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            1322706,
+            1408669
+          ],
+          "rebuild": [
+            1315210,
+            1415613
+          ],
+          "shift": [
+            1326206,
+            1407013
+          ]
+        },
+        "paired_ratio_ranges": {
+          "rebuild": [
+            0.9486394603700372,
+            1.060921485336395
+          ],
+          "shift": [
+            0.9504802050730158,
+            1.0484651714563769
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 364654,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 364654,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 364654,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          }
+        }
+      },
+      {
+        "workload": "clean87",
+        "medians_ns": {
+          "lazy": 2177023.0,
+          "rebuild": 2180420.5,
+          "shift": 2176486.5
+        },
+        "fastest_median": "shift",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            2161513,
+            2264837
+          ],
+          "rebuild": [
+            2166687,
+            2241698
+          ],
+          "shift": [
+            2164752,
+            2216844
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            0.9801704302747726,
+            1.040999965067686
+          ],
+          "rebuild": [
+            0.983298779706646,
+            1.032926788247746
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 1102902,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 1102902,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 1102902,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          }
+        }
+      },
+      {
+        "workload": "churn_read",
+        "medians_ns": {
+          "lazy": 32120623.0,
+          "rebuild": 2051659.5,
+          "shift": 1380799.0
+        },
+        "fastest_median": "shift",
+        "selected": "shift",
+        "ranges_ns": {
+          "lazy": [
+            31965614,
+            32229688
+          ],
+          "rebuild": [
+            2010568,
+            2101090
+          ],
+          "shift": [
+            1364168,
+            1447775
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            22.261530969936626,
+            23.589482380469267
+          ],
+          "rebuild": [
+            1.4025708414636253,
+            1.534045442598055
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 28577369,
+            "start_deleted": 4071,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 575273,
+            "start_deleted": 1341,
+            "rebuilds": 7,
+            "reinserted": 86009,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 362703,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 76621
+          }
+        }
+      },
+      {
+        "workload": "mixed25",
+        "medians_ns": {
+          "lazy": 1294303.5,
+          "rebuild": 1205047.5,
+          "shift": 835919.5
+        },
+        "fastest_median": "shift",
+        "selected": "shift",
+        "ranges_ns": {
+          "lazy": [
+            1268950,
+            1493021
+          ],
+          "rebuild": [
+            1190981,
+            1227958
+          ],
+          "shift": [
+            828472,
+            951187
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            1.33974076601131,
+            1.7956402516025833
+          ],
+          "rebuild": [
+            1.2684256618309544,
+            1.4815934672524067
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 194908,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 48724,
+            "start_deleted": 0,
+            "rebuilds": 7,
+            "reinserted": 28665,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 44736,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 5604
+          }
+        }
+      },
+      {
+        "workload": "mixed75",
+        "medians_ns": {
+          "lazy": 7187230.0,
+          "rebuild": 2939120.5,
+          "shift": 2616404.0
+        },
+        "fastest_median": "shift",
+        "selected": "shift",
+        "ranges_ns": {
+          "lazy": [
+            7146006,
+            7257216
+          ],
+          "rebuild": [
+            2901689,
+            3070068
+          ],
+          "shift": [
+            2564123,
+            2645925
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            2.718773654317459,
+            2.800198742416023
+          ],
+          "rebuild": [
+            1.0973825788712832,
+            1.1891325760495413
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 5615976,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 233841,
+            "start_deleted": 0,
+            "rebuilds": 5,
+            "reinserted": 61435,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 227765,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 51587
+          }
+        }
+      },
+      {
+        "workload": "cluster",
+        "medians_ns": {
+          "lazy": 3668427.0,
+          "rebuild": 3670528.5,
+          "shift": 5649761.0
+        },
+        "fastest_median": "lazy",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            3652529,
+            3744749
+          ],
+          "rebuild": [
+            3657635,
+            3779771
+          ],
+          "shift": [
+            5605621,
+            5867445
+          ]
+        },
+        "paired_ratio_ranges": {
+          "rebuild": [
+            0.9816818163246722,
+            1.0276341585626823
+          ],
+          "shift": [
+            1.5001705054197223,
+            1.5981007981283386
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 16384,
+            "reps": 1,
+            "lookup_probe_sum": 2072448,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 16384,
+            "reps": 1,
+            "lookup_probe_sum": 2072448,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 16384,
+            "reps": 1,
+            "lookup_probe_sum": 2072448,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 1044480
+          }
+        }
+      },
+      {
+        "workload": "build",
+        "medians_ns": {
+          "lazy": 537957.0,
+          "rebuild": 538989.0,
+          "shift": 538461.0
+        },
+        "fastest_median": "lazy",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            534700,
+            555239
+          ],
+          "rebuild": [
+            531795,
+            549836
+          ],
+          "shift": [
+            535171,
+            540656
+          ]
+        },
+        "paired_ratio_ranges": {
+          "rebuild": [
+            0.9822256721880127,
+            1.0230553824112234
+          ],
+          "shift": [
+            0.9737158232761027,
+            1.005161002454079
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 8192,
+            "reps": 1,
+            "lookup_probe_sum": 0,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 8192,
+            "reps": 1,
+            "lookup_probe_sum": 0,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 8192,
+            "reps": 1,
+            "lookup_probe_sum": 0,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          }
+        }
+      },
+      {
+        "workload": "first_lookup",
+        "medians_ns": {
+          "lazy": 1393867.5,
+          "rebuild": 1390469.5,
+          "shift": 1388438.5
+        },
+        "fastest_median": "shift",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            1370445,
+            1599961
+          ],
+          "rebuild": [
+            1371410,
+            1520002
+          ],
+          "shift": [
+            1358572,
+            1432990
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            0.9563534986287413,
+            1.1548612905600781
+          ],
+          "rebuild": [
+            0.9629411231062325,
+            1.106822019612569
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 364654,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 364654,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 364654,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          }
+        }
+      }
+    ]
+  },
+  "x86": {
+    "processes": 360,
+    "results": [
+      {
+        "workload": "tiny",
+        "medians_ns": {
+          "lazy": 1586.0,
+          "rebuild": 1588.5,
+          "shift": 1589.0
+        },
+        "fastest_median": "lazy",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            1581,
+            2886
+          ],
+          "rebuild": [
+            1574,
+            2541
+          ],
+          "shift": [
+            1576,
+            2562
+          ]
+        },
+        "paired_ratio_ranges": {
+          "rebuild": [
+            0.5464310464310465,
+            1.4920728126834997
+          ],
+          "shift": [
+            0.5575190575190575,
+            1.6204933586337762
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 512,
+            "reps": 128,
+            "lookup_probe_sum": 576,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 512,
+            "reps": 128,
+            "lookup_probe_sum": 576,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 512,
+            "reps": 128,
+            "lookup_probe_sum": 576,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          }
+        }
+      },
+      {
+        "workload": "clean25",
+        "medians_ns": {
+          "lazy": 290412.0,
+          "rebuild": 288375.0,
+          "shift": 288007.0
+        },
+        "fastest_median": "shift",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            280129,
+            317651
+          ],
+          "rebuild": [
+            277596,
+            322328
+          ],
+          "shift": [
+            280148,
+            315963
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            0.9564600918461972,
+            1.0763525098435203
+          ],
+          "rebuild": [
+            0.9350303674797366,
+            1.1505632736981881
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 84400,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 84400,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 84400,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          }
+        }
+      },
+      {
+        "workload": "clean75",
+        "medians_ns": {
+          "lazy": 1406789.0,
+          "rebuild": 1414240.5,
+          "shift": 1406050.5
+        },
+        "fastest_median": "shift",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            1387325,
+            1461900
+          ],
+          "rebuild": [
+            1387834,
+            1538575
+          ],
+          "shift": [
+            1395159,
+            1456575
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            0.9637903987093009,
+            1.023853510959837
+          ],
+          "rebuild": [
+            0.9528064123028337,
+            1.1027353814948737
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 364654,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 364654,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 364654,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          }
+        }
+      },
+      {
+        "workload": "clean87",
+        "medians_ns": {
+          "lazy": 2019014.0,
+          "rebuild": 2012741.0,
+          "shift": 2028716.0
+        },
+        "fastest_median": "rebuild",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            1981190,
+            2048614
+          ],
+          "rebuild": [
+            1979759,
+            2104075
+          ],
+          "shift": [
+            1985722,
+            2062274
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            0.9613792284020294,
+            1.0286933484377385
+          ],
+          "shift": [
+            0.9729643594922321,
+            1.023841533829885
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 1102902,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 1102902,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 1102902,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          }
+        }
+      },
+      {
+        "workload": "churn_read",
+        "medians_ns": {
+          "lazy": 50516123.0,
+          "rebuild": 2066438.5,
+          "shift": 1452058.5
+        },
+        "fastest_median": "shift",
+        "selected": "shift",
+        "ranges_ns": {
+          "lazy": [
+            49949824,
+            51123483
+          ],
+          "rebuild": [
+            2048491,
+            2146527
+          ],
+          "shift": [
+            1434639,
+            1471831
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            34.337442054597446,
+            35.377957131369776
+          ],
+          "rebuild": [
+            1.3940367493791967,
+            1.475305693378081
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 28577369,
+            "start_deleted": 4071,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 575273,
+            "start_deleted": 1341,
+            "rebuilds": 7,
+            "reinserted": 86009,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 4,
+            "lookup_probe_sum": 362703,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 76621
+          }
+        }
+      },
+      {
+        "workload": "mixed25",
+        "medians_ns": {
+          "lazy": 1352517.5,
+          "rebuild": 1259547.5,
+          "shift": 860911.0
+        },
+        "fastest_median": "shift",
+        "selected": "shift",
+        "ranges_ns": {
+          "lazy": [
+            1317698,
+            1532286
+          ],
+          "rebuild": [
+            1236246,
+            1331043
+          ],
+          "shift": [
+            846775,
+            1064688
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            1.270544046706641,
+            1.7664481306466506
+          ],
+          "rebuild": [
+            1.1962471634882708,
+            1.546571683198918
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 194908,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 48724,
+            "start_deleted": 0,
+            "rebuilds": 7,
+            "reinserted": 28665,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 44736,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 5604
+          }
+        }
+      },
+      {
+        "workload": "mixed75",
+        "medians_ns": {
+          "lazy": 8260941.5,
+          "rebuild": 3168431.0,
+          "shift": 2785001.5
+        },
+        "fastest_median": "shift",
+        "selected": "shift",
+        "ranges_ns": {
+          "lazy": [
+            8129964,
+            8595962
+          ],
+          "rebuild": [
+            3136740,
+            3223749
+          ],
+          "shift": [
+            2754290,
+            2953887
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            2.8619628983776293,
+            3.0863983518071634
+          ],
+          "rebuild": [
+            1.0757517129125116,
+            1.1563716452473893
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 5615976,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 233841,
+            "start_deleted": 0,
+            "rebuilds": 5,
+            "reinserted": 61435,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 227765,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 51587
+          }
+        }
+      },
+      {
+        "workload": "cluster",
+        "medians_ns": {
+          "lazy": 2644397.5,
+          "rebuild": 2618871.5,
+          "shift": 4355744.5
+        },
+        "fastest_median": "rebuild",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            2561863,
+            3122816
+          ],
+          "rebuild": [
+            2572366,
+            2770916
+          ],
+          "shift": [
+            4337646,
+            4665725
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            0.9441828461343947,
+            1.1559248573879195
+          ],
+          "shift": [
+            1.5854773594640934,
+            1.8129057276199216
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 16384,
+            "reps": 1,
+            "lookup_probe_sum": 2072448,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 16384,
+            "reps": 1,
+            "lookup_probe_sum": 2072448,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 16384,
+            "reps": 1,
+            "lookup_probe_sum": 2072448,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 1044480
+          }
+        }
+      },
+      {
+        "workload": "build",
+        "medians_ns": {
+          "lazy": 546975.5,
+          "rebuild": 554802.0,
+          "shift": 548226.0
+        },
+        "fastest_median": "lazy",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            540895,
+            562898
+          ],
+          "rebuild": [
+            545393,
+            573249
+          ],
+          "shift": [
+            544205,
+            557923
+          ]
+        },
+        "paired_ratio_ranges": {
+          "rebuild": [
+            0.9689304278927976,
+            1.0530410157764347
+          ],
+          "shift": [
+            0.9699306090979183,
+            1.0299597189557204
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 8192,
+            "reps": 1,
+            "lookup_probe_sum": 0,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 8192,
+            "reps": 1,
+            "lookup_probe_sum": 0,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 8192,
+            "reps": 1,
+            "lookup_probe_sum": 0,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          }
+        }
+      },
+      {
+        "workload": "first_lookup",
+        "medians_ns": {
+          "lazy": 1457009.0,
+          "rebuild": 1440140.5,
+          "shift": 1444470.0
+        },
+        "fastest_median": "rebuild",
+        "selected": "unresolved",
+        "ranges_ns": {
+          "lazy": [
+            1423379,
+            1496006
+          ],
+          "rebuild": [
+            1426031,
+            1484195
+          ],
+          "shift": [
+            1426054,
+            1475300
+          ]
+        },
+        "paired_ratio_ranges": {
+          "lazy": [
+            0.9642692135202917,
+            1.0387855701042046
+          ],
+          "shift": [
+            0.9637897985103036,
+            1.0282276472174847
+          ]
+        },
+        "diagnostics": {
+          "lazy": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 364654,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "rebuild": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 364654,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          },
+          "shift": {
+            "ops": 65536,
+            "reps": 1,
+            "lookup_probe_sum": 364654,
+            "start_deleted": 0,
+            "rebuilds": 0,
+            "reinserted": 0,
+            "shifted": 0
+          }
+        }
+      }
+    ]
+  }
+}

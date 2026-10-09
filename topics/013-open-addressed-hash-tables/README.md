@@ -22,7 +22,7 @@ capacity overflow panics. The implementation is single-threaded, safe Rust.
   quadratic or double-hash sequence.
 
 Insert checks for an existing key before reusing a tombstone. Otherwise deleting
-9 in the 1/9/17 example and then updating17 can create two copies of17.
+9 in the 1/9/17 example and then updating 17 can create two copies of 17.
 Never blindly move every following entry: an entry at its home stays there.
 
 `iter` has no order guarantee and borrows the map, preventing overlapping
@@ -34,25 +34,25 @@ stable-slot/address guarantee is provided.
 ## Cost and growth
 
 Let `m` be slots, `n` live entries, `d` deleted slots. Live load is `n/m`,
-nonempty load is `(n+d)/m`; neither captures cluster shape. After deleting9
-from eight slots, these are2/8=0.25 and3/8=0.375 with tombstones.
+nonempty load is `(n+d)/m`; neither captures cluster shape. After deleting 9
+from eight slots, these are 2/8=0.25 and 3/8=0.375 with tombstones.
 
 Let `h` be hash cost, `s` slot-inspection cost, `p` slots inspected.
-Lookup cost is modeled as `h+p*s`: key17 needs `h+3s` after tombstone deletion
+Lookup cost is modeled as `h+p*s`: key 17 needs `h+3s` after tombstone deletion
 and `h+2s` after shift. These are explanatory counts, not fitted times.
 For `dist(a,b)=(b-a) mod m`, move a key only when
-`dist(home,hole)<dist(home,pos)`. Here `m=8`, home1/hole2/pos3 gives1<2.
+`dist(home,hole)<dist(home,pos)`. Here `m=8`, home 1/hole 2/pos 3 gives 1<2.
 Worst-case search and shift scan capacity. Rebuild scans the old slots and
 initializes new storage, plus live reinsertion costs; concentrated hashes can
 make reinsertion more expensive than linear. The fixed mixer provides no
 random-independence or adversarial-security theorem.
 
 `ExtendibleMap` demonstrates segmented growth using a directory and local
-vector buckets. It uses low key bits, cap12 directory depth, then explicit
+vector buckets. It uses low key bits, cap 12 directory depth, then explicit
 vector overflow; no bucket merge/shrink. It is not a performance candidate.
 For global depth `g`, directory size is `2^g`; local depth `l` means
-`2^(g-l)` aliases. Example1/9/17 with bucket limit2 reaches global4, sixteen
-directory entries, five buckets,45 pointer visits and8 redistributed rows.
+`2^(g-l)` aliases. Example 1/9/17 with bucket limit 2 reaches global 4, sixteen
+directory entries, five buckets, 45 pointer visits and 8 redistributed rows.
 The simple implementation scans the directory to rewire every split.
 Local redistribution does not remove directory, allocation, repeated-split,
 overflow or iterator costs.
