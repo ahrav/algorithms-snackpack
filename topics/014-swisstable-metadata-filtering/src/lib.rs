@@ -292,18 +292,34 @@ mod tests {
                 let mut t = Table::new(128, wide);
                 let mut oracle = BTreeMap::new();
                 let mut rng = 1_u64;
-                for _ in 0..20_000 {
+                for step in 0..4_000 {
                     rng = rng.wrapping_mul(6_364_136_223_846_793_005).wrapping_add(1);
                     let id = (rng >> 20) % 80;
                     let key = Key::new(id);
                     let h = hash(id, shape);
                     if rng.is_multiple_of(3) {
-                        assert_eq!(t.remove(key, h), oracle.remove(&key));
+                        assert_eq!(
+                            t.remove(key, h),
+                            oracle.remove(&key),
+                            "step {step} key {id}"
+                        );
                     } else {
-                        assert_eq!(t.insert(key, h, rng).unwrap(), oracle.insert(key, rng));
+                        assert_eq!(
+                            t.insert(key, h, rng).unwrap(),
+                            oracle.insert(key, rng),
+                            "step {step} key {id}"
+                        );
                     }
-                    for f in FILTERS {
-                        assert_eq!(t.get(key, h, f).value, oracle.get(&key).copied());
+                    for id in 0..80 {
+                        let key = Key::new(id);
+                        let expected = oracle.get(&key).copied();
+                        for f in FILTERS {
+                            assert_eq!(
+                                t.get(key, hash(id, shape), f).value,
+                                expected,
+                                "step {step} wide {wide} shape {shape:?} key {id} filter {f:?}"
+                            );
+                        }
                     }
                 }
             }

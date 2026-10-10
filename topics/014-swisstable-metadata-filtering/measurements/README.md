@@ -1,6 +1,6 @@
 # Measurement evidence
 
-Exact frozen source: `42cdb5ed9436ad196353e1d7342b86092f25164b`. All five input hashes agree with committed files and final working inputs.
+Exact frozen source: `42cdb5ed9436ad196353e1d7342b86092f25164b`. All five input hashes in EVIDENCE_RECEIPT.json agree with that commit and the final working inputs of the campaign. Later commits change only the `#[cfg(test)]` module of `src/lib.rs` (excluded from the measured rlib and bench binary, SHA256 `2038ddb0…`), the runner's identity recording, and the analyzer's schedule check; see `post_measurement_changes` in the receipt.
 
 Both local campaigns completed360 processes with every oracle passing. Initial observations are retained separately. Final committed-input selection below is authoritative for this source/campaign. Required Arm/x86 Linux SSH plus one retry each failed before execution due expired Midway authentication. No remote identity/transfer/success is claimed.
 
@@ -19,7 +19,7 @@ Both local campaigns completed360 processes with every oracle passing. Initial o
 
 The word candidate is selected for cluster/deleted/large87/small_hit/tiny/wide_miss. bad_tag/build_probe/first_batch/small_miss remain unresolved. small_hit changed from initial unresolved to selected; small_miss changed from selected to unresolved. Retain both classifications and do not extrapolate a universal threshold.
 
-Selection uses all12 paired process ratios exceeding1.05 against every rival of the lowest median. Observed ranges are dispersion, not confidence intervals. Lower median alone does not establish a winner. No A/A, tail/cold-cache or PMU evidence was obtained. Local Apple M1 Pro, Darwin25.6.0, Rust1.93.1/LLVM21.1.8, native optimization; no CPU affinity. Linux verification is pending, not replaced by local evidence.
+Selection uses all12 paired process ratios exceeding1.05 against every rival of the lowest median. Observed ranges are dispersion, not confidence intervals. Lower median alone does not establish a winner. No A/A, tail/cold-cache or PMU evidence was obtained; METHODOLOGY.md requires an identical-artifact A/A run, so every selection above is provisional until that control runs through this pipeline. Local Apple M1 Pro, Darwin25.6.0, Rust1.93.1/LLVM21.1.8, native optimization; no CPU affinity. The committed `identity.target_cfg` in results.json was printed without `-C opt-level=3`; its `debug_assertions` line describes that probe, not the measured binary. Linux verification is pending, not replaced by local evidence.
 
 Wide misses use14.95 baseline equalities/query versus0.12 filtered; constant tags retain14.95 for all three. These are separate untimed diagnostic counts. Assembly confirms the word branch uses carry-isolated integer operations on two halves; it does not establish runtime cache causes.
 

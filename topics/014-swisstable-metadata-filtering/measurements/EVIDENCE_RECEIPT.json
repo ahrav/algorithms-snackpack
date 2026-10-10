@@ -23,7 +23,9 @@
     "cpu": "Apple M1 Pro\n",
     "toolchain": "rustc 1.93.1 (01f6ddf75 2026-02-11)\nbinary: rustc\ncommit-hash: 01f6ddf7588f42ae2d7eb0a2f21d44e8e96674cf\ncommit-date: 2026-02-11\nhost: aarch64-apple-darwin\nrelease: 1.93.1\nLLVM version: 21.1.8\n",
     "processes": 360,
-    "all_oracles": true
+    "all_oracles": true,
+    "binary_sha256": "2038ddb049df7b5ab4eebfe4d4c299faa753e2e5290a9fd2b85513dc8445505a",
+    "target_cfg_caveat": "results.json identity.target_cfg was printed without -C opt-level=3; its debug_assertions line describes that probe, not the measured binary, which was built with the recorded flags"
   },
   "archive": {
     "path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-014/20261010/local-campaigns-and-source.tar.gz",
@@ -35,5 +37,11 @@
     "local initial scratch",
     "local exact committed inputs"
   ],
-  "source_identity_verified": true
+  "source_identity_verified": true,
+  "post_measurement_changes": {
+    "src/lib.rs": "#[cfg(test)] module only: the seeded history test compares the whole key domain after every transition; the measured rlib and bench binary exclude this module",
+    "measurements/runner.py": "identity recording only: target_cfg is printed with the measured flags and the first_batch boundary text names the diagnostics pass",
+    "measurements/analyze.py": "validates samples against the recorded runner schedule before reduction; not a frozen input",
+    "verify": "git diff 42cdb5ed9436ad196353e1d7342b86092f25164b -- topics/014-swisstable-metadata-filtering/{src,benches,tests,examples,measurements/runner.py}"
+  }
 }
