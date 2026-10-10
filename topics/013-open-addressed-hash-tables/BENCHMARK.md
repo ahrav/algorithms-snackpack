@@ -1,6 +1,6 @@
-# Frozen experiment
-
 benchmark_required: true
+
+# Frozen experiment
 
 Three deletion policies; each candidate/process checks operation outputs and
 final map against independent BTreeMap before timing. No incorrect candidates
