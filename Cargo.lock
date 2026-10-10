@@ -35,6 +35,10 @@ name = "sorting_lab"
 version = "0.1.0"
 
 [[package]]
+name = "swisstable-metadata-filtering"
+version = "0.1.0"
+
+[[package]]
 name = "top-k-portfolio"
 version = "0.1.0"
 

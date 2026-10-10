@@ -1,0 +1,47 @@
+{
+  "topic": 14,
+  "status": "local_exact_committed_complete_required_linux_pending",
+  "retained_evidence": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-014/20261010",
+  "required_linux": {
+    "arm": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+    "x86_alias": "xxl",
+    "resolved_x86_hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+    "status": "SSH failed before execution: shared Midway authentication expired; one bounded retry each failed",
+    "remaining": "Verify both host architectures/toolchains, transfer frozen committed source and runner with SHA256 agreement, run oracle and balanced360-process campaign, retrieve identities/raw evidence and update receipt"
+  },
+  "source_commit": "42cdb5ed9436ad196353e1d7342b86092f25164b",
+  "frozen_inputs": {
+    "src/lib.rs": "dbbe0bc9577363883ff6dacca3a9df13d0cb77adf8925664ffcaa96d7b10f93e",
+    "benches/metadata.rs": "f602a610d94886b72187d614f3b6e57b87e1dba7393f3c1da6a0381a1fc88b25",
+    "tests/contracts.rs": "9deb81ff90de20f530c45b3bdc027b0a5d0c440af9af251d0ba71d4aa4b03263",
+    "examples/metadata.rs": "f55ba318cd5fb29293a700e03e7f1e27837d08b970e915661a27a683b1f252a6",
+    "measurements/runner.py": "22dc9534bcd28cc2e9ce8cceb437281bf0372ac0f7d51ef27ca4adbf0f4b72d4"
+  },
+  "local": {
+    "hostname": "b0f1d8752aba",
+    "architecture": "arm64",
+    "cpu": "Apple M1 Pro\n",
+    "toolchain": "rustc 1.93.1 (01f6ddf75 2026-02-11)\nbinary: rustc\ncommit-hash: 01f6ddf7588f42ae2d7eb0a2f21d44e8e96674cf\ncommit-date: 2026-02-11\nhost: aarch64-apple-darwin\nrelease: 1.93.1\nLLVM version: 21.1.8\n",
+    "processes": 360,
+    "all_oracles": true,
+    "binary_sha256": "2038ddb049df7b5ab4eebfe4d4c299faa753e2e5290a9fd2b85513dc8445505a",
+    "target_cfg_caveat": "results.json identity.target_cfg was printed without -C opt-level=3; its debug_assertions line describes that probe, not the measured binary, which was built with the recorded flags"
+  },
+  "archive": {
+    "path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-014/20261010/local-campaigns-and-source.tar.gz",
+    "sha256": "1e9ea956f3e275d169f513ad16d9c3161ed5d0125aa264683bf5056d5d7f34d8",
+    "bytes": 2491876,
+    "members": 50
+  },
+  "campaigns": [
+    "local initial scratch",
+    "local exact committed inputs"
+  ],
+  "source_identity_verified": true,
+  "post_measurement_changes": {
+    "src/lib.rs": "#[cfg(test)] module only: the seeded history test compares the whole key domain after every transition; the measured rlib and bench binary exclude this module",
+    "measurements/runner.py": "identity recording only: target_cfg is printed with the measured flags and the first_batch boundary text names the diagnostics pass",
+    "measurements/analyze.py": "validates samples against the recorded runner schedule before reduction; not a frozen input",
+    "verify": "git diff 42cdb5ed9436ad196353e1d7342b86092f25164b -- topics/014-swisstable-metadata-filtering/{src,benches,tests,examples,measurements/runner.py}"
+  }
+}
