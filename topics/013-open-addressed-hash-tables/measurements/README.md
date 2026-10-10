@@ -22,7 +22,18 @@ ratio > 1.05 in all 12 blocks. Unresolved cells retain descriptive medians,
 observed ranges and paired-ratio ranges in results.json; no confidence
 interpretation or universal optimum. Read-only churn excludes prior maintenance.
 Mixed includes maintenance; build includes allocation,growth,drop.
-First lookup skips warmup but is not startup/cold-cache controlled.
+first_lookup times one unwarmed batch of 65536 queries, the same batch as the
+clean rows; the label names the skipped warmup, not single-operation latency,
+and it is not startup/cold-cache controlled.
+
+Known probe limits of the pinned source, retained as measured:
+- build diagnostics report rebuilds/reinserted 0 because probe.rs drops the map
+  before reading its counters; a corrected scratch probe reports 11 rebuilds and
+  14329 reinsertions per build process. Timing is unaffected.
+- receipt target_cfg lists debug_assertions, taken from rustc --print cfg without
+  the opt-level=3 build flag; the measured probe binary has debug_assertions and
+  overflow checks off. The pinned sources contain no cfg-gated code outside
+  #[cfg(test)].
 
 Arm: dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com, aarch64, rustc 1.98.1.
 x86: runtime-resolved xxl dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com, x86_64, rustc 1.99.0.
@@ -36,8 +47,15 @@ as committed-arm-raw.tar.gz and committed-x86-raw.tar.gz under:
 
 ```bash
 python3 measurements/runner.py
+python3 measurements/analyze.py raw/samples.jsonl
 ```
-Run in a fresh copy; raw/ must not exist.
+Run in a fresh copy; raw/ must not exist. analyze.py applies the frozen
+selection rule to the complete 360-process schedule and prints one host block in
+the results.json schema; it rejects partial, duplicated or reordered campaigns.
+`python3 measurements/test_analyze.py` checks those rules. The committed
+results.json predates analyze.py and has not been regenerated from the archived
+samples; a same-host Arm analyzer validation run with rustc 1.98.1 on 2026-10-10
+reproduced all ten committed selections.
 
 Guide: shift for declared selected churn/mixed workloads; retain unresolved
 choices where the frozen criterion does not separate. Hash concentration can make

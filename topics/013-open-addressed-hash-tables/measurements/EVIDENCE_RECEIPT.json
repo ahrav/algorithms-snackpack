@@ -526,5 +526,11 @@
       "processes": 360,
       "exit": 0
     }
+  },
+  "analysis": {
+    "script": "measurements/analyze.py",
+    "sha256": "76b607bf89fed0635f93fc48194a35fda3d909a83406b10a85b3986e7a51b598",
+    "test": "measurements/test_analyze.py",
+    "note": "analyze.py applies the frozen BENCHMARK.md selection rule to the complete 360-process schedule and emits one host block in the results.json schema. The committed results.json predates it and has not been regenerated from the archived samples, which are retained only under the external evidence path. A same-host Arm validation run (rustc 1.98.1, 2026-10-10) reproduced all ten committed selections and identical diagnostics."
   }
 }
