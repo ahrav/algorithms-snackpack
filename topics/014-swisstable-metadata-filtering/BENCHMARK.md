@@ -35,7 +35,9 @@ Steady lookup excludes prehash, queries, table preparation, independent BTreeMap
 startup and final teardown; includes checksum. Build includes allocation, initialization,
 insertion, probing and drop. First batch is neither cold cache nor startup: the oracle pass and the
 untimed diagnostics pass each ran every query through the selected filter before its timer started.
-Diagnostics count groups/equalities in a separate untimed pass. The runner retains library
+The groups/equalities counters are incremented inside every `get`, timed or not; the diagnostics
+pass reads them untimed. The unfiltered arm builds a lane mask through the same two-phase structure
+as the filters; a direct one-pass loop is faster (see measurements/README.md). The runner retains library
 assembly; no hardware counters identify cache causes or whole-process candidate-only effects.
 
 Flags: rustc --edition2024 -C opt-level=3 -C target-cpu=native. The runner records rustc-vV,
