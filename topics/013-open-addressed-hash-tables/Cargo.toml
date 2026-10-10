@@ -1,0 +1,13 @@
+[package]
+name = "open-addressed-hash-tables"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[[bench]]
+name = "probe"
+harness = false

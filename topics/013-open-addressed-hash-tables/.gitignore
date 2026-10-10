@@ -1,0 +1,2 @@
+# runner.py outputs in the topic root; raw evidence is archived outside Git.
+/raw/
