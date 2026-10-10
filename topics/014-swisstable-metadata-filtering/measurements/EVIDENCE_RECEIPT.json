@@ -1,0 +1,12 @@
+{
+  "topic": 14,
+  "status": "local_initial_complete_exact_committed_replay_pending",
+  "retained_evidence": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-014/20261010",
+  "required_linux": {
+    "arm": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+    "x86_alias": "xxl",
+    "resolved_x86_hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+    "status": "SSH failed before execution: shared Midway authentication expired; one bounded retry each failed",
+    "remaining": "Verify both host architectures/toolchains, transfer frozen committed source and runner with SHA256 agreement, run oracle and balanced360-process campaign, retrieve identities/raw evidence and update receipt"
+  }
+}
