@@ -1,0 +1,497 @@
+{
+  "identity": {
+    "source": {
+      "src/lib.rs": "dbbe0bc9577363883ff6dacca3a9df13d0cb77adf8925664ffcaa96d7b10f93e",
+      "benches/metadata.rs": "f602a610d94886b72187d614f3b6e57b87e1dba7393f3c1da6a0381a1fc88b25",
+      "tests/contracts.rs": "9deb81ff90de20f530c45b3bdc027b0a5d0c440af9af251d0ba71d4aa4b03263",
+      "examples/metadata.rs": "f55ba318cd5fb29293a700e03e7f1e27837d08b970e915661a27a683b1f252a6",
+      "measurements/runner.py": "22dc9534bcd28cc2e9ce8cceb437281bf0372ac0f7d51ef27ca4adbf0f4b72d4"
+    },
+    "hostname": "b0f1d8752aba",
+    "architecture": "arm64",
+    "uname": [
+      "Darwin",
+      "b0f1d8752aba",
+      "25.6.0",
+      "Darwin Kernel Version 25.6.0: Tue Aug 18 17:49:13 PDT 2026; root:xnu-12377.161.15.700.19~2/RELEASE_ARM64_T6000",
+      "arm64",
+      "arm"
+    ],
+    "toolchain": "rustc 1.93.1 (01f6ddf75 2026-02-11)\nbinary: rustc\ncommit-hash: 01f6ddf7588f42ae2d7eb0a2f21d44e8e96674cf\ncommit-date: 2026-02-11\nhost: aarch64-apple-darwin\nrelease: 1.93.1\nLLVM version: 21.1.8\n",
+    "cpu": "Apple M1 Pro\n",
+    "flags": [
+      "--edition",
+      "2024",
+      "-C",
+      "opt-level=3",
+      "-C",
+      "target-cpu=native"
+    ],
+    "target_cfg": "debug_assertions\npanic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"aarch64\"\ntarget_endian=\"little\"\ntarget_env=\"\"\ntarget_family=\"unix\"\ntarget_feature=\"aes\"\ntarget_feature=\"crc\"\ntarget_feature=\"dit\"\ntarget_feature=\"dotprod\"\ntarget_feature=\"dpb\"\ntarget_feature=\"dpb2\"\ntarget_feature=\"fcma\"\ntarget_feature=\"fhm\"\ntarget_feature=\"flagm\"\ntarget_feature=\"fp16\"\ntarget_feature=\"frintts\"\ntarget_feature=\"jsconv\"\ntarget_feature=\"lor\"\ntarget_feature=\"lse\"\ntarget_feature=\"neon\"\ntarget_feature=\"paca\"\ntarget_feature=\"pacg\"\ntarget_feature=\"pan\"\ntarget_feature=\"pmuv3\"\ntarget_feature=\"ras\"\ntarget_feature=\"rcpc\"\ntarget_feature=\"rcpc2\"\ntarget_feature=\"rdm\"\ntarget_feature=\"sb\"\ntarget_feature=\"sha2\"\ntarget_feature=\"sha3\"\ntarget_feature=\"ssbs\"\ntarget_feature=\"vh\"\ntarget_has_atomic=\"128\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_os=\"macos\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"apple\"\nunix\n",
+    "available_cpus": null,
+    "logical_cpus": 10,
+    "affinity_cpu": null,
+    "workloads": [
+      "tiny",
+      "small_hit",
+      "small_miss",
+      "wide_miss",
+      "large87",
+      "bad_tag",
+      "cluster",
+      "deleted",
+      "build_probe",
+      "first_batch"
+    ],
+    "orders": [
+      [
+        "unfiltered",
+        "scalar",
+        "word"
+      ],
+      [
+        "unfiltered",
+        "word",
+        "scalar"
+      ],
+      [
+        "scalar",
+        "unfiltered",
+        "word"
+      ],
+      [
+        "scalar",
+        "word",
+        "unfiltered"
+      ],
+      [
+        "word",
+        "unfiltered",
+        "scalar"
+      ],
+      [
+        "word",
+        "scalar",
+        "unfiltered"
+      ],
+      [
+        "unfiltered",
+        "scalar",
+        "word"
+      ],
+      [
+        "unfiltered",
+        "word",
+        "scalar"
+      ],
+      [
+        "scalar",
+        "unfiltered",
+        "word"
+      ],
+      [
+        "scalar",
+        "word",
+        "unfiltered"
+      ],
+      [
+        "word",
+        "unfiltered",
+        "scalar"
+      ],
+      [
+        "word",
+        "scalar",
+        "unfiltered"
+      ]
+    ],
+    "process_blocks": 12,
+    "warmup_batches": 2,
+    "selection": "lowest median; unique only when every paired rival/winner time ratio exceeds1.05 in all12 blocks; otherwise unresolved. Ranges are dispersion, not confidence intervals.",
+    "boundary": "prehashed queries, input/table preparation and independent oracle excluded; checksum included; final teardown excluded for steady lookup. build_probe includes allocation, inserts, probes, checksum, drop. first_batch skips batch warmup but oracle already accessed table; neither startup nor cold cache.",
+    "limitations": "no A/A calibration, forced cold cache, PMU or ISA attribution; local macOS has no pinned affinity",
+    "binary_sha256": "2038ddb049df7b5ab4eebfe4d4c299faa753e2e5290a9fd2b85513dc8445505a"
+  },
+  "results": [
+    {
+      "workload": "bad_tag",
+      "selected": "unresolved",
+      "lowest_median": "word",
+      "ns_per_operation": {
+        "unfiltered": {
+          "median": 64.23377990722656,
+          "min": 61.830360412597656,
+          "max": 67.84328079223633,
+          "groups_per_query": 1.232177734375,
+          "equalities_per_query": 14.9481201171875
+        },
+        "scalar": {
+          "median": 64.10574913024902,
+          "min": 62.336761474609375,
+          "max": 67.27361679077148,
+          "groups_per_query": 1.232177734375,
+          "equalities_per_query": 14.9481201171875
+        },
+        "word": {
+          "median": 60.28707695007324,
+          "min": 58.929443359375,
+          "max": 63.01259994506836,
+          "groups_per_query": 1.232177734375,
+          "equalities_per_query": 14.9481201171875
+        }
+      },
+      "paired_rival_over_fastest_ranges": {
+        "unfiltered": [
+          1.0267732146775939,
+          1.0988247973813623
+        ],
+        "scalar": [
+          1.0163479761175056,
+          1.115577578879336
+        ]
+      }
+    },
+    {
+      "workload": "build_probe",
+      "selected": "unresolved",
+      "lowest_median": "word",
+      "ns_per_operation": {
+        "unfiltered": {
+          "median": 78.64443969726562,
+          "min": 74.46035766601562,
+          "max": 87.5028076171875,
+          "groups_per_query": 1.12548828125,
+          "equalities_per_query": 11.0716552734375
+        },
+        "scalar": {
+          "median": 42.52497863769531,
+          "min": 40.164947509765625,
+          "max": 46.966552734375,
+          "groups_per_query": 1.12548828125,
+          "equalities_per_query": 0.5848388671875
+        },
+        "word": {
+          "median": 42.15812683105469,
+          "min": 40.219635009765625,
+          "max": 44.027984619140625,
+          "groups_per_query": 1.12548828125,
+          "equalities_per_query": 0.5848388671875
+        }
+      },
+      "paired_rival_over_fastest_ranges": {
+        "unfiltered": [
+          1.7660734379107879,
+          2.145508584153437
+        ],
+        "scalar": [
+          0.9279642450267286,
+          1.1134020618556701
+        ]
+      }
+    },
+    {
+      "workload": "cluster",
+      "selected": "word",
+      "lowest_median": "word",
+      "ns_per_operation": {
+        "unfiltered": {
+          "median": 665.1535034179688,
+          "min": 650.536865234375,
+          "max": 689.2623901367188,
+          "groups_per_query": 17.0,
+          "equalities_per_query": 256.0
+        },
+        "scalar": {
+          "median": 131.2001495361328,
+          "min": 128.90115356445312,
+          "max": 135.85916137695312,
+          "groups_per_query": 17.0,
+          "equalities_per_query": 1.9208984375
+        },
+        "word": {
+          "median": 76.31683349609375,
+          "min": 73.41766357421875,
+          "max": 77.67996215820312,
+          "groups_per_query": 17.0,
+          "equalities_per_query": 1.9208984375
+        }
+      },
+      "paired_rival_over_fastest_ranges": {
+        "unfiltered": [
+          8.502060823611526,
+          9.077903356541619
+        ],
+        "scalar": [
+          1.676182330832237,
+          1.771294606671516
+        ]
+      }
+    },
+    {
+      "workload": "deleted",
+      "selected": "word",
+      "lowest_median": "word",
+      "ns_per_operation": {
+        "unfiltered": {
+          "median": 57.30827713012695,
+          "min": 55.91138458251953,
+          "max": 63.77967071533203,
+          "groups_per_query": 1.232177734375,
+          "equalities_per_query": 9.9735107421875
+        },
+        "scalar": {
+          "median": 25.114774703979492,
+          "min": 24.153865814208984,
+          "max": 25.499343872070312,
+          "groups_per_query": 1.232177734375,
+          "equalities_per_query": 0.076171875
+        },
+        "word": {
+          "median": 21.449169158935547,
+          "min": 21.3028564453125,
+          "max": 21.87744903564453,
+          "groups_per_query": 1.232177734375,
+          "equalities_per_query": 0.076171875
+        }
+      },
+      "paired_rival_over_fastest_ranges": {
+        "unfiltered": [
+          2.611637124974943,
+          2.9421633238654312
+        ],
+        "scalar": [
+          1.1306264898888443,
+          1.1782852295810173
+        ]
+      }
+    },
+    {
+      "workload": "first_batch",
+      "selected": "unresolved",
+      "lowest_median": "word",
+      "ns_per_operation": {
+        "unfiltered": {
+          "median": 58.37255859375,
+          "min": 56.0455322265625,
+          "max": 60.302734375,
+          "groups_per_query": 1.12548828125,
+          "equalities_per_query": 11.0716552734375
+        },
+        "scalar": {
+          "median": 22.4635009765625,
+          "min": 20.25341796875,
+          "max": 28.74755859375,
+          "groups_per_query": 1.12548828125,
+          "equalities_per_query": 0.5848388671875
+        },
+        "word": {
+          "median": 21.7081298828125,
+          "min": 20.2789306640625,
+          "max": 24.8668212890625,
+          "groups_per_query": 1.12548828125,
+          "equalities_per_query": 0.5848388671875
+        }
+      },
+      "paired_rival_over_fastest_ranges": {
+        "unfiltered": [
+          2.413575247043577,
+          2.8513319060821956
+        ],
+        "scalar": [
+          0.9175187457396047,
+          1.3153411788361324
+        ]
+      }
+    },
+    {
+      "workload": "large87",
+      "selected": "word",
+      "lowest_median": "word",
+      "ns_per_operation": {
+        "unfiltered": {
+          "median": 147.34474754333496,
+          "min": 135.30937957763672,
+          "max": 173.80619049072266,
+          "groups_per_query": 2.69873046875,
+          "equalities_per_query": 39.5980224609375
+        },
+        "scalar": {
+          "median": 46.30597496032715,
+          "min": 44.82380676269531,
+          "max": 48.90076446533203,
+          "groups_per_query": 2.69873046875,
+          "equalities_per_query": 0.311279296875
+        },
+        "word": {
+          "median": 38.71941566467285,
+          "min": 36.850929260253906,
+          "max": 41.33256149291992,
+          "groups_per_query": 2.69873046875,
+          "equalities_per_query": 0.311279296875
+        }
+      },
+      "paired_rival_over_fastest_ranges": {
+        "unfiltered": [
+          3.5604357416915735,
+          4.264553982901051
+        ],
+        "scalar": [
+          1.15041036070212,
+          1.2500841075541522
+        ]
+      }
+    },
+    {
+      "workload": "small_hit",
+      "selected": "word",
+      "lowest_median": "word",
+      "ns_per_operation": {
+        "unfiltered": {
+          "median": 36.87421417236328,
+          "min": 35.93174362182617,
+          "max": 37.7349853515625,
+          "groups_per_query": 1.0,
+          "equalities_per_query": 5.0531005859375
+        },
+        "scalar": {
+          "median": 20.12380027770996,
+          "min": 18.510181427001953,
+          "max": 20.937442779541016,
+          "groups_per_query": 1.0,
+          "equalities_per_query": 1.031982421875
+        },
+        "word": {
+          "median": 16.668161392211914,
+          "min": 16.23932647705078,
+          "max": 17.44222640991211,
+          "groups_per_query": 1.0,
+          "equalities_per_query": 1.031982421875
+        }
+      },
+      "paired_rival_over_fastest_ranges": {
+        "unfiltered": [
+          2.116888487930233,
+          2.281276697884168
+        ],
+        "scalar": [
+          1.1112637123554334,
+          1.2347385813905525
+        ]
+      }
+    },
+    {
+      "workload": "small_miss",
+      "selected": "unresolved",
+      "lowest_median": "word",
+      "ns_per_operation": {
+        "unfiltered": {
+          "median": 38.08426856994629,
+          "min": 36.26521682739258,
+          "max": 39.026737213134766,
+          "groups_per_query": 1.001953125,
+          "equalities_per_query": 7.9818115234375
+        },
+        "scalar": {
+          "median": 21.74409294128418,
+          "min": 20.61669158935547,
+          "max": 22.580623626708984,
+          "groups_per_query": 1.001953125,
+          "equalities_per_query": 0.059814453125
+        },
+        "word": {
+          "median": 18.98710060119629,
+          "min": 18.198333740234375,
+          "max": 20.808853149414062,
+          "groups_per_query": 1.001953125,
+          "equalities_per_query": 0.059814453125
+        }
+      },
+      "paired_rival_over_fastest_ranges": {
+        "unfiltered": [
+          1.801662390401612,
+          2.0990616662446357
+        ],
+        "scalar": [
+          1.0399793507361066,
+          1.1971630726971791
+        ]
+      }
+    },
+    {
+      "workload": "tiny",
+      "selected": "word",
+      "lowest_median": "word",
+      "ns_per_operation": {
+        "unfiltered": {
+          "median": 27.75772476196289,
+          "min": 26.778697967529297,
+          "max": 41.27232360839844,
+          "groups_per_query": 1.0,
+          "equalities_per_query": 6.246337890625
+        },
+        "scalar": {
+          "median": 13.037046432495117,
+          "min": 12.316387176513672,
+          "max": 13.31488037109375,
+          "groups_per_query": 1.0,
+          "equalities_per_query": 0.5634765625
+        },
+        "word": {
+          "median": 10.382097244262695,
+          "min": 9.842395782470703,
+          "max": 10.924179077148438,
+          "groups_per_query": 1.0,
+          "equalities_per_query": 0.5634765625
+        }
+      },
+      "paired_rival_over_fastest_ranges": {
+        "unfiltered": [
+          2.543509460610591,
+          3.9718399412628487
+        ],
+        "scalar": [
+          1.1970204364411456,
+          1.3038928095494788
+        ]
+      }
+    },
+    {
+      "workload": "wide_miss",
+      "selected": "word",
+      "lowest_median": "word",
+      "ns_per_operation": {
+        "unfiltered": {
+          "median": 64.40949440002441,
+          "min": 61.36465072631836,
+          "max": 66.79344177246094,
+          "groups_per_query": 1.232177734375,
+          "equalities_per_query": 14.9481201171875
+        },
+        "scalar": {
+          "median": 25.67108726501465,
+          "min": 24.494171142578125,
+          "max": 26.785533905029297,
+          "groups_per_query": 1.232177734375,
+          "equalities_per_query": 0.12060546875
+        },
+        "word": {
+          "median": 22.036075592041016,
+          "min": 21.21591567993164,
+          "max": 23.013748168945312,
+          "groups_per_query": 1.232177734375,
+          "equalities_per_query": 0.12060546875
+        }
+      },
+      "paired_rival_over_fastest_ranges": {
+        "unfiltered": [
+          2.7563854693153362,
+          3.038815818759594
+        ],
+        "scalar": [
+          1.104717862043321,
+          1.241277834178871
+        ]
+      }
+    }
+  ]
+}

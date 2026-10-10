@@ -1,23 +1,28 @@
 # Measurement evidence
 
-Initial360-process campaign completed locally on Apple M1 Pro, arm64 Darwin25.6.0,
-Rust1.93.1, LLVM21.1.8 with native optimization. Required Linux Arm and x86 hosts each
-failed SSH plus one retry before executing commands due expired Midway authentication.
-There are no remote identities or successful transfers to report. Exact committed-input
-replay remains required on both hosts once authentication works.
+Exact frozen source: `42cdb5ed9436ad196353e1d7342b86092f25164b`. All five input hashes agree with committed files and final working inputs.
 
-The initial word mask was selected in tiny/small_miss/wide_miss/large87/cluster/deleted;
-small_hit/bad_tag/build_probe/first_batch remained unresolved. Final committed-input results
-will be attached after replay. See BENCHMARK.md for frozen ordering, boundary and selection.
-Steady-state medians exclude hashing/build/setup. build_probe includes lifecycle work.
-First-batch oracle access prevents a cold-cache interpretation. No A/A or PMU attribution.
+Both local campaigns completed360 processes with every oracle passing. Initial observations are retained separately. Final committed-input selection below is authoritative for this source/campaign. Required Arm/x86 Linux SSH plus one retry each failed before execution due expired Midway authentication. No remote identity/transfer/success is claimed.
 
-Raw/source/failure/replay assets are retained externally under:
-/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-014/20261010
+| Workload | Unfiltered median | Scalar median | Word median [min,max] ns/query | Final selection |
+|---|---:|---:|---:|---|
+| bad_tag | 64.2 | 64.1 | 60.3 [58.9,63.0] | unresolved |
+| build_probe | 78.6 | 42.5 | 42.2 [40.2,44.0] | unresolved |
+| cluster | 665.2 | 131.2 | 76.3 [73.4,77.7] | word |
+| deleted | 57.3 | 25.1 | 21.4 [21.3,21.9] | word |
+| first_batch | 58.4 | 22.5 | 21.7 [20.3,24.9] | unresolved |
+| large87 | 147.3 | 46.3 | 38.7 [36.9,41.3] | word |
+| small_hit | 36.9 | 20.1 | 16.7 [16.2,17.4] | word |
+| small_miss | 38.1 | 21.7 | 19.0 [18.2,20.8] | unresolved |
+| tiny | 27.8 | 13.0 | 10.4 [9.8,10.9] | word |
+| wide_miss | 64.4 | 25.7 | 22.0 [21.2,23.0] | word |
 
-Run `python3 measurements/runner.py` from this topic in a fresh working copy.
-It compiles library/external tests/example and optimized executable with exact frozen source
-hashes, then records360 candidate processes. The query oracle passes before every timed batch.
-`python3 measurements/analyze.py raw` checks complete block coverage and reduces paired samples.
-No raw evidence or binaries belong in Git. The compact receipt names exact identities,
-retained hashes and missing Linux replay actions. Source changes require a fresh campaign.
+The word candidate is selected for cluster/deleted/large87/small_hit/tiny/wide_miss. bad_tag/build_probe/first_batch/small_miss remain unresolved. small_hit changed from initial unresolved to selected; small_miss changed from selected to unresolved. Retain both classifications and do not extrapolate a universal threshold.
+
+Selection uses all12 paired process ratios exceeding1.05 against every rival of the lowest median. Observed ranges are dispersion, not confidence intervals. Lower median alone does not establish a winner. No A/A, tail/cold-cache or PMU evidence was obtained. Local Apple M1 Pro, Darwin25.6.0, Rust1.93.1/LLVM21.1.8, native optimization; no CPU affinity. Linux verification is pending, not replaced by local evidence.
+
+Wide misses use14.95 baseline equalities/query versus0.12 filtered; constant tags retain14.95 for all three. These are separate untimed diagnostic counts. Assembly confirms the word branch uses carry-isolated integer operations on two halves; it does not establish runtime cache causes.
+
+Reproduce using a fresh raw directory: `python3 measurements/runner.py`, then `python3 measurements/analyze.py raw`. Exact runner and source are retained in committed-input. See BENCHMARK.md for boundary, warmup, ordering and workload controls. See EVIDENCE_RECEIPT.json for archive/source hashes and concrete missing host actions.
+
+External retained archive: `/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-014/20261010/local-campaigns-and-source.tar.gz` (SHA256 `1e9ea956f3e275d169f513ad16d9c3161ed5d0125aa264683bf5056d5d7f34d8`). Raw binaries, assembly, samples and replay assets stay outside Git.
