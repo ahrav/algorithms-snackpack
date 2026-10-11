@@ -18,13 +18,15 @@ except AssertionError:
     pass
 else:
     raise SystemExit("expected AssertionError on nonzero exit")
+hang = ["bash", "-c", "printf before-timeout; sleep 2"]
 try:
-    namespace["run"](["sleep", "2"])
+    namespace["run"](hang)
 except AssertionError:
     pass
 else:
     raise SystemExit("expected AssertionError on timeout")
 records = [json.loads(line) for line in (raw / "attempts.jsonl").read_text().splitlines()]
 assert records[0]["argv"] == ["false"] and records[0]["returncode"] != 0, records
-assert records[1]["argv"] == ["sleep", "2"] and records[1]["returncode"] == "timeout", records
+assert records[1]["argv"] == hang and records[1]["returncode"] == "timeout", records
+assert records[1]["stdout"] == "before-timeout", records[1]
 print("ok: failed and timed-out attempts retained")
