@@ -26,6 +26,8 @@ against independent BTreeMap and checksums before accepting times.
 Selection: lowest median; uniquely selected only if every paired rival/winner
 ratio exceeds1.03 in all12 blocks. Otherwise unresolved. Min/max ranges describe
 dispersion, not a confidence interval. No discretionary reruns after fixed stopping.
+Every selection is provisional until the identical-artifact A/A control required
+by METHODOLOGY.md runs through this same pipeline.
 
 Controls: same layout, hash, input and capacity; all insert paths presearch keys;
 RobinScan removes the miss stop while retaining Robin placement. Pin one available

@@ -12,7 +12,9 @@ available=None; affinity=None
 if hasattr(os,'sched_getaffinity'):
  available=sorted(os.sched_getaffinity(0));affinity=available[0];os.sched_setaffinity(0,{affinity})
 def run(args):
- p=subprocess.run(args,text=True,capture_output=True); assert p.returncode==0,(args,p.stdout,p.stderr); return p.stdout
+ p=subprocess.run(args,text=True,capture_output=True)
+ with (RAW/'attempts.jsonl').open('a') as f:f.write(json.dumps({'argv':args,'returncode':p.returncode,'stdout':p.stdout,'stderr':p.stderr})+'\n')
+ assert p.returncode==0,(args,p.returncode); return p.stdout
 identity={'source':source,'hostname':platform.node(),'architecture':platform.machine(),'uname':list(platform.uname()),'toolchain':run(['rustc','-vV']),'cpu':run(['lscpu']) if platform.system()=='Linux' else run(['sysctl','-n','machdep.cpu.brand_string']),'flags':flags,'target_cfg':run(['rustc','--print','cfg','-C','target-cpu=native']),'available_cpus':available,'logical_cpus':os.cpu_count(),'affinity_cpu':affinity,'workloads':workloads,'orders':orders,'process_blocks':12,'warmup_batches':1,'selection':'lowest median; unique only when each paired rival/winner time ratio exceeds 1.03 in all12 blocks. Otherwise unresolved. Ranges are dispersion, not confidence intervals.','boundary':'hash included; query generation, initial allocation/build, BTreeMap oracle, slot-count diagnostics and final drop excluded for lookup. Churn includes remove, reinsertion, lookup. Build includes allocation, all inserts, one lookup and drop. first_batch skips warmup but oracle previously accessed a separate table, so no cold/startup claim. Checksums and black_box included.','limitations':'equal Option<Entry> layout includes usize DIB in baseline to isolate placement/lookup; all inserts presearch duplicates; fixed deterministic hasher is not attack-resistant; no A/A calibration, forced cold cache, PMU, latency quantiles, generic-payload or ISA attribution; macOS affinity unpinned'}
 (RAW/'identity.json').write_text(json.dumps(identity,indent=2))
 extern=['--extern','robin_hood_hashing=raw/librobin_hood_hashing.rlib']

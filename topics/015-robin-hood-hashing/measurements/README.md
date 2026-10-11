@@ -1,6 +1,6 @@
 # Measurements and replay
 
-Measured source commit: `9b864643603fa2e48cb6b771cb4ade4e9620ee1a`. Five frozen source/runner SHA256 values are in [receipt](receipt.json). Published evidence-only changes do not alter them.
+Measured source commit: `9b864643603fa2e48cb6b771cb4ade4e9620ee1a`. Five frozen source/runner SHA256 values are in [EVIDENCE_RECEIPT.json](EVIDENCE_RECEIPT.json). After measurement, `runner.py` gained failure retention only (every attempt is appended to `raw/attempts.jsonl` before a nonzero exit aborts); the receipt names the change and its verify command. The other four frozen paths are unchanged.
 
 Local host b0f1d8752aba, Apple M1 Pro, Darwin25.6.0, arm64, ten logical CPUs, unpinned affinity; rustc1.93.1/LLVM21.1.8, edition2024,opt-level3,target-cpu=native. Full target cfg and assembly retained externally.
 
@@ -20,7 +20,7 @@ Local host b0f1d8752aba, Apple M1 Pro, Darwin25.6.0, arm64, ten logical CPUs, un
 | build | 18.80 [17.73,19.80] | 24.05 [22.71,25.74] | 27.03 [26.11,29.03] | linear |
 | first_batch | 30.60 [28.94,34.52] | 22.19 [20.65,23.15] | 29.70 [28.51,35.46] | robin |
 
-Units: ns/query, ns/remove-reinsert-read triplet for churn, ns/inserted key for build. Min/max is dispersion, not confidence. Median-fastest is retained in JSON for every unresolved cell; no unique choice is claimed there. Unique requires every paired rival/winner ratio>1.03 in all12 blocks.
+Units: ns/query, ns/remove-reinsert-read triplet for churn, ns/inserted key for build. Min/max is dispersion, not confidence. Median-fastest is retained in JSON for every unresolved cell; no unique choice is claimed there. Unique requires every paired rival/winner ratio>1.03 in all12 blocks. Every selection is provisional until the identical-artifact A/A control required by METHODOLOGY.md runs through this pipeline.
 
 Block0 high-miss slot inspections: linear/scan571545, Robin83594. High-hit maximum sampled probes: linear370, Robin32, while linear time wins. Counts exclude timed code and are not hardware or latency counters. Assembly retains scalar DIB comparison/conditional branch; no candidate-only PMU/cache/ISA explanation.
 
@@ -28,7 +28,7 @@ Initial scratch396-process campaign remains separate: small_hit unresolved initi
 
 Both required Linux hosts failed authentication before transfer/execution after bounded refresh and retries. Arm host dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com; xxl resolves to dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com. Architecture of the inaccessible xxl host remains unverified. Required exact-source396-process campaigns on each are pending. Local evidence is supplementary and supplies no Linux or cross-host winner.
 
-Replay: from this topic directory run `python3 measurements/runner.py`. It creates raw/ once and refuses overwrite. Transfer only the five frozen paths; verify required host/architecture, SHA256 and toolchain, then run the exact runner and retain raw externally.
+Replay: from this topic directory run `python3 measurements/runner.py`. It creates raw/ once and refuses overwrite; raw/ is Git-ignored at the topic level. Transfer only the five frozen paths; verify required host/architecture, SHA256 and toolchain, then run the exact runner and retain raw externally.
 
 External retained root: `/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-015/20261011`. Raw exact-source data: `/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-015/20261011/committed-input/topics/015-robin-hood-hashing/raw`. Initial source/raw, host attempts, mutation backstops and source-commit identity are retained there.
 
