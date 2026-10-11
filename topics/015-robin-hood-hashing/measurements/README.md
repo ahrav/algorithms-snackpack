@@ -1,10 +1,10 @@
 # Measurements and replay
 
-Measured source commit: `9b864643603fa2e48cb6b771cb4ade4e9620ee1a`. Five frozen source/runner SHA256 values are in [EVIDENCE_RECEIPT.json](EVIDENCE_RECEIPT.json). After measurement, `runner.py` gained failure retention only (every attempt is appended to `raw/attempts.jsonl` before a nonzero exit aborts); the receipt names the change and its verify command. The other four frozen paths are unchanged.
+Measured source commit: `9b864643603fa2e48cb6b771cb4ade4e9620ee1a`. Five frozen source/runner SHA256 values are in [EVIDENCE_RECEIPT.json](EVIDENCE_RECEIPT.json). After measurement, `runner.py` gained failure retention and a predeclared 600 s per-attempt timeout (every attempt is appended to `raw/attempts.jsonl` before a nonzero exit or timeout aborts), and the `benches/portfolio.rs` churn oracle gate now replays every timed round and checks the timed checksum; the timed loop is byte-identical. The receipt names both changes and the verify command. `src/lib.rs`, `tests/contracts.rs` and `examples/demo.rs` are unchanged.
 
 Local host b0f1d8752aba, Apple M1 Pro, Darwin25.6.0, arm64, ten logical CPUs, unpinned affinity; rustc1.93.1/LLVM21.1.8, edition2024,opt-level3,target-cpu=native. Full target cfg and assembly retained externally.
 
-396 exact-source candidate processes,12 independent paired/order-balanced blocks per candidate/workload. All BTreeMap comparisons, mutation checks, library/external contracts, example and paired checksums pass.
+396 exact-source candidate processes,12 independent paired/order-balanced blocks per candidate/workload. All BTreeMap comparisons, mutation checks, library/external contracts, example and paired checksums pass. The measured binary's churn gate validated one remove/insert pass against BTreeMap plus final contents; the committed gate replays all eight timed rounds.
 
 | Workload | Linear median [min,max] | Robin median [min,max] | Scan median [min,max] | Selection |
 |---|---:|---:|---:|---|

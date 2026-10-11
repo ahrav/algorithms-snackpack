@@ -64,10 +64,12 @@
     "status": "not executed; expired Midway authentication",
     "remaining": "Verify both host architectures/toolchains, transfer the frozen paths with SHA256 agreement, run the exact runner, retain raw externally and update this receipt"
   },
-  "source_identity_verified": "the five frozen_inputs hashes match commit 9b864643603fa2e48cb6b771cb4ade4e9620ee1a; src/lib.rs, benches/portfolio.rs, tests/contracts.rs and examples/demo.rs are unchanged at HEAD; measurements/runner.py changed after measurement",
+  "source_identity_verified": "the five frozen_inputs hashes match commit 9b864643603fa2e48cb6b771cb4ade4e9620ee1a; src/lib.rs, tests/contracts.rs and examples/demo.rs are unchanged at HEAD; benches/portfolio.rs and measurements/runner.py changed after measurement (see post_measurement_changes)",
   "post_measurement_changes": {
-    "measurements/runner.py": "failure retention only: run() appends every attempt (argv, return code, stdout, stderr) to raw/attempts.jsonl before asserting exit 0. The measured campaign aborted on the first nonzero exit without that record; completion.json with 396 processes shows no such exit occurred. Timing, scheduling and selection code are unchanged.",
-    "measurements/test_runner.py": "smoke check for that retention; not a frozen input",
+    "measurements/runner.py": "failure retention only: run() appends every attempt (argv, return code or \"timeout\", stdout, stderr) to raw/attempts.jsonl before asserting exit 0, with a predeclared 600 s per-attempt timeout recorded as identity.attempt_timeout_s. The measured campaign aborted on the first nonzero exit without that record and had no timeout; completion.json with 396 processes shows no failure or hang occurred. Timing, scheduling and selection code are unchanged.",
+    "benches/portfolio.rs": "oracle gate only, outside the timed region: the churn pre-check replays all timed rounds (insert value q + round, then get(q)) against BTreeMap and the timed checksum is asserted equal to that replay after timing. The measured binary ran a one-round pre-check with the same timed loop; the timed loop, workloads, query generation and output format are byte-identical, so the measured samples describe the same timed code. The linked-image hash of a rebuilt binary differs from local.binary_sha256.",
+    "measurements/test_runner.py": "smoke check for attempt retention and timeout recording; not a frozen input",
+    "TEST_STRATEGY.md": "per-test invariant audit records added; mutation backstops applied to a scratch copy, outputs quoted inline",
     "verify": "git diff 9b864643603fa2e48cb6b771cb4ade4e9620ee1a -- topics/015-robin-hood-hashing/{src,benches,tests,examples,measurements/runner.py}"
   },
   "verification_state": "source hashes verified against the measured commit; linked-image hash recorded by the runner at measurement and not recomputed; archive and manifest hashes unverified (no archive exists)"

@@ -64,18 +64,26 @@ fn main() {
         assert_eq!(check.get(k), oracle.get(&k).copied());
     }
     assert!(check.valid());
-    // Validate the exact mutation contract independently before accepting a timing.
+    let mut want = 0_u64;
     if name == "churn" {
         let mut t = check.clone();
         let mut expected = oracle.clone();
-        for &q in &queries {
-            let k = q % n as u64;
-            assert_eq!(t.remove(k), expected.remove(&k));
-            assert_eq!(t.insert(k, q), Ok(expected.insert(k, q)));
-        }
-        assert!(t.valid());
-        for (&k, &v) in &expected {
-            assert_eq!(t.get(k), Some(v));
+        for round in 0..reps {
+            for &q in &queries {
+                let k = q % n as u64;
+                let removed = expected.remove(&k);
+                assert_eq!(t.remove(k), removed);
+                assert_eq!(t.insert(k, q + round), Ok(expected.insert(k, q + round)));
+                let got = expected.get(&q).copied();
+                assert_eq!(t.get(q), got);
+                want = want
+                    .wrapping_add(removed.unwrap())
+                    .wrapping_add(got.unwrap_or(0));
+            }
+            assert!(t.valid());
+            for (&k, &v) in &expected {
+                assert_eq!(t.get(k), Some(v));
+            }
         }
     }
     let mut counts: Vec<usize> = queries.iter().map(|&k| check.get_counted(k).1).collect();
@@ -111,6 +119,9 @@ fn main() {
     }
     let ns = start.elapsed().as_nanos();
     black_box(sum);
+    if name == "churn" {
+        assert_eq!(sum, want, "timed churn checksum differs from oracle replay");
+    }
     let units = if name == "build" {
         n * usize::try_from(reps).unwrap()
     } else {
