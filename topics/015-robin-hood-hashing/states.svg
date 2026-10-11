@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="590" viewBox="0 0 1180 590"><rect width="1180" height="590" fill="#f8fafc"/>
+<text x="32" y="40" fill="#152538" font-family="Arial,sans-serif" font-size="26">Robin Hood insertion: give the slot to the key farther from home</text>
+<text x="32" y="115" fill="#152538" font-family="Arial,sans-serif" font-size="19">BEFORE: insert C (home 0)</text>
+<rect x="510" y="80" width="146" height="74" rx="8" fill="#dbeafe" stroke="#334155"/>
+<text x="520" y="102" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 0</text>
+<text x="520" y="125" fill="#152538" font-family="Arial,sans-serif" font-size="17">A   home 0</text>
+<text x="520" y="145" fill="#152538" font-family="Arial,sans-serif" font-size="16">distance 0</text>
+<rect x="668" y="80" width="146" height="74" rx="8" fill="#dbeafe" stroke="#334155"/>
+<text x="678" y="102" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 1</text>
+<text x="678" y="125" fill="#152538" font-family="Arial,sans-serif" font-size="17">B   home 1</text>
+<text x="678" y="145" fill="#152538" font-family="Arial,sans-serif" font-size="16">distance 0</text>
+<rect x="826" y="80" width="146" height="74" rx="8" fill="#e2e8f0" stroke="#334155"/>
+<text x="836" y="102" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 2</text>
+<text x="836" y="131" fill="#152538" font-family="Arial,sans-serif" font-size="17">EMPTY</text>
+<rect x="984" y="80" width="146" height="74" rx="8" fill="#e2e8f0" stroke="#334155"/>
+<text x="994" y="102" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 3</text>
+<text x="994" y="131" fill="#152538" font-family="Arial,sans-serif" font-size="17">EMPTY</text>
+<text x="32" y="227" fill="#152538" font-family="Arial,sans-serif" font-size="19">DURING: C at slot 1 takes B’s place</text>
+<rect x="510" y="192" width="146" height="74" rx="8" fill="#dbeafe" stroke="#334155"/>
+<text x="520" y="214" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 0</text>
+<text x="520" y="237" fill="#152538" font-family="Arial,sans-serif" font-size="17">A   home 0</text>
+<text x="520" y="257" fill="#152538" font-family="Arial,sans-serif" font-size="16">distance 0</text>
+<rect x="668" y="192" width="146" height="74" rx="8" fill="#dbeafe" stroke="#334155"/>
+<text x="678" y="214" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 1</text>
+<text x="678" y="237" fill="#152538" font-family="Arial,sans-serif" font-size="17">C   home 0</text>
+<text x="678" y="257" fill="#152538" font-family="Arial,sans-serif" font-size="16">distance 1</text>
+<rect x="826" y="192" width="146" height="74" rx="8" fill="#e2e8f0" stroke="#334155"/>
+<text x="836" y="214" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 2</text>
+<text x="836" y="243" fill="#152538" font-family="Arial,sans-serif" font-size="17">EMPTY</text>
+<rect x="984" y="192" width="146" height="74" rx="8" fill="#e2e8f0" stroke="#334155"/>
+<text x="994" y="214" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 3</text>
+<text x="994" y="243" fill="#152538" font-family="Arial,sans-serif" font-size="17">EMPTY</text>
+<text x="32" y="257" fill="#155e75" font-family="Arial,sans-serif" font-size="16">C distance 1 > B distance 0. Carry B onward.</text>
+<text x="32" y="339" fill="#152538" font-family="Arial,sans-serif" font-size="19">AFTER: displaced B advances one slot</text>
+<rect x="510" y="304" width="146" height="74" rx="8" fill="#dbeafe" stroke="#334155"/>
+<text x="520" y="326" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 0</text>
+<text x="520" y="349" fill="#152538" font-family="Arial,sans-serif" font-size="17">A   home 0</text>
+<text x="520" y="369" fill="#152538" font-family="Arial,sans-serif" font-size="16">distance 0</text>
+<rect x="668" y="304" width="146" height="74" rx="8" fill="#dbeafe" stroke="#334155"/>
+<text x="678" y="326" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 1</text>
+<text x="678" y="349" fill="#152538" font-family="Arial,sans-serif" font-size="17">C   home 0</text>
+<text x="678" y="369" fill="#152538" font-family="Arial,sans-serif" font-size="16">distance 1</text>
+<rect x="826" y="304" width="146" height="74" rx="8" fill="#dbeafe" stroke="#334155"/>
+<text x="836" y="326" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 2</text>
+<text x="836" y="349" fill="#152538" font-family="Arial,sans-serif" font-size="17">B   home 1</text>
+<text x="836" y="369" fill="#152538" font-family="Arial,sans-serif" font-size="16">distance 1</text>
+<rect x="984" y="304" width="146" height="74" rx="8" fill="#e2e8f0" stroke="#334155"/>
+<text x="994" y="326" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 3</text>
+<text x="994" y="355" fill="#152538" font-family="Arial,sans-serif" font-size="17">EMPTY</text>
+<text x="32" y="451" fill="#152538" font-family="Arial,sans-serif" font-size="19">DELETE A: shift until EMPTY or distance 0</text>
+<rect x="510" y="416" width="146" height="74" rx="8" fill="#dbeafe" stroke="#334155"/>
+<text x="520" y="438" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 0</text>
+<text x="520" y="461" fill="#152538" font-family="Arial,sans-serif" font-size="17">C   home 0</text>
+<text x="520" y="481" fill="#152538" font-family="Arial,sans-serif" font-size="16">distance 0</text>
+<rect x="668" y="416" width="146" height="74" rx="8" fill="#dbeafe" stroke="#334155"/>
+<text x="678" y="438" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 1</text>
+<text x="678" y="461" fill="#152538" font-family="Arial,sans-serif" font-size="17">B   home 1</text>
+<text x="678" y="481" fill="#152538" font-family="Arial,sans-serif" font-size="16">distance 0</text>
+<rect x="826" y="416" width="146" height="74" rx="8" fill="#e2e8f0" stroke="#334155"/>
+<text x="836" y="438" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 2</text>
+<text x="836" y="467" fill="#152538" font-family="Arial,sans-serif" font-size="17">EMPTY</text>
+<rect x="984" y="416" width="146" height="74" rx="8" fill="#e2e8f0" stroke="#334155"/>
+<text x="994" y="438" fill="#152538" font-family="Arial,sans-serif" font-size="15">slot 3</text>
+<text x="994" y="467" fill="#152538" font-family="Arial,sans-serif" font-size="17">EMPTY</text>
+<text x="32" y="562" fill="#152538" font-family="Arial,sans-serif" font-size="20">Lookup in AFTER: at slot 2, query distance 2 > B distance 1. Stop safely.</text>
+</svg>

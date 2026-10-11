@@ -1,0 +1,618 @@
+{
+  "tiny": {
+    "median_ns_per_unit": {
+      "linear": 5.545217514038086,
+      "robin": 6.033899307250977,
+      "scan": 5.592187881469727
+    },
+    "range_ns_per_unit": {
+      "linear": [
+        5.343914031982422,
+        6.3411407470703125
+      ],
+      "robin": [
+        5.757331848144531,
+        6.384849548339844
+      ],
+      "scan": [
+        5.275566101074219,
+        6.0745849609375
+      ]
+    },
+    "median_fastest": "linear",
+    "selection": "unresolved",
+    "paired_rival_over_fastest_range": {
+      "robin": [
+        0.9079331429135195,
+        1.158036827473788
+      ],
+      "scan": [
+        0.9403879303017425,
+        1.034587771203156
+      ]
+    },
+    "probe_counts_block0": {
+      "linear": {
+        "query_probes": 19610,
+        "probe_p95": 2,
+        "probe_max": 2,
+        "capacity": 32,
+        "live": 16
+      },
+      "robin": {
+        "query_probes": 19610,
+        "probe_p95": 2,
+        "probe_max": 2,
+        "capacity": 32,
+        "live": 16
+      },
+      "scan": {
+        "query_probes": 19610,
+        "probe_p95": 2,
+        "probe_max": 2,
+        "capacity": 32,
+        "live": 16
+      }
+    }
+  },
+  "small_hit": {
+    "median_ns_per_unit": {
+      "linear": 7.991392135620117,
+      "robin": 9.993314743041992,
+      "scan": 9.163537979125977
+    },
+    "range_ns_per_unit": {
+      "linear": [
+        7.5710601806640625,
+        8.291244506835938
+      ],
+      "robin": [
+        9.170848846435547,
+        10.5269775390625
+      ],
+      "scan": [
+        8.794624328613281,
+        11.203445434570312
+      ]
+    },
+    "median_fastest": "linear",
+    "selection": "linear",
+    "paired_rival_over_fastest_range": {
+      "robin": [
+        1.1273542790152404,
+        1.3199803886397607
+      ],
+      "scan": [
+        1.085576259489303,
+        1.4065123816857943
+      ]
+    },
+    "probe_counts_block0": {
+      "linear": {
+        "query_probes": 25648,
+        "probe_p95": 4,
+        "probe_max": 25,
+        "capacity": 2048,
+        "live": 1024
+      },
+      "robin": {
+        "query_probes": 25611,
+        "probe_p95": 3,
+        "probe_max": 9,
+        "capacity": 2048,
+        "live": 1024
+      },
+      "scan": {
+        "query_probes": 25611,
+        "probe_p95": 3,
+        "probe_max": 9,
+        "capacity": 2048,
+        "live": 1024
+      }
+    }
+  },
+  "high_hit": {
+    "median_ns_per_unit": {
+      "linear": 17.630733489990234,
+      "robin": 22.157825469970703,
+      "scan": 20.33980941772461
+    },
+    "range_ns_per_unit": {
+      "linear": [
+        16.031265258789062,
+        19.914939880371094
+      ],
+      "robin": [
+        21.14582061767578,
+        25.754608154296875
+      ],
+      "scan": [
+        19.544601440429688,
+        23.40062713623047
+      ]
+    },
+    "median_fastest": "linear",
+    "selection": "linear",
+    "paired_rival_over_fastest_range": {
+      "robin": [
+        1.2063897032298379,
+        1.4150505651397978
+      ],
+      "scan": [
+        1.0984534731323723,
+        1.2434722839635206
+      ]
+    },
+    "probe_counts_block0": {
+      "linear": {
+        "query_probes": 74898,
+        "probe_p95": 17,
+        "probe_max": 370,
+        "capacity": 32768,
+        "live": 28508
+      },
+      "robin": {
+        "query_probes": 77500,
+        "probe_p95": 13,
+        "probe_max": 32,
+        "capacity": 32768,
+        "live": 28508
+      },
+      "scan": {
+        "query_probes": 77500,
+        "probe_p95": 13,
+        "probe_max": 32,
+        "capacity": 32768,
+        "live": 28508
+      }
+    }
+  },
+  "high_miss": {
+    "median_ns_per_unit": {
+      "linear": 39.34272003173828,
+      "robin": 20.708084106445312,
+      "scan": 39.2077751159668
+    },
+    "range_ns_per_unit": {
+      "linear": [
+        37.598609924316406,
+        42.519569396972656
+      ],
+      "robin": [
+        19.725479125976562,
+        21.99872589111328
+      ],
+      "scan": [
+        38.160011291503906,
+        41.08302307128906
+      ]
+    },
+    "median_fastest": "robin",
+    "selection": "robin",
+    "paired_rival_over_fastest_range": {
+      "linear": [
+        1.7474780789597897,
+        2.031232377396964
+      ],
+      "scan": [
+        1.7813679864348877,
+        2.0304267174326562
+      ]
+    },
+    "probe_counts_block0": {
+      "linear": {
+        "query_probes": 571545,
+        "probe_p95": 149,
+        "probe_max": 430,
+        "capacity": 32768,
+        "live": 28508
+      },
+      "robin": {
+        "query_probes": 83594,
+        "probe_p95": 14,
+        "probe_max": 31,
+        "capacity": 32768,
+        "live": 28508
+      },
+      "scan": {
+        "query_probes": 571545,
+        "probe_p95": 149,
+        "probe_max": 430,
+        "capacity": 32768,
+        "live": 28508
+      }
+    }
+  },
+  "high_mix": {
+    "median_ns_per_unit": {
+      "linear": 30.575115203857422,
+      "robin": 21.77365493774414,
+      "scan": 29.712200164794922
+    },
+    "range_ns_per_unit": {
+      "linear": [
+        28.801284790039062,
+        31.1600341796875
+      ],
+      "robin": [
+        20.285606384277344,
+        22.999130249023438
+      ],
+      "scan": [
+        28.397247314453125,
+        31.606353759765625
+      ]
+    },
+    "median_fastest": "robin",
+    "selection": "robin",
+    "paired_rival_over_fastest_range": {
+      "linear": [
+        1.317545532470941,
+        1.4561767664895868
+      ],
+      "scan": [
+        1.3119036102194275,
+        1.399871750270321
+      ]
+    },
+    "probe_counts_block0": {
+      "linear": {
+        "query_probes": 321242,
+        "probe_p95": 96,
+        "probe_max": 427,
+        "capacity": 32768,
+        "live": 28508
+      },
+      "robin": {
+        "query_probes": 81174,
+        "probe_p95": 13,
+        "probe_max": 32,
+        "capacity": 32768,
+        "live": 28508
+      },
+      "scan": {
+        "query_probes": 322163,
+        "probe_p95": 93,
+        "probe_max": 427,
+        "capacity": 32768,
+        "live": 28508
+      }
+    }
+  },
+  "large_mix": {
+    "median_ns_per_unit": {
+      "linear": 35.42963409423828,
+      "robin": 30.006885528564453,
+      "scan": 34.72821044921875
+    },
+    "range_ns_per_unit": {
+      "linear": [
+        29.26763153076172,
+        52.89459228515625
+      ],
+      "robin": [
+        21.93292236328125,
+        36.410011291503906
+      ],
+      "scan": [
+        30.021347045898438,
+        42.984642028808594
+      ]
+    },
+    "median_fastest": "robin",
+    "selection": "unresolved",
+    "paired_rival_over_fastest_range": {
+      "linear": [
+        0.8123744485051987,
+        1.5926901501666137
+      ],
+      "scan": [
+        0.8374599706998864,
+        1.5707506995984912
+      ]
+    },
+    "probe_counts_block0": {
+      "linear": {
+        "query_probes": 292416,
+        "probe_p95": 84,
+        "probe_max": 637,
+        "capacity": 262144,
+        "live": 228065
+      },
+      "robin": {
+        "query_probes": 75687,
+        "probe_p95": 12,
+        "probe_max": 34,
+        "capacity": 262144,
+        "live": 228065
+      },
+      "scan": {
+        "query_probes": 292475,
+        "probe_p95": 81,
+        "probe_max": 637,
+        "capacity": 262144,
+        "live": 228065
+      }
+    }
+  },
+  "skew": {
+    "median_ns_per_unit": {
+      "linear": 4.280887603759766,
+      "robin": 17.490070343017578,
+      "scan": 16.12234115600586
+    },
+    "range_ns_per_unit": {
+      "linear": [
+        3.9987564086914062,
+        4.7588348388671875
+      ],
+      "robin": [
+        16.727134704589844,
+        18.14556121826172
+      ],
+      "scan": [
+        14.926910400390625,
+        16.392066955566406
+      ]
+    },
+    "median_fastest": "linear",
+    "selection": "linear",
+    "paired_rival_over_fastest_range": {
+      "robin": [
+        3.644020841683367,
+        4.279035230412901
+      ],
+      "scan": [
+        3.4109547094188377,
+        4.081724779394229
+      ]
+    },
+    "probe_counts_block0": {
+      "linear": {
+        "query_probes": 21995,
+        "probe_p95": 1,
+        "probe_max": 154,
+        "capacity": 32768,
+        "live": 28508
+      },
+      "robin": {
+        "query_probes": 92782,
+        "probe_p95": 17,
+        "probe_max": 31,
+        "capacity": 32768,
+        "live": 28508
+      },
+      "scan": {
+        "query_probes": 92782,
+        "probe_p95": 17,
+        "probe_max": 31,
+        "capacity": 32768,
+        "live": 28508
+      }
+    }
+  },
+  "same_home": {
+    "median_ns_per_unit": {
+      "linear": 119.78530883789062,
+      "robin": 145.30880737304688,
+      "scan": 119.37014770507812
+    },
+    "range_ns_per_unit": {
+      "linear": [
+        116.28851318359375,
+        130.76019287109375
+      ],
+      "robin": [
+        142.44332885742188,
+        155.81259155273438
+      ],
+      "scan": [
+        116.2808837890625,
+        125.71463012695312
+      ]
+    },
+    "median_fastest": "scan",
+    "selection": "unresolved",
+    "paired_rival_over_fastest_range": {
+      "linear": [
+        0.9432968305952032,
+        1.0899088645666615
+      ],
+      "robin": [
+        1.1498692654810134,
+        1.28248753844792
+      ]
+    },
+    "probe_counts_block0": {
+      "linear": {
+        "query_probes": 2745454,
+        "probe_p95": 223,
+        "probe_max": 223,
+        "capacity": 256,
+        "live": 222
+      },
+      "robin": {
+        "query_probes": 2745454,
+        "probe_p95": 223,
+        "probe_max": 223,
+        "capacity": 256,
+        "live": 222
+      },
+      "scan": {
+        "query_probes": 2745454,
+        "probe_p95": 223,
+        "probe_max": 223,
+        "capacity": 256,
+        "live": 222
+      }
+    }
+  },
+  "churn": {
+    "median_ns_per_unit": {
+      "linear": 125.22856521606445,
+      "robin": 92.99786758422852,
+      "scan": 108.05336380004883
+    },
+    "range_ns_per_unit": {
+      "linear": [
+        121.96540832519531,
+        127.59939575195312
+      ],
+      "robin": [
+        90.10696411132812,
+        97.52813720703125
+      ],
+      "scan": [
+        104.57357025146484,
+        111.61295318603516
+      ]
+    },
+    "median_fastest": "robin",
+    "selection": "robin",
+    "paired_rival_over_fastest_range": {
+      "linear": [
+        1.2583469659994237,
+        1.3748817577579273
+      ],
+      "scan": [
+        1.0789111163289966,
+        1.203592336585525
+      ]
+    },
+    "probe_counts_block0": {
+      "linear": {
+        "query_probes": 191525,
+        "probe_p95": 54,
+        "probe_max": 109,
+        "capacity": 4096,
+        "live": 3563
+      },
+      "robin": {
+        "query_probes": 66098,
+        "probe_p95": 10,
+        "probe_max": 17,
+        "capacity": 4096,
+        "live": 3563
+      },
+      "scan": {
+        "query_probes": 191531,
+        "probe_p95": 53,
+        "probe_max": 109,
+        "capacity": 4096,
+        "live": 3563
+      }
+    }
+  },
+  "build": {
+    "median_ns_per_unit": {
+      "linear": 18.802377841307703,
+      "robin": 24.05273300477059,
+      "scan": 27.028505156447313
+    },
+    "range_ns_per_unit": {
+      "linear": [
+        17.72711607268135,
+        19.80456801599551
+      ],
+      "robin": [
+        22.706709520134698,
+        25.744786551143537
+      ],
+      "scan": [
+        26.10963150694542,
+        29.033148589869512
+      ]
+    },
+    "median_fastest": "linear",
+    "selection": "linear",
+    "paired_rival_over_fastest_range": {
+      "robin": [
+        1.1492327710286405,
+        1.4399976551583917
+      ],
+      "scan": [
+        1.324547087446128,
+        1.5776007063750646
+      ]
+    },
+    "probe_counts_block0": {
+      "linear": {
+        "query_probes": 321242,
+        "probe_p95": 96,
+        "probe_max": 427,
+        "capacity": 32768,
+        "live": 28508
+      },
+      "robin": {
+        "query_probes": 81174,
+        "probe_p95": 13,
+        "probe_max": 32,
+        "capacity": 32768,
+        "live": 28508
+      },
+      "scan": {
+        "query_probes": 322163,
+        "probe_p95": 93,
+        "probe_max": 427,
+        "capacity": 32768,
+        "live": 28508
+      }
+    }
+  },
+  "first_batch": {
+    "median_ns_per_unit": {
+      "linear": 30.59515380859375,
+      "robin": 22.192626953125,
+      "scan": 29.696136474609375
+    },
+    "range_ns_per_unit": {
+      "linear": [
+        28.93829345703125,
+        34.51788330078125
+      ],
+      "robin": [
+        20.64764404296875,
+        23.15264892578125
+      ],
+      "scan": [
+        28.51104736328125,
+        35.45635986328125
+      ]
+    },
+    "median_fastest": "robin",
+    "selection": "robin",
+    "paired_rival_over_fastest_range": {
+      "linear": [
+        1.295016951490617,
+        1.5547518900343642
+      ],
+      "scan": [
+        1.2850662408013624,
+        1.597022680412371
+      ]
+    },
+    "probe_counts_block0": {
+      "linear": {
+        "query_probes": 321242,
+        "probe_p95": 96,
+        "probe_max": 427,
+        "capacity": 32768,
+        "live": 28508
+      },
+      "robin": {
+        "query_probes": 81174,
+        "probe_p95": 13,
+        "probe_max": 32,
+        "capacity": 32768,
+        "live": 28508
+      },
+      "scan": {
+        "query_probes": 322163,
+        "probe_p95": 93,
+        "probe_max": 427,
+        "capacity": 32768,
+        "live": 28508
+      }
+    }
+  }
+}
