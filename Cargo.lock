@@ -27,6 +27,10 @@ name = "radix-partitioning"
 version = "0.1.0"
 
 [[package]]
+name = "robin-hood-hashing"
+version = "0.1.0"
+
+[[package]]
 name = "sampling-lab"
 version = "0.1.0"
 
