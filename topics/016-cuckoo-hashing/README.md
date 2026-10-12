@@ -37,9 +37,12 @@ occupancy, two candidate slots. Eight slots of the measured 24-byte `Option<Entr
 reserve 192 bytes, excluding vector/allocator/search overhead.
 
 The planner admits at most `L=64` occupied-slot records, including roots. Duplicate
-and direct-vacancy scans plus alternate scans examine at most `b(L+4)` slots:
-68 for b1, 272 for b4. Linear visited-record searches cost up to `bL²` comparisons:
-4,096 or 16,384. Commit moves at most L entries. These are source-derived bounds,
+and direct-vacancy scans examine at most `4b` slots. Each explored record
+reads its occupant and scans at most b alternate slots. Total search slot reads
+are bounded by `4b+L(b+1)`: 132 for b1, 336 for b4 at L=64.
+Commit additionally moves at most L entries. Linear visited-record searches
+cost up to `bL²` comparisons:
+4,096 or 16,384. These are source-derived bounds,
 not cycle or cache-miss measurements. The example moves one entry.
 
 Linear probing favors local access and simple insertion; clustered misses and
