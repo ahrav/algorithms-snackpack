@@ -267,6 +267,7 @@ impl<const B: usize> Table for Cuckoo<B> {
             }
         }
         let mut cursor = 0;
+        let mut budget_hit = false;
         while cursor < nodes.len() {
             let node = nodes[cursor];
             let occupant = self.slots[node.slot].expect("planning reads occupied slots");
@@ -279,22 +280,24 @@ impl<const B: usize> Table for Cuckoo<B> {
                 }
                 if nodes.iter().all(|n| n.slot != slot) {
                     if nodes.len() == self.budget {
-                        return Err(Rejected {
-                            entry,
-                            reason: Reason::Budget,
+                        budget_hit = true;
+                    } else {
+                        nodes.push(Node {
+                            slot,
+                            parent: Some(cursor),
                         });
                     }
-                    nodes.push(Node {
-                        slot,
-                        parent: Some(cursor),
-                    });
                 }
             }
             cursor += 1;
         }
         Err(Rejected {
             entry,
-            reason: Reason::Exhausted,
+            reason: if budget_hit {
+                Reason::Budget
+            } else {
+                Reason::Exhausted
+            },
         })
     }
     fn remove(&mut self, key: u64) -> Option<u64> {
@@ -403,6 +406,17 @@ mod tests {
             assert_eq!(a, b);
         }
         assert!(found, "frozen valid-but-budget-rejected witness");
+    }
+    #[test]
+    fn budget_is_charged_only_for_recorded_slots() {
+        // Key 27's search reaches the cap at an unrecorded occupied slot; a
+        // vacancy scanned after that point needs no new record.
+        let mut t = Cuckoo::<4>::new(32, Layout::Mixed, 8);
+        for key in 0..27 {
+            assert_eq!(t.try_insert(key, key), Ok(None), "key {key}");
+        }
+        assert_eq!(t.try_insert(27, 27), Ok(None));
+        assert_eq!(t.entries().len(), 28);
     }
     #[test]
     fn all_keys_are_legal_and_queries_bounded() {

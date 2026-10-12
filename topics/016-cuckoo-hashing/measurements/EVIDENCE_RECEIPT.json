@@ -39,8 +39,23 @@
       "processes": 396
     }
   },
+  "archive": {
+    "path": null,
+    "sha256": null,
+    "bytes": null,
+    "members": null,
+    "status": "not created: each campaign is retained as a directory tree under external_root on the macOS workstation; only manifest.json, rows.json and summary.json digests above are recorded. Per-process outputs, compiler logs, binaries and generated assembly (the remaining 408 or 411 files per campaign) have no committed digest. Create a deterministic tar per campaign on the retaining workstation and record path, sha256, byte size and member count, or a sha256 manifest covering every retained file."
+  },
+  "verification_state": "frozen_paths_sha256 verified against source_commit 7282ff72 (git show 7282ff72:<path> | sha256sum); manifest/rows/summary digests recorded by the retaining workstation and not recomputed here; archive digest absent, so files other than those three are unverified against this receipt",
   "selection": "all12 paired differences>5percent versus every admitted rival; ranges descriptive; soleadmissible is admission choice",
   "initial_failure": "Both396process campaigns complete; zip(strict=True) summary failed on Python3.9. Compatible analysis only, untouched rows retained.",
   "initial_transfer_limit": "Initial scratch transfer included unused task build products. Runner rebuilt from hash-verified source on Linux. Committed transfer is a path-limited six-source-file tar plus SHA256SUMS.",
-  "observations": "Initial and committed source campaigns separate; no optional rerun to resolve unfavourable cells."
+  "observations": "Initial and committed source campaigns separate; no optional rerun to resolve unfavourable cells.",
+  "post_measurement_changes": {
+    "src/lib.rs": "planner change inside the measured library: when a new occupied slot would exceed the budget, the search now records that the cap was hit and keeps scanning the current bucket and the already-recorded frontier instead of rejecting at once; a vacancy found there is used. Rejection reason is Budget only when the cap was hit. The measured commit rejected 25 (high_hit/high_miss) and 13 (build80) cuckoo4 keys that the current planner admits; cuckoo1 counts (7,212 and 3,463) are unchanged. All committed selections describe the measured commit; high_hit, high_miss and build80 comparisons that include cuckoo4 are unmeasured.",
+    "benches/portfolio.rs": "oracle gate only, outside the timed region: build35/build80 now populate the preflight table and compare its entries with the BTreeMap oracle before timing, where the measured binary only counted rejections. The timed loop, workloads, query generation and output format are unchanged.",
+    "measurements/runner.py": "failure retention only: invoke() appends every attempt (argv, return code or \"timeout\", stdout, stderr) to attempts.jsonl before asserting exit 0, with the predeclared 600 s timeout recorded as manifest.attempt_timeout_s. The measured campaigns aborted on the first nonzero exit without that record and had no failure or hang: 396 OK/REJECT rows per campaign. Timing, scheduling and selection code are unchanged.",
+    "measurements/test_runner.py": "smoke check for attempt retention and timeout recording; not a frozen input",
+    "verify": "git diff 7282ff72c8c0370febb0a4cdac749ba67f925c72 -- topics/016-cuckoo-hashing/{src,benches,tests,examples,measurements/runner.py}"
+  }
 }

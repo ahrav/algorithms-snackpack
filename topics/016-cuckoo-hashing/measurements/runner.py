@@ -5,17 +5,23 @@ P=pathlib.Path(__file__).resolve().parents[1]
 FILES=['src/lib.rs','benches/portfolio.rs','examples/demo.rs','measurements/runner.py','measurements/analyze.py','tests/contracts.rs']
 CASES=['tiny_hit','small_hit','small_miss','hot','large_hit','large_miss','high_hit','high_miss','build35','build80','churn']
 CANDIDATES=['linear','cuckoo1','cuckoo4']
+TIMEOUT=600
+ATTEMPTS=None
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def text_of(b):return b.decode(errors='replace') if isinstance(b,bytes) else b or ''
 def invoke(cmd,out=None):
- r=subprocess.run(cmd,text=True,capture_output=True,check=False,timeout=600)
- if out:out.write_text(r.stdout+r.stderr)
- assert r.returncode==0,(cmd,r.returncode,r.stderr)
- return r.stdout
+ try: r=subprocess.run(cmd,text=True,capture_output=True,check=False,timeout=TIMEOUT); rc,so,se=r.returncode,r.stdout,r.stderr
+ except subprocess.TimeoutExpired as t: rc,so,se='timeout',text_of(t.stdout),text_of(t.stderr)
+ with ATTEMPTS.open('a') as f:f.write(json.dumps({'argv':[str(c) for c in cmd],'returncode':rc,'timeout_s':TIMEOUT,'stdout':so,'stderr':se})+'\n')
+ if out:out.write_text(so+se)
+ assert rc==0,(cmd,rc,se)
+ return so
 
 def main():
  a=argparse.ArgumentParser();a.add_argument('--out',required=True);a.add_argument('--pairs',type=int,default=12);a.add_argument('--check-only',action='store_true');args=a.parse_args()
- out=pathlib.Path(args.out);out.mkdir(parents=True,exist_ok=False)
- manifest={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'inputs':{f:sha(P/f) for f in FILES},'hostname':platform.node(),'arch':platform.machine(),'kernel':platform.platform(),'available_cpus':len(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else os.cpu_count(),'compiler':invoke(['rustc','-vV']),'flags':['--edition','2024','-C','opt-level=3','-C','target-cpu=native'],'cases':CASES,'candidates':CANDIDATES,'pairs':args.pairs,'criterion':'Candidate must beat all other admissible candidates by >5% in every paired process block. Otherwise unresolved among contenders. Descriptive observed ranges only, no confidence interval.'}
+ global ATTEMPTS
+ out=pathlib.Path(args.out);out.mkdir(parents=True,exist_ok=False);ATTEMPTS=out/'attempts.jsonl'
+ manifest={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'inputs':{f:sha(P/f) for f in FILES},'hostname':platform.node(),'arch':platform.machine(),'kernel':platform.platform(),'available_cpus':len(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else os.cpu_count(),'compiler':invoke(['rustc','-vV']),'flags':['--edition','2024','-C','opt-level=3','-C','target-cpu=native'],'cases':CASES,'candidates':CANDIDATES,'pairs':args.pairs,'attempt_timeout_s':TIMEOUT,'criterion':'Candidate must beat all other admissible candidates by >5% in every paired process block. Otherwise unresolved among contenders. Descriptive observed ranges only, no confidence interval.'}
  for cmd in [['uname','-a'],['rustc','--print','cfg','-C','target-cpu=native']]:manifest[' '.join(cmd)]=invoke(cmd)
  if pathlib.Path('/proc/cpuinfo').exists():
   manifest['lscpu']=invoke(['lscpu'])

@@ -20,8 +20,10 @@ Two warmup batches; fixed inner rounds128 for small/hot/churn,32 for large/high,
 12 for complete builds. Exactly12 process blocks, three candidate processes per
 block and workload:396 processes per host. Rotate all three candidate positions
 and reverse each order, then repeat once. Inner rounds are repeated work within
-one sample. No optional stopping, outlier deletion, A/A calibration or rerun to
-manufacture a winner. Initial and exact committed campaigns remain separate.
+one sample. No optional stopping, outlier deletion or rerun to manufacture a
+winner. The identical-artifact A/A control required by METHODOLOGY.md has not run
+through this pipeline, so every selection is provisional until it does. Initial
+and exact committed campaigns remain separate.
 
 Query timing includes integer hashing, exact equality, black_box and checksum;
 excludes allocation/build, oracle, query preparation costs already resident outside
@@ -36,13 +38,18 @@ Selection: among candidates admitting all keys in all12 blocks, a unique selecti
 must be more than5percent faster than every rival in every paired block. Otherwise
 report unresolved and undominated contenders. A sole admissible candidate is
 selected on admission, without a comparative throughput claim. Medians and
-observed min/max describe dispersion, not confidence intervals.
+observed min/max describe dispersion, not confidence intervals. Every selection
+is provisional until the identical-artifact A/A control runs through this pipeline.
 
 Compile: rustc edition2024, opt-level3, target-cpu=native. Record exact frozen path
 hashes, binary hash, compiler, hostname, arch, uname/kernel, CPU details, cfg target
 features and available CPUs. Source transfers must pass SHA256SUMS before running.
 Scheduling is unpinned for Topic016, with no frequency-control claim. Arm/x86
 compiler differences and uncontrolled host load prevent isolated ISA attribution.
+
+Retain every attempt, including nonzero-exit and timed-out processes, in the
+external `attempts.jsonl` before the campaign aborts on that failure; a 600 s
+per-attempt timeout is predeclared. Timing contrasts use complete blocks only.
 
 Retain generated assembly for source/code-shape inspection. Slot-examination
 diagnostics run outside timing. We do not infer candidate-only cache/branch

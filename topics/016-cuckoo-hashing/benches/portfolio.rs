@@ -58,12 +58,7 @@ fn run<T: Table>(name: &str, make: impl Fn() -> T) {
     let (_, n, q, build) = config(name);
     let mut table = make();
     cuckoo_hashing::check(make(), 32);
-    let rejected = if build {
-        let mut check = make();
-        populate(&mut check, n)
-    } else {
-        populate(&mut table, n)
-    };
+    let rejected = populate(&mut table, n);
     if rejected > 0 {
         println!("REJECT {name} failures={rejected} requested={n}");
         return;
@@ -71,12 +66,10 @@ fn run<T: Table>(name: &str, make: impl Fn() -> T) {
     // Independently verify values and expected query checksum outside timing.
     let oracle: std::collections::BTreeMap<_, _> =
         (0..u64::try_from(n).unwrap()).map(|k| (k, k * 3)).collect();
-    if !build {
-        assert_eq!(
-            table.entries(),
-            oracle.iter().map(|(&k, &v)| (k, v)).collect::<Vec<_>>()
-        );
-    }
+    assert_eq!(
+        table.entries(),
+        oracle.iter().map(|(&k, &v)| (k, v)).collect::<Vec<_>>()
+    );
     let expected = if build {
         u64::try_from(n).unwrap()
     } else if name == "churn" {
