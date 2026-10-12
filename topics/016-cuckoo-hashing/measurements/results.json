@@ -1,0 +1,554 @@
+{
+  "arm": {
+    "tiny_hit": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 8.938431739807129,
+          "min": 8.92155647277832,
+          "max": 9.003572463989258
+        },
+        "cuckoo1": {
+          "median": 13.757084846496582,
+          "min": 13.722478866577148,
+          "max": 15.451196670532227
+        },
+        "cuckoo4": {
+          "median": 14.240745544433594,
+          "min": 14.208368301391602,
+          "max": 14.256414413452148
+        }
+      }
+    },
+    "small_hit": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 11.18141758441925,
+          "min": 11.155909299850464,
+          "max": 11.20389723777771
+        },
+        "cuckoo1": {
+          "median": 19.151888489723206,
+          "min": 19.06342577934265,
+          "max": 19.269445419311523
+        },
+        "cuckoo4": {
+          "median": 19.355360865592957,
+          "min": 19.246726751327515,
+          "max": 19.6564724445343
+        }
+      }
+    },
+    "small_miss": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 12.033831596374512,
+          "min": 11.958433866500854,
+          "max": 12.122829914093018
+        },
+        "cuckoo1": {
+          "median": 15.983171463012695,
+          "min": 15.970422744750977,
+          "max": 15.998445510864258
+        },
+        "cuckoo4": {
+          "median": 32.92888605594635,
+          "min": 32.851152658462524,
+          "max": 32.967122316360474
+        }
+      }
+    },
+    "hot": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 7.163792371749878,
+          "min": 7.1561291217803955,
+          "max": 7.190236330032349
+        },
+        "cuckoo1": {
+          "median": 11.402671098709106,
+          "min": 11.391474485397339,
+          "max": 11.44106149673462
+        },
+        "cuckoo4": {
+          "median": 11.708699464797974,
+          "min": 11.699984788894653,
+          "max": 11.723743915557861
+        }
+      }
+    },
+    "large_hit": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 24.01778793334961,
+          "min": 23.569095134735107,
+          "max": 24.38740348815918
+        },
+        "cuckoo1": {
+          "median": 36.07274842262268,
+          "min": 35.07385587692261,
+          "max": 36.803457260131836
+        },
+        "cuckoo4": {
+          "median": 52.789714336395264,
+          "min": 50.77955150604248,
+          "max": 54.13069820404053
+        }
+      }
+    },
+    "large_miss": {
+      "selected": "unresolved",
+      "contenders": [
+        "linear",
+        "cuckoo1"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 27.57650899887085,
+          "min": 27.167359352111816,
+          "max": 36.789002895355225
+        },
+        "cuckoo1": {
+          "median": 30.909587621688843,
+          "min": 30.327988147735596,
+          "max": 71.23523569107056
+        },
+        "cuckoo4": {
+          "median": 44.87099814414978,
+          "min": 43.078410148620605,
+          "max": 84.14333915710449
+        }
+      }
+    },
+    "high_hit": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear"
+      ],
+      "timings": {
+        "linear": {
+          "median": 30.626259803771973,
+          "min": 29.839330196380615,
+          "max": 31.273409366607666
+        }
+      }
+    },
+    "high_miss": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear"
+      ],
+      "timings": {
+        "linear": {
+          "median": 54.10398578643799,
+          "min": 52.942994594573975,
+          "max": 55.77112579345703
+        }
+      }
+    },
+    "build35": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 14.769477272727272,
+          "min": 14.386435606060607,
+          "max": 16.083882575757574
+        },
+        "cuckoo1": {
+          "median": 42.573479166666665,
+          "min": 41.97325,
+          "max": 48.83263257575758
+        },
+        "cuckoo4": {
+          "median": 61.89120833333333,
+          "min": 61.153416666666665,
+          "max": 63.614045454545455
+        }
+      }
+    },
+    "build80": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear"
+      ],
+      "timings": {
+        "linear": {
+          "median": 22.513284455128208,
+          "min": 21.705613782051284,
+          "max": 23.29801121794872
+        }
+      }
+    },
+    "churn": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 29.11313486099243,
+          "min": 28.943034172058105,
+          "max": 29.271538734436035
+        },
+        "cuckoo1": {
+          "median": 44.16507005691528,
+          "min": 44.07601833343506,
+          "max": 44.432931900024414
+        },
+        "cuckoo4": {
+          "median": 66.17756509780884,
+          "min": 65.93361282348633,
+          "max": 66.44297409057617
+        }
+      }
+    }
+  },
+  "x86": {
+    "tiny_hit": {
+      "selected": "unresolved",
+      "contenders": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 5.98477840423584,
+          "min": 5.92973518371582,
+          "max": 19.11695671081543
+        },
+        "cuckoo1": {
+          "median": 9.425497055053711,
+          "min": 9.385299682617188,
+          "max": 9.43719482421875
+        },
+        "cuckoo4": {
+          "median": 9.852205276489258,
+          "min": 9.825950622558594,
+          "max": 9.890098571777344
+        }
+      }
+    },
+    "small_hit": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 10.57398247718811,
+          "min": 10.332536458969116,
+          "max": 10.869217872619629
+        },
+        "cuckoo1": {
+          "median": 14.560608148574829,
+          "min": 14.345647096633911,
+          "max": 14.821341037750244
+        },
+        "cuckoo4": {
+          "median": 12.062042593955994,
+          "min": 11.7791428565979,
+          "max": 12.55748724937439
+        }
+      }
+    },
+    "small_miss": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 13.697112679481506,
+          "min": 13.463308334350586,
+          "max": 14.316936254501343
+        },
+        "cuckoo1": {
+          "median": 26.28173553943634,
+          "min": 26.083548307418823,
+          "max": 27.523958683013916
+        },
+        "cuckoo4": {
+          "median": 20.4294171333313,
+          "min": 20.04689860343933,
+          "max": 21.109944105148315
+        }
+      }
+    },
+    "hot": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 4.967708349227905,
+          "min": 4.9555089473724365,
+          "max": 5.072384595870972
+        },
+        "cuckoo1": {
+          "median": 6.985567092895508,
+          "min": 6.978128433227539,
+          "max": 7.029509782791138
+        },
+        "cuckoo4": {
+          "median": 7.271942853927612,
+          "min": 7.264209270477295,
+          "max": 8.011228799819946
+        }
+      }
+    },
+    "large_hit": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 22.878613471984863,
+          "min": 22.61691188812256,
+          "max": 23.174070358276367
+        },
+        "cuckoo1": {
+          "median": 27.15175724029541,
+          "min": 26.815158367156982,
+          "max": 27.52842140197754
+        },
+        "cuckoo4": {
+          "median": 47.485371112823486,
+          "min": 47.075989723205566,
+          "max": 49.14817142486572
+        }
+      }
+    },
+    "large_miss": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 36.99814486503601,
+          "min": 36.545326709747314,
+          "max": 37.37569332122803
+        },
+        "cuckoo1": {
+          "median": 39.6923942565918,
+          "min": 39.367794036865234,
+          "max": 41.356091022491455
+        },
+        "cuckoo4": {
+          "median": 55.087265491485596,
+          "min": 54.63684272766113,
+          "max": 55.4166054725647
+        }
+      }
+    },
+    "high_hit": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear"
+      ],
+      "timings": {
+        "linear": {
+          "median": 41.27045798301697,
+          "min": 40.85838842391968,
+          "max": 41.47598648071289
+        }
+      }
+    },
+    "high_miss": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear"
+      ],
+      "timings": {
+        "linear": {
+          "median": 83.73399376869202,
+          "min": 83.13482713699341,
+          "max": 88.44995355606079
+        }
+      }
+    },
+    "build35": {
+      "selected": "unresolved",
+      "contenders": [
+        "linear",
+        "cuckoo1"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 17.102217803030303,
+          "min": 16.876742424242423,
+          "max": 40.72117424242424
+        },
+        "cuckoo1": {
+          "median": 28.3063125,
+          "min": 27.851784090909092,
+          "max": 28.943473484848486
+        },
+        "cuckoo4": {
+          "median": 41.65951704545455,
+          "min": 41.18260227272727,
+          "max": 41.999844696969696
+        }
+      }
+    },
+    "build80": {
+      "selected": "linear",
+      "contenders": [
+        "linear"
+      ],
+      "admissible": [
+        "linear"
+      ],
+      "timings": {
+        "linear": {
+          "median": 32.40609134615384,
+          "min": 32.09504647435897,
+          "max": 32.892817307692304
+        }
+      }
+    },
+    "churn": {
+      "selected": "cuckoo1",
+      "contenders": [
+        "cuckoo1"
+      ],
+      "admissible": [
+        "linear",
+        "cuckoo1",
+        "cuckoo4"
+      ],
+      "timings": {
+        "linear": {
+          "median": 50.04566431045532,
+          "min": 49.48270130157471,
+          "max": 50.758423805236816
+        },
+        "cuckoo1": {
+          "median": 36.46052074432373,
+          "min": 36.16604042053223,
+          "max": 37.78739356994629
+        },
+        "cuckoo4": {
+          "median": 55.88772535324097,
+          "min": 55.55043983459473,
+          "max": 56.33683204650879
+        }
+      }
+    }
+  }
+}

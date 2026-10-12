@@ -7,6 +7,10 @@ name = "algorithms-snackpack-catalog"
 version = "0.0.0"
 
 [[package]]
+name = "cuckoo-hashing"
+version = "0.1.0"
+
+[[package]]
 name = "lower-bound-portfolio"
 version = "0.1.0"
 
