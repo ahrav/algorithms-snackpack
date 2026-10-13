@@ -1,0 +1,854 @@
+{
+  "arm": {
+    "build_mid": {
+      "winner": "exact",
+      "contenders": [
+        "exact"
+      ],
+      "candidates": {
+        "exact": {
+          "median_ns": 0.16632080078125,
+          "min_ns": 0.16156005859375,
+          "max_ns": 0.1695556640625,
+          "bytes": 0,
+          "fp": 7372,
+          "negatives": 7372,
+          "checks": 8192
+        },
+        "bloom": {
+          "median_ns": 66.9195556640625,
+          "min_ns": 66.76043701171875,
+          "max_ns": 67.66265869140625,
+          "bytes": 5120,
+          "fp": 61,
+          "negatives": 7372,
+          "checks": 881
+        },
+        "quotient": {
+          "median_ns": 25.11395263671875,
+          "min_ns": 24.66656494140625,
+          "max_ns": 26.29095458984375,
+          "bytes": 40968,
+          "fp": 3,
+          "negatives": 7372,
+          "checks": 823
+        },
+        "cuckoo": {
+          "median_ns": 65.67025756835938,
+          "min_ns": 65.2740478515625,
+          "max_ns": 66.3739013671875,
+          "bytes": 16384,
+          "fp": 13,
+          "negatives": 7372,
+          "checks": 833
+        },
+        "blocked": {
+          "median_ns": 37.364501953125,
+          "min_ns": 37.258056640625,
+          "max_ns": 37.87445068359375,
+          "bytes": 5120,
+          "fp": 225,
+          "negatives": 7372,
+          "checks": 1045
+        }
+      }
+    },
+    "first_batch": {
+      "winner": "cuckoo",
+      "contenders": [
+        "cuckoo"
+      ],
+      "candidates": {
+        "exact": {
+          "median_ns": 15.17156982421875,
+          "min_ns": 15.1517333984375,
+          "max_ns": 15.194580078125,
+          "bytes": 0,
+          "fp": 7372,
+          "negatives": 7372,
+          "checks": 8192
+        },
+        "bloom": {
+          "median_ns": 29.0784912109375,
+          "min_ns": 28.52099609375,
+          "max_ns": 29.3231201171875,
+          "bytes": 5120,
+          "fp": 61,
+          "negatives": 7372,
+          "checks": 881
+        },
+        "quotient": {
+          "median_ns": 14.985107421875,
+          "min_ns": 14.8251953125,
+          "max_ns": 15.9603271484375,
+          "bytes": 40968,
+          "fp": 3,
+          "negatives": 7372,
+          "checks": 823
+        },
+        "cuckoo": {
+          "median_ns": 9.9534912109375,
+          "min_ns": 9.90087890625,
+          "max_ns": 11.419677734375,
+          "bytes": 16384,
+          "fp": 13,
+          "negatives": 7372,
+          "checks": 833
+        },
+        "blocked": {
+          "median_ns": 23.83612060546875,
+          "min_ns": 23.6707763671875,
+          "max_ns": 23.9237060546875,
+          "bytes": 5120,
+          "fp": 225,
+          "negatives": 7372,
+          "checks": 1045
+        }
+      }
+    },
+    "hot_miss": {
+      "winner": "quotient",
+      "contenders": [
+        "quotient"
+      ],
+      "candidates": {
+        "exact": {
+          "median_ns": 15.122283935546875,
+          "min_ns": 15.094757080078125,
+          "max_ns": 15.331797281901041,
+          "bytes": 0,
+          "fp": 8192,
+          "negatives": 8192,
+          "checks": 8192
+        },
+        "bloom": {
+          "median_ns": 7.298604329427084,
+          "min_ns": 7.268157958984375,
+          "max_ns": 7.476298014322917,
+          "bytes": 5120,
+          "fp": 0,
+          "negatives": 8192,
+          "checks": 0
+        },
+        "quotient": {
+          "median_ns": 4.5262603759765625,
+          "min_ns": 4.514841715494792,
+          "max_ns": 4.617268880208333,
+          "bytes": 40968,
+          "fp": 0,
+          "negatives": 8192,
+          "checks": 0
+        },
+        "cuckoo": {
+          "median_ns": 7.617451985677083,
+          "min_ns": 7.612721761067708,
+          "max_ns": 7.705830891927083,
+          "bytes": 16384,
+          "fp": 0,
+          "negatives": 8192,
+          "checks": 0
+        },
+        "blocked": {
+          "median_ns": 7.899881998697917,
+          "min_ns": 7.898274739583333,
+          "max_ns": 8.033894856770834,
+          "bytes": 5120,
+          "fp": 0,
+          "negatives": 8192,
+          "checks": 0
+        }
+      }
+    },
+    "large_hit90": {
+      "winner": "exact",
+      "contenders": [
+        "exact"
+      ],
+      "candidates": {
+        "exact": {
+          "median_ns": 53.55378723144531,
+          "min_ns": 49.297444661458336,
+          "max_ns": 55.82365926106771,
+          "bytes": 0,
+          "fp": 812,
+          "negatives": 812,
+          "checks": 8192
+        },
+        "bloom": {
+          "median_ns": 83.78214518229166,
+          "min_ns": 81.502685546875,
+          "max_ns": 87.87349446614583,
+          "bytes": 163840,
+          "fp": 2,
+          "negatives": 812,
+          "checks": 7382
+        },
+        "quotient": {
+          "median_ns": 77.70116170247397,
+          "min_ns": 75.38880411783855,
+          "max_ns": 80.53762817382812,
+          "bytes": 1310702,
+          "fp": 0,
+          "negatives": 812,
+          "checks": 7380
+        },
+        "cuckoo": {
+          "median_ns": 73.66377258300781,
+          "min_ns": 70.9967549641927,
+          "max_ns": 75.88344319661458,
+          "bytes": 524288,
+          "fp": 2,
+          "negatives": 812,
+          "checks": 7382
+        },
+        "blocked": {
+          "median_ns": 71.6213887532552,
+          "min_ns": 68.64431762695312,
+          "max_ns": 74.31644694010417,
+          "bytes": 163840,
+          "fp": 23,
+          "negatives": 812,
+          "checks": 7403
+        }
+      }
+    },
+    "large_miss": {
+      "winner": "cuckoo",
+      "contenders": [
+        "cuckoo"
+      ],
+      "candidates": {
+        "exact": {
+          "median_ns": 54.051884969075516,
+          "min_ns": 51.85003662109375,
+          "max_ns": 59.016153971354164,
+          "bytes": 0,
+          "fp": 8192,
+          "negatives": 8192,
+          "checks": 8192
+        },
+        "bloom": {
+          "median_ns": 24.251841227213543,
+          "min_ns": 23.975748697916668,
+          "max_ns": 24.703175862630207,
+          "bytes": 163840,
+          "fp": 63,
+          "negatives": 8192,
+          "checks": 63
+        },
+        "quotient": {
+          "median_ns": 16.308578491210938,
+          "min_ns": 15.9439697265625,
+          "max_ns": 17.019195556640625,
+          "bytes": 1310702,
+          "fp": 3,
+          "negatives": 8192,
+          "checks": 3
+        },
+        "cuckoo": {
+          "median_ns": 9.000829060872395,
+          "min_ns": 8.653462727864584,
+          "max_ns": 9.471771240234375,
+          "bytes": 524288,
+          "fp": 7,
+          "negatives": 8192,
+          "checks": 7
+        },
+        "blocked": {
+          "median_ns": 24.22089131673177,
+          "min_ns": 23.643870035807293,
+          "max_ns": 24.520579020182293,
+          "bytes": 163840,
+          "fp": 258,
+          "negatives": 8192,
+          "checks": 258
+        }
+      }
+    },
+    "mid_hit90": {
+      "winner": "exact",
+      "contenders": [
+        "exact"
+      ],
+      "candidates": {
+        "exact": {
+          "median_ns": 15.125498453776043,
+          "min_ns": 15.114674886067709,
+          "max_ns": 15.337483723958334,
+          "bytes": 0,
+          "fp": 812,
+          "negatives": 812,
+          "checks": 8192
+        },
+        "bloom": {
+          "median_ns": 44.915415445963546,
+          "min_ns": 44.85999552408854,
+          "max_ns": 45.085774739583336,
+          "bytes": 5120,
+          "fp": 12,
+          "negatives": 812,
+          "checks": 7392
+        },
+        "quotient": {
+          "median_ns": 23.792760213216145,
+          "min_ns": 23.656331380208332,
+          "max_ns": 24.242594401041668,
+          "bytes": 40968,
+          "fp": 1,
+          "negatives": 812,
+          "checks": 7381
+        },
+        "cuckoo": {
+          "median_ns": 24.946192423502602,
+          "min_ns": 24.852183024088543,
+          "max_ns": 25.081146240234375,
+          "bytes": 16384,
+          "fp": 2,
+          "negatives": 812,
+          "checks": 7382
+        },
+        "blocked": {
+          "median_ns": 24.848663330078125,
+          "min_ns": 24.696075439453125,
+          "max_ns": 24.953531901041668,
+          "bytes": 5120,
+          "fp": 19,
+          "negatives": 812,
+          "checks": 7399
+        }
+      }
+    },
+    "mid_miss": {
+      "winner": "cuckoo",
+      "contenders": [
+        "cuckoo"
+      ],
+      "candidates": {
+        "exact": {
+          "median_ns": 15.229741414388021,
+          "min_ns": 15.116170247395834,
+          "max_ns": 16.3497314453125,
+          "bytes": 0,
+          "fp": 8192,
+          "negatives": 8192,
+          "checks": 8192
+        },
+        "bloom": {
+          "median_ns": 23.503824869791668,
+          "min_ns": 23.265106201171875,
+          "max_ns": 23.696024576822918,
+          "bytes": 5120,
+          "fp": 66,
+          "negatives": 8192,
+          "checks": 66
+        },
+        "quotient": {
+          "median_ns": 11.396830240885416,
+          "min_ns": 11.296763102213541,
+          "max_ns": 11.479522705078125,
+          "bytes": 40968,
+          "fp": 3,
+          "negatives": 8192,
+          "checks": 3
+        },
+        "cuckoo": {
+          "median_ns": 7.739323933919271,
+          "min_ns": 7.697977701822917,
+          "max_ns": 7.810719807942708,
+          "bytes": 16384,
+          "fp": 14,
+          "negatives": 8192,
+          "checks": 14
+        },
+        "blocked": {
+          "median_ns": 21.269541422526043,
+          "min_ns": 21.190093994140625,
+          "max_ns": 21.401885986328125,
+          "bytes": 5120,
+          "fp": 245,
+          "negatives": 8192,
+          "checks": 245
+        }
+      }
+    },
+    "tiny_miss": {
+      "winner": "exact",
+      "contenders": [
+        "exact"
+      ],
+      "candidates": {
+        "exact": {
+          "median_ns": 5.635019938151041,
+          "min_ns": 5.629730224609375,
+          "max_ns": 5.729461669921875,
+          "bytes": 0,
+          "fp": 8192,
+          "negatives": 8192,
+          "checks": 8192
+        },
+        "bloom": {
+          "median_ns": 24.141194661458332,
+          "min_ns": 23.96380615234375,
+          "max_ns": 24.354176839192707,
+          "bytes": 40,
+          "fp": 60,
+          "negatives": 8192,
+          "checks": 60
+        },
+        "quotient": {
+          "median_ns": 11.14752197265625,
+          "min_ns": 10.991068522135416,
+          "max_ns": 11.391937255859375,
+          "bytes": 328,
+          "fp": 1,
+          "negatives": 8192,
+          "checks": 1
+        },
+        "cuckoo": {
+          "median_ns": 7.633056640625,
+          "min_ns": 7.630564371744792,
+          "max_ns": 7.73016357421875,
+          "bytes": 128,
+          "fp": 6,
+          "negatives": 8192,
+          "checks": 6
+        },
+        "blocked": {
+          "median_ns": 21.72057088216146,
+          "min_ns": 21.506805419921875,
+          "max_ns": 21.910135904947918,
+          "bytes": 40,
+          "fp": 163,
+          "negatives": 8192,
+          "checks": 163
+        }
+      }
+    }
+  },
+  "x86": {
+    "build_mid": {
+      "winner": "exact",
+      "contenders": [
+        "exact"
+      ],
+      "candidates": {
+        "bloom": {
+          "median_ns": 29.178314208984375,
+          "min_ns": 28.5523681640625,
+          "max_ns": 32.37603759765625,
+          "bytes": 5120,
+          "fp": 61,
+          "negatives": 7372,
+          "checks": 881
+        },
+        "blocked": {
+          "median_ns": 29.1783447265625,
+          "min_ns": 27.98614501953125,
+          "max_ns": 29.79095458984375,
+          "bytes": 5120,
+          "fp": 225,
+          "negatives": 7372,
+          "checks": 1045
+        },
+        "exact": {
+          "median_ns": 0.230224609375,
+          "min_ns": 0.22857666015625,
+          "max_ns": 0.237060546875,
+          "bytes": 0,
+          "fp": 7372,
+          "negatives": 7372,
+          "checks": 8192
+        },
+        "quotient": {
+          "median_ns": 28.2916259765625,
+          "min_ns": 27.80194091796875,
+          "max_ns": 29.62713623046875,
+          "bytes": 40968,
+          "fp": 3,
+          "negatives": 7372,
+          "checks": 823
+        },
+        "cuckoo": {
+          "median_ns": 53.199462890625,
+          "min_ns": 52.40997314453125,
+          "max_ns": 54.5718994140625,
+          "bytes": 16384,
+          "fp": 13,
+          "negatives": 7372,
+          "checks": 833
+        }
+      }
+    },
+    "first_batch": {
+      "winner": "cuckoo",
+      "contenders": [
+        "cuckoo"
+      ],
+      "candidates": {
+        "bloom": {
+          "median_ns": 24.5880126953125,
+          "min_ns": 24.3033447265625,
+          "max_ns": 24.8221435546875,
+          "bytes": 5120,
+          "fp": 61,
+          "negatives": 7372,
+          "checks": 881
+        },
+        "blocked": {
+          "median_ns": 22.1341552734375,
+          "min_ns": 21.6502685546875,
+          "max_ns": 22.416748046875,
+          "bytes": 5120,
+          "fp": 225,
+          "negatives": 7372,
+          "checks": 1045
+        },
+        "exact": {
+          "median_ns": 15.480712890625,
+          "min_ns": 15.4456787109375,
+          "max_ns": 15.5396728515625,
+          "bytes": 0,
+          "fp": 7372,
+          "negatives": 7372,
+          "checks": 8192
+        },
+        "quotient": {
+          "median_ns": 16.2529296875,
+          "min_ns": 16.1396484375,
+          "max_ns": 16.355224609375,
+          "bytes": 40968,
+          "fp": 3,
+          "negatives": 7372,
+          "checks": 823
+        },
+        "cuckoo": {
+          "median_ns": 8.91680908203125,
+          "min_ns": 8.88818359375,
+          "max_ns": 8.9976806640625,
+          "bytes": 16384,
+          "fp": 13,
+          "negatives": 7372,
+          "checks": 833
+        }
+      }
+    },
+    "hot_miss": {
+      "winner": "quotient",
+      "contenders": [
+        "quotient"
+      ],
+      "candidates": {
+        "bloom": {
+          "median_ns": 5.005615234375,
+          "min_ns": 5.004852294921875,
+          "max_ns": 5.093831380208333,
+          "bytes": 5120,
+          "fp": 0,
+          "negatives": 8192,
+          "checks": 0
+        },
+        "blocked": {
+          "median_ns": 5.241429646809896,
+          "min_ns": 5.193084716796875,
+          "max_ns": 5.416982014973958,
+          "bytes": 5120,
+          "fp": 0,
+          "negatives": 8192,
+          "checks": 0
+        },
+        "exact": {
+          "median_ns": 15.422388712565104,
+          "min_ns": 15.323160807291666,
+          "max_ns": 15.472971598307291,
+          "bytes": 0,
+          "fp": 8192,
+          "negatives": 8192,
+          "checks": 8192
+        },
+        "quotient": {
+          "median_ns": 3.7534840901692705,
+          "min_ns": 3.650054931640625,
+          "max_ns": 3.7538960774739585,
+          "bytes": 40968,
+          "fp": 0,
+          "negatives": 8192,
+          "checks": 0
+        },
+        "cuckoo": {
+          "median_ns": 6.140162150065104,
+          "min_ns": 6.071360270182292,
+          "max_ns": 6.34228515625,
+          "bytes": 16384,
+          "fp": 0,
+          "negatives": 8192,
+          "checks": 0
+        }
+      }
+    },
+    "large_hit90": {
+      "winner": "exact",
+      "contenders": [
+        "exact"
+      ],
+      "candidates": {
+        "bloom": {
+          "median_ns": 61.47847493489583,
+          "min_ns": 60.594146728515625,
+          "max_ns": 64.17959594726562,
+          "bytes": 163840,
+          "fp": 2,
+          "negatives": 812,
+          "checks": 7382
+        },
+        "blocked": {
+          "median_ns": 54.53896586100261,
+          "min_ns": 54.1312255859375,
+          "max_ns": 55.316874186197914,
+          "bytes": 163840,
+          "fp": 23,
+          "negatives": 812,
+          "checks": 7403
+        },
+        "exact": {
+          "median_ns": 44.70809427897135,
+          "min_ns": 43.94298299153646,
+          "max_ns": 45.30931599934896,
+          "bytes": 0,
+          "fp": 812,
+          "negatives": 812,
+          "checks": 8192
+        },
+        "quotient": {
+          "median_ns": 58.24226379394531,
+          "min_ns": 57.652679443359375,
+          "max_ns": 59.52490234375,
+          "bytes": 1310702,
+          "fp": 0,
+          "negatives": 812,
+          "checks": 7380
+        },
+        "cuckoo": {
+          "median_ns": 59.03045654296875,
+          "min_ns": 58.182891845703125,
+          "max_ns": 60.766194661458336,
+          "bytes": 524288,
+          "fp": 2,
+          "negatives": 812,
+          "checks": 7382
+        }
+      }
+    },
+    "large_miss": {
+      "winner": "cuckoo",
+      "contenders": [
+        "cuckoo"
+      ],
+      "candidates": {
+        "bloom": {
+          "median_ns": 23.420201619466148,
+          "min_ns": 23.24835205078125,
+          "max_ns": 23.898427327473957,
+          "bytes": 163840,
+          "fp": 63,
+          "negatives": 8192,
+          "checks": 63
+        },
+        "blocked": {
+          "median_ns": 21.882359822591148,
+          "min_ns": 21.320220947265625,
+          "max_ns": 22.774881998697918,
+          "bytes": 163840,
+          "fp": 258,
+          "negatives": 8192,
+          "checks": 258
+        },
+        "exact": {
+          "median_ns": 44.921320597330734,
+          "min_ns": 44.044413248697914,
+          "max_ns": 46.61345418294271,
+          "bytes": 0,
+          "fp": 8192,
+          "negatives": 8192,
+          "checks": 8192
+        },
+        "quotient": {
+          "median_ns": 15.732732137044271,
+          "min_ns": 15.596089680989584,
+          "max_ns": 16.119181315104168,
+          "bytes": 1310702,
+          "fp": 3,
+          "negatives": 8192,
+          "checks": 3
+        },
+        "cuckoo": {
+          "median_ns": 7.7626495361328125,
+          "min_ns": 7.713389078776042,
+          "max_ns": 7.806101481119792,
+          "bytes": 524288,
+          "fp": 7,
+          "negatives": 8192,
+          "checks": 7
+        }
+      }
+    },
+    "mid_hit90": {
+      "winner": "exact",
+      "contenders": [
+        "exact"
+      ],
+      "candidates": {
+        "bloom": {
+          "median_ns": 28.089726765950523,
+          "min_ns": 27.738850911458332,
+          "max_ns": 28.410725911458332,
+          "bytes": 5120,
+          "fp": 12,
+          "negatives": 812,
+          "checks": 7392
+        },
+        "blocked": {
+          "median_ns": 22.728708902994793,
+          "min_ns": 22.54736328125,
+          "max_ns": 22.911539713541668,
+          "bytes": 5120,
+          "fp": 19,
+          "negatives": 812,
+          "checks": 7399
+        },
+        "exact": {
+          "median_ns": 15.428034464518229,
+          "min_ns": 15.334075927734375,
+          "max_ns": 15.729644775390625,
+          "bytes": 0,
+          "fp": 812,
+          "negatives": 812,
+          "checks": 8192
+        },
+        "quotient": {
+          "median_ns": 24.241485595703125,
+          "min_ns": 24.019368489583332,
+          "max_ns": 24.601216634114582,
+          "bytes": 40968,
+          "fp": 1,
+          "negatives": 812,
+          "checks": 7381
+        },
+        "cuckoo": {
+          "median_ns": 24.858551025390625,
+          "min_ns": 24.655558268229168,
+          "max_ns": 25.210113525390625,
+          "bytes": 16384,
+          "fp": 2,
+          "negatives": 812,
+          "checks": 7382
+        }
+      }
+    },
+    "mid_miss": {
+      "winner": "cuckoo",
+      "contenders": [
+        "cuckoo"
+      ],
+      "candidates": {
+        "bloom": {
+          "median_ns": 21.12445068359375,
+          "min_ns": 20.965291341145832,
+          "max_ns": 21.623514811197918,
+          "bytes": 5120,
+          "fp": 66,
+          "negatives": 8192,
+          "checks": 66
+        },
+        "blocked": {
+          "median_ns": 19.339447021484375,
+          "min_ns": 19.037089029947918,
+          "max_ns": 19.951711018880207,
+          "bytes": 5120,
+          "fp": 245,
+          "negatives": 8192,
+          "checks": 245
+        },
+        "exact": {
+          "median_ns": 15.467432657877604,
+          "min_ns": 15.361735026041666,
+          "max_ns": 15.630605061848959,
+          "bytes": 0,
+          "fp": 8192,
+          "negatives": 8192,
+          "checks": 8192
+        },
+        "quotient": {
+          "median_ns": 13.358774820963543,
+          "min_ns": 13.206837972005209,
+          "max_ns": 13.505828857421875,
+          "bytes": 40968,
+          "fp": 3,
+          "negatives": 8192,
+          "checks": 3
+        },
+        "cuckoo": {
+          "median_ns": 6.374755859375,
+          "min_ns": 6.348256429036458,
+          "max_ns": 6.472696940104167,
+          "bytes": 16384,
+          "fp": 14,
+          "negatives": 8192,
+          "checks": 14
+        }
+      }
+    },
+    "tiny_miss": {
+      "winner": "exact",
+      "contenders": [
+        "exact"
+      ],
+      "candidates": {
+        "bloom": {
+          "median_ns": 20.488555908203125,
+          "min_ns": 20.356597900390625,
+          "max_ns": 20.842803955078125,
+          "bytes": 40,
+          "fp": 60,
+          "negatives": 8192,
+          "checks": 60
+        },
+        "blocked": {
+          "median_ns": 18.884333292643227,
+          "min_ns": 18.554087320963543,
+          "max_ns": 19.761016845703125,
+          "bytes": 40,
+          "fp": 163,
+          "negatives": 8192,
+          "checks": 163
+        },
+        "exact": {
+          "median_ns": 5.530303955078125,
+          "min_ns": 5.507405598958333,
+          "max_ns": 5.901418050130208,
+          "bytes": 0,
+          "fp": 8192,
+          "negatives": 8192,
+          "checks": 8192
+        },
+        "quotient": {
+          "median_ns": 12.053324381510418,
+          "min_ns": 11.822713216145834,
+          "max_ns": 12.245615641276041,
+          "bytes": 328,
+          "fp": 1,
+          "negatives": 8192,
+          "checks": 1
+        },
+        "cuckoo": {
+          "median_ns": 6.302215576171875,
+          "min_ns": 6.25177001953125,
+          "max_ns": 6.407908121744792,
+          "bytes": 128,
+          "fp": 6,
+          "negatives": 8192,
+          "checks": 6
+        }
+      }
+    }
+  }
+}

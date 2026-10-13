@@ -1,0 +1,85 @@
+{
+  "source_commit": "224a99c90ba3c17cab3fef48d69ed212e525fc6a",
+  "base": "ed1c85d24eec1f22fb5ff999dfe64bd81b378d29",
+  "inputs": {
+    "src/lib.rs": "aff060328e3c4e1868e6f83b66107206b7160d83f6f4f845ff9f1db22f1d4dc9",
+    "benches/portfolio.rs": "7d9a8655b101acfd0f0c772ef17043e826abac879ab770925985eb9e71b05272",
+    "examples/demo.rs": "197cf61c0fd3decb4227016538b7437eb4d4dc15abff299463fec7632bb12aa7",
+    "tests/contracts.rs": "c09b0e4968e4c73548cfae65198fc113326e6284df8096d171be2ac40c798848",
+    "measurements/runner.py": "b83d09616f8dfb3e39d08913929922827221c192e7659991e7ded2d6514c1b0d",
+    "measurements/analyze.py": "d9fa33ef88d5291820f5005a41160bbc45f72ed9ef5250d227285b2af90bab01"
+  },
+  "external_root": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-017/20261013",
+  "campaigns": {
+    "initial-arm": {
+      "archive_sha256": "7ab27942b0a264f3881c012456e41e89c28a1445d58c5f050a05f0092150b87a",
+      "processes": 400,
+      "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "arch": "aarch64",
+      "source_sha256": {
+        "src/lib.rs": "fca97ffceea91f1f08b80025e556ea447c3f781331e0bfa3f0adb449c730eed6",
+        "benches/portfolio.rs": "e544255c52b5ac5f7ec4d96cb29f7ffe221bc635dfc02522ebe76af496f5152d",
+        "examples/demo.rs": "197cf61c0fd3decb4227016538b7437eb4d4dc15abff299463fec7632bb12aa7",
+        "tests/contracts.rs": "27a1081cf2a6d5be17e9cb2166eb207b70c1f56bef8fed8a3a2b1ec7c76583c8",
+        "measurements/runner.py": "a35d944f88c963d6158d17e7dc025d5501e3936dc1005b5dc9b70663f8bded90",
+        "measurements/analyze.py": "d9fa33ef88d5291820f5005a41160bbc45f72ed9ef5250d227285b2af90bab01"
+      },
+      "path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-017/20261013/initial-arm-raw.tar.gz",
+      "bytes": 5428794,
+      "members": 418
+    },
+    "initial-x86": {
+      "archive_sha256": "4fb8cfc8cb87aaba63fd6a53d5cc508179ed1c86902bd812e6cd8c8b7c7551dc",
+      "processes": 400,
+      "host": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "arch": "x86_64",
+      "source_sha256": {
+        "src/lib.rs": "fca97ffceea91f1f08b80025e556ea447c3f781331e0bfa3f0adb449c730eed6",
+        "benches/portfolio.rs": "e544255c52b5ac5f7ec4d96cb29f7ffe221bc635dfc02522ebe76af496f5152d",
+        "examples/demo.rs": "197cf61c0fd3decb4227016538b7437eb4d4dc15abff299463fec7632bb12aa7",
+        "tests/contracts.rs": "27a1081cf2a6d5be17e9cb2166eb207b70c1f56bef8fed8a3a2b1ec7c76583c8",
+        "measurements/runner.py": "a35d944f88c963d6158d17e7dc025d5501e3936dc1005b5dc9b70663f8bded90",
+        "measurements/analyze.py": "d9fa33ef88d5291820f5005a41160bbc45f72ed9ef5250d227285b2af90bab01"
+      },
+      "path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-017/20261013/initial-x86-raw.tar.gz",
+      "bytes": 6474723,
+      "members": 418
+    },
+    "committed-arm": {
+      "archive_sha256": "58e713576fe0228afb041357486e4e434c19464cd185c6063110097023683d0f",
+      "processes": 400,
+      "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "arch": "aarch64",
+      "source_sha256": {
+        "src/lib.rs": "aff060328e3c4e1868e6f83b66107206b7160d83f6f4f845ff9f1db22f1d4dc9",
+        "benches/portfolio.rs": "7d9a8655b101acfd0f0c772ef17043e826abac879ab770925985eb9e71b05272",
+        "examples/demo.rs": "197cf61c0fd3decb4227016538b7437eb4d4dc15abff299463fec7632bb12aa7",
+        "tests/contracts.rs": "c09b0e4968e4c73548cfae65198fc113326e6284df8096d171be2ac40c798848",
+        "measurements/runner.py": "b83d09616f8dfb3e39d08913929922827221c192e7659991e7ded2d6514c1b0d",
+        "measurements/analyze.py": "d9fa33ef88d5291820f5005a41160bbc45f72ed9ef5250d227285b2af90bab01"
+      },
+      "path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-017/20261013/committed-arm-raw.tar.gz",
+      "bytes": 5433434,
+      "members": 419
+    },
+    "committed-x86": {
+      "archive_sha256": "fcf80c760c65ece5cf2c65c5e9121cb5eeb314a3482e2d0fa6770ddd5b1d575a",
+      "processes": 400,
+      "host": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "arch": "x86_64",
+      "source_sha256": {
+        "src/lib.rs": "aff060328e3c4e1868e6f83b66107206b7160d83f6f4f845ff9f1db22f1d4dc9",
+        "benches/portfolio.rs": "7d9a8655b101acfd0f0c772ef17043e826abac879ab770925985eb9e71b05272",
+        "examples/demo.rs": "197cf61c0fd3decb4227016538b7437eb4d4dc15abff299463fec7632bb12aa7",
+        "tests/contracts.rs": "c09b0e4968e4c73548cfae65198fc113326e6284df8096d171be2ac40c798848",
+        "measurements/runner.py": "b83d09616f8dfb3e39d08913929922827221c192e7659991e7ded2d6514c1b0d",
+        "measurements/analyze.py": "d9fa33ef88d5291820f5005a41160bbc45f72ed9ef5250d227285b2af90bab01"
+      },
+      "path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-017/20261013/committed-x86-raw.tar.gz",
+      "bytes": 6478453,
+      "members": 419
+    }
+  },
+  "verification_state": "All archive members byte-verified against retained extraction; each input hash verified against committed source or retained initial scratch before execution.400oracle-passing processes/campaign.",
+  "limits": "Initial differs only test literals/public edge coverage,benchmark noarg guard,runner attempt logging; final claims use committed campaign. Descriptive ranges,unmatched memory/FPR,no productionQF/Ribbon,cold-cache,storage/PMU/ISA claim."
+}

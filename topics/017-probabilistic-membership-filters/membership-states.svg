@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="690" viewBox="0 0 1480 690">
+<rect width="1480" height="690" fill="#f8fafc"/>
+<text x="35" y="50" font-family="Arial,sans-serif" font-size="31" fill="#0f172a">One shared bit array: before, during, after insertion</text>
+<rect x="35" y="85" width="450" height="360" rx="12" fill="white" stroke="#94a3b8"/>
+<text x="53" y="123" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">BEFORE</text>
+<text x="53" y="158" font-family="Arial,sans-serif" font-size="21" fill="#334155">No inserted keys</text>
+<rect x="53" y="180" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="61" y="198" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 00</text>
+<text x="97" y="226" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="158" y="180" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="166" y="198" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 01</text>
+<text x="202" y="226" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="263" y="180" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="271" y="198" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 02</text>
+<text x="307" y="226" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="368" y="180" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="376" y="198" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 03</text>
+<text x="412" y="226" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="53" y="240" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="61" y="258" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 04</text>
+<text x="97" y="286" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="158" y="240" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="166" y="258" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 05</text>
+<text x="202" y="286" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="263" y="240" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="271" y="258" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 06</text>
+<text x="307" y="286" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="368" y="240" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="376" y="258" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 07</text>
+<text x="412" y="286" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="53" y="300" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="61" y="318" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 08</text>
+<text x="97" y="346" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="158" y="300" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="166" y="318" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 09</text>
+<text x="202" y="346" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="263" y="300" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="271" y="318" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 10</text>
+<text x="307" y="346" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="368" y="300" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="376" y="318" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 11</text>
+<text x="412" y="346" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="53" y="360" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="61" y="378" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 12</text>
+<text x="97" y="406" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="158" y="360" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="166" y="378" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 13</text>
+<text x="202" y="406" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="263" y="360" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="271" y="378" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 14</text>
+<text x="307" y="406" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="368" y="360" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="376" y="378" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 15</text>
+<text x="412" y="406" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="515" y="85" width="450" height="360" rx="12" fill="white" stroke="#94a3b8"/>
+<text x="533" y="123" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">DURING</text>
+<text x="533" y="158" font-family="Arial,sans-serif" font-size="21" fill="#334155">Insert 17: set {2, 5, 9}</text>
+<rect x="533" y="180" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="541" y="198" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 00</text>
+<text x="577" y="226" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="638" y="180" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="646" y="198" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 01</text>
+<text x="682" y="226" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="743" y="180" width="98" height="53" rx="5" fill="#bae6fd" stroke="#64748b"/>
+<text x="751" y="198" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 02</text>
+<text x="787" y="226" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">1</text>
+<rect x="848" y="180" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="856" y="198" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 03</text>
+<text x="892" y="226" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="533" y="240" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="541" y="258" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 04</text>
+<text x="577" y="286" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="638" y="240" width="98" height="53" rx="5" fill="#bae6fd" stroke="#64748b"/>
+<text x="646" y="258" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 05</text>
+<text x="682" y="286" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">1</text>
+<rect x="743" y="240" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="751" y="258" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 06</text>
+<text x="787" y="286" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="848" y="240" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="856" y="258" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 07</text>
+<text x="892" y="286" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="533" y="300" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="541" y="318" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 08</text>
+<text x="577" y="346" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="638" y="300" width="98" height="53" rx="5" fill="#bae6fd" stroke="#64748b"/>
+<text x="646" y="318" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 09</text>
+<text x="682" y="346" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">1</text>
+<rect x="743" y="300" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="751" y="318" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 10</text>
+<text x="787" y="346" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="848" y="300" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="856" y="318" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 11</text>
+<text x="892" y="346" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="533" y="360" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="541" y="378" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 12</text>
+<text x="577" y="406" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="638" y="360" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="646" y="378" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 13</text>
+<text x="682" y="406" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="743" y="360" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="751" y="378" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 14</text>
+<text x="787" y="406" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="848" y="360" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="856" y="378" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 15</text>
+<text x="892" y="406" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="995" y="85" width="450" height="360" rx="12" fill="white" stroke="#94a3b8"/>
+<text x="1013" y="123" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">AFTER</text>
+<text x="1013" y="158" font-family="Arial,sans-serif" font-size="21" fill="#334155">Insert 42 and 99</text>
+<rect x="1013" y="180" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="1021" y="198" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 00</text>
+<text x="1057" y="226" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="1118" y="180" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="1126" y="198" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 01</text>
+<text x="1162" y="226" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="1223" y="180" width="98" height="53" rx="5" fill="#fcd34d" stroke="#64748b"/>
+<text x="1231" y="198" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 02</text>
+<text x="1267" y="226" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">1</text>
+<rect x="1328" y="180" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="1336" y="198" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 03</text>
+<text x="1372" y="226" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="1013" y="240" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="1021" y="258" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 04</text>
+<text x="1057" y="286" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="1118" y="240" width="98" height="53" rx="5" fill="#fcd34d" stroke="#64748b"/>
+<text x="1126" y="258" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 05</text>
+<text x="1162" y="286" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">1</text>
+<rect x="1223" y="240" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="1231" y="258" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 06</text>
+<text x="1267" y="286" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="1328" y="240" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="1336" y="258" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 07</text>
+<text x="1372" y="286" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="1013" y="300" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="1021" y="318" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 08</text>
+<text x="1057" y="346" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="1118" y="300" width="98" height="53" rx="5" fill="#bae6fd" stroke="#64748b"/>
+<text x="1126" y="318" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 09</text>
+<text x="1162" y="346" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">1</text>
+<rect x="1223" y="300" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="1231" y="318" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 10</text>
+<text x="1267" y="346" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="1328" y="300" width="98" height="53" rx="5" fill="#fcd34d" stroke="#64748b"/>
+<text x="1336" y="318" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 11</text>
+<text x="1372" y="346" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">1</text>
+<rect x="1013" y="360" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="1021" y="378" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 12</text>
+<text x="1057" y="406" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="1118" y="360" width="98" height="53" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+<text x="1126" y="378" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 13</text>
+<text x="1162" y="406" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">0</text>
+<rect x="1223" y="360" width="98" height="53" rx="5" fill="#bae6fd" stroke="#64748b"/>
+<text x="1231" y="378" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 14</text>
+<text x="1267" y="406" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">1</text>
+<rect x="1328" y="360" width="98" height="53" rx="5" fill="#bae6fd" stroke="#64748b"/>
+<text x="1336" y="378" font-family="Arial,sans-serif" font-size="15" fill="#334155">index 15</text>
+<text x="1372" y="406" font-family="Arial,sans-serif" font-size="23" fill="#0f172a">1</text>
+<text x="35" y="497" font-family="Arial,sans-serif" font-size="25" fill="#0f172a">Toy positions: 17 → {2,5,9}; 42 → {5,11,14}; 99 → {2,11,15}</text>
+<text x="35" y="544" font-family="Arial,sans-serif" font-size="24" fill="#92400e">Query 18 → {2,5,11}: all set → MAYBE → exact key check rejects 18</text>
+<text x="35" y="587" font-family="Arial,sans-serif" font-size="24" fill="#075985">Query 77 → {2,7,11}: index 7 is zero → DEFINITELY ABSENT</text>
+<text x="35" y="649" font-family="Arial,sans-serif" font-size="22" fill="#334155">Read each cell as its index and stored bit. Gold cells show a false-positive query.</text>
+</svg>
