@@ -32,3 +32,25 @@ has extra arrays and no byte bound. Chunk has a row cap and can rescan 64 times.
 File spill uses actual temporary files and checks logical reads/writes. OS cache,
 physical media, durable completion, byte admission, full payload output and cancellation
 are unmeasured. Assembly is retained; no hardware mechanism claim is inferred.
+
+## Tiny quadratic reference supplement
+
+Exact committed supplement source: `eddb79c0746ec0b68442301256bbc8009e8b7b01`. New benchmark and runner
+are frozen with the unchanged library. Both Linux hosts run 16 processes in eight
+paired AB/BA blocks, matching the primary tiny 8/12-key data. Independent oracle
+checks 5pairs. Each process uses two warmups and 100,000 timed complete joins.
+The primary four-candidate campaign is retained separately.
+
+Arm nested 77.535ns [77.361,77.883], merge 81.229ns [80.895,81.446].
+x86 nested 74.580ns [73.212,80.450], merge 72.223ns [70.721,73.617].
+Both cells remain unresolved under >5% in every paired block. Initial ephemeral
+supplements also remain unresolved on both hosts. No winner was sought by repeats.
+With the reference included, choose between nested and merge for tiny inputs.
+Merge remains selected for uniform/disjoint/duplicates/heavy/large/sorted among
+the four main candidates; small_build remains hash/chunk unresolved.
+
+Nested is unmeasured for larger cells. The large cell needs 8,589,934,592 comparisons
+per join, so the bounded reference supplement tests its relevant small regime.
+This limitation prevents a universal/all-five winner claim on larger inputs.
+Cold startup/cache/storage, allocator byte footprint and payload output remain
+unmeasured. See TINY_REFERENCE.json for exact medians/ranges/receipts.
