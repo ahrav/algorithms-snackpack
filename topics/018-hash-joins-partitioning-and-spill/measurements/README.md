@@ -43,8 +43,10 @@ are unmeasured. Assembly is retained; no hardware mechanism claim is inferred.
 
 ## Tiny quadratic reference supplement
 
-Exact committed supplement source: `eddb79c0746ec0b68442301256bbc8009e8b7b01`. New benchmark and runner
-are frozen with the unchanged library. Both Linux hosts run 16 processes in eight
+Exact committed supplement source: `eddb79c0746ec0b68442301256bbc8009e8b7b01`. TINY_REFERENCE.json
+`inputs` hashes pin the measured benchmark, runner and library. A later review edit to
+`measurements/tiny_reference.py` records timed-out attempts in `attempts.jsonl` before
+re-raising; the measured runs completed without a timeout. Both Linux hosts run 16 processes in eight
 paired AB/BA blocks, matching the primary tiny 8/12-key data. Independent oracle
 checks 5pairs. Each process uses two warmups and 100,000 timed complete joins.
 The primary four-candidate campaign is retained separately.
