@@ -22,3 +22,19 @@ Native target, optimization 3, Rust 2024, toolchain/host/affinity/features/sourc
 identity in raw manifest. Schedulers unpinned. No A/A, cold-cache eviction, PMU,
 allocator-byte instrumentation, wider payloads or storage timing. Assembly retained
 for code inspection only; no candidate mechanism claim from whole-process evidence.
+
+## Bounded quadratic reference supplement
+
+The quadratic oracle is also timed against merge for the primary tiny 8/12-key
+cell, where its allocation-free setup can decide selection. Larger oracle cells
+are unmeasured: the large cell alone needs 8,589,934,592 equality checks per join;
+this is a documented measurement limit, not an elapsed result or all-five winner.
+The four serious resident candidates remain the primary portfolio.
+
+Supplement predeclared before execution: same tiny keys, two warmups, 100,000 timed
+joins, eight fresh paired process blocks in AB/BA order. Same complete-call
+boundary including assertion, allocation/sort/drop. Independent BTreeMap oracle
+runs outside timing and verifies 5pairs. Same >5% every block selection rule and
+observed mean ranges. This separate experiment adds the reference to tiny
+selection; it does not create a simultaneous five-candidate paired campaign.
+Both required Linux hosts run ephemeral and exact committed copies.

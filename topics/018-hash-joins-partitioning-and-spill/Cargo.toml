@@ -11,3 +11,7 @@ workspace = true
 [[bench]]
 name = "portfolio"
 harness = false
+
+[[bench]]
+name = "tiny_reference"
+harness = false

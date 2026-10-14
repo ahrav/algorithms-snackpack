@@ -65,6 +65,8 @@ Selection/results and exact artifact identities are in measurements/README.md.
 
 ## Selection and revisit
 
+For tiny inputs, compare the allocation-free nested reference as well. Its bounded
+reference contest with merge is unresolved under the declared criterion.
 Start with hash for a general resident baseline. Use merge where controlled
 measurements support it. Admit partitioning only when its extra routing buys
 measured benefit. Use paired file partitions for an oversized admitted build
