@@ -7,8 +7,12 @@ Extreme 0/MAX keys and million-pair growth cover key/count boundaries. Each time
 process checks its exact dataset against an independent BTreeMap frequency oracle.
 
 File-backed tests cover recursive overflow with 257/131 rows, all-equal 31/29 with
-no-progress fallback (899 pairs, one partition), max_build_rows<=budget, empty inputs,
-zero budget and truncated records. Demo asserts all six results equal 7. These
-checks kill missing recursion progress, lost partition pairs and malformed decoding.
+no-progress fallback (899 pairs, one partition, 60 writes, 323 reads), a leaf-only
+3/3 join (6 reads, 0 writes), all-0 build against all-1 probe (one partition, zero
+fallbacks, 60 reads), max_build_rows<=budget, empty inputs, and rejections that
+assert the exact `InvalidData`/`InvalidInput` kind and leave only the two inputs in
+scratch. Demo asserts all six results equal 7. These checks kill missing recursion
+progress, lost partition pairs, swapped or dropped read/write accounting, fallback
+leaves on empty probe children and malformed decoding.
 They are bounded correctness evidence, not a proof, whole-memory bound, durability
 check, cancellation/fault-injection test or production SQL conformance suite.

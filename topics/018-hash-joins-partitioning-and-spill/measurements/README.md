@@ -1,6 +1,10 @@
 # Exact committed measurements
 
-Measured source commit: `b2f96008cad45e9dbc632aa318ef1fba4addbdc7`. Six frozen files match both remote manifests.
+Measured source commit: `b2f96008cad45e9dbc632aa318ef1fba4addbdc7`. RESULTS.json `inputs` hashes
+match both remote manifests. Review edits after both measured commits (`b2f9600`, `eddb79c`)
+touch only the untimed spill path:
+`src/lib.rs` gains an empty-probe-child guard in `Spill::join`, and `tests/contracts.rs` gains
+exact spill counter and rejection assertions. The timed resident candidates are unchanged.
 Raw evidence: `/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-018/20261014`.
 
 | Case | Arm choice; median [min,max] microseconds | x86 choice; median [min,max] microseconds |
@@ -21,15 +25,19 @@ Final data is the exact committed campaign, with no repeat to seek a winner.
 
 Arm verified aarch64, 64 CPUs, Linux 6.12.110; model field CPU part retained in raw.
 x86 verified x86_64, 192 CPUs, Intel Xeon Platinum 8488C, Linux 6.12.110.
-Both rustc 1.98.1 LLVM 22.1.8; optimization 3/native features. Full target cfg and uname
-are retained per manifest. Schedulers unpinned. See BENCHMARK.md for sample controls.
+Arm rustc 1.98.1 LLVM 22.1.8; x86 rustc 1.99.0 LLVM 23.1.1; both optimization 3/native features.
+Full target cfg and uname are retained per manifest. Schedulers unpinned. See BENCHMARK.md for
+sample controls.
 
 Merge selected tiny/uniform/disjoint/duplicates/heavy/large/sorted on both hosts.
-Small_build leaves hash/chunk unresolved. Frequency compression and optimized
+Small_build leaves hash/chunk unresolved. Every selection is provisional until the
+identical-artifact A/A control required by METHODOLOGY.md runs through this pipeline.
+Frequency compression and optimized
 standard sorting make this a count-only, fixed-key workload claim. Resident partition
 has extra arrays and no byte bound. Chunk has a row cap and can rescan 64 times.
 
-File spill uses actual temporary files and checks logical reads/writes. OS cache,
+File spill uses actual temporary files. Tests assert exact logical read/write counts for a
+leaf-only join, the heavy-key fallback and a disjoint-bucket split. OS cache,
 physical media, durable completion, byte admission, full payload output and cancellation
 are unmeasured. Assembly is retained; no hardware mechanism claim is inferred.
 

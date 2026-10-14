@@ -216,8 +216,8 @@ impl Spill<'_> {
         let b = self.split(probe, depth)?;
         let mut result = 0;
         for (x, y) in a.iter().zip(&b) {
-            if file_rows(x)? == n {
-                // All build rows stayed together. More fanout is not a progress proof.
+            if file_rows(x)? == n && file_rows(y)? > 0 {
+                // The fallback handles stalled partitioning when the probe child has rows.
                 self.stats.fallbacks += 1;
                 result += self.leaf(x, y)?;
             } else {

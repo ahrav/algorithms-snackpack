@@ -20,8 +20,10 @@ Stop after declared 8 blocks; never repeat to manufacture a winner.
 
 Native target, optimization 3, Rust 2024, toolchain/host/affinity/features/source/binary
 identity in raw manifest. Schedulers unpinned. No A/A, cold-cache eviction, PMU,
-allocator-byte instrumentation, wider payloads or storage timing. Assembly retained
-for code inspection only; no candidate mechanism claim from whole-process evidence.
+allocator-byte instrumentation, wider payloads or storage timing. Every selection is
+provisional until the identical-artifact A/A control required by METHODOLOGY.md runs
+through this pipeline. Assembly retained for code inspection only; no candidate
+mechanism claim from whole-process evidence.
 
 ## Bounded quadratic reference supplement
 
