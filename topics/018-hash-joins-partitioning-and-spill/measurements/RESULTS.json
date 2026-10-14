@@ -1,0 +1,759 @@
+{
+  "source_commit": "b2f96008cad45e9dbc632aa318ef1fba4addbdc7",
+  "inputs": {
+    "src/lib.rs": "02810f2d0765d879e6320c95b4bf3f53d08043f9597c1c275286f998aae98fc4",
+    "benches/portfolio.rs": "4c023ae0e6d37d053fefa3c0f9b7160c776905a491a0e020c6257339b3d2fc48",
+    "examples/demo.rs": "56f90557bc56e0739e0f385e8cff93609076b79bb17fadbac4feaef436ad085e",
+    "tests/contracts.rs": "0227eb7721cd364dbe14cce310e651ef60fb62b4d54e1902c88df1a58cf3389d",
+    "measurements/runner.py": "4622db8ec4562b5ba6fa6468505b83ad118cc2a8c2bd685940e62605894dcd5a",
+    "measurements/analyze.py": "7db724ee7d5babef0d286f64ccd770fbb4b96925d22469c4aaf3032615d7c0e3"
+  },
+  "hosts": {
+    "arm": {
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "arch": "aarch64",
+      "kernel": "Linux-6.12.110-135.202.amzn2023.aarch64-aarch64-with-glibc2.34",
+      "cpu_model": "CPU part\t: 0xd40",
+      "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+      "available_cpus": 64,
+      "flags": [
+        "--edition",
+        "2024",
+        "-C",
+        "opt-level=3",
+        "-C",
+        "target-cpu=native"
+      ],
+      "archive_sha256": "3fe5c3b51bd35e1b55ca840844279b98a79271aeb27d03dd96c458893496307e",
+      "summary": {
+        "disjoint": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "partition": {
+              "median_ns": 288469.95,
+              "min_ns": 287274.2,
+              "max_ns": 288918.05,
+              "pairs": 0,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "hash": {
+              "median_ns": 269183.82499999995,
+              "min_ns": 268191.3,
+              "max_ns": 270880.4,
+              "pairs": 0,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 480997.3,
+              "min_ns": 478484.35,
+              "max_ns": 482390.2,
+              "pairs": 0,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 146534.35,
+              "min_ns": 144339.05,
+              "max_ns": 148727.15,
+              "pairs": 0,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            }
+          }
+        },
+        "duplicates": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "partition": {
+              "median_ns": 164715.35,
+              "min_ns": 163783.4,
+              "max_ns": 165091.15,
+              "pairs": 2097152,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "hash": {
+              "median_ns": 129188.82500000001,
+              "min_ns": 128457.05,
+              "max_ns": 129814.2,
+              "pairs": 2097152,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 362141.15,
+              "min_ns": 361622.95,
+              "max_ns": 364064.85,
+              "pairs": 2097152,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 61215.375,
+              "min_ns": 60880.8,
+              "max_ns": 61518.5,
+              "pairs": 2097152,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            }
+          }
+        },
+        "heavy": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "partition": {
+              "median_ns": 153900.84999999998,
+              "min_ns": 153251.7,
+              "max_ns": 154538.35,
+              "pairs": 33554432,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "hash": {
+              "median_ns": 129012.35,
+              "min_ns": 128078.15,
+              "max_ns": 129344.6,
+              "pairs": 33554432,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 359896.95,
+              "min_ns": 358907.9,
+              "max_ns": 360617.7,
+              "pairs": 33554432,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 11867.375,
+              "min_ns": 11844.35,
+              "max_ns": 12288.8,
+              "pairs": 33554432,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            }
+          }
+        },
+        "large": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "partition": {
+              "median_ns": 4994084.75,
+              "min_ns": 4984558.0,
+              "max_ns": 5008535.0,
+              "pairs": 32770,
+              "build": 65536,
+              "probe": 131072,
+              "budget": 1024
+            },
+            "hash": {
+              "median_ns": 4637652.0,
+              "min_ns": 4612364.0,
+              "max_ns": 4670781.0,
+              "pairs": 32770,
+              "build": 65536,
+              "probe": 131072,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 83842238.5,
+              "min_ns": 83539829.0,
+              "max_ns": 83914784.0,
+              "pairs": 32770,
+              "build": 65536,
+              "probe": 131072,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 3446494.75,
+              "min_ns": 3437139.5,
+              "max_ns": 3478966.0,
+              "pairs": 32770,
+              "build": 65536,
+              "probe": 131072,
+              "budget": 1024
+            }
+          }
+        },
+        "small_build": {
+          "winner": "unresolved",
+          "contenders": [
+            "chunk",
+            "hash"
+          ],
+          "candidates": {
+            "partition": {
+              "median_ns": 1640956.0,
+              "min_ns": 1633224.75,
+              "max_ns": 1648498.0,
+              "pairs": 18,
+              "build": 32,
+              "probe": 131072,
+              "budget": 1024
+            },
+            "hash": {
+              "median_ns": 1218140.375,
+              "min_ns": 1187484.0,
+              "max_ns": 1237586.0,
+              "pairs": 18,
+              "build": 32,
+              "probe": 131072,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 1208936.375,
+              "min_ns": 1175508.25,
+              "max_ns": 1279208.0,
+              "pairs": 18,
+              "build": 32,
+              "probe": 131072,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 2283878.375,
+              "min_ns": 2270227.25,
+              "max_ns": 2290386.0,
+              "pairs": 18,
+              "build": 32,
+              "probe": 131072,
+              "budget": 1024
+            }
+          }
+        },
+        "sorted": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "partition": {
+              "median_ns": 320467.45,
+              "min_ns": 319329.9,
+              "max_ns": 322433.9,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "hash": {
+              "median_ns": 294674.25,
+              "min_ns": 293377.4,
+              "max_ns": 297181.3,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 489926.575,
+              "min_ns": 487672.35,
+              "max_ns": 491585.8,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 25325.975,
+              "min_ns": 25294.45,
+              "max_ns": 25332.75,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            }
+          }
+        },
+        "tiny": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "partition": {
+              "median_ns": 906.8525,
+              "min_ns": 892.7715,
+              "max_ns": 960.045,
+              "pairs": 5,
+              "build": 8,
+              "probe": 12,
+              "budget": 1024
+            },
+            "hash": {
+              "median_ns": 436.469875,
+              "min_ns": 434.49375,
+              "max_ns": 437.06475,
+              "pairs": 5,
+              "build": 8,
+              "probe": 12,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 440.751625,
+              "min_ns": 438.125,
+              "max_ns": 443.4695,
+              "pairs": 5,
+              "build": 8,
+              "probe": 12,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 81.42025000000001,
+              "min_ns": 81.18475,
+              "max_ns": 83.994,
+              "pairs": 5,
+              "build": 8,
+              "probe": 12,
+              "budget": 1024
+            }
+          }
+        },
+        "uniform": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "partition": {
+              "median_ns": 317715.05,
+              "min_ns": 316873.05,
+              "max_ns": 318363.1,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "hash": {
+              "median_ns": 274410.525,
+              "min_ns": 273561.4,
+              "max_ns": 277156.4,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 497961.92500000005,
+              "min_ns": 496518.65,
+              "max_ns": 499154.05,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 163804.45,
+              "min_ns": 162770.35,
+              "max_ns": 165926.45,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            }
+          }
+        }
+      }
+    },
+    "x86": {
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "arch": "x86_64",
+      "kernel": "Linux-6.12.110-135.202.amzn2023.x86_64-x86_64-with-glibc2.34",
+      "cpu_model": "model name\t: Intel(R) Xeon(R) Platinum 8488C",
+      "compiler": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+      "available_cpus": 192,
+      "flags": [
+        "--edition",
+        "2024",
+        "-C",
+        "opt-level=3",
+        "-C",
+        "target-cpu=native"
+      ],
+      "archive_sha256": "27f6d973e5bc1be291960b4259824860f5fccd8ae4f8077e5e2845ade5d1f86e",
+      "summary": {
+        "disjoint": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "hash": {
+              "median_ns": 235639.075,
+              "min_ns": 233013.85,
+              "max_ns": 237603.45,
+              "pairs": 0,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 438698.4,
+              "min_ns": 437957.05,
+              "max_ns": 439420.0,
+              "pairs": 0,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "partition": {
+              "median_ns": 255888.0,
+              "min_ns": 254242.6,
+              "max_ns": 261995.75,
+              "pairs": 0,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 126865.67499999999,
+              "min_ns": 125203.8,
+              "max_ns": 129562.6,
+              "pairs": 0,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            }
+          }
+        },
+        "duplicates": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "hash": {
+              "median_ns": 118631.9,
+              "min_ns": 118018.35,
+              "max_ns": 133895.15,
+              "pairs": 2097152,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 348919.4,
+              "min_ns": 348097.35,
+              "max_ns": 349454.7,
+              "pairs": 2097152,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "partition": {
+              "median_ns": 149144.0,
+              "min_ns": 147601.9,
+              "max_ns": 153626.8,
+              "pairs": 2097152,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 49156.225,
+              "min_ns": 48855.25,
+              "max_ns": 50059.7,
+              "pairs": 2097152,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            }
+          }
+        },
+        "heavy": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "hash": {
+              "median_ns": 112358.725,
+              "min_ns": 111431.4,
+              "max_ns": 127289.25,
+              "pairs": 33554432,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 332131.625,
+              "min_ns": 330762.85,
+              "max_ns": 333769.55,
+              "pairs": 33554432,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "partition": {
+              "median_ns": 148251.65000000002,
+              "min_ns": 146057.1,
+              "max_ns": 153155.6,
+              "pairs": 33554432,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 10058.150000000001,
+              "min_ns": 10005.2,
+              "max_ns": 10483.25,
+              "pairs": 33554432,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            }
+          }
+        },
+        "large": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "hash": {
+              "median_ns": 4045226.5,
+              "min_ns": 4037049.0,
+              "max_ns": 4075496.0,
+              "pairs": 32770,
+              "build": 65536,
+              "probe": 131072,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 81033441.25,
+              "min_ns": 80840499.0,
+              "max_ns": 81099050.0,
+              "pairs": 32770,
+              "build": 65536,
+              "probe": 131072,
+              "budget": 1024
+            },
+            "partition": {
+              "median_ns": 4673159.75,
+              "min_ns": 4642032.5,
+              "max_ns": 4715002.5,
+              "pairs": 32770,
+              "build": 65536,
+              "probe": 131072,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 3267828.75,
+              "min_ns": 3252858.5,
+              "max_ns": 3274421.0,
+              "pairs": 32770,
+              "build": 65536,
+              "probe": 131072,
+              "budget": 1024
+            }
+          }
+        },
+        "small_build": {
+          "winner": "unresolved",
+          "contenders": [
+            "chunk",
+            "hash"
+          ],
+          "candidates": {
+            "hash": {
+              "median_ns": 1210850.125,
+              "min_ns": 1207059.75,
+              "max_ns": 1239717.75,
+              "pairs": 18,
+              "build": 32,
+              "probe": 131072,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 1218635.25,
+              "min_ns": 1209016.0,
+              "max_ns": 1242011.25,
+              "pairs": 18,
+              "build": 32,
+              "probe": 131072,
+              "budget": 1024
+            },
+            "partition": {
+              "median_ns": 1609606.625,
+              "min_ns": 1596178.5,
+              "max_ns": 1627395.75,
+              "pairs": 18,
+              "build": 32,
+              "probe": 131072,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 2149844.25,
+              "min_ns": 2143303.5,
+              "max_ns": 2161943.25,
+              "pairs": 18,
+              "build": 32,
+              "probe": 131072,
+              "budget": 1024
+            }
+          }
+        },
+        "sorted": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "hash": {
+              "median_ns": 255986.225,
+              "min_ns": 255074.35,
+              "max_ns": 258190.5,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 448118.0,
+              "min_ns": 445226.6,
+              "max_ns": 450647.15,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "partition": {
+              "median_ns": 292558.17500000005,
+              "min_ns": 288766.45,
+              "max_ns": 295562.55,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 21632.050000000003,
+              "min_ns": 21569.95,
+              "max_ns": 22138.25,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            }
+          }
+        },
+        "tiny": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "hash": {
+              "median_ns": 412.77587500000004,
+              "min_ns": 406.1165,
+              "max_ns": 458.769,
+              "pairs": 5,
+              "build": 8,
+              "probe": 12,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 415.59825,
+              "min_ns": 407.129,
+              "max_ns": 423.25225,
+              "pairs": 5,
+              "build": 8,
+              "probe": 12,
+              "budget": 1024
+            },
+            "partition": {
+              "median_ns": 631.38925,
+              "min_ns": 624.86875,
+              "max_ns": 646.62175,
+              "pairs": 5,
+              "build": 8,
+              "probe": 12,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 74.956125,
+              "min_ns": 69.198,
+              "max_ns": 90.39225,
+              "pairs": 5,
+              "build": 8,
+              "probe": 12,
+              "budget": 1024
+            }
+          }
+        },
+        "uniform": {
+          "winner": "merge",
+          "contenders": [
+            "merge"
+          ],
+          "candidates": {
+            "hash": {
+              "median_ns": 240675.275,
+              "min_ns": 238595.7,
+              "max_ns": 242704.65,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "chunk": {
+              "median_ns": 460390.125,
+              "min_ns": 458729.45,
+              "max_ns": 466370.1,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "partition": {
+              "median_ns": 294331.275,
+              "min_ns": 293757.4,
+              "max_ns": 296674.0,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            },
+            "merge": {
+              "median_ns": 141256.09999999998,
+              "min_ns": 138936.1,
+              "max_ns": 145846.95,
+              "pairs": 2054,
+              "build": 4096,
+              "probe": 8192,
+              "budget": 1024
+            }
+          }
+        }
+      }
+    }
+  },
+  "raw_evidence": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-018/20261014",
+  "boundary": "resident complete count joins; file spill correctness/progress only; descriptive ranges; no hard byte budget/cold storage/PMU/ISA-only claims"
+}
