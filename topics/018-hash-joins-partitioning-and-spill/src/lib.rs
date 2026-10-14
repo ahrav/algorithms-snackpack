@@ -230,13 +230,13 @@ impl Spill<'_> {
 
 /// Recursive four-way file join with bounded-depth and no-progress fallback.
 /// `scratch` must already exist and be exclusively owned by this call.
-/// Output files are `{serial}-{bucket}.keys` inside `scratch`. commentlint: allow(JUDGE)
-/// An input stored there under such a name makes creation return `AlreadyExists`. commentlint: allow(JUDGE)
 /// Leaves generated files for caller retention/cleanup, including on I/O errors.
 /// `budget` is a build-row cap, not a process memory or allocator-byte cap.
 ///
 /// # Errors
 /// Returns invalid budget/depth, truncated-file, creation/read/write errors.
+/// Creation returns `AlreadyExists` when `scratch` already holds a path matching
+/// the `{serial}-{bucket}.keys` output name, including a caller's input file.
 pub fn spill(
     build: &Path,
     probe: &Path,
