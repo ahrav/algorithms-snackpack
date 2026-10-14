@@ -1,0 +1,56 @@
+{
+  "source_commit": "eddb79c0746ec0b68442301256bbc8009e8b7b01",
+  "protocol": "BENCHMARK.md bounded reference supplement",
+  "hosts": {
+    "arm": {
+      "inputs": {
+        "src/lib.rs": "02810f2d0765d879e6320c95b4bf3f53d08043f9597c1c275286f998aae98fc4",
+        "benches/tiny_reference.rs": "0d1c12c5c67d4e1c7205f4dee9a09e62be1ee80f67ac16abd0ac769eb43521e6",
+        "measurements/tiny_reference.py": "fd9f65ba4399f9bf5d237930e78cddaf9edac89f482f82e3757fc62e57cea18a"
+      },
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "arch": "aarch64",
+      "archive_sha256": "4d933ff6e97a15066048e16808a5501f2c896c371a1aba0638e4e9a007848110",
+      "summary": {
+        "winner": "unresolved",
+        "candidates": {
+          "nested": {
+            "median_ns": 77.53508,
+            "min_ns": 77.36137,
+            "max_ns": 77.88276
+          },
+          "merge": {
+            "median_ns": 81.22944000000001,
+            "min_ns": 80.89499,
+            "max_ns": 81.4463
+          }
+        }
+      }
+    },
+    "x86": {
+      "inputs": {
+        "src/lib.rs": "02810f2d0765d879e6320c95b4bf3f53d08043f9597c1c275286f998aae98fc4",
+        "benches/tiny_reference.rs": "0d1c12c5c67d4e1c7205f4dee9a09e62be1ee80f67ac16abd0ac769eb43521e6",
+        "measurements/tiny_reference.py": "fd9f65ba4399f9bf5d237930e78cddaf9edac89f482f82e3757fc62e57cea18a"
+      },
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "arch": "x86_64",
+      "archive_sha256": "b54194dbdb97214a1df57aead5029ecb0f1bc23fb4585e0d5d1c3513d59acd9e",
+      "summary": {
+        "winner": "unresolved",
+        "candidates": {
+          "nested": {
+            "median_ns": 74.580105,
+            "min_ns": 73.21165,
+            "max_ns": 80.45001
+          },
+          "merge": {
+            "median_ns": 72.222995,
+            "min_ns": 70.72144,
+            "max_ns": 73.6166
+          }
+        }
+      }
+    }
+  }
+}
