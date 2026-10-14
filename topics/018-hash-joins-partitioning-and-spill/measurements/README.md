@@ -14,20 +14,20 @@ Raw evidence: `/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evide
 | tiny | merge: 0.081 [0.081,0.084] | merge: 0.075 [0.069,0.090] |
 | uniform | merge: 163.804 [162.770,165.926] | merge: 141.256 [138.936,145.847] |
 
-Both exact256-process campaigns pass every independent oracle. Two library groups,
-three external file contracts and example pass per host. Initial256-process campaigns
+Both exact 256-process campaigns pass every independent oracle. Two library groups,
+three external file contracts and example pass per host. Initial 256-process campaigns
 also pass, with x86 uniform unresolved between hash/merge; retained independently.
 Final data is the exact committed campaign, with no repeat to seek a winner.
 
-Arm verifiedaarch64,64CPUs, Linux6.12.110; model fieldCPU part retained in raw.
-x86 verifiedx86_64,192CPUs, IntelXeonPlatinum8488C, Linux6.12.110.
-Bothrustc1.98.1 LLVM22.1.8; optimization3/native features. Full target cfg and uname
+Arm verified aarch64, 64 CPUs, Linux 6.12.110; model field CPU part retained in raw.
+x86 verified x86_64, 192 CPUs, Intel Xeon Platinum 8488C, Linux 6.12.110.
+Both rustc 1.98.1 LLVM 22.1.8; optimization 3/native features. Full target cfg and uname
 are retained per manifest. Schedulers unpinned. See BENCHMARK.md for sample controls.
 
-Merge selectedtiny/uniform/disjoint/duplicates/heavy/large/sorted on bothhosts.
-Small_build leaveshash/chunk unresolved. Frequency compression and optimized
-standard sorting make this a count-only, fixed-key workload claim. Residentpartition
-has extra arrays and no bytebound. Chunk has a rowcap and can rescan64times.
+Merge selected tiny/uniform/disjoint/duplicates/heavy/large/sorted on both hosts.
+Small_build leaves hash/chunk unresolved. Frequency compression and optimized
+standard sorting make this a count-only, fixed-key workload claim. Resident partition
+has extra arrays and no byte bound. Chunk has a row cap and can rescan 64 times.
 
 File spill uses actual temporary files and checks logical reads/writes. OS cache,
 physical media, durable completion, byte admission, full payload output and cancellation
