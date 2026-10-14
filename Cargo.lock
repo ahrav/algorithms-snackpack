@@ -11,6 +11,10 @@ name = "cuckoo-hashing"
 version = "0.1.0"
 
 [[package]]
+name = "hash-joins"
+version = "0.1.0"
+
+[[package]]
 name = "lower-bound-portfolio"
 version = "0.1.0"
 
