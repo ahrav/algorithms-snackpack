@@ -1,0 +1,43 @@
+{
+  "source_commit": "b306e91aa60d534257aa4606ea6bd31d8691e677",
+  "raw_evidence_root": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-019/20261015",
+  "files": {
+    "src/lib.rs": "001eba7c017d4b733f3f6591d580b56006e760b8053953360d73daf98c74ea2b",
+    "benches/portfolio.rs": "40986181271a236e572c899c1a368a463f9c36b88adfa8df997d067eff4cb17d",
+    "runner.py": "1ca3b7a0f7ea546299a5bde3381ffc05a22b32291f13835aeb16afe8ba655878"
+  },
+  "campaigns": {
+    "arm": {
+      "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "arch": "aarch64",
+      "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+      "flags": "--edition 2024 -O; default target; no target-cpu=native; unpinned",
+      "kernel": "6.12.110-135.202.amzn2023.aarch64",
+      "cpu_model": [],
+      "available_cpu_count": 64,
+      "raw_archive": "committed-arm-raw.tar.gz",
+      "raw_archive_sha256": "1c0315abbbc713f28c96348d9ff46e651de3911b9ee047c3b1ad7b9b3de6b0db",
+      "processes": 256,
+      "all_queries_checked": true,
+      "tests": "4 independent-model groups pass",
+      "target_cfg": "debug_assertions\npanic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"aarch64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"neon\"\ntarget_has_atomic=\"128\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"128\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n"
+    },
+    "x86": {
+      "host": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "arch": "x86_64",
+      "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+      "flags": "--edition 2024 -O; default target; no target-cpu=native; unpinned",
+      "kernel": "6.12.110-135.202.amzn2023.x86_64",
+      "cpu_model": [
+        "Model name:                              Intel(R) Xeon(R) Platinum 8488C"
+      ],
+      "available_cpu_count": 192,
+      "raw_archive": "committed-x86-raw.tar.gz",
+      "raw_archive_sha256": "72bec0e8cc1e9f002cd97d9a1a9eea64c25a92e5819249ff755f9f9a28f77989",
+      "processes": 256,
+      "all_queries_checked": true,
+      "tests": "4 independent-model groups pass",
+      "target_cfg": "debug_assertions\npanic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"x86_64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"fxsr\"\ntarget_feature=\"sse\"\ntarget_feature=\"sse2\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n"
+    }
+  }
+}
