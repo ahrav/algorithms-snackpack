@@ -1,11 +1,11 @@
-# Fixed portfolio protocol
-
 benchmark_required: true
+
+# Fixed portfolio protocol
 
 Question: which correct representation minimizes a complete declared batch?
 Four statically dispatched candidates: eager scan, suffix-repaired prefix array,
 linear-build Fenwick and iterative padded segment tree. All aggregate arithmetic
-is modulo 2^64. Each process checks EVERY query against a separate eager array,
+is modulo 2^64. Each process checks EVERY query against a plain leaf array held by the bench,
 drops both validation objects, warms one full batch, then starts a fresh logical
 state before timing. The timed batch checksum must equal the oracle batch sum.
 

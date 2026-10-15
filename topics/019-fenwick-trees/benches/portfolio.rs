@@ -63,24 +63,26 @@ fn apply<T: Index>(index: &mut T, ops: &[Op]) -> u64 {
 }
 fn run<T: Index>(name: &str) {
     let (values, ops, life) = workload(name);
-    // Compare each observed query, not just an aggregate checksum.
-    let mut reference = Scan::build(&values);
+    // The leaf-array oracle is an independent baseline for every candidate, including `Scan`.
+    let mut leaves = values.clone();
     let mut candidate = T::build(&values);
     let mut expected = 0_u64;
     for &op in &ops {
         match op {
             Op::Add(position, delta) => {
-                reference.add(position, delta);
+                leaves[position] = leaves[position].wrapping_add(delta);
                 candidate.add(position, delta);
             }
             Op::Query(start, end) => {
-                let truth = reference.range(start, end);
+                let truth = leaves[start..end]
+                    .iter()
+                    .fold(0_u64, |a, &b| a.wrapping_add(b));
                 assert_eq!(candidate.range(start, end), truth);
                 expected = expected.wrapping_add(truth);
             }
         }
     }
-    drop(reference);
+    drop(leaves);
     drop(candidate);
     let mut warm = T::build(&values);
     black_box(apply(&mut warm, &ops));
@@ -97,7 +99,7 @@ fn run<T: Index>(name: &str) {
         let checksum = apply(&mut index, black_box(&ops));
         (start.elapsed().as_nanos(), checksum)
     };
-    // The timed batch must reproduce the wrapping sum of the `Scan` query results.
+    // The timed batch must reproduce the wrapping sum of the leaf-array query results.
     assert_eq!(checksum, expected);
     println!("{{\"ns\":{ns},\"checksum\":{checksum},\"queries_checked\":true}}");
 }

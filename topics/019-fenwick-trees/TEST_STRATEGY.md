@@ -19,13 +19,15 @@ point update, for `Fenwick` and for each comparator.
 Secondary techniques: exhaustive rank selection on nonnegative arrays through
 length six; differential range-add over every boundary pair through length
 seventeen; literal wrap, maximum-total and rejection witnesses; the rendered
-README example as an integration test; per-query comparison against `Scan`
-inside every benchmark process before its timing is admitted.
+README example as an integration test; per-query comparison against a leaf
+array local to the bench inside every benchmark process before its timing is
+admitted.
 
 Oracle: a fold over the logical leaf array for sums; a linear cumulative scan
-for rank; a mutated plain array for range additions; `Scan` for benchmark
-streams. The oracles share no bucket, lowbit, prefix-repair or segment-walk code
-with the candidates. `Scan` itself is checked against the leaf fold.
+for rank; a mutated plain array for range additions; a mutated leaf array
+with a fold local to the bench for benchmark streams. The oracles share no
+bucket, lowbit, prefix-repair or segment-walk code with the candidates, and the
+bench oracle shares no code with `Scan`.
 
 Input/model/schedule domain and bounds: values in {0,1,2} with updates of
 modular -3, lengths 0..=7 (sums) and 0..=6 (ranks); deltas +7 and modular -3
@@ -39,7 +41,7 @@ seeds are drawn at run time.
 What a green run establishes: agreement with the independent models on the
 enumerated domains and literals, exact panics on the listed invalid boundaries,
 unchanged `Counts` state after rejected replacement, and query-level agreement
-of each candidate with `Scan` on the declared streams. These are finite,
+of each candidate, `Scan` included, with the leaf array on the declared streams. These are finite,
 bounded witnesses.
 
 Known gaps and delegated skills: no generated inputs beyond the enumerations;

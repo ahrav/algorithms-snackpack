@@ -5,6 +5,7 @@ import json
 import os
 import pathlib
 import platform
+import shutil
 import statistics
 import subprocess
 
@@ -26,6 +27,8 @@ def call(argv):
         record = {"argv": argv, "exit": r.returncode, "stdout": r.stdout, "stderr": r.stderr}
     except subprocess.TimeoutExpired as e:
         record = {"argv": argv, "exit": "timeout", "stdout": str(e.stdout), "stderr": str(e.stderr)}
+    except OSError as e:
+        record = {"argv": argv, "exit": "launch", "stdout": "", "stderr": repr(e)}
     with ATTEMPTS.open("a") as f:
         f.write(json.dumps(record) + "\n")
     if record["exit"] != 0:
@@ -134,7 +137,11 @@ def select(candidates, control):
 
 
 def main():
-    OUT.mkdir(exist_ok=True)
+    try:
+        shutil.rmtree(OUT, ignore_errors=True)
+        OUT.mkdir()
+    except OSError as e:
+        raise RuntimeError(f"cannot reset {OUT}: {e}") from e
     ATTEMPTS.write_text("")
     build()
     rows = candidate_rows()
