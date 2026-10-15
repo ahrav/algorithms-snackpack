@@ -77,6 +77,8 @@ fn run<T: Index>(name: &str) {
             }
         }
     }
+    drop(reference);
+    drop(candidate);
     let mut warm = T::build(&values);
     black_box(apply(&mut warm, &ops));
     drop(warm);

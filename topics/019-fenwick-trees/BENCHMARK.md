@@ -6,7 +6,7 @@ Question: which correct representation minimizes a complete declared batch?
 Four statically dispatched candidates: eager scan, suffix-repaired prefix array,
 linear-build Fenwick and iterative padded segment tree. All aggregate arithmetic
 is modulo 2^64. Each process checks EVERY query against a separate eager array,
-warms one full batch, then starts a fresh logical state before timing.
+drops both validation objects, warms one full batch, then starts a fresh logical state before timing.
 
 Eight blocks use cyclic candidate permutations, then their reversals. The
 process is the sample unit. There is one timed batch per process. Workload seed,
