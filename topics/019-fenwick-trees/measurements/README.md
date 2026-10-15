@@ -13,7 +13,7 @@ Exact source: `88b544a35a9535b0289dc3ba1bd97fdc6f10ff00`. The receipt hashes nam
 | hot | scan: 24.33 [24.09, 24.69] | scan: 27.41 [26.91, 27.52] |
 | lifecycle | scan: 4.02 [3.94, 4.05] | scan: 3.71 [2.98, 3.83] |
 
-A winner beats every competitor by >5% in every paired block, with the lowest median. Full competitor medians/ranges and paired ratios are in [summary.json](summary.json). These ranges describe eight observed processes, not a population interval; the implied per-claim error bound is in [BENCHMARK.md](../BENCHMARK.md).
+A winner beats every competitor by >5% in every paired block, with the lowest median. Full competitor medians/ranges and paired ratios are in [summary.json](summary.json). These ranges describe eight observed processes, not a population interval; the protocol declares no error bound, see [BENCHMARK.md](../BENCHMARK.md).
 
 Initial scratch campaigns also completed 256 processes per host. Their selections agree except tiny x86 was unresolved. The first committed campaign also resolved tiny x86. The release campaign explicitly drops both validation objects before warmup, removing their incidental live allocations; its tiny x86 result is unresolved. Workloads, order, stopping and selection rule did not change. Both initial and committed raw campaigns are retained.
 

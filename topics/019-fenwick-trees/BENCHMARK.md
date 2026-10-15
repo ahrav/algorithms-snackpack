@@ -41,13 +41,15 @@ descriptive dispersion, not confidence intervals or a universal threshold.
 Stop after eight blocks. Do not rerun to manufacture a winner.
 
 Inference: the effect boundary is a 5% paired ratio, one-sided (competitor
-slower). When a competitor and the median-best candidate are exchangeable, all
-eight paired ratios fall on one side of 1 with probability 2^-7, so a cell-host
-winner claim has false-winner probability at most 2^-7 against any competitor it
-does not truly beat. The family is sixteen cell-host winner claims with equal
-Bonferroni allocation: the bound on any false winner is 16/128 = 1/8. No
-interval estimate is formed. The rule predates execution; this characterization
-of its error rate was written after the committed campaign.
+slower). The protocol declares no nominal confidence level and no family-wise
+error bound. Candidate order within a block is a fixed rotation rather than a
+random assignment, block timings can share host-load drift, and the median-best
+candidate is chosen from the same observations, so the eight ratio signs are
+neither randomized nor independent and a sign-test or permutation level does not
+follow from this design. Winner labels are descriptive selections under a rule
+fixed before execution; the A/A control is the empirical null check. Quantified
+error control needs randomized within-block assignment and a permutation
+analysis over the full candidate/competitor family, which is revisit scope.
 
 Failures: each subprocess has a 600 s timeout. Every invocation, including a
 nonzero exit or timeout, is appended to `raw/attempts.jsonl` before the campaign
