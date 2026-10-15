@@ -122,21 +122,31 @@ def analyze(samples, labels):
     return summary
 
 
+def select(candidates, control):
+    """Apply the BENCHMARK.md rule: a control cell with a winner voids every candidate label."""
+    failed = [c for c in CELLS if control[c]["winner"] != "unresolved"]
+    summary = {
+        cell: dict(s, winner="invalid" if failed else s["winner"], uncontrolled_winner=s["winner"])
+        for cell, s in candidates.items()
+    }
+    summary["aa_control"] = dict(control, failed_cells=failed)
+    return summary
+
+
 def main():
     OUT.mkdir(exist_ok=True)
     ATTEMPTS.write_text("")
     build()
     rows = candidate_rows()
     control = control_rows()
-    summary = analyze(rows, CANDIDATES)
-    summary["aa_control"] = analyze(control, CONTROL)
+    summary = select(analyze(rows, CANDIDATES), analyze(control, CONTROL))
     (OUT / "rows.json").write_text(json.dumps(rows + control, indent=2))
     (OUT / "summary.json").write_text(json.dumps(summary, indent=2))
     report = {
         "processes": len(rows),
         "control_processes": len(control),
         "winners": {c: s["winner"] for c, s in summary.items() if c != "aa_control"},
-        "aa_control": {c: s["winner"] for c, s in summary["aa_control"].items()},
+        "aa_control_failed_cells": summary["aa_control"]["failed_cells"],
     }
     print(json.dumps(report))
 
