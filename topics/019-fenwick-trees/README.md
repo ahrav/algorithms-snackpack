@@ -40,8 +40,9 @@ Products wrap by contract. Exact arithmetic would require checked intermediates.
 Let n be length, h=floor(log2(n))+1 for positive n, U updates, Q queries,
 L mean range length and S mean repaired suffix length. Scan work is O(U+QL),
 prefix-array work O(US+Q), and Fenwick/segment work O((U+Q)h).
-For n=8,U=Q=1,p=3,r=7: scan reads seven values, prefix repair changes five
-slots, and Fenwick repairs two buckets and reads three. `prefix(r)` reads
+For n=8,U=Q=1 with `add(3, d)` then `prefix(7)` (the range `[0, 7)`): scan
+reads seven values, prefix repair changes five slots (indices 4 through 8), and
+Fenwick repairs two buckets (4 and 8) and reads three (7, 6, 4). `prefix(r)` reads
 exactly popcount(r) buckets. Build forwards each completed bucket once: O(n).
 Repeated point insertion takes O(n log n). Direct count lifting takes O(log n);
 binary-searching repeated prefix queries takes O(log squared n).
@@ -65,9 +66,11 @@ cd topics/019-fenwick-trees
 python3 runner.py
 ```
 
-The runner requires Linux, rustc, Python 3.9+, lscpu and objdump. It records
-256 processes, input identities, every attempt, environment, correctness output,
-linked disassembly and descriptive paired summaries under ignored `raw/`.
+The runner requires Linux, rustc, Python 3.9+, lscpu and objdump. It compiles
+and runs the unit and integration tests, then records 256 candidate processes
+and 128 identical-artifact control processes, input identities, every attempt
+including failures and timeouts, environment, linked-image hash, linked
+disassembly and descriptive paired summaries under ignored `raw/`.
 
 ## Primary sources and revisit scope
 

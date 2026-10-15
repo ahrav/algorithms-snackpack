@@ -140,6 +140,9 @@ pub struct RangeAdd {
 }
 impl RangeAdd {
     /// Initially zero, with a fixed logical length.
+    ///
+    /// # Panics
+    /// Panics if the sentinel length cannot be represented.
     #[must_use]
     pub fn new(n: usize) -> Self {
         Self {
@@ -287,8 +290,7 @@ impl Index for Segment {
 #[cfg(test)]
 mod tests {
     use super::*;
-    #[test]
-    fn exhaustive_prefix_ranges_and_updates() {
+    fn exhaustive_agreement<T: Index>() {
         for n in 0_u32..=7 {
             for code in 0..3_usize.pow(n) {
                 let mut x = code;
@@ -299,7 +301,7 @@ mod tests {
                         y
                     })
                     .collect();
-                let mut f = Fenwick::new(&a);
+                let mut f = T::build(&a);
                 for pass in 0..=a.len() {
                     for l in 0..=a.len() {
                         for r in l..=a.len() {
@@ -316,6 +318,16 @@ mod tests {
                 }
             }
         }
+    }
+    #[test]
+    fn exhaustive_prefix_ranges_and_updates() {
+        exhaustive_agreement::<Fenwick>();
+    }
+    #[test]
+    fn comparators_agree_with_leaf_sums() {
+        exhaustive_agreement::<Scan>();
+        exhaustive_agreement::<Prefix>();
+        exhaustive_agreement::<Segment>();
     }
     #[test]
     fn selection_zeros_and_atomic_rejections() {

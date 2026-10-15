@@ -66,6 +66,7 @@ fn run<T: Index>(name: &str) {
     // Compare each observed query, not just an aggregate checksum.
     let mut reference = Scan::build(&values);
     let mut candidate = T::build(&values);
+    let mut expected = 0_u64;
     for &op in &ops {
         match op {
             Op::Add(position, delta) => {
@@ -73,7 +74,9 @@ fn run<T: Index>(name: &str) {
                 candidate.add(position, delta);
             }
             Op::Query(start, end) => {
-                assert_eq!(candidate.range(start, end), reference.range(start, end));
+                let truth = reference.range(start, end);
+                assert_eq!(candidate.range(start, end), truth);
+                expected = expected.wrapping_add(truth);
             }
         }
     }
@@ -94,11 +97,15 @@ fn run<T: Index>(name: &str) {
         let checksum = apply(&mut index, black_box(&ops));
         (start.elapsed().as_nanos(), checksum)
     };
+    // The timed batch must reproduce the wrapping sum of the `Scan` query results.
+    assert_eq!(checksum, expected);
     println!("{{\"ns\":{ns},\"checksum\":{checksum},\"queries_checked\":true}}");
 }
 fn main() {
+    // `cargo bench` appends `--bench` after user arguments.
     let args: Vec<_> = std::env::args().collect();
-    if args.len() == 1 {
+    if args.len() < 3 {
+        println!("usage: portfolio <scan|prefix|fenwick|segment> <cell>; see runner.py");
         return;
     }
     match args[1].as_str() {
