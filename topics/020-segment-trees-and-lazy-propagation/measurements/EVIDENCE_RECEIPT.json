@@ -1,0 +1,77 @@
+{
+  "source_commit": "0b2d8ac3f438dce577749f880528f5d7743aa498",
+  "executable_inputs": {
+    "src/lib.rs": "100639046963057f4f96dd6d4215102cf1b6e9c1305fb044c9c482725a78aab6",
+    "benches/portfolio.rs": "d9a8818a6b79ccde81fc627f92b4c2dea13cd44eafb997cda4700d9e7289bd95",
+    "runner.py": "3ae77daee0270ad9c28e0a62f26fb2ccf8c64bb2edbba7336bb4c8abba4975a8"
+  },
+  "raw_archives": [
+    {
+      "phase": "initial",
+      "host": "arm",
+      "archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-020/20261016/initial/arm-raw.tar.gz",
+      "sha256": "08634b6629f612cef3f349bc70ab099e69cb6a02a36e56cba2961748430f1f77",
+      "bytes": 3339457,
+      "verified_files": 9,
+      "processes": 256,
+      "inputs": {
+        "src/lib.rs": "cccb9add239b672a313b5838cc7c17b5ff97f391fd2af946a17b61516dc15508",
+        "benches/portfolio.rs": "83a3f0d1f0264bb7b16dc70981a729e9982489211202d85568c69bdd67f10dbd",
+        "runner.py": "3ae77daee0270ad9c28e0a62f26fb2ccf8c64bb2edbba7336bb4c8abba4975a8"
+      },
+      "binary_sha256": "36219dd1d05a0de091d2f6fbb9d372c6b499c58bc1ba5fd003f69f22c77f0a91",
+      "test_binary_sha256": "3fa53cd864cf15e3546b39ae5ce51038601a08dfffced73db527d9bac3a3bab2"
+    },
+    {
+      "phase": "initial",
+      "host": "x86",
+      "archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-020/20261016/initial/x86-raw.tar.gz",
+      "sha256": "72e544e8942f3bf8dd78abf61369c065428e5f06708581a7f5df87a77dff1231",
+      "bytes": 3943082,
+      "verified_files": 9,
+      "processes": 256,
+      "inputs": {
+        "src/lib.rs": "cccb9add239b672a313b5838cc7c17b5ff97f391fd2af946a17b61516dc15508",
+        "benches/portfolio.rs": "83a3f0d1f0264bb7b16dc70981a729e9982489211202d85568c69bdd67f10dbd",
+        "runner.py": "3ae77daee0270ad9c28e0a62f26fb2ccf8c64bb2edbba7336bb4c8abba4975a8"
+      },
+      "binary_sha256": "5695416ecb407c17247f8f43719c2164f46f6fa35b55a40d6ab21820d192f77a",
+      "test_binary_sha256": "218ead3f872c903bb31a442196ce93276ee48219f692b7a0772b21ca3ce8d5e1"
+    },
+    {
+      "phase": "committed",
+      "host": "arm",
+      "archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-020/20261016/committed/arm-raw.tar.gz",
+      "sha256": "b95240a0d83168c738319e2bb4a53010996645a4b661d29b97027ed9199bd270",
+      "bytes": 3339436,
+      "verified_files": 9,
+      "processes": 256,
+      "inputs": {
+        "src/lib.rs": "100639046963057f4f96dd6d4215102cf1b6e9c1305fb044c9c482725a78aab6",
+        "benches/portfolio.rs": "d9a8818a6b79ccde81fc627f92b4c2dea13cd44eafb997cda4700d9e7289bd95",
+        "runner.py": "3ae77daee0270ad9c28e0a62f26fb2ccf8c64bb2edbba7336bb4c8abba4975a8"
+      },
+      "binary_sha256": "62ccd93f8a6095b92bafed5b87725588dd9982e61377e663d5a5e49c860c8c0a",
+      "test_binary_sha256": "53fdde60d6299f86b8340746b97d6495347cc9d0991194dc3ef01c78b7dfe6f7"
+    },
+    {
+      "phase": "committed",
+      "host": "x86",
+      "archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-020/20261016/committed/x86-raw.tar.gz",
+      "sha256": "f295aa7c5087db5576af766e0efc3611cd2ad35f5729c2d5a3dbb20cf6d4b67a",
+      "bytes": 3942862,
+      "verified_files": 9,
+      "processes": 256,
+      "inputs": {
+        "src/lib.rs": "100639046963057f4f96dd6d4215102cf1b6e9c1305fb044c9c482725a78aab6",
+        "benches/portfolio.rs": "d9a8818a6b79ccde81fc627f92b4c2dea13cd44eafb997cda4700d9e7289bd95",
+        "runner.py": "3ae77daee0270ad9c28e0a62f26fb2ccf8c64bb2edbba7336bb4c8abba4975a8"
+      },
+      "binary_sha256": "3890a1de62d23cf65569080e96c30d45198e4904a10d85d225e5276f9e395f68",
+      "test_binary_sha256": "d1a94b643770c2fcb4a837473425cd194399924cca1c7290c650278cc3873748"
+    }
+  ],
+  "flags": "rustc --edition 2024 -O; default target; no target-cpu=native; unpinned",
+  "sample_unit": "fresh process; 8 internal replays per sample",
+  "phases_pooled": false
+}
