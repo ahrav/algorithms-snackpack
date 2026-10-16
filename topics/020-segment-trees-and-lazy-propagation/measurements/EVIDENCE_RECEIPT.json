@@ -73,5 +73,9 @@
   ],
   "flags": "rustc --edition 2024 -O; default target; no target-cpu=native; unpinned",
   "sample_unit": "fresh process; 8 internal replays per sample",
-  "phases_pooled": false
+  "phases_pooled": false,
+  "analysis_inputs": {
+    "measurements/report.py": "e9931bbacdb44f3ac43e000bcc42403c25134adee917feac012170b4b53fff6f",
+    "transform": "summary.json = {host: raw/summary.json}; table = median_ns / 8000 (ns per 8 replays -> us per replay), min/max likewise"
+  }
 }

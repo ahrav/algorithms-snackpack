@@ -1,10 +1,12 @@
 # Exact committed-source results
 
-Source commit `0b2d8ac3f438dce577749f880528f5d7743aa498`. Three executable input SHA-256 identities in EVIDENCE_RECEIPT.json match final source. Initial and committed campaigns each completed256 fresh processes/host; all pre-timing query/final-state oracles pass. They are retained separately, not pooled.
+Source commit `0b2d8ac3f438dce577749f880528f5d7743aa498`. The receipt hashes name `src/lib.rs`, `benches/portfolio.rs` and `runner.py` at that commit; later review commits changed `benches/portfolio.rs` and `runner.py` as listed below without rerunning the campaigns. Initial and committed campaigns each completed256 fresh processes/host; all pre-timing query/final-state oracles pass. They are retained separately, not pooled.
 
-Times below are median microseconds per whole workload replay, with descriptive min/max over8 independent process aggregates, divided by8 internal replays. They are not confidence intervals. Every selected option beat every rival by>5% in every paired block. Full medians/ranges/paired ratios for all four candidates are in summary.json.
+Times below are median microseconds per whole workload replay, with descriptive min/max over8 independent process aggregates, divided by8 internal replays. They are not confidence intervals. Every winner label beat every rival by>5% in every paired block under the predeclared rule. Full medians/ranges/paired ratios for all four candidates are in summary.json. `report.py` regenerates summary.json and this table from the two raw per-host summaries; against this commit's artifacts it reproduces summary.json byte for byte and every table row.
 
-| Workload | Selected option, both hosts | Arm us [min,max] | x86 us [min,max] |
+The committed campaigns predate the identical-artifact A/A control, the linked-image hash, the `-O` cfg query, the attempt log with timeout, the per-campaign `raw/` reset and the integration-test step now in `runner.py`. Their winner labels are therefore provisional until a campaign with the control runs through this pipeline. The archived manifests' `features` came from an unoptimized `rustc --print cfg`, so their `debug_assertions` line describes the query, not the `-O` artifact; the receipt's `binary_sha256` fields were computed outside the runner. Source changes after the campaigns are the argument guard in `benches/portfolio.rs` (`args.len() < 3` prints usage so `cargo bench` exits cleanly) and the runner evidence changes above; `src/lib.rs` and the timed loops are unchanged.
+
+| Workload | Winner label (provisional), both hosts | Arm us [min,max] | x86 us [min,max] |
 |---|---|---:|---:|
 | tiny | scan | 5.18 [4.50,6.21] | 4.45 [4.34,4.56] |
 | read_only | prefix | 5.97 [5.69,6.33] | 5.86 [5.84,5.94] |
@@ -24,6 +26,6 @@ Steady columns exclude constructor/drop; lifecycle includes new/run/drop. Input 
 
 Generated fold/query/change symbols were inspected in both retained disassemblies: recursive boundary checks and call paths remain visible. This is code-shape evidence, not candidate-only PMU or proof of a timing mechanism. No hardware-counter claim is made.
 
-Default target -O, different compiler versions, no pinning/frequency control, no A/A calibration, warm initialized allocations. No cold cache/device, tail percentile, production library/database, ISA-only or universal threshold claim. The full-range adversarial workload intentionally rewards compatible whole-node tags; it is not an average production range distribution. Eager and Prefix include educational update policies, not the best possible specialized alternatives. Production vectorized window APIs, exact holistic states, persistent/Beats and concurrent snapshots remain revisit scope.
+Default target -O, different compiler versions, no pinning/frequency control, no A/A calibration in the retained campaigns, warm initialized allocations. No cold cache/device, tail percentile, production library/database, ISA-only or universal threshold claim. The full-range adversarial workload intentionally rewards compatible whole-node tags; it is not an average production range distribution. Eager and Prefix include educational update policies, not the best possible specialized alternatives. Production vectorized window APIs, exact holistic states, persistent/Beats and concurrent snapshots remain revisit scope.
 
 Raw archive paths, sizes, byte verification and binary/source hashes are in EVIDENCE_RECEIPT.json. Replay assets and campaign orchestrator are retained at /Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-020/20261016.
