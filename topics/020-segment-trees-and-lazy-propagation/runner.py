@@ -132,7 +132,8 @@ def select(candidates, control):
 
 def main():
     try:
-        shutil.rmtree(OUT, ignore_errors=True)
+        if OUT.exists():
+            shutil.rmtree(OUT)
         OUT.mkdir()
     except OSError as e:
         raise RuntimeError(f"cannot reset {OUT}: {e}") from e
