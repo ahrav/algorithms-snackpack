@@ -1,0 +1,393 @@
+{
+  "topic": 21,
+  "source_commit": "c3947b28b937aad93cc403acd1bd0de50a148634",
+  "frozen_inputs": {
+    "src/lib.rs": "b875163af29b06dedd7ed296c9b1a1300193de2cfff164523af613edbc67be71",
+    "benches/priority.rs": "c87f869a8f29e0d92b91bb50a030c3b8fe064da45099878181b54273e56ab9b2",
+    "scripts/run.py": "7ffd9271911b53a540fa075a6fac988deabd13c77cf9169853cc863328894140"
+  },
+  "raw_evidence_root": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-021/20261017",
+  "initial_processes_per_host": 576,
+  "committed_processes_per_host": 576,
+  "oracle": "all processes and five library groups pass; 4 compiled mutants rejected",
+  "gates": [
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--lib",
+        "--examples"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--doc"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--all-targets"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "bench",
+        "--workspace",
+        "--no-run"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "doc",
+        "--workspace",
+        "--no-deps"
+      ],
+      "exit": 0
+    }
+  ],
+  "hosts": {
+    "arm": {
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "kernel": "6.12.110-135.202.amzn2023.aarch64",
+      "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+      "available_cpus": "64",
+      "affinity": "pid 3926314's current affinity list: 0-63",
+      "flags": "--edition=2024 -C opt-level=3 -C target-cpu=native",
+      "binary_sha256": "2b4995a31f721539aba9f9c2ce1b240aea02710b67598ec2ebc5a6428a46a080",
+      "source_hashes": {
+        "src/lib.rs": "b875163af29b06dedd7ed296c9b1a1300193de2cfff164523af613edbc67be71",
+        "benches/priority.rs": "c87f869a8f29e0d92b91bb50a030c3b8fe064da45099878181b54273e56ab9b2",
+        "scripts/run.py": "7ffd9271911b53a540fa075a6fac988deabd13c77cf9169853cc863328894140"
+      },
+      "raw_sha256": "834fde17d24464449382f4ec1d239fa42ae3dff4851b73fd3011adec3fe0c109",
+      "tests_sha256": "16448fe2bd77a62228aba2b19475f474c69f15d97535e5c87e014f9a1b130a7a",
+      "results": {
+        "tiny": {
+          "lowest_median": "four",
+          "best_ns_median_min_max": [
+            124289.0,
+            123986,
+            128239
+          ],
+          "resolved": false,
+          "unresolved_rivals": [
+            "eight"
+          ],
+          "aa_right_over_left": {
+            "median": 0.9966246858976051,
+            "min": 0.8381318907405391,
+            "max": 1.0181812843605722
+          }
+        },
+        "small": {
+          "lowest_median": "four",
+          "best_ns_median_min_max": [
+            316434.0,
+            312068,
+            318931
+          ],
+          "resolved": true,
+          "unresolved_rivals": [],
+          "aa_right_over_left": {
+            "median": 1.0014051249986242,
+            "min": 0.9891521945146946,
+            "max": 1.0102349613192354
+          }
+        },
+        "mixed": {
+          "lowest_median": "four",
+          "best_ns_median_min_max": [
+            761538.0,
+            758424,
+            765743
+          ],
+          "resolved": true,
+          "unresolved_rivals": [],
+          "aa_right_over_left": {
+            "median": 1.000478405641334,
+            "min": 0.9929464987085445,
+            "max": 1.0077642503128204
+          }
+        },
+        "updates": {
+          "lowest_median": "scan",
+          "best_ns_median_min_max": [
+            376495.5,
+            362376,
+            386680
+          ],
+          "resolved": true,
+          "unresolved_rivals": [],
+          "aa_right_over_left": {
+            "median": 0.9990411484707453,
+            "min": 0.9655731996767196,
+            "max": 1.03263003045613
+          }
+        },
+        "ties": {
+          "lowest_median": "four",
+          "best_ns_median_min_max": [
+            632719.5,
+            628301,
+            636049
+          ],
+          "resolved": true,
+          "unresolved_rivals": [],
+          "aa_right_over_left": {
+            "median": 0.9986863953452391,
+            "min": 0.9935506991858775,
+            "max": 1.0048572431988436
+          }
+        },
+        "stale": {
+          "lowest_median": "scan",
+          "best_ns_median_min_max": [
+            169071.0,
+            165261,
+            170758
+          ],
+          "resolved": true,
+          "unresolved_rivals": [],
+          "aa_right_over_left": {
+            "median": 1.003315699148114,
+            "min": 0.9723764262449557,
+            "max": 1.0206708621686982
+          }
+        },
+        "build_random": {
+          "lowest_median": "lazy",
+          "best_ns_median_min_max": [
+            690258.0,
+            686722,
+            693241
+          ],
+          "resolved": false,
+          "unresolved_rivals": [
+            "compact"
+          ],
+          "aa_right_over_left": {
+            "median": 1.0049789855562064,
+            "min": 0.9842930235855745,
+            "max": 1.0206484715064352
+          }
+        },
+        "build_descending": {
+          "lowest_median": "compact",
+          "best_ns_median_min_max": [
+            340691.5,
+            336498,
+            348662
+          ],
+          "resolved": false,
+          "unresolved_rivals": [
+            "lazy"
+          ],
+          "aa_right_over_left": {
+            "median": 0.9842885767446963,
+            "min": 0.9431571208943162,
+            "max": 1.02668182924484
+          }
+        }
+      }
+    },
+    "x86": {
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "kernel": "6.12.111-136.204.amzn2023.x86_64",
+      "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+      "available_cpus": "192",
+      "affinity": "pid 2032337's current affinity list: 0-191",
+      "flags": "--edition=2024 -C opt-level=3 -C target-cpu=native",
+      "binary_sha256": "647a76765504e6ac0937a4e796092da243c7e85475f0ed1e2c041f831b4faf4d",
+      "source_hashes": {
+        "src/lib.rs": "b875163af29b06dedd7ed296c9b1a1300193de2cfff164523af613edbc67be71",
+        "benches/priority.rs": "c87f869a8f29e0d92b91bb50a030c3b8fe064da45099878181b54273e56ab9b2",
+        "scripts/run.py": "7ffd9271911b53a540fa075a6fac988deabd13c77cf9169853cc863328894140"
+      },
+      "raw_sha256": "38e61d68f43f9b328c7a33070db64c1f313718a3df183f494fb3c9ea351a2c9b",
+      "tests_sha256": "d7efba12054733192f2660e6387d50127bad021b2041f12dbb6eea2c1bf2cffa",
+      "results": {
+        "tiny": {
+          "lowest_median": "eight",
+          "best_ns_median_min_max": [
+            117342.0,
+            114441,
+            120982
+          ],
+          "resolved": true,
+          "unresolved_rivals": [],
+          "aa_right_over_left": {
+            "median": 1.0041933320800958,
+            "min": 0.9790311233415723,
+            "max": 1.058999706502308
+          }
+        },
+        "small": {
+          "lowest_median": "lazy",
+          "best_ns_median_min_max": [
+            308910.5,
+            301732,
+            311750
+          ],
+          "resolved": false,
+          "unresolved_rivals": [
+            "eight",
+            "compact"
+          ],
+          "aa_right_over_left": {
+            "median": 1.0070276237472469,
+            "min": 0.9563170047628746,
+            "max": 1.2007086938201208
+          }
+        },
+        "mixed": {
+          "lowest_median": "lazy",
+          "best_ns_median_min_max": [
+            742993.0,
+            729583,
+            753967
+          ],
+          "resolved": false,
+          "unresolved_rivals": [
+            "compact"
+          ],
+          "aa_right_over_left": {
+            "median": 0.9994356797071753,
+            "min": 0.9845225673068576,
+            "max": 1.0110124375980083
+          }
+        },
+        "updates": {
+          "lowest_median": "scan",
+          "best_ns_median_min_max": [
+            257742.5,
+            249540,
+            267502
+          ],
+          "resolved": true,
+          "unresolved_rivals": [],
+          "aa_right_over_left": {
+            "median": 1.0055610370363592,
+            "min": 0.9772119413407822,
+            "max": 1.019369874807695
+          }
+        },
+        "ties": {
+          "lowest_median": "eight",
+          "best_ns_median_min_max": [
+            667548.0,
+            662097,
+            674576
+          ],
+          "resolved": false,
+          "unresolved_rivals": [
+            "four"
+          ],
+          "aa_right_over_left": {
+            "median": 1.0091662676069704,
+            "min": 0.9870784967732699,
+            "max": 1.027460676311522
+          }
+        },
+        "stale": {
+          "lowest_median": "scan",
+          "best_ns_median_min_max": [
+            131520.5,
+            127960,
+            144007
+          ],
+          "resolved": true,
+          "unresolved_rivals": [],
+          "aa_right_over_left": {
+            "median": 1.0007977192146507,
+            "min": 0.9723957482610585,
+            "max": 1.0232075320364509
+          }
+        },
+        "build_random": {
+          "lowest_median": "lazy",
+          "best_ns_median_min_max": [
+            732367.5,
+            715903,
+            741605
+          ],
+          "resolved": false,
+          "unresolved_rivals": [
+            "compact"
+          ],
+          "aa_right_over_left": {
+            "median": 1.0035451836941105,
+            "min": 0.9811044465571489,
+            "max": 1.0200969409737182
+          }
+        },
+        "build_descending": {
+          "lowest_median": "scan",
+          "best_ns_median_min_max": [
+            510671.5,
+            492118,
+            533285
+          ],
+          "resolved": true,
+          "unresolved_rivals": [],
+          "aa_right_over_left": {
+            "median": 1.0037029659969452,
+            "min": 0.9723183374059184,
+            "max": 1.0227426386648484
+          }
+        }
+      }
+    }
+  },
+  "limits": [
+    "fixed descriptive all8 paired-ratio>1.03 selection, no confidence claim",
+    "unpinned warmed runs; different toolchains",
+    "no PMU, cold-cache, tails, payload byte budget or ISA-only claim",
+    "build includes constructor+one peek+drop; excludes resident input acquisition",
+    "steady excludes setup/drop, includes trace, rebuilds, stale work, final peek and output folding"
+  ]
+}
