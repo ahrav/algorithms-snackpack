@@ -119,7 +119,8 @@ fn run(
     )
 }
 fn main() {
-    let args: Vec<_> = std::env::args().collect();
+    // `cargo bench` appends `--bench` after user arguments.
+    let args: Vec<_> = std::env::args().filter(|a| a != "--bench").collect();
     let kind_name = args.get(1).map_or("four", String::as_str);
     let cell = args.get(2).map_or("tiny", String::as_str);
     let kind = Kind::ALL
@@ -128,19 +129,21 @@ fn main() {
         .expect("candidate");
     let (initial, ops, lifecycle) = workload(cell);
     validate(kind, &initial, &ops);
-    let _ = run(kind, &initial, &ops, lifecycle); // one fresh-state warmup, discarded
+    let warmup = run(kind, &initial, &ops, lifecycle); // fresh-state warmup, timing discarded
+    let (_, _, _, checksum, counters) = warmup;
     let mut total = 0;
     let mut setup = 0;
     let mut teardown = 0;
-    let mut checksum = 0;
-    let mut counters = (0, 0, 0);
     for _ in 0..3 {
         let r = run(kind, &initial, &ops, lifecycle);
         total += r.0;
         setup += r.1;
         teardown += r.2;
-        checksum ^= r.3;
-        counters = r.4;
+        assert_eq!(
+            (r.3, r.4),
+            (checksum, counters),
+            "repeat diverged from warmup"
+        );
     }
     println!(
         "{{\"candidate\":\"{kind_name}\",\"cell\":\"{cell}\",\"ns\":{},\"setup_ns\":{},\"teardown_ns\":{},\"checksum\":{checksum},\"peak_records\":{},\"rebuilds\":{},\"stale_pops\":{},\"initial\":{},\"ops\":{},\"repeats\":3,\"oracle\":true}}",

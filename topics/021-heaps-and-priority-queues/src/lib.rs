@@ -446,7 +446,7 @@ impl Oracle {
     /// Apply a valid trace operation and return a removed record, if any.
     ///
     /// # Panics
-    /// Panics on an invalid set ID or exhausted oracle counter.
+    /// Panics on an out-of-universe set or cancel ID or an exhausted oracle counter.
     pub fn apply(&mut self, op: Op) -> Option<Entry> {
         match op {
             Op::Set(id, priority) => {
@@ -466,6 +466,7 @@ impl Oracle {
                 None
             }
             Op::Cancel(id) => {
+                assert!(id < self.universe);
                 if let Some((p, a, s)) = self.by_id.remove(&id) {
                     self.ordered.remove(&(p, a, id, s));
                 }
@@ -553,14 +554,22 @@ mod tests {
             q.next_stamp = u64::MAX;
             assert_eq!(q.set(0, 0), Err(Error::CounterExhausted));
             assert_eq!(q.snapshot(), before);
+            assert_eq!((q.next_stamp, q.next_arrival), (u64::MAX, 2));
             q.next_stamp = 10;
-            q.cancel(0).unwrap();
+            assert_eq!(q.cancel(0), Ok(true));
+            assert_eq!(q.cancel(0), Ok(false));
             q.next_arrival = u64::MAX;
             let before = q.snapshot();
             assert_eq!(q.set(0, 0), Err(Error::CounterExhausted));
             assert_eq!(q.snapshot(), before);
+            assert_eq!((q.next_stamp, q.next_arrival), (10, u64::MAX));
             assert!(q.valid());
         }
+    }
+    #[test]
+    #[should_panic(expected = "id < self.universe")]
+    fn oracle_rejects_out_of_universe_cancel() {
+        Oracle::new(&[1]).apply(Op::Cancel(1));
     }
     #[test]
     fn exhaustive_small_transitions_match_independent_trees() {
@@ -625,8 +634,17 @@ mod tests {
             q.set(0, p).unwrap();
             assert!(q.valid());
         }
-        assert!(q.counters().1 > 0);
+        let rebuild_period = 2 + 32;
+        assert_eq!(q.counters(), (rebuild_period + 1, 1000 / rebuild_period, 0));
         assert_eq!(q.pop().unwrap().priority, 999);
+        assert_eq!(
+            q.counters(),
+            (
+                rebuild_period + 1,
+                1000 / rebuild_period,
+                1000 % rebuild_period
+            )
+        );
         assert_eq!(q.pop(), None);
     }
 }
