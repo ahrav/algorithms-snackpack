@@ -1,5 +1,846 @@
 {
-  "status": "committed campaign follows source commit",
-  "initial": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-022/20261018/initial",
-  "raw_policy": "external raw data; compact receipts only in Git"
+  "source_commit": "bf6504d022008ef8db065152c07d122e0604b4eb",
+  "campaigns": {
+    "initial": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-022/20261018/initial",
+    "committed": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-022/20261018/committed"
+  },
+  "processes_per_host_per_campaign": 320,
+  "total_processes": 1280,
+  "oracle": "all pass",
+  "source_hashes": {
+    "src/lib.rs": "8e4232e0fc21877b89fd24706371fbeab82086fd25211f9ab7f2068d6400de7f",
+    "benches/ordered.rs": "e275637ba789971b3f9407602afa949034522a316047f1835a1b0ab18316c40d",
+    "scripts/run.py": "de6d2043a33a48c0bb687beaaaa46ad6f5109e1231ca5b9864e36685e7fdb1b9"
+  },
+  "hosts": {
+    "arm": {
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "uname": [
+        "Linux",
+        "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+        "6.12.111-136.204.amzn2023.aarch64",
+        "#1 SMP Tue Oct  6 18:01:38 UTC 2026",
+        "aarch64",
+        "aarch64"
+      ],
+      "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+      "cpu": "Architecture:                            aarch64\nCPU op-mode(s):                          32-bit, 64-bit\nByte Order:                              Little Endian\nCPU(s):                                  64\nOn-line CPU(s) list:                     0-63\nVendor ID:                               ARM\nModel:                                   1\nThread(s) per core:                      1\nCore(s) per socket:                      64\nSocket(s):                               1\nStepping:                                r1p1\nBogoMIPS:                                2100.00\nFlags:                                   fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 sm3 sm4 asimddp sha512 sve asimdfhm dit uscat ilrcpc flagm paca pacg dcpodp svei8mm svebf16 i8mm bf16 dgh rng\nL1d cache:                               4 MiB (64 instances)\nL1i cache:                               4 MiB (64 instances)\nL2 cache:                                64 MiB (64 instances)\nL3 cache:                                32 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-63\nVulnerability Gather data sampling:      Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; CSV2, BHB\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+      "available": "64\n",
+      "affinity": "pid 1481469's current affinity list: 0-63\n",
+      "flags": "--edition=2024 -C opt-level=3 -C target-cpu=native",
+      "target_features": "debug_assertions\npanic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"aarch64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"aes\"\ntarget_feature=\"bf16\"\ntarget_feature=\"crc\"\ntarget_feature=\"dit\"\ntarget_feature=\"dotprod\"\ntarget_feature=\"dpb\"\ntarget_feature=\"dpb2\"\ntarget_feature=\"fcma\"\ntarget_feature=\"fhm\"\ntarget_feature=\"flagm\"\ntarget_feature=\"fp16\"\ntarget_feature=\"i8mm\"\ntarget_feature=\"jsconv\"\ntarget_feature=\"lor\"\ntarget_feature=\"lse\"\ntarget_feature=\"neon\"\ntarget_feature=\"paca\"\ntarget_feature=\"pacg\"\ntarget_feature=\"pan\"\ntarget_feature=\"pmuv3\"\ntarget_feature=\"rand\"\ntarget_feature=\"ras\"\ntarget_feature=\"rcpc\"\ntarget_feature=\"rcpc2\"\ntarget_feature=\"rdm\"\ntarget_feature=\"sha2\"\ntarget_feature=\"sha3\"\ntarget_feature=\"sm4\"\ntarget_feature=\"spe\"\ntarget_feature=\"ssbs\"\ntarget_feature=\"sve\"\ntarget_feature=\"vh\"\ntarget_has_atomic=\"128\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"128\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n",
+      "binary_sha256": "cfc53421c43d1f2f882f112ba6d5a5ad8db2530e856ae21d2e10de9b6a95fcab"
+    },
+    "x86": {
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "uname": [
+        "Linux",
+        "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+        "6.12.111-136.204.amzn2023.x86_64",
+        "#1 SMP PREEMPT_DYNAMIC Tue Oct  6 18:01:06 UTC 2026",
+        "x86_64",
+        "x86_64"
+      ],
+      "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+      "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           46 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  192\nOn-line CPU(s) list:                     0-191\nVendor ID:                               GenuineIntel\nModel name:                              Intel(R) Xeon(R) Platinum 8488C\nCPU family:                              6\nModel:                                   143\nThread(s) per core:                      2\nCore(s) per socket:                      48\nSocket(s):                               2\nStepping:                                8\nBogoMIPS:                                4800.00\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities\nHypervisor vendor:                       KVM\nVirtualization type:                     full\nL1d cache:                               4.5 MiB (96 instances)\nL1i cache:                               3 MiB (96 instances)\nL2 cache:                                192 MiB (96 instances)\nL3 cache:                                210 MiB (2 instances)\nNUMA node(s):                            2\nNUMA node0 CPU(s):                       0-47,96-143\nNUMA node1 CPU(s):                       48-95,144-191\nVulnerability Gather data sampling:      Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI BHI_DIS_S\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+      "available": "192\n",
+      "affinity": "pid 630444's current affinity list: 0-191\n",
+      "flags": "--edition=2024 -C opt-level=3 -C target-cpu=native",
+      "target_features": "debug_assertions\npanic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"x86_64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"adx\"\ntarget_feature=\"aes\"\ntarget_feature=\"avx\"\ntarget_feature=\"avx2\"\ntarget_feature=\"avx512bf16\"\ntarget_feature=\"avx512bitalg\"\ntarget_feature=\"avx512bw\"\ntarget_feature=\"avx512cd\"\ntarget_feature=\"avx512dq\"\ntarget_feature=\"avx512f\"\ntarget_feature=\"avx512fp16\"\ntarget_feature=\"avx512ifma\"\ntarget_feature=\"avx512vbmi\"\ntarget_feature=\"avx512vbmi2\"\ntarget_feature=\"avx512vl\"\ntarget_feature=\"avx512vnni\"\ntarget_feature=\"avx512vpopcntdq\"\ntarget_feature=\"avxvnni\"\ntarget_feature=\"bmi1\"\ntarget_feature=\"bmi2\"\ntarget_feature=\"cmpxchg16b\"\ntarget_feature=\"f16c\"\ntarget_feature=\"fma\"\ntarget_feature=\"fxsr\"\ntarget_feature=\"gfni\"\ntarget_feature=\"lzcnt\"\ntarget_feature=\"movbe\"\ntarget_feature=\"pclmulqdq\"\ntarget_feature=\"popcnt\"\ntarget_feature=\"rdrand\"\ntarget_feature=\"rdseed\"\ntarget_feature=\"sha\"\ntarget_feature=\"sse\"\ntarget_feature=\"sse2\"\ntarget_feature=\"sse3\"\ntarget_feature=\"sse4.1\"\ntarget_feature=\"sse4.2\"\ntarget_feature=\"ssse3\"\ntarget_feature=\"vaes\"\ntarget_feature=\"vpclmulqdq\"\ntarget_feature=\"xsave\"\ntarget_feature=\"xsavec\"\ntarget_feature=\"xsaveopt\"\ntarget_feature=\"xsaves\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n",
+      "binary_sha256": "0fa92c6fcc61196edb1a67bbcd09014f26b92cfbb0f24aef82719c200dee2017"
+    }
+  },
+  "summaries": {
+    "arm": {
+      "tiny": {
+        "lowest_median": "flat",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 535843.0,
+            "min_ns": 524914,
+            "max_ns": 562562
+          },
+          "tree": {
+            "median_ns": 608370.0,
+            "min_ns": 596590,
+            "max_ns": 629817
+          },
+          "skip": {
+            "median_ns": 928245.0,
+            "min_ns": 911216,
+            "max_ns": 954630
+          },
+          "aa_left": {
+            "median_ns": 603761.5,
+            "min_ns": 592285,
+            "max_ns": 643191
+          },
+          "aa_right": {
+            "median_ns": 607738.5,
+            "min_ns": 597226,
+            "max_ns": 624057
+          }
+        },
+        "paired_rival_over_best": {
+          "tree": {
+            "median": 1.1355125999427154,
+            "min": 1.0666095470365933,
+            "max": 1.1668896135176197
+          },
+          "skip": {
+            "median": 1.7145560938047302,
+            "min": 1.656046800174914,
+            "max": 1.8186407678210146
+          }
+        },
+        "aa_right_over_left": {
+          "median": 1.0057140105735205,
+          "min": 0.9354095439768281,
+          "max": 1.0327350416035057
+        }
+      },
+      "lookup": {
+        "lowest_median": "tree",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 1865546.5,
+            "min_ns": 1860904,
+            "max_ns": 1869850
+          },
+          "tree": {
+            "median_ns": 670172.0,
+            "min_ns": 667644,
+            "max_ns": 675277
+          },
+          "skip": {
+            "median_ns": 1186920.5,
+            "min_ns": 1173675,
+            "max_ns": 1197076
+          },
+          "aa_left": {
+            "median_ns": 670360.0,
+            "min_ns": 669682,
+            "max_ns": 674093
+          },
+          "aa_right": {
+            "median_ns": 668874.0,
+            "min_ns": 667274,
+            "max_ns": 671823
+          }
+        },
+        "paired_rival_over_best": {
+          "flat": {
+            "median": 2.7848879325407703,
+            "min": 2.760889235084269,
+            "max": 2.794579146970541
+          },
+          "skip": {
+            "median": 1.769417077630623,
+            "min": 1.7502313865273065,
+            "max": 1.7851538907769922
+          }
+        },
+        "aa_right_over_left": {
+          "median": 0.997358278071486,
+          "min": 0.9947697809566384,
+          "max": 0.9989652345692285
+        }
+      },
+      "rank": {
+        "lowest_median": "flat",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 2237736.0,
+            "min_ns": 2231941,
+            "max_ns": 2243568
+          },
+          "tree": {
+            "median_ns": 33866113.0,
+            "min_ns": 33802436,
+            "max_ns": 33988373
+          },
+          "skip": {
+            "median_ns": 3209811.0,
+            "min_ns": 3191003,
+            "max_ns": 3214336
+          },
+          "aa_left": {
+            "median_ns": 33851367.0,
+            "min_ns": 33768916,
+            "max_ns": 34000631
+          },
+          "aa_right": {
+            "median_ns": 33917336.5,
+            "min_ns": 33755150,
+            "max_ns": 34070290
+          }
+        },
+        "paired_rival_over_best": {
+          "tree": {
+            "median": 15.131206956978449,
+            "min": 15.096211972837311,
+            "max": 15.228168217708264
+          },
+          "skip": {
+            "median": 1.4331575608137652,
+            "min": 1.4281028537415499,
+            "max": 1.4382476956156098
+          }
+        },
+        "aa_right_over_left": {
+          "median": 1.0021587725306282,
+          "min": 0.9963074214710897,
+          "max": 1.0089245979942028
+        }
+      },
+      "update": {
+        "lowest_median": "skip",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 10030090.0,
+            "min_ns": 10013306,
+            "max_ns": 10048450
+          },
+          "tree": {
+            "median_ns": 6622207.5,
+            "min_ns": 6584537,
+            "max_ns": 6645107
+          },
+          "skip": {
+            "median_ns": 5754146.5,
+            "min_ns": 5728244,
+            "max_ns": 5811626
+          },
+          "aa_left": {
+            "median_ns": 6607980.0,
+            "min_ns": 6596887,
+            "max_ns": 6633715
+          },
+          "aa_right": {
+            "median_ns": 6607522.0,
+            "min_ns": 6594883,
+            "max_ns": 6638726
+          }
+        },
+        "paired_rival_over_best": {
+          "flat": {
+            "median": 1.7423471072045023,
+            "min": 1.7239837869814747,
+            "max": 1.7511321813811471
+          },
+          "tree": {
+            "median": 1.148986888836256,
+            "min": 1.1386784008468542,
+            "max": 1.1574212060535376
+          }
+        },
+        "aa_right_over_left": {
+          "median": 1.0011093193900258,
+          "min": 0.9943256531219686,
+          "max": 1.0043136764365594
+        }
+      },
+      "ties": {
+        "lowest_median": "skip",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 3356577.0,
+            "min_ns": 3348836,
+            "max_ns": 3365157
+          },
+          "tree": {
+            "median_ns": 16801637.5,
+            "min_ns": 16769529,
+            "max_ns": 17179635
+          },
+          "skip": {
+            "median_ns": 2820785.0,
+            "min_ns": 2809134,
+            "max_ns": 2829106
+          },
+          "aa_left": {
+            "median_ns": 16850206.0,
+            "min_ns": 16783150,
+            "max_ns": 16903932
+          },
+          "aa_right": {
+            "median_ns": 16821550.0,
+            "min_ns": 16783320,
+            "max_ns": 16925121
+          }
+        },
+        "paired_rival_over_best": {
+          "flat": {
+            "median": 1.188997293442835,
+            "min": 1.1865642361933417,
+            "max": 1.1965615306170343
+          },
+          "tree": {
+            "median": 5.972193876282127,
+            "min": 5.94156122023157,
+            "max": 6.108627428391
+          }
+        },
+        "aa_right_over_left": {
+          "median": 0.999693822047318,
+          "min": 0.9928648553484479,
+          "max": 1.0024227933052126
+        }
+      },
+      "range": {
+        "lowest_median": "flat",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 2633772.5,
+            "min_ns": 2627289,
+            "max_ns": 2671777
+          },
+          "tree": {
+            "median_ns": 3617699.0,
+            "min_ns": 3606883,
+            "max_ns": 3645832
+          },
+          "skip": {
+            "median_ns": 7446875.0,
+            "min_ns": 7396887,
+            "max_ns": 7477206
+          },
+          "aa_left": {
+            "median_ns": 3625726.5,
+            "min_ns": 3603672,
+            "max_ns": 3634833
+          },
+          "aa_right": {
+            "median_ns": 3619365.5,
+            "min_ns": 3609043,
+            "max_ns": 3649194
+          }
+        },
+        "paired_rival_over_best": {
+          "tree": {
+            "median": 1.3760253543486805,
+            "min": 1.3499940301903939,
+            "max": 1.3864002546287406
+          },
+          "skip": {
+            "median": 2.8243646566425875,
+            "min": 2.784194189859408,
+            "max": 2.8431668537416326
+          }
+        },
+        "aa_right_over_left": {
+          "median": 0.9989271451934185,
+          "min": 0.9956571217327372,
+          "max": 1.0062112109517607
+        }
+      },
+      "build_ascending": {
+        "lowest_median": "flat",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 449200.0,
+            "min_ns": 444854,
+            "max_ns": 450613
+          },
+          "tree": {
+            "median_ns": 538806.0,
+            "min_ns": 536470,
+            "max_ns": 543282
+          },
+          "skip": {
+            "median_ns": 1054227.5,
+            "min_ns": 1043326,
+            "max_ns": 1070872
+          },
+          "aa_left": {
+            "median_ns": 538782.0,
+            "min_ns": 530744,
+            "max_ns": 559014
+          },
+          "aa_right": {
+            "median_ns": 539431.0,
+            "min_ns": 532774,
+            "max_ns": 540749
+          }
+        },
+        "paired_rival_over_best": {
+          "tree": {
+            "median": 1.1991751942889874,
+            "min": 1.1940394845200204,
+            "max": 1.2212591097303835
+          },
+          "skip": {
+            "median": 2.3474357493601925,
+            "min": 2.3316881670080534,
+            "max": 2.3926518264304564
+          }
+        },
+        "aa_right_over_left": {
+          "median": 0.9985927239100172,
+          "min": 0.9530602095833021,
+          "max": 1.0159059735013491
+        }
+      },
+      "build_descending": {
+        "lowest_median": "tree",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 2692150.5,
+            "min_ns": 2687631,
+            "max_ns": 2697624
+          },
+          "tree": {
+            "median_ns": 360822.0,
+            "min_ns": 359137,
+            "max_ns": 365018
+          },
+          "skip": {
+            "median_ns": 662925.5,
+            "min_ns": 657235,
+            "max_ns": 676552
+          },
+          "aa_left": {
+            "median_ns": 359000.5,
+            "min_ns": 355419,
+            "max_ns": 366903
+          },
+          "aa_right": {
+            "median_ns": 359855.0,
+            "min_ns": 355555,
+            "max_ns": 362302
+          }
+        },
+        "paired_rival_over_best": {
+          "flat": {
+            "median": 7.454251795639223,
+            "min": 7.390386227528506,
+            "max": 7.498191497952035
+          },
+          "skip": {
+            "median": 1.837150595280479,
+            "min": 1.826276755669298,
+            "max": 1.8551408069170638
+          }
+        },
+        "aa_right_over_left": {
+          "median": 0.9997221067450038,
+          "min": 0.9872282319850205,
+          "max": 1.018749613366551
+        }
+      }
+    },
+    "x86": {
+      "tiny": {
+        "lowest_median": "flat",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 453386.5,
+            "min_ns": 449263,
+            "max_ns": 460142
+          },
+          "tree": {
+            "median_ns": 541324.5,
+            "min_ns": 533741,
+            "max_ns": 548085
+          },
+          "skip": {
+            "median_ns": 832905.0,
+            "min_ns": 826249,
+            "max_ns": 1344943
+          },
+          "aa_left": {
+            "median_ns": 536734.0,
+            "min_ns": 533368,
+            "max_ns": 544644
+          },
+          "aa_right": {
+            "median_ns": 541696.0,
+            "min_ns": 534966,
+            "max_ns": 558674
+          }
+        },
+        "paired_rival_over_best": {
+          "tree": {
+            "median": 1.1950424678584808,
+            "min": 1.1776954510953028,
+            "max": 1.205426888976521
+          },
+          "skip": {
+            "median": 1.8412904282169797,
+            "min": 1.8097761125913305,
+            "max": 2.943575074194367
+          }
+        },
+        "aa_right_over_left": {
+          "median": 1.0098426734857802,
+          "min": 0.9854290141817408,
+          "max": 1.0462510557570832
+        }
+      },
+      "lookup": {
+        "lowest_median": "tree",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 11325683.5,
+            "min_ns": 11320444,
+            "max_ns": 11338888
+          },
+          "tree": {
+            "median_ns": 556100.0,
+            "min_ns": 550895,
+            "max_ns": 559626
+          },
+          "skip": {
+            "median_ns": 1035104.0,
+            "min_ns": 1032146,
+            "max_ns": 1045985
+          },
+          "aa_left": {
+            "median_ns": 555473.5,
+            "min_ns": 550899,
+            "max_ns": 561491
+          },
+          "aa_right": {
+            "median_ns": 554812.5,
+            "min_ns": 553469,
+            "max_ns": 565511
+          }
+        },
+        "paired_rival_over_best": {
+          "flat": {
+            "median": 20.3695710896815,
+            "min": 20.230943522995716,
+            "max": 20.5802993310885
+          },
+          "skip": {
+            "median": 1.8647827992060397,
+            "min": 1.850523754573348,
+            "max": 1.8814819520961346
+          }
+        },
+        "aa_right_over_left": {
+          "median": 0.999413139356883,
+          "min": 0.9913177593229455,
+          "max": 1.0122542131688936
+        }
+      },
+      "rank": {
+        "lowest_median": "skip",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 17191897.5,
+            "min_ns": 17182319,
+            "max_ns": 17338583
+          },
+          "tree": {
+            "median_ns": 28583129.5,
+            "min_ns": 28413495,
+            "max_ns": 28954834
+          },
+          "skip": {
+            "median_ns": 2866525.5,
+            "min_ns": 2843177,
+            "max_ns": 2919289
+          },
+          "aa_left": {
+            "median_ns": 28641698.5,
+            "min_ns": 28410266,
+            "max_ns": 30367192
+          },
+          "aa_right": {
+            "median_ns": 28744035.5,
+            "min_ns": 28483785,
+            "max_ns": 32282679
+          }
+        },
+        "paired_rival_over_best": {
+          "flat": {
+            "median": 5.99824383892733,
+            "min": 5.892046316757265,
+            "max": 6.043351856039916
+          },
+          "tree": {
+            "median": 9.972922707619773,
+            "min": 9.774190564894397,
+            "max": 10.095444071337596
+          }
+        },
+        "aa_right_over_left": {
+          "median": 1.0013428402202054,
+          "min": 0.9587056979124049,
+          "max": 1.1308256727828119
+        }
+      },
+      "update": {
+        "lowest_median": "skip",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 84519503.5,
+            "min_ns": 84500974,
+            "max_ns": 84615094
+          },
+          "tree": {
+            "median_ns": 6726997.0,
+            "min_ns": 6707651,
+            "max_ns": 6981776
+          },
+          "skip": {
+            "median_ns": 5049615.5,
+            "min_ns": 5014239,
+            "max_ns": 5093651
+          },
+          "aa_left": {
+            "median_ns": 6718869.0,
+            "min_ns": 6703058,
+            "max_ns": 6782501
+          },
+          "aa_right": {
+            "median_ns": 6734149.0,
+            "min_ns": 6708616,
+            "max_ns": 7379816
+          }
+        },
+        "paired_rival_over_best": {
+          "flat": {
+            "median": 16.73666228032345,
+            "min": 16.593979642500045,
+            "max": 16.874962282412145
+          },
+          "tree": {
+            "median": 1.333059261111643,
+            "min": 1.3283488755580126,
+            "max": 1.3923899518949934
+          }
+        },
+        "aa_right_over_left": {
+          "median": 1.001477621330717,
+          "min": 0.98910652574913,
+          "max": 1.0985434409590376
+        }
+      },
+      "ties": {
+        "lowest_median": "skip",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 29295743.0,
+            "min_ns": 29167781,
+            "max_ns": 29316526
+          },
+          "tree": {
+            "median_ns": 13981827.0,
+            "min_ns": 13948183,
+            "max_ns": 14284030
+          },
+          "skip": {
+            "median_ns": 2536824.0,
+            "min_ns": 2519801,
+            "max_ns": 2605990
+          },
+          "aa_left": {
+            "median_ns": 13968520.5,
+            "min_ns": 13952296,
+            "max_ns": 14275654
+          },
+          "aa_right": {
+            "median_ns": 13944841.0,
+            "min_ns": 13893964,
+            "max_ns": 14179875
+          }
+        },
+        "paired_rival_over_best": {
+          "flat": {
+            "median": 11.5289183761382,
+            "min": 11.242289110856143,
+            "max": 11.626651072842657
+          },
+          "tree": {
+            "median": 5.520716913915367,
+            "min": 5.352354767286137,
+            "max": 5.6312071668038595
+          }
+        },
+        "aa_right_over_left": {
+          "median": 0.9961367478017162,
+          "min": 0.9814822494296934,
+          "max": 1.0163112221816395
+        }
+      },
+      "range": {
+        "lowest_median": "tree",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 11849328.5,
+            "min_ns": 11844243,
+            "max_ns": 11855332
+          },
+          "tree": {
+            "median_ns": 3166630.5,
+            "min_ns": 3132739,
+            "max_ns": 3182276
+          },
+          "skip": {
+            "median_ns": 6130481.5,
+            "min_ns": 6047017,
+            "max_ns": 6221769
+          },
+          "aa_left": {
+            "median_ns": 3170822.5,
+            "min_ns": 3150346,
+            "max_ns": 3224221
+          },
+          "aa_right": {
+            "median_ns": 3170022.5,
+            "min_ns": 3148898,
+            "max_ns": 3292405
+          }
+        },
+        "paired_rival_over_best": {
+          "flat": {
+            "median": 3.741327304489227,
+            "min": 3.723654704997304,
+            "max": 3.7843344115165674
+          },
+          "skip": {
+            "median": 1.9359330596736304,
+            "min": 1.923468315028044,
+            "max": 1.986047672659612
+          }
+        },
+        "aa_right_over_left": {
+          "median": 1.0003977511036213,
+          "min": 0.9896173240496742,
+          "max": 1.0211474337522148
+        }
+      },
+      "build_ascending": {
+        "lowest_median": "flat",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 389034.0,
+            "min_ns": 385609,
+            "max_ns": 395643
+          },
+          "tree": {
+            "median_ns": 464923.0,
+            "min_ns": 461749,
+            "max_ns": 471860
+          },
+          "skip": {
+            "median_ns": 876110.0,
+            "min_ns": 869680,
+            "max_ns": 886838
+          },
+          "aa_left": {
+            "median_ns": 466220.5,
+            "min_ns": 459850,
+            "max_ns": 471818
+          },
+          "aa_right": {
+            "median_ns": 463362.0,
+            "min_ns": 458262,
+            "max_ns": 468933
+          }
+        },
+        "paired_rival_over_best": {
+          "tree": {
+            "median": 1.19822963435711,
+            "min": 1.1674464100211555,
+            "max": 1.2112950840713643
+          },
+          "skip": {
+            "median": 2.2548486039740308,
+            "min": 2.233510881457093,
+            "max": 2.276832891506865
+          }
+        },
+        "aa_right_over_left": {
+          "median": 0.9983572549281418,
+          "min": 0.9775782187199301,
+          "max": 1.0156638170590924
+        }
+      },
+      "build_descending": {
+        "lowest_median": "tree",
+        "resolved": true,
+        "unresolved_rivals": [],
+        "stats": {
+          "flat": {
+            "median_ns": 1999304.5,
+            "min_ns": 1990872,
+            "max_ns": 2011528
+          },
+          "tree": {
+            "median_ns": 315941.5,
+            "min_ns": 313550,
+            "max_ns": 347513
+          },
+          "skip": {
+            "median_ns": 527900.0,
+            "min_ns": 523350,
+            "max_ns": 540256
+          },
+          "aa_left": {
+            "median_ns": 315714.0,
+            "min_ns": 311416,
+            "max_ns": 318336
+          },
+          "aa_right": {
+            "median_ns": 313549.0,
+            "min_ns": 311548,
+            "max_ns": 318041
+          }
+        },
+        "paired_rival_over_best": {
+          "flat": {
+            "median": 6.3162734554565105,
+            "min": 5.758961535251919,
+            "max": 6.394096635305374
+          },
+          "skip": {
+            "median": 1.6633273772651729,
+            "min": 1.5146483728666267,
+            "max": 1.7098278006525915
+          }
+        },
+        "aa_right_over_left": {
+          "median": 0.9965918974221517,
+          "min": 0.9831561620426217,
+          "max": 1.012073729472899
+        }
+      }
+    }
+  },
+  "limits": "Warm unpinned deterministic traces; descriptive ranges; different hosts/toolchains; no candidate-only counter/cold/tail/RSS/ISA-only or universal claim."
 }
