@@ -39,3 +39,29 @@ none was isolated with generated-code or candidate-only counters.
 Steady timing includes output allocation/dispatch/hash work, excludes setup and
 destruction. Build timing includes destruction. No cold-device/cache, tail,
 production Redis, allocator-byte/RSS, ISA-only or universal-optimum claim.
+
+## Allocation and linked-code diagnostics
+
+Separate instrumented copies retain48processes across both hosts/all8cells and
+all3candidates, with3within-process count samples. Every preflight oracle passes;
+underlying lib.rs hash equals the committed source. A standalone allocator
+forwarding adapter counts alloc/alloc_zeroed calls, realloc calls and cumulative
+requested bytes only inside the declared consumer boundary, including output.
+The adapter exists only in external diagnostic scratch. Counts are not live,
+peak or RSS bytes; instrumentation changes overhead, so its times do not select
+winners. Source/runner/archive/identities and full counts are retained under
+`/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-022/20261018/allocation`; compact results are in the receipt.
+
+For example, on each host the update cell records flat3322alloc/0realloc,
+tree4003/0 and skip11723/5 per batch. Skip still wins the original timing cell.
+The range cell records flat10800/1, tree10924/32355 and skip12001/32355;
+output materialization is a deciding cost, not an isolated search benchmark.
+Three within-process observations are descriptive counts, not three independent
+process replications. Build requested-byte totals differ by host; no ISA-only
+cause is inferred.
+
+Exact campaign binaries were disassembled with llvm-objdump. Flat selection
+performs a bounds check followed by an indexed16-byte load on both targets;
+flat put, tree select and skip select remain distinct linked methods. Extracts
+and original output are retained under `/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-022/20261018/inspection`.
+Static code supports the mechanism's presence, not attribution of elapsed time.
