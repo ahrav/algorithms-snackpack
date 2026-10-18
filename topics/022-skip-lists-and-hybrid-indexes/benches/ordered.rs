@@ -142,7 +142,8 @@ fn execute(c: &mut dyn OrderedIndex, ops: &[Op]) -> u64 {
     black_box(h)
 }
 fn main() {
-    let args: Vec<_> = std::env::args().collect();
+    // `cargo bench` appends `--bench` after user arguments.
+    let args: Vec<_> = std::env::args().filter(|a| a != "--bench").collect();
     if args.len() == 1 {
         println!("Use: ordered CANDIDATE CELL");
         return;

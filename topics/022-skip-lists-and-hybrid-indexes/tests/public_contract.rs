@@ -27,6 +27,11 @@ fn running_example_and_boundary_contracts() {
     }
 }
 #[test]
+#[should_panic(expected = "assertion `left != right` failed")]
+fn zero_seed_is_rejected() {
+    let _ = Skip::with_seed(0);
+}
+#[test]
 fn retired_slots_are_reused_without_visible_handles() {
     let mut c = Skip::default();
     for i in 0..10000 {

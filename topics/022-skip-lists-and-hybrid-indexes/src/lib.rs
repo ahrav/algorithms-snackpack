@@ -267,7 +267,22 @@ impl Skip {
         for &(score, id) in &ordered {
             assert_eq!(self.members.get(&id), Some(&score));
         }
+        assert!(
+            (1..=HEIGHT).contains(&self.level),
+            "level {} out of range",
+            self.level
+        );
+        assert!(
+            self.level == 1 || self.link(0, self.level - 1).next != 0,
+            "empty top level {} retained",
+            self.level - 1
+        );
         for (&i, &pos) in &positions {
+            assert!(
+                i == 0 || self.node(i).links.len() <= self.level,
+                "node {i} tower exceeds level {}",
+                self.level
+            );
             for l in 0..self.node(i).links.len().min(self.level) {
                 let a = self.link(i, l);
                 let target = if a.next == 0 {

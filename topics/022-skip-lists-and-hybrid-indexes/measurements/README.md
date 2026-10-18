@@ -2,8 +2,10 @@
 
 Both initial and committed campaigns ran320 fresh processes per required Linux
 host,1280total. All oracle responses/final states, tests and transferred source
-hashes pass. Source commit `bf6504d022008ef8db065152c07d122e0604b4eb`; final documentation-only head retains
-the same three measured source hashes. Full host/toolchain/features/affinity,
+hashes pass. Source commit `bf6504d022008ef8db065152c07d122e0604b4eb`; the receipt's three source
+hashes identify that commit. Later review-fix commits touch only `cargo bench`
+argument filtering, `Skip::validate` assertions, and runner bookkeeping (test
+execution, hashing, timeouts, checksum check); measured operation paths are unchanged. Full host/toolchain/features/affinity,
 all candidate medians/ranges, paired ratios and A/A are in EVIDENCE_RECEIPT.json.
 Raw attempts/schedules/metadata/tests/binaries/source tar are retained outside
 Git at `/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-022/20261018` under initial/ and committed/.
