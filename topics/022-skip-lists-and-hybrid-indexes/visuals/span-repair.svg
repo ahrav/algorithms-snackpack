@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="700" viewBox="0 0 1120 700"><rect width="1120" height="700" fill="white"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="700" viewBox="0 0 1120 700"><rect width="1120" height="700" fill="white"/><text x="25" y="37" font-family="Arial,sans-serif" font-size="26" fill="#10253f">Insert E(30, 5): repair order and rank spans</text>
 <rect x="20" y="65" width="1080" height="175" rx="10" stroke="#64748b" stroke-width="2" fill="#f1f5f9"/>
 <text x="38" y="100" font-family="Arial,sans-serif" font-size="21" fill="#10253f">BEFORE: four live records</text>
 <text x="38" y="140" font-family="Arial,sans-serif" font-size="21" fill="#10253f">Level 0: A(10,1)  B(20,2)  C(20,3)  D(40,4)</text>
