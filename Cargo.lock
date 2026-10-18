@@ -89,3 +89,7 @@ version = "0.1.0"
 [[package]]
 name = "topic021-heaps-and-priority-queues"
 version = "0.1.0"
+
+[[package]]
+name = "topic022-skip-lists-and-hybrid-indexes"
+version = "0.1.0"

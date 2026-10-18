@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="700" viewBox="0 0 1120 700"><rect width="1120" height="700" fill="white"/><text x="25" y="37" font-family="Arial,sans-serif" font-size="26" fill="#10253f">Insert E(30, 5): repair order and rank spans</text>
+<rect x="20" y="65" width="1080" height="175" rx="10" stroke="#64748b" stroke-width="2" fill="#f1f5f9"/>
+<text x="38" y="100" font-family="Arial,sans-serif" font-size="21" fill="#10253f">BEFORE: four live records</text>
+<text x="38" y="140" font-family="Arial,sans-serif" font-size="21" fill="#10253f">Level 0: A(10,1)  B(20,2)  C(20,3)  D(40,4)</text>
+<text x="38" y="180" font-family="Arial,sans-serif" font-size="18" fill="#10253f">High link A -&gt; D spans 3 records: B, C, D.</text>
+<text x="38" y="217" font-family="Arial,sans-serif" font-size="18" fill="#334155">Positions include the record reached. Header position = 0; public ranks start at 0.</text>
+<rect x="20" y="260" width="1080" height="175" rx="10" stroke="#64748b" stroke-width="2" fill="#f1f5f9"/>
+<text x="38" y="295" font-family="Arial,sans-serif" font-size="21" fill="#10253f">DURING: predecessor path</text>
+<text x="38" y="335" font-family="Arial,sans-serif" font-size="21" fill="#10253f">Bottom predecessor C has position 3; high predecessor A has position 1.</text>
+<text x="38" y="375" font-family="Arial,sans-serif" font-size="18" fill="#10253f">Old span s=3. Gap d=3-1=2. New spans: A -&gt; E = 3; E -&gt; D = 1.</text>
+<rect x="20" y="455" width="1080" height="175" rx="10" stroke="#64748b" stroke-width="2" fill="#f1f5f9"/>
+<text x="38" y="490" font-family="Arial,sans-serif" font-size="21" fill="#10253f">AFTER: five live records</text>
+<text x="38" y="530" font-family="Arial,sans-serif" font-size="21" fill="#10253f">Level 0: A(10,1)  B(20,2)  C(20,3)  E(30,5)  D(40,4)</text>
+<text x="38" y="570" font-family="Arial,sans-serif" font-size="18" fill="#10253f">Select rank 3 returns E. Hash entry 5 -&gt; 30 agrees with the ordered record.</text>
+<text x="38" y="607" font-family="Arial,sans-serif" font-size="18" fill="#334155">Positions include the record reached. Header position = 0; public ranks start at 0.</text>
+</svg>

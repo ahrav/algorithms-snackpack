@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1030" height="620" viewBox="0 0 1030 620"><rect width="1030" height="620" fill="white"/>
+<text x="18" y="34" font-family="Arial,sans-serif" font-size="23" fill="#10253f">Exact committed source: fastest measured correct candidate</text>
+<text x="18" y="65" font-family="Arial,sans-serif" font-size="17" fill="#10253f">Microseconds per 12,000-operation batch; build rows per 4,096 insertions + result + drop.</text>
+<rect x="20" y="90" width="220" height="49" fill="#e2e8f0" stroke="#64748b"/><text x="28" y="121" font-family="Arial,sans-serif" font-size="17" fill="#10253f">Workload</text>
+<rect x="240" y="90" width="100" height="49" fill="#e2e8f0" stroke="#64748b"/><text x="248" y="121" font-family="Arial,sans-serif" font-size="17" fill="#10253f">Arm best</text>
+<rect x="340" y="90" width="285" height="49" fill="#e2e8f0" stroke="#64748b"/><text x="348" y="121" font-family="Arial,sans-serif" font-size="17" fill="#10253f">Arm us [min,max]</text>
+<rect x="625" y="90" width="100" height="49" fill="#e2e8f0" stroke="#64748b"/><text x="633" y="121" font-family="Arial,sans-serif" font-size="17" fill="#10253f">x86 best</text>
+<rect x="725" y="90" width="285" height="49" fill="#e2e8f0" stroke="#64748b"/><text x="733" y="121" font-family="Arial,sans-serif" font-size="17" fill="#10253f">x86 us [min,max]</text>
+<rect x="20" y="139" width="220" height="49" fill="#f8fafc" stroke="#64748b"/><text x="28" y="170" font-family="Arial,sans-serif" font-size="17" fill="#10253f">tiny</text>
+<rect x="240" y="139" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="248" y="170" font-family="Arial,sans-serif" font-size="17" fill="#10253f">flat</text>
+<rect x="340" y="139" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="348" y="170" font-family="Arial,sans-serif" font-size="17" fill="#10253f">535.84 [524.91, 562.56]</text>
+<rect x="625" y="139" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="633" y="170" font-family="Arial,sans-serif" font-size="17" fill="#10253f">flat</text>
+<rect x="725" y="139" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="733" y="170" font-family="Arial,sans-serif" font-size="17" fill="#10253f">453.39 [449.26, 460.14]</text>
+<rect x="20" y="188" width="220" height="49" fill="#f8fafc" stroke="#64748b"/><text x="28" y="219" font-family="Arial,sans-serif" font-size="17" fill="#10253f">lookup</text>
+<rect x="240" y="188" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="248" y="219" font-family="Arial,sans-serif" font-size="17" fill="#10253f">tree</text>
+<rect x="340" y="188" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="348" y="219" font-family="Arial,sans-serif" font-size="17" fill="#10253f">670.17 [667.64, 675.28]</text>
+<rect x="625" y="188" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="633" y="219" font-family="Arial,sans-serif" font-size="17" fill="#10253f">tree</text>
+<rect x="725" y="188" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="733" y="219" font-family="Arial,sans-serif" font-size="17" fill="#10253f">556.10 [550.89, 559.63]</text>
+<rect x="20" y="237" width="220" height="49" fill="#f8fafc" stroke="#64748b"/><text x="28" y="268" font-family="Arial,sans-serif" font-size="17" fill="#10253f">rank</text>
+<rect x="240" y="237" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="248" y="268" font-family="Arial,sans-serif" font-size="17" fill="#10253f">flat</text>
+<rect x="340" y="237" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="348" y="268" font-family="Arial,sans-serif" font-size="17" fill="#10253f">2237.74 [2231.94, 2243.57]</text>
+<rect x="625" y="237" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="633" y="268" font-family="Arial,sans-serif" font-size="17" fill="#10253f">skip</text>
+<rect x="725" y="237" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="733" y="268" font-family="Arial,sans-serif" font-size="17" fill="#10253f">2866.53 [2843.18, 2919.29]</text>
+<rect x="20" y="286" width="220" height="49" fill="#f8fafc" stroke="#64748b"/><text x="28" y="317" font-family="Arial,sans-serif" font-size="17" fill="#10253f">update</text>
+<rect x="240" y="286" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="248" y="317" font-family="Arial,sans-serif" font-size="17" fill="#10253f">skip</text>
+<rect x="340" y="286" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="348" y="317" font-family="Arial,sans-serif" font-size="17" fill="#10253f">5754.15 [5728.24, 5811.63]</text>
+<rect x="625" y="286" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="633" y="317" font-family="Arial,sans-serif" font-size="17" fill="#10253f">skip</text>
+<rect x="725" y="286" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="733" y="317" font-family="Arial,sans-serif" font-size="17" fill="#10253f">5049.62 [5014.24, 5093.65]</text>
+<rect x="20" y="335" width="220" height="49" fill="#f8fafc" stroke="#64748b"/><text x="28" y="366" font-family="Arial,sans-serif" font-size="17" fill="#10253f">ties</text>
+<rect x="240" y="335" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="248" y="366" font-family="Arial,sans-serif" font-size="17" fill="#10253f">skip</text>
+<rect x="340" y="335" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="348" y="366" font-family="Arial,sans-serif" font-size="17" fill="#10253f">2820.78 [2809.13, 2829.11]</text>
+<rect x="625" y="335" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="633" y="366" font-family="Arial,sans-serif" font-size="17" fill="#10253f">skip</text>
+<rect x="725" y="335" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="733" y="366" font-family="Arial,sans-serif" font-size="17" fill="#10253f">2536.82 [2519.80, 2605.99]</text>
+<rect x="20" y="384" width="220" height="49" fill="#f8fafc" stroke="#64748b"/><text x="28" y="415" font-family="Arial,sans-serif" font-size="17" fill="#10253f">range</text>
+<rect x="240" y="384" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="248" y="415" font-family="Arial,sans-serif" font-size="17" fill="#10253f">flat</text>
+<rect x="340" y="384" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="348" y="415" font-family="Arial,sans-serif" font-size="17" fill="#10253f">2633.77 [2627.29, 2671.78]</text>
+<rect x="625" y="384" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="633" y="415" font-family="Arial,sans-serif" font-size="17" fill="#10253f">tree</text>
+<rect x="725" y="384" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="733" y="415" font-family="Arial,sans-serif" font-size="17" fill="#10253f">3166.63 [3132.74, 3182.28]</text>
+<rect x="20" y="433" width="220" height="49" fill="#f8fafc" stroke="#64748b"/><text x="28" y="464" font-family="Arial,sans-serif" font-size="17" fill="#10253f">build_ascending</text>
+<rect x="240" y="433" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="248" y="464" font-family="Arial,sans-serif" font-size="17" fill="#10253f">flat</text>
+<rect x="340" y="433" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="348" y="464" font-family="Arial,sans-serif" font-size="17" fill="#10253f">449.20 [444.85, 450.61]</text>
+<rect x="625" y="433" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="633" y="464" font-family="Arial,sans-serif" font-size="17" fill="#10253f">flat</text>
+<rect x="725" y="433" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="733" y="464" font-family="Arial,sans-serif" font-size="17" fill="#10253f">389.03 [385.61, 395.64]</text>
+<rect x="20" y="482" width="220" height="49" fill="#f8fafc" stroke="#64748b"/><text x="28" y="513" font-family="Arial,sans-serif" font-size="17" fill="#10253f">build_descending</text>
+<rect x="240" y="482" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="248" y="513" font-family="Arial,sans-serif" font-size="17" fill="#10253f">tree</text>
+<rect x="340" y="482" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="348" y="513" font-family="Arial,sans-serif" font-size="17" fill="#10253f">360.82 [359.14, 365.02]</text>
+<rect x="625" y="482" width="100" height="49" fill="#f8fafc" stroke="#64748b"/><text x="633" y="513" font-family="Arial,sans-serif" font-size="17" fill="#10253f">tree</text>
+<rect x="725" y="482" width="285" height="49" fill="#f8fafc" stroke="#64748b"/><text x="733" y="513" font-family="Arial,sans-serif" font-size="17" fill="#10253f">315.94 [313.55, 347.51]</text>
+<text x="20" y="570" font-family="Arial,sans-serif" font-size="17" fill="#10253f">Eight process blocks; all rival/best paired ratios &gt; 1.03. Descriptive ranges; warm, unpinned.</text></svg>
