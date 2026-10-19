@@ -93,3 +93,7 @@ version = "0.1.0"
 [[package]]
 name = "topic022-skip-lists-and-hybrid-indexes"
 version = "0.1.0"
+
+[[package]]
+name = "topic023-b-trees-and-posting-list-deduplication"
+version = "0.1.0"

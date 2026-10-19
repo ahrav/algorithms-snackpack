@@ -1,0 +1,11 @@
+[package]
+name = "topic023-b-trees-and-posting-list-deduplication"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+[lints]
+workspace = true
+[[bench]]
+name = "postings"
+harness = false
