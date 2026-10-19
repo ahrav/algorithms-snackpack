@@ -1,0 +1,624 @@
+{
+  "topic": 23,
+  "source_commit": "cb7e3eb97adc9879ec05566e65f5b77e96700f34",
+  "source_hashes": {
+    "src/lib.rs": "cc0f427067c3b220f625ea19f88d17e377936a5de74d25212dab0355ec582016",
+    "benches/postings.rs": "4aa1f0d7a7393e39d83d3388e20062e4329409628ccedb7a5c1176c79ec7cb41",
+    "scripts/run.py": "9f8345ca241c8d0bb0e25dd35cca3e9869a58d9b9d4b9c2cbdc54190883e967e"
+  },
+  "raw_root": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-023/20261019",
+  "primary_phase": "committed-primary",
+  "processes_per_host": 504,
+  "initial_processes_per_host": 504,
+  "excluded_overlap_processes_per_host": 504,
+  "checksums_match_initial": true,
+  "metadata": {
+    "arm": {
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "uname": [
+        "Linux",
+        "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+        "6.12.111-136.204.amzn2023.aarch64",
+        "#1 SMP Tue Oct  6 18:01:38 UTC 2026",
+        "aarch64",
+        "aarch64"
+      ],
+      "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+      "available": "64\n",
+      "flags": "--edition=2024 -C opt-level=3 -C target-cpu=native",
+      "target_features": "debug_assertions\npanic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"aarch64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"aes\"\ntarget_feature=\"bf16\"\ntarget_feature=\"crc\"\ntarget_feature=\"dit\"\ntarget_feature=\"dotprod\"\ntarget_feature=\"dpb\"\ntarget_feature=\"dpb2\"\ntarget_feature=\"fcma\"\ntarget_feature=\"fhm\"\ntarget_feature=\"flagm\"\ntarget_feature=\"fp16\"\ntarget_feature=\"i8mm\"\ntarget_feature=\"jsconv\"\ntarget_feature=\"lor\"\ntarget_feature=\"lse\"\ntarget_feature=\"neon\"\ntarget_feature=\"paca\"\ntarget_feature=\"pacg\"\ntarget_feature=\"pan\"\ntarget_feature=\"pmuv3\"\ntarget_feature=\"rand\"\ntarget_feature=\"ras\"\ntarget_feature=\"rcpc\"\ntarget_feature=\"rcpc2\"\ntarget_feature=\"rdm\"\ntarget_feature=\"sha2\"\ntarget_feature=\"sha3\"\ntarget_feature=\"sm4\"\ntarget_feature=\"spe\"\ntarget_feature=\"ssbs\"\ntarget_feature=\"sve\"\ntarget_feature=\"vh\"\ntarget_has_atomic=\"128\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"128\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n",
+      "binary_sha256": "8e200c5fddf76c6f36d810ba338dc79c342c6a94ce84caa06edaed3a94117246",
+      "cpuinfo_first": "processor\t: 0\nBogoMIPS\t: 2100.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 sm3 sm4 asimddp sha512 sve asimdfhm dit uscat ilrcpc flagm paca pacg dcpodp svei8mm svebf16 i8mm bf16 dgh rng\nCPU implementer\t: 0x41\nCPU architecture: 8\nCPU variant\t: 0x1\nCPU part\t: 0xd40\nCPU revision\t: 1"
+    },
+    "x86": {
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "uname": [
+        "Linux",
+        "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+        "6.12.111-136.204.amzn2023.x86_64",
+        "#1 SMP PREEMPT_DYNAMIC Tue Oct  6 18:01:06 UTC 2026",
+        "x86_64",
+        "x86_64"
+      ],
+      "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+      "available": "192\n",
+      "flags": "--edition=2024 -C opt-level=3 -C target-cpu=native",
+      "target_features": "debug_assertions\npanic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"x86_64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"adx\"\ntarget_feature=\"aes\"\ntarget_feature=\"avx\"\ntarget_feature=\"avx2\"\ntarget_feature=\"avx512bf16\"\ntarget_feature=\"avx512bitalg\"\ntarget_feature=\"avx512bw\"\ntarget_feature=\"avx512cd\"\ntarget_feature=\"avx512dq\"\ntarget_feature=\"avx512f\"\ntarget_feature=\"avx512fp16\"\ntarget_feature=\"avx512ifma\"\ntarget_feature=\"avx512vbmi\"\ntarget_feature=\"avx512vbmi2\"\ntarget_feature=\"avx512vl\"\ntarget_feature=\"avx512vnni\"\ntarget_feature=\"avx512vpopcntdq\"\ntarget_feature=\"avxvnni\"\ntarget_feature=\"bmi1\"\ntarget_feature=\"bmi2\"\ntarget_feature=\"cmpxchg16b\"\ntarget_feature=\"f16c\"\ntarget_feature=\"fma\"\ntarget_feature=\"fxsr\"\ntarget_feature=\"gfni\"\ntarget_feature=\"lzcnt\"\ntarget_feature=\"movbe\"\ntarget_feature=\"pclmulqdq\"\ntarget_feature=\"popcnt\"\ntarget_feature=\"rdrand\"\ntarget_feature=\"rdseed\"\ntarget_feature=\"sha\"\ntarget_feature=\"sse\"\ntarget_feature=\"sse2\"\ntarget_feature=\"sse3\"\ntarget_feature=\"sse4.1\"\ntarget_feature=\"sse4.2\"\ntarget_feature=\"ssse3\"\ntarget_feature=\"vaes\"\ntarget_feature=\"vpclmulqdq\"\ntarget_feature=\"xsave\"\ntarget_feature=\"xsavec\"\ntarget_feature=\"xsaveopt\"\ntarget_feature=\"xsaves\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n",
+      "binary_sha256": "cba95be135e637244c02c8e2af2b14e4a4745e7f11ea1524e1cd8641eacb500f",
+      "cpuinfo_first": "processor\t: 0\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 143\nmodel name\t: Intel(R) Xeon(R) Platinum 8488C\nstepping\t: 8\nmicrocode\t: 0x2b000670\ncpu MHz\t\t: 2400.000\ncache size\t: 107520 KB\nphysical id\t: 0\nsiblings\t: 96\ncore id\t\t: 0\ncpu cores\t: 48\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 31\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb bhi\nbogomips\t: 4800.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:"
+    }
+  },
+  "allocation": {
+    "source_hashes": {
+      "src/lib.rs": "cc0f427067c3b220f625ea19f88d17e377936a5de74d25212dab0355ec582016",
+      "benches/probe.rs": "cb99fa0bece1c5a99d252d3a606931a85ff56deb123322603c49a241e9d7ef61"
+    },
+    "processes": 30,
+    "data": {
+      "arm": {
+        "identity": [
+          "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+          "aarch64"
+        ],
+        "rows": {
+          "tiny": {
+            "flat": {
+              "build": [
+                1,
+                0,
+                512
+              ],
+              "64queries": [
+                32,
+                0,
+                2048
+              ],
+              "logical_bytes": 512
+            },
+            "tree": {
+              "build": [
+                5,
+                0,
+                1376
+              ],
+              "64queries": [
+                32,
+                0,
+                2048
+              ],
+              "logical_bytes": 512
+            },
+            "posting": {
+              "build": [
+                9,
+                0,
+                624
+              ],
+              "64queries": [
+                32,
+                0,
+                2048
+              ],
+              "logical_bytes": 512
+            },
+            "packed8": {
+              "build": [
+                6,
+                4,
+                1408
+              ],
+              "64queries": [
+                32,
+                0,
+                2048
+              ],
+              "logical_bytes": 464
+            },
+            "packed32": {
+              "build": [
+                6,
+                4,
+                1408
+              ],
+              "64queries": [
+                32,
+                0,
+                2048
+              ],
+              "logical_bytes": 464
+            }
+          },
+          "duplicates": {
+            "flat": {
+              "build": [
+                1,
+                0,
+                524288
+              ],
+              "64queries": [
+                34,
+                0,
+                139264
+              ],
+              "logical_bytes": 524288
+            },
+            "tree": {
+              "build": [
+                2983,
+                0,
+                1644928
+              ],
+              "64queries": [
+                34,
+                204,
+                276352
+              ],
+              "logical_bytes": 524288
+            },
+            "posting": {
+              "build": [
+                146,
+                768,
+                527104
+              ],
+              "64queries": [
+                34,
+                0,
+                139264
+              ],
+              "logical_bytes": 266240
+            },
+            "packed8": {
+              "build": [
+                7,
+                18,
+                1054992
+              ],
+              "64queries": [
+                34,
+                0,
+                139264
+              ],
+              "logical_bytes": 265504
+            },
+            "packed32": {
+              "build": [
+                6,
+                18,
+                1054768
+              ],
+              "64queries": [
+                34,
+                0,
+                139264
+              ],
+              "logical_bytes": 265280
+            }
+          },
+          "hot": {
+            "flat": {
+              "build": [
+                1,
+                0,
+                524288
+              ],
+              "64queries": [
+                64,
+                0,
+                33554432
+              ],
+              "logical_bytes": 524288
+            },
+            "tree": {
+              "build": [
+                2983,
+                0,
+                1644928
+              ],
+              "64queries": [
+                64,
+                832,
+                67104768
+              ],
+              "logical_bytes": 524288
+            },
+            "posting": {
+              "build": [
+                2,
+                13,
+                524624
+              ],
+              "64queries": [
+                64,
+                0,
+                33554432
+              ],
+              "logical_bytes": 262176
+            },
+            "packed8": {
+              "build": [
+                6,
+                13,
+                1048768
+              ],
+              "64queries": [
+                64,
+                0,
+                33554432
+              ],
+              "logical_bytes": 262184
+            },
+            "packed32": {
+              "build": [
+                6,
+                13,
+                1048768
+              ],
+              "64queries": [
+                64,
+                0,
+                33554432
+              ],
+              "logical_bytes": 262184
+            }
+          }
+        },
+        "columns": [
+          "alloc_including_zeroed",
+          "realloc",
+          "cumulative_requested_bytes_including_realloc_new_size"
+        ],
+        "oracle": "all query pairs match independent oracle",
+        "scope": "Separate counted build and64queries. No timings, RSS, peak, retained-capacity, teardown/dealloc-count claim."
+      },
+      "x86": {
+        "identity": [
+          "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+          "x86_64"
+        ],
+        "rows": {
+          "tiny": {
+            "flat": {
+              "build": [
+                1,
+                0,
+                512
+              ],
+              "64queries": [
+                32,
+                0,
+                2048
+              ],
+              "logical_bytes": 512
+            },
+            "tree": {
+              "build": [
+                5,
+                0,
+                1376
+              ],
+              "64queries": [
+                32,
+                0,
+                2048
+              ],
+              "logical_bytes": 512
+            },
+            "posting": {
+              "build": [
+                9,
+                0,
+                624
+              ],
+              "64queries": [
+                32,
+                0,
+                2048
+              ],
+              "logical_bytes": 512
+            },
+            "packed8": {
+              "build": [
+                6,
+                4,
+                1408
+              ],
+              "64queries": [
+                32,
+                0,
+                2048
+              ],
+              "logical_bytes": 464
+            },
+            "packed32": {
+              "build": [
+                6,
+                4,
+                1408
+              ],
+              "64queries": [
+                32,
+                0,
+                2048
+              ],
+              "logical_bytes": 464
+            }
+          },
+          "duplicates": {
+            "flat": {
+              "build": [
+                1,
+                0,
+                524288
+              ],
+              "64queries": [
+                34,
+                0,
+                139264
+              ],
+              "logical_bytes": 524288
+            },
+            "tree": {
+              "build": [
+                2983,
+                0,
+                1644928
+              ],
+              "64queries": [
+                34,
+                204,
+                276352
+              ],
+              "logical_bytes": 524288
+            },
+            "posting": {
+              "build": [
+                146,
+                768,
+                527104
+              ],
+              "64queries": [
+                34,
+                0,
+                139264
+              ],
+              "logical_bytes": 266240
+            },
+            "packed8": {
+              "build": [
+                7,
+                18,
+                1054992
+              ],
+              "64queries": [
+                34,
+                0,
+                139264
+              ],
+              "logical_bytes": 265504
+            },
+            "packed32": {
+              "build": [
+                6,
+                18,
+                1054768
+              ],
+              "64queries": [
+                34,
+                0,
+                139264
+              ],
+              "logical_bytes": 265280
+            }
+          },
+          "hot": {
+            "flat": {
+              "build": [
+                1,
+                0,
+                524288
+              ],
+              "64queries": [
+                64,
+                0,
+                33554432
+              ],
+              "logical_bytes": 524288
+            },
+            "tree": {
+              "build": [
+                2983,
+                0,
+                1644928
+              ],
+              "64queries": [
+                64,
+                832,
+                67104768
+              ],
+              "logical_bytes": 524288
+            },
+            "posting": {
+              "build": [
+                2,
+                13,
+                524624
+              ],
+              "64queries": [
+                64,
+                0,
+                33554432
+              ],
+              "logical_bytes": 262176
+            },
+            "packed8": {
+              "build": [
+                6,
+                13,
+                1048768
+              ],
+              "64queries": [
+                64,
+                0,
+                33554432
+              ],
+              "logical_bytes": 262184
+            },
+            "packed32": {
+              "build": [
+                6,
+                13,
+                1048768
+              ],
+              "64queries": [
+                64,
+                0,
+                33554432
+              ],
+              "logical_bytes": 262184
+            }
+          }
+        },
+        "columns": [
+          "alloc_including_zeroed",
+          "realloc",
+          "cumulative_requested_bytes_including_realloc_new_size"
+        ],
+        "oracle": "all query pairs match independent oracle",
+        "scope": "Separate counted build and64queries. No timings, RSS, peak, retained-capacity, teardown/dealloc-count claim."
+      }
+    }
+  },
+  "mutants": [
+    {
+      "mutant": "fence-equality",
+      "compiled": true,
+      "rejected": true
+    },
+    {
+      "mutant": "leaf-equality",
+      "compiled": true,
+      "rejected": true
+    },
+    {
+      "mutant": "drop-repeat-key-row",
+      "compiled": true,
+      "rejected": true
+    },
+    {
+      "mutant": "delete-entire-posting",
+      "compiled": true,
+      "rejected": true
+    }
+  ],
+  "validation": [
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "returncode": 0,
+      "seconds": 0.053240060806274414
+    },
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "returncode": 0,
+      "seconds": 0.38068294525146484
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--lib",
+        "--examples"
+      ],
+      "returncode": 0,
+      "seconds": 39.694329261779785
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--doc"
+      ],
+      "returncode": 0,
+      "seconds": 2.8652682304382324
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--all-targets"
+      ],
+      "returncode": 0,
+      "seconds": 55.418570041656494
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "returncode": 0,
+      "seconds": 0.2925598621368408
+    },
+    {
+      "argv": [
+        "cargo",
+        "bench",
+        "--workspace",
+        "--no-run"
+      ],
+      "returncode": 0,
+      "seconds": 7.634490728378296
+    },
+    {
+      "argv": [
+        "cargo",
+        "doc",
+        "--workspace",
+        "--no-deps"
+      ],
+      "returncode": 0,
+      "seconds": 1.64261794090271
+    }
+  ],
+  "limitations": [
+    "descriptive process ranges",
+    "uncontrolled shared host background",
+    "unpinned scheduling",
+    "differing toolchains",
+    "no PMU/cold/storage/tail/ISA-only/production claim",
+    "overlap run excluded from selection"
+  ],
+  "visual": {
+    "logical_visuals": 1,
+    "files": [
+      "tree.svg",
+      "tree.png"
+    ],
+    "review": "Actual raster inspected. All3panels, labels, paths, ranges, key/row counts, clipping, white background and contrast pass. SVG in topic is byte-identical to rendered input. PNG is external only.",
+    "running_example": {
+      "before_pairs": 5,
+      "after_pairs": 6,
+      "after_keys": 4,
+      "range_7_12_pairs": 5
+    }
+  }
+}

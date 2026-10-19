@@ -1,0 +1,1262 @@
+{
+  "arm": {
+    "tiny": {
+      "lowest_median": "flat",
+      "resolved": true,
+      "unresolved_rivals": [],
+      "stats": {
+        "flat": {
+          "median_ns": 236676.0,
+          "min_ns": 231612,
+          "max_ns": 240384
+        },
+        "tree": {
+          "median_ns": 417429.5,
+          "min_ns": 414036,
+          "max_ns": 422487
+        },
+        "posting": {
+          "median_ns": 311088.5,
+          "min_ns": 308770,
+          "max_ns": 318620
+        },
+        "packed8": {
+          "median_ns": 304668.5,
+          "min_ns": 299515,
+          "max_ns": 308997
+        },
+        "packed32": {
+          "median_ns": 301699.0,
+          "min_ns": 300277,
+          "max_ns": 309044
+        },
+        "aa_left": {
+          "median_ns": 417230.0,
+          "min_ns": 410828,
+          "max_ns": 423449
+        },
+        "aa_right": {
+          "median_ns": 415454.0,
+          "min_ns": 412369,
+          "max_ns": 419592
+        }
+      },
+      "paired_rival_over_best": {
+        "tree": {
+          "median": 1.7700561675460267,
+          "min": 1.7367586861022364,
+          "max": 1.812954423777697
+        },
+        "posting": {
+          "median": 1.3232214473847272,
+          "min": 1.28448648828541,
+          "max": 1.3608794017581127
+        },
+        "packed8": {
+          "median": 1.2788780155148403,
+          "min": 1.2571631176090265,
+          "max": 1.3253653368562373
+        },
+        "packed32": {
+          "median": 1.284064994962331,
+          "min": 1.2492678381256657,
+          "max": 1.3063296460082097
+        }
+      },
+      "aa_right_over_left": {
+        "median": 0.9964934940017368,
+        "min": 0.9803730791665585,
+        "max": 1.0120293650870924
+      }
+    },
+    "distinct": {
+      "lowest_median": "flat",
+      "resolved": true,
+      "unresolved_rivals": [],
+      "stats": {
+        "flat": {
+          "median_ns": 22179.5,
+          "min_ns": 21762,
+          "max_ns": 22734
+        },
+        "tree": {
+          "median_ns": 37142.5,
+          "min_ns": 36602,
+          "max_ns": 37728
+        },
+        "posting": {
+          "median_ns": 32161.5,
+          "min_ns": 31509,
+          "max_ns": 32503
+        },
+        "packed8": {
+          "median_ns": 32427.0,
+          "min_ns": 31759,
+          "max_ns": 32923
+        },
+        "packed32": {
+          "median_ns": 26905.5,
+          "min_ns": 26574,
+          "max_ns": 27590
+        },
+        "aa_left": {
+          "median_ns": 36781.0,
+          "min_ns": 36616,
+          "max_ns": 37948
+        },
+        "aa_right": {
+          "median_ns": 36949.5,
+          "min_ns": 36474,
+          "max_ns": 37545
+        }
+      },
+      "paired_rival_over_best": {
+        "tree": {
+          "median": 1.6645153705543034,
+          "min": 1.6456304261601515,
+          "max": 1.7024502504399621
+        },
+        "posting": {
+          "median": 1.4420042933836217,
+          "min": 1.417524412773819,
+          "max": 1.4735243449088766
+        },
+        "packed8": {
+          "median": 1.4576348566106074,
+          "min": 1.4034925662004047,
+          "max": 1.4787972243639167
+        },
+        "packed32": {
+          "median": 1.2130806588251182,
+          "min": 1.190164815478323,
+          "max": 1.2440837791277541
+        }
+      },
+      "aa_right_over_left": {
+        "median": 1.003094453452607,
+        "min": 0.9704068725624538,
+        "max": 1.0218210618308936
+      }
+    },
+    "duplicates": {
+      "lowest_median": "packed32",
+      "resolved": false,
+      "unresolved_rivals": [
+        "packed8"
+      ],
+      "stats": {
+        "flat": {
+          "median_ns": 99135.5,
+          "min_ns": 98708,
+          "max_ns": 109786
+        },
+        "tree": {
+          "median_ns": 385314.5,
+          "min_ns": 376439,
+          "max_ns": 409088
+        },
+        "posting": {
+          "median_ns": 138807.5,
+          "min_ns": 138196,
+          "max_ns": 141095
+        },
+        "packed8": {
+          "median_ns": 89987.5,
+          "min_ns": 89326,
+          "max_ns": 90518
+        },
+        "packed32": {
+          "median_ns": 87402.0,
+          "min_ns": 86621,
+          "max_ns": 89631
+        },
+        "aa_left": {
+          "median_ns": 395145.5,
+          "min_ns": 375157,
+          "max_ns": 399688
+        },
+        "aa_right": {
+          "median_ns": 392231.5,
+          "min_ns": 381170,
+          "max_ns": 399623
+        }
+      },
+      "paired_rival_over_best": {
+        "flat": {
+          "median": 1.1392529563560259,
+          "min": 1.1297570131965984,
+          "max": 1.2248663966707947
+        },
+        "tree": {
+          "median": 4.422661115577062,
+          "min": 4.297690401981939,
+          "max": 4.623242940308579
+        },
+        "posting": {
+          "median": 1.595598919925591,
+          "min": 1.5418326248730907,
+          "max": 1.6133244595400926
+        },
+        "packed8": {
+          "median": 1.0277582990885943,
+          "min": 1.0040834086420993,
+          "max": 1.044989090405329
+        }
+      },
+      "aa_right_over_left": {
+        "median": 0.995826619900359,
+        "min": 0.9543093613018154,
+        "max": 1.0332957548365076
+      }
+    },
+    "hot": {
+      "lowest_median": "packed32",
+      "resolved": false,
+      "unresolved_rivals": [
+        "packed8"
+      ],
+      "stats": {
+        "flat": {
+          "median_ns": 2099984.0,
+          "min_ns": 2064076,
+          "max_ns": 2183918
+        },
+        "tree": {
+          "median_ns": 8772166.5,
+          "min_ns": 8712835,
+          "max_ns": 9285622
+        },
+        "posting": {
+          "median_ns": 3034303.0,
+          "min_ns": 3016750,
+          "max_ns": 3043379
+        },
+        "packed8": {
+          "median_ns": 1884133.0,
+          "min_ns": 1847310,
+          "max_ns": 1905565
+        },
+        "packed32": {
+          "median_ns": 1878207.5,
+          "min_ns": 1855492,
+          "max_ns": 1918319
+        },
+        "aa_left": {
+          "median_ns": 9253896.5,
+          "min_ns": 8765998,
+          "max_ns": 9532286
+        },
+        "aa_right": {
+          "median_ns": 9225627.5,
+          "min_ns": 8756635,
+          "max_ns": 9514816
+        }
+      },
+      "paired_rival_over_best": {
+        "flat": {
+          "median": 1.12153805207216,
+          "min": 1.0890430632235828,
+          "max": 1.1657597526617578
+        },
+        "tree": {
+          "median": 4.653267482153165,
+          "min": 4.545084003234082,
+          "max": 5.004398833301356
+        },
+        "posting": {
+          "median": 1.616242649872874,
+          "min": 1.5840665707841084,
+          "max": 1.6353791878380506
+        },
+        "packed8": {
+          "median": 0.9974290885773254,
+          "min": 0.9848262984415,
+          "max": 1.022022191418772
+        }
+      },
+      "aa_right_over_left": {
+        "median": 0.9989437021036227,
+        "min": 0.9201183220897904,
+        "max": 1.0539666056854535
+      }
+    },
+    "range": {
+      "lowest_median": "packed32",
+      "resolved": false,
+      "unresolved_rivals": [
+        "packed8"
+      ],
+      "stats": {
+        "flat": {
+          "median_ns": 128048.5,
+          "min_ns": 127385,
+          "max_ns": 131124
+        },
+        "tree": {
+          "median_ns": 580565.5,
+          "min_ns": 573960,
+          "max_ns": 619234
+        },
+        "posting": {
+          "median_ns": 198296.0,
+          "min_ns": 197467,
+          "max_ns": 200926
+        },
+        "packed8": {
+          "median_ns": 121896.0,
+          "min_ns": 121413,
+          "max_ns": 122639
+        },
+        "packed32": {
+          "median_ns": 120408.0,
+          "min_ns": 119978,
+          "max_ns": 121163
+        },
+        "aa_left": {
+          "median_ns": 590553.0,
+          "min_ns": 574764,
+          "max_ns": 626688
+        },
+        "aa_right": {
+          "median_ns": 612145.0,
+          "min_ns": 574224,
+          "max_ns": 622405
+        }
+      },
+      "paired_rival_over_best": {
+        "flat": {
+          "median": 1.0627494522844083,
+          "min": 1.0543741476920534,
+          "max": 1.090691310170436
+        },
+        "tree": {
+          "median": 4.8335205134178,
+          "min": 4.7460775979465675,
+          "max": 5.151140059727317
+        },
+        "posting": {
+          "median": 1.645384899644014,
+          "min": 1.6337096307323327,
+          "max": 1.6606140749617753
+        },
+        "packed8": {
+          "median": 1.012231352630573,
+          "min": 1.0070731163804132,
+          "max": 1.014257949799446
+        }
+      },
+      "aa_right_over_left": {
+        "median": 1.0100455738915317,
+        "min": 0.9593996071143444,
+        "max": 1.064473611284311
+      }
+    },
+    "broad": {
+      "lowest_median": "flat",
+      "resolved": true,
+      "unresolved_rivals": [],
+      "stats": {
+        "flat": {
+          "median_ns": 111397.0,
+          "min_ns": 111294,
+          "max_ns": 112389
+        },
+        "tree": {
+          "median_ns": 520018.5,
+          "min_ns": 504279,
+          "max_ns": 542727
+        },
+        "posting": {
+          "median_ns": 882271.0,
+          "min_ns": 859163,
+          "max_ns": 946581
+        },
+        "packed8": {
+          "median_ns": 414973.0,
+          "min_ns": 412224,
+          "max_ns": 420825
+        },
+        "packed32": {
+          "median_ns": 413251.5,
+          "min_ns": 412018,
+          "max_ns": 420494
+        },
+        "aa_left": {
+          "median_ns": 521748.5,
+          "min_ns": 505563,
+          "max_ns": 541715
+        },
+        "aa_right": {
+          "median_ns": 507918.0,
+          "min_ns": 502581,
+          "max_ns": 545429
+        }
+      },
+      "paired_rival_over_best": {
+        "tree": {
+          "median": 4.660964979546088,
+          "min": 4.515487082162104,
+          "max": 4.860383630564665
+        },
+        "posting": {
+          "median": 7.922867337716886,
+          "min": 7.6445470642144695,
+          "max": 8.504388841471632
+        },
+        "packed8": {
+          "median": 3.7150314112230896,
+          "min": 3.70228098759243,
+          "max": 3.7802500853380283
+        },
+        "packed32": {
+          "median": 3.705190137563317,
+          "min": 3.6783315093114095,
+          "max": 3.7606897230196847
+        }
+      },
+      "aa_right_over_left": {
+        "median": 0.9992223491809265,
+        "min": 0.9341406459115956,
+        "max": 1.0708714838704574
+      }
+    },
+    "build_distinct": {
+      "lowest_median": "flat",
+      "resolved": true,
+      "unresolved_rivals": [],
+      "stats": {
+        "flat": {
+          "median_ns": 405543.5,
+          "min_ns": 401604,
+          "max_ns": 413732
+        },
+        "tree": {
+          "median_ns": 597450.0,
+          "min_ns": 590258,
+          "max_ns": 609198
+        },
+        "posting": {
+          "median_ns": 2729827.0,
+          "min_ns": 2716480,
+          "max_ns": 2785905
+        },
+        "packed8": {
+          "median_ns": 607448.0,
+          "min_ns": 601996,
+          "max_ns": 612458
+        },
+        "packed32": {
+          "median_ns": 608931.5,
+          "min_ns": 593574,
+          "max_ns": 616595
+        },
+        "aa_left": {
+          "median_ns": 596759.5,
+          "min_ns": 589625,
+          "max_ns": 608237
+        },
+        "aa_right": {
+          "median_ns": 596316.5,
+          "min_ns": 589499,
+          "max_ns": 603657
+        }
+      },
+      "paired_rival_over_best": {
+        "tree": {
+          "median": 1.4725279327657848,
+          "min": 1.4410208710215302,
+          "max": 1.5056274339897013
+        },
+        "posting": {
+          "median": 6.7536951204789215,
+          "min": 6.602926532151248,
+          "max": 6.901783723522854
+        },
+        "packed8": {
+          "median": 1.4951950968922891,
+          "min": 1.4550385273558728,
+          "max": 1.5185153033384593
+        },
+        "packed32": {
+          "median": 1.5061984572339342,
+          "min": 1.434682354761053,
+          "max": 1.5207044750550294
+        }
+      },
+      "aa_right_over_left": {
+        "median": 0.9991200212438764,
+        "min": 0.9809991220716469,
+        "max": 1.004208720293855
+      }
+    },
+    "build_duplicates": {
+      "lowest_median": "flat",
+      "resolved": true,
+      "unresolved_rivals": [],
+      "stats": {
+        "flat": {
+          "median_ns": 847515.5,
+          "min_ns": 842913,
+          "max_ns": 856917
+        },
+        "tree": {
+          "median_ns": 1291825.5,
+          "min_ns": 1274221,
+          "max_ns": 1317677
+        },
+        "posting": {
+          "median_ns": 2723177.5,
+          "min_ns": 2717242,
+          "max_ns": 2741006
+        },
+        "packed8": {
+          "median_ns": 918796.0,
+          "min_ns": 913261,
+          "max_ns": 924104
+        },
+        "packed32": {
+          "median_ns": 919006.0,
+          "min_ns": 914180,
+          "max_ns": 920771
+        },
+        "aa_left": {
+          "median_ns": 1279058.5,
+          "min_ns": 1271164,
+          "max_ns": 1286681
+        },
+        "aa_right": {
+          "median_ns": 1281362.5,
+          "min_ns": 1272116,
+          "max_ns": 1289665
+        }
+      },
+      "paired_rival_over_best": {
+        "tree": {
+          "median": 1.5284357060765734,
+          "min": 1.4991276214006295,
+          "max": 1.5515717930934598
+        },
+        "posting": {
+          "median": 3.211547213361336,
+          "min": 3.184367914278746,
+          "max": 3.2518255146142008
+        },
+        "packed8": {
+          "median": 1.0847768574054832,
+          "min": 1.075369766135651,
+          "max": 1.0898641080498053
+        },
+        "packed32": {
+          "median": 1.084187879927242,
+          "min": 1.066824441573688,
+          "max": 1.0899926801461124
+        }
+      },
+      "aa_right_over_left": {
+        "median": 1.0002956092075825,
+        "min": 0.9947251882945345,
+        "max": 1.0087936465473477
+      }
+    },
+    "small_lifecycle": {
+      "lowest_median": "flat",
+      "resolved": true,
+      "unresolved_rivals": [],
+      "stats": {
+        "flat": {
+          "median_ns": 70363.0,
+          "min_ns": 69489,
+          "max_ns": 71276
+        },
+        "tree": {
+          "median_ns": 120353.0,
+          "min_ns": 119470,
+          "max_ns": 128456
+        },
+        "posting": {
+          "median_ns": 103190.5,
+          "min_ns": 101500,
+          "max_ns": 103820
+        },
+        "packed8": {
+          "median_ns": 101855.5,
+          "min_ns": 100309,
+          "max_ns": 105397
+        },
+        "packed32": {
+          "median_ns": 101924.0,
+          "min_ns": 99756,
+          "max_ns": 103394
+        },
+        "aa_left": {
+          "median_ns": 120032.5,
+          "min_ns": 119364,
+          "max_ns": 121915
+        },
+        "aa_right": {
+          "median_ns": 120465.0,
+          "min_ns": 119531,
+          "max_ns": 137869
+        }
+      },
+      "paired_rival_over_best": {
+        "tree": {
+          "median": 1.7104553950504355,
+          "min": 1.678236713620293,
+          "max": 1.8485803508468965
+        },
+        "posting": {
+          "median": 1.4623169279923371,
+          "min": 1.445900443346989,
+          "max": 1.4821241778554746
+        },
+        "packed8": {
+          "median": 1.4575108578766764,
+          "min": 1.4115701781542878,
+          "max": 1.516743657269496
+        },
+        "packed32": {
+          "median": 1.4438706209358303,
+          "min": 1.4072359348174832,
+          "max": 1.4690526558160284
+        }
+      },
+      "aa_right_over_left": {
+        "median": 1.0049559759588984,
+        "min": 0.9873190337530247,
+        "max": 1.1499624655934606
+      }
+    }
+  },
+  "x86": {
+    "tiny": {
+      "lowest_median": "flat",
+      "resolved": false,
+      "unresolved_rivals": [
+        "packed8",
+        "packed32"
+      ],
+      "stats": {
+        "flat": {
+          "median_ns": 253467.0,
+          "min_ns": 250159,
+          "max_ns": 263302
+        },
+        "tree": {
+          "median_ns": 464516.0,
+          "min_ns": 461903,
+          "max_ns": 468116
+        },
+        "posting": {
+          "median_ns": 296064.0,
+          "min_ns": 291348,
+          "max_ns": 297949
+        },
+        "packed8": {
+          "median_ns": 263691.5,
+          "min_ns": 259380,
+          "max_ns": 266398
+        },
+        "packed32": {
+          "median_ns": 262325.0,
+          "min_ns": 259354,
+          "max_ns": 267193
+        },
+        "aa_left": {
+          "median_ns": 465251.0,
+          "min_ns": 461657,
+          "max_ns": 468802
+        },
+        "aa_right": {
+          "median_ns": 464523.5,
+          "min_ns": 462306,
+          "max_ns": 469593
+        }
+      },
+      "paired_rival_over_best": {
+        "tree": {
+          "median": 1.825671079989631,
+          "min": 1.754270761331095,
+          "max": 1.859229530018908
+        },
+        "posting": {
+          "median": 1.1588561079041417,
+          "min": 1.116470820578651,
+          "max": 1.1799213752982112
+        },
+        "packed8": {
+          "median": 1.042604318297494,
+          "min": 0.9919460315275005,
+          "max": 1.0537978939706802
+        },
+        "packed32": {
+          "median": 1.0310105100307645,
+          "min": 0.9953703352044421,
+          "max": 1.0552062682158174
+        }
+      },
+      "aa_right_over_left": {
+        "median": 1.0003622863744381,
+        "min": 0.9911536042377124,
+        "max": 1.014875407922889
+      }
+    },
+    "distinct": {
+      "lowest_median": "posting",
+      "resolved": true,
+      "unresolved_rivals": [],
+      "stats": {
+        "flat": {
+          "median_ns": 37756.5,
+          "min_ns": 36650,
+          "max_ns": 39616
+        },
+        "tree": {
+          "median_ns": 38536.5,
+          "min_ns": 38321,
+          "max_ns": 39077
+        },
+        "posting": {
+          "median_ns": 25573.5,
+          "min_ns": 25232,
+          "max_ns": 26240
+        },
+        "packed8": {
+          "median_ns": 40234.0,
+          "min_ns": 39921,
+          "max_ns": 41431
+        },
+        "packed32": {
+          "median_ns": 33650.0,
+          "min_ns": 33296,
+          "max_ns": 34016
+        },
+        "aa_left": {
+          "median_ns": 38815.5,
+          "min_ns": 38336,
+          "max_ns": 40130
+        },
+        "aa_right": {
+          "median_ns": 38894.0,
+          "min_ns": 38526,
+          "max_ns": 39520
+        }
+      },
+      "paired_rival_over_best": {
+        "flat": {
+          "median": 1.4856839420038916,
+          "min": 1.4191692073170732,
+          "max": 1.5671505993116817
+        },
+        "tree": {
+          "median": 1.5066895555767839,
+          "min": 1.4746189024390244,
+          "max": 1.5242801890846585
+        },
+        "packed8": {
+          "median": 1.581427624316913,
+          "min": 1.530221036585366,
+          "max": 1.6296660504267788
+        },
+        "packed32": {
+          "median": 1.3238070730065832,
+          "min": 1.2802591463414634,
+          "max": 1.33009479605082
+        }
+      },
+      "aa_right_over_left": {
+        "median": 1.0009192575359858,
+        "min": 0.9725890854722153,
+        "max": 1.0134077629382303
+      }
+    },
+    "duplicates": {
+      "lowest_median": "packed32",
+      "resolved": false,
+      "unresolved_rivals": [
+        "packed8"
+      ],
+      "stats": {
+        "flat": {
+          "median_ns": 106554.0,
+          "min_ns": 106306,
+          "max_ns": 107219
+        },
+        "tree": {
+          "median_ns": 230674.0,
+          "min_ns": 227067,
+          "max_ns": 238943
+        },
+        "posting": {
+          "median_ns": 155880.5,
+          "min_ns": 142218,
+          "max_ns": 161041
+        },
+        "packed8": {
+          "median_ns": 79037.5,
+          "min_ns": 78518,
+          "max_ns": 79356
+        },
+        "packed32": {
+          "median_ns": 76166.0,
+          "min_ns": 75865,
+          "max_ns": 76547
+        },
+        "aa_left": {
+          "median_ns": 230344.5,
+          "min_ns": 227277,
+          "max_ns": 237302
+        },
+        "aa_right": {
+          "median_ns": 230001.5,
+          "min_ns": 228275,
+          "max_ns": 237861
+        }
+      },
+      "paired_rival_over_best": {
+        "flat": {
+          "median": 1.4007343257580136,
+          "min": 1.390555584592066,
+          "max": 1.410189151782772
+        },
+        "tree": {
+          "median": 3.0326638248302538,
+          "min": 2.975742405577543,
+          "max": 3.146968180381414
+        },
+        "posting": {
+          "median": 2.0448083711365848,
+          "min": 1.8706495146397286,
+          "max": 2.108860195903829
+        },
+        "packed8": {
+          "median": 1.0357474822005215,
+          "min": 1.0289885461169501,
+          "max": 1.0451480349805078
+        }
+      },
+      "aa_right_over_left": {
+        "median": 0.9938042172999478,
+        "min": 0.9691405887855981,
+        "max": 1.0394432669827605
+      }
+    },
+    "hot": {
+      "lowest_median": "flat",
+      "resolved": false,
+      "unresolved_rivals": [
+        "packed8",
+        "packed32"
+      ],
+      "stats": {
+        "flat": {
+          "median_ns": 2094479.0,
+          "min_ns": 2087509,
+          "max_ns": 2333390
+        },
+        "tree": {
+          "median_ns": 4618452.0,
+          "min_ns": 4578931,
+          "max_ns": 4819609
+        },
+        "posting": {
+          "median_ns": 4928668.5,
+          "min_ns": 4125193,
+          "max_ns": 5137300
+        },
+        "packed8": {
+          "median_ns": 2107080.0,
+          "min_ns": 2097733,
+          "max_ns": 2117960
+        },
+        "packed32": {
+          "median_ns": 2111652.0,
+          "min_ns": 2106996,
+          "max_ns": 2171756
+        },
+        "aa_left": {
+          "median_ns": 4606585.0,
+          "min_ns": 4565331,
+          "max_ns": 5454708
+        },
+        "aa_right": {
+          "median_ns": 4603447.0,
+          "min_ns": 4587226,
+          "max_ns": 4681288
+        }
+      },
+      "paired_rival_over_best": {
+        "tree": {
+          "median": 2.1863032043100747,
+          "min": 1.9763181465592978,
+          "max": 2.2472308074734073
+        },
+        "posting": {
+          "median": 2.2495747722069206,
+          "min": 1.9761318394315905,
+          "max": 2.4061556511013014
+        },
+        "packed8": {
+          "median": 1.0045390049977816,
+          "min": 0.899006595554108,
+          "max": 1.0142159866137104
+        },
+        "packed32": {
+          "median": 1.0099117318890631,
+          "min": 0.9040751867454647,
+          "max": 1.0391266527654306
+        }
+      },
+      "aa_right_over_left": {
+        "median": 0.9990659650267634,
+        "min": 0.8427024874658735,
+        "max": 1.023806576541072
+      }
+    },
+    "range": {
+      "lowest_median": "packed32",
+      "resolved": true,
+      "unresolved_rivals": [],
+      "stats": {
+        "flat": {
+          "median_ns": 119567.5,
+          "min_ns": 119323,
+          "max_ns": 119900
+        },
+        "tree": {
+          "median_ns": 312121.0,
+          "min_ns": 311378,
+          "max_ns": 316675
+        },
+        "posting": {
+          "median_ns": 248390.5,
+          "min_ns": 228606,
+          "max_ns": 259517
+        },
+        "packed8": {
+          "median_ns": 115376.5,
+          "min_ns": 115100,
+          "max_ns": 115654
+        },
+        "packed32": {
+          "median_ns": 107456.5,
+          "min_ns": 107205,
+          "max_ns": 107806
+        },
+        "aa_left": {
+          "median_ns": 314595.5,
+          "min_ns": 302001,
+          "max_ns": 317088
+        },
+        "aa_right": {
+          "median_ns": 313430.0,
+          "min_ns": 289665,
+          "max_ns": 316713
+        }
+      },
+      "paired_rival_over_best": {
+        "flat": {
+          "median": 1.111744304825507,
+          "min": 1.1074060324825985,
+          "max": 1.1181989442859008
+        },
+        "tree": {
+          "median": 2.908524633692971,
+          "min": 2.889148689399211,
+          "max": 2.9374524609019907
+        },
+        "posting": {
+          "median": 2.3117061698620036,
+          "min": 2.121633410672854,
+          "max": 2.4207546289818573
+        },
+        "packed8": {
+          "median": 1.0734139923581667,
+          "min": 1.0683368128044537,
+          "max": 1.0765499906907465
+        }
+      },
+      "aa_right_over_left": {
+        "median": 0.9981929615155576,
+        "min": 0.9168819083070612,
+        "max": 1.0481620921785026
+      }
+    },
+    "broad": {
+      "lowest_median": "flat",
+      "resolved": true,
+      "unresolved_rivals": [],
+      "stats": {
+        "flat": {
+          "median_ns": 111032.0,
+          "min_ns": 110498,
+          "max_ns": 111286
+        },
+        "tree": {
+          "median_ns": 267457.5,
+          "min_ns": 266649,
+          "max_ns": 305038
+        },
+        "posting": {
+          "median_ns": 595632.0,
+          "min_ns": 584999,
+          "max_ns": 608093
+        },
+        "packed8": {
+          "median_ns": 395495.0,
+          "min_ns": 393241,
+          "max_ns": 406698
+        },
+        "packed32": {
+          "median_ns": 398313.5,
+          "min_ns": 391967,
+          "max_ns": 404446
+        },
+        "aa_left": {
+          "median_ns": 266654.5,
+          "min_ns": 245249,
+          "max_ns": 272487
+        },
+        "aa_right": {
+          "median_ns": 267268.0,
+          "min_ns": 244495,
+          "max_ns": 270849
+        }
+      },
+      "paired_rival_over_best": {
+        "tree": {
+          "median": 2.4133785682843305,
+          "min": 2.399879589526086,
+          "max": 2.742432279351608
+        },
+        "posting": {
+          "median": 5.3569391454601245,
+          "min": 5.265055802167389,
+          "max": 5.478759539061726
+        },
+        "packed8": {
+          "median": 3.559459222028473,
+          "min": 3.5336071024207896,
+          "max": 3.680591503918623
+        },
+        "packed32": {
+          "median": 3.59401541967816,
+          "min": 3.524998652121561,
+          "max": 3.6506629839241067
+        }
+      },
+      "aa_right_over_left": {
+        "median": 0.9941918303982884,
+        "min": 0.9163362291899347,
+        "max": 1.1043837079865768
+      }
+    },
+    "build_distinct": {
+      "lowest_median": "flat",
+      "resolved": true,
+      "unresolved_rivals": [],
+      "stats": {
+        "flat": {
+          "median_ns": 341374.0,
+          "min_ns": 334556,
+          "max_ns": 349981
+        },
+        "tree": {
+          "median_ns": 531630.0,
+          "min_ns": 519291,
+          "max_ns": 539890
+        },
+        "posting": {
+          "median_ns": 2259274.0,
+          "min_ns": 2208168,
+          "max_ns": 2285712
+        },
+        "packed8": {
+          "median_ns": 514569.5,
+          "min_ns": 508498,
+          "max_ns": 522660
+        },
+        "packed32": {
+          "median_ns": 515219.0,
+          "min_ns": 506207,
+          "max_ns": 520171
+        },
+        "aa_left": {
+          "median_ns": 528579.5,
+          "min_ns": 523320,
+          "max_ns": 542964
+        },
+        "aa_right": {
+          "median_ns": 533819.0,
+          "min_ns": 528940,
+          "max_ns": 546758
+        }
+      },
+      "paired_rival_over_best": {
+        "tree": {
+          "median": 1.5479588064629266,
+          "min": 1.4997214134481587,
+          "max": 1.6077964234130944
+        },
+        "posting": {
+          "median": 6.6529448097750805,
+          "min": 6.309393938528092,
+          "max": 6.822517007616065
+        },
+        "packed8": {
+          "median": 1.5228332233457795,
+          "min": 1.4529303019306763,
+          "max": 1.537250431534732
+        },
+        "packed32": {
+          "median": 1.5044598765257318,
+          "min": 1.4519142516234138,
+          "max": 1.5501141811834191
+        }
+      },
+      "aa_right_over_left": {
+        "median": 1.01058246480304,
+        "min": 0.9801429058511348,
+        "max": 1.031916760876253
+      }
+    },
+    "build_duplicates": {
+      "lowest_median": "flat",
+      "resolved": true,
+      "unresolved_rivals": [],
+      "stats": {
+        "flat": {
+          "median_ns": 742574.5,
+          "min_ns": 738280,
+          "max_ns": 754150
+        },
+        "tree": {
+          "median_ns": 1144039.0,
+          "min_ns": 1130475,
+          "max_ns": 1184097
+        },
+        "posting": {
+          "median_ns": 2645449.5,
+          "min_ns": 2637029,
+          "max_ns": 2679511
+        },
+        "packed8": {
+          "median_ns": 819537.0,
+          "min_ns": 810273,
+          "max_ns": 829348
+        },
+        "packed32": {
+          "median_ns": 829582.0,
+          "min_ns": 818653,
+          "max_ns": 1039449
+        },
+        "aa_left": {
+          "median_ns": 1148393.5,
+          "min_ns": 1139191,
+          "max_ns": 1167044
+        },
+        "aa_right": {
+          "median_ns": 1151623.5,
+          "min_ns": 1137760,
+          "max_ns": 1172976
+        }
+      },
+      "paired_rival_over_best": {
+        "tree": {
+          "median": 1.5375256114322635,
+          "min": 1.5064469933037195,
+          "max": 1.6038589694966678
+        },
+        "posting": {
+          "median": 3.57044235562061,
+          "min": 3.5059179208380296,
+          "max": 3.603954043890183
+        },
+        "packed8": {
+          "median": 1.1027528786936627,
+          "min": 1.0885032253926856,
+          "max": 1.1192718209893266
+        },
+        "packed32": {
+          "median": 1.1193907383214396,
+          "min": 1.100058953141589,
+          "max": 1.3888281696764988
+        }
+      },
+      "aa_right_over_left": {
+        "median": 1.0039088727108627,
+        "min": 0.9788802043984121,
+        "max": 1.0161276608054364
+      }
+    },
+    "small_lifecycle": {
+      "lowest_median": "flat",
+      "resolved": true,
+      "unresolved_rivals": [],
+      "stats": {
+        "flat": {
+          "median_ns": 71987.5,
+          "min_ns": 71222,
+          "max_ns": 72692
+        },
+        "tree": {
+          "median_ns": 130618.0,
+          "min_ns": 129987,
+          "max_ns": 131539
+        },
+        "posting": {
+          "median_ns": 90957.0,
+          "min_ns": 89309,
+          "max_ns": 91946
+        },
+        "packed8": {
+          "median_ns": 82822.0,
+          "min_ns": 82075,
+          "max_ns": 84473
+        },
+        "packed32": {
+          "median_ns": 82605.0,
+          "min_ns": 81807,
+          "max_ns": 84596
+        },
+        "aa_left": {
+          "median_ns": 130734.0,
+          "min_ns": 129661,
+          "max_ns": 131803
+        },
+        "aa_right": {
+          "median_ns": 129648.5,
+          "min_ns": 129142,
+          "max_ns": 131847
+        }
+      },
+      "paired_rival_over_best": {
+        "tree": {
+          "median": 1.8191191458875284,
+          "min": 1.7895641886314864,
+          "max": 1.8354441043497796
+        },
+        "posting": {
+          "median": 1.2628882626223805,
+          "min": 1.2395419847328244,
+          "max": 1.2909775069500997
+        },
+        "packed8": {
+          "median": 1.1501869566770762,
+          "min": 1.1420101249105816,
+          "max": 1.1831946662184498
+        },
+        "packed32": {
+          "median": 1.1489998506463281,
+          "min": 1.129752930171133,
+          "max": 1.1877790570329392
+        }
+      },
+      "aa_right_over_left": {
+        "median": 0.9921867529399971,
+        "min": 0.9826786947186331,
+        "max": 1.0153167305826365
+      }
+    }
+  }
+}
