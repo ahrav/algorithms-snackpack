@@ -620,5 +620,23 @@
       "after_keys": 4,
       "range_7_12_pairs": 5
     }
+  },
+  "linked_code_inspection": {
+    "arm": {
+      "binary_sha256": "8e200c5fddf76c6f36d810ba338dc79c342c6a94ce84caa06edaed3a94117246",
+      "symbols": [
+        "000000000001a860 <<postings::lesson::Index>::build>:",
+        "000000000001ac40 <<postings::lesson::Index>::range>:",
+        "000000000001b920 <<postings::lesson::Packed>::build>:"
+      ]
+    },
+    "x86": {
+      "binary_sha256": "cba95be135e637244c02c8e2af2b14e4a4745e7f11ea1524e1cd8641eacb500f",
+      "symbols": [
+        "00000000000202f0 <<postings::lesson::Index>::build>:",
+        "0000000000020890 <<postings::lesson::Index>::range>:",
+        "00000000000217a0 <<postings::lesson::Packed>::build>:"
+      ]
+    }
   }
 }

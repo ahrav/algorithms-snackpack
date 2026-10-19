@@ -61,9 +61,9 @@ The overlap replay shared hosts with allocation diagnostics and is excluded from
 Allocation diagnostics use a separate unshipped System allocator forwarding adapter.
 Unsafe is confined to exact trait delegation, no pointer dereferences. Counted build and
 64query windows exclude input/oracle/formatting. No instrumented timings select winners.
-At duplicates32768/128 both hosts:flat build1alloc/0realloc; posting146/768; packed32
-6/18. Query batch flat/posting/packed32 each34alloc/0realloc; pair-tree34/204.
-Logical bytes:flat524288,posting266240,packed32265280. Requested/encoded bytes are
+At duplicates32768/128 both hosts: flat build 1 alloc/0 realloc; posting 146/768; packed-32
+6/18. The query batch for flat/posting/packed-32 has 34 alloc/0 realloc; pair-tree 34/204.
+Logical bytes:flat 524,288; posting 266,240; packed-32 265,280. Requested/encoded bytes are
 not live/peak/RSS, reserved capacity or allocator overhead.30fresh diagnostic processes pass.
 
 Exact binaries were linked-code inspected. Index::build and Index::range remain distinct
