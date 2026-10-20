@@ -12,6 +12,8 @@ import time
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = pathlib.Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else ROOT / "runs"
 OUT.mkdir(parents=True, exist_ok=True)
+for stale in ["metadata.json", "postings-bench", "unit-tests", "libtopic023.rlib", "contract-tests", "tests.txt", "schedule.json", "raw.jsonl", "attempts.jsonl", "summary.json"]:
+    (OUT / stale).unlink(missing_ok=True)
 TIMEOUT = 600
 KINDS = ["flat", "tree", "posting", "packed8", "packed32"]
 CELLS = ["tiny", "distinct", "duplicates", "hot", "range", "broad", "build_distinct", "build_duplicates", "small_lifecycle"]

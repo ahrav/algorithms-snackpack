@@ -83,6 +83,19 @@ def failing_test_output_is_retained():
     print("ok: tests.txt retains unit and contract test output on failure")
 
 
+def failed_rerun_leaves_no_stale_results():
+    with scratch(CONSTANT_BENCH) as (root, out):
+        code, stderr = run(root, out, 300)
+        assert code == 0, stderr
+        with (root / "src" / "lib.rs").open("a") as lib:
+            lib.write("\n#[cfg(test)]\nmod red {\n    #[test]\n    fn deliberate_failure() {\n        panic!(\"red\");\n    }\n}\n")
+        code, _ = run(root, out, 300)
+        assert code != 0
+        stale = [name for name in ["schedule.json", "raw.jsonl", "attempts.jsonl", "summary.json"] if (out / name).exists()]
+        assert not stale, f"previous campaign artifacts survive a failed rerun: {stale}"
+    print("ok: a failed rerun leaves no results from the previous campaign")
+
+
 def wedged_process_is_recorded_and_aborts():
     with scratch(WEDGED_BENCH, timeout=2) as (root, out):
         code, _ = run(root, out, 90)
@@ -106,6 +119,6 @@ def cargo_bench_accepts_user_arguments():
     print("ok: cargo bench --bench postings -- tree tiny runs the requested cell")
 
 
-for scenario in [rerun_keeps_one_campaign, failing_test_output_is_retained, wedged_process_is_recorded_and_aborts, cross_block_checksum_drift_is_rejected, cargo_bench_accepts_user_arguments]:
+for scenario in [rerun_keeps_one_campaign, failing_test_output_is_retained, failed_rerun_leaves_no_stale_results, wedged_process_is_recorded_and_aborts, cross_block_checksum_drift_is_rejected, cargo_bench_accepts_user_arguments]:
     if len(sys.argv) == 1 or scenario.__name__ in sys.argv[1:]:
         scenario()
