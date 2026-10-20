@@ -26,6 +26,9 @@ Four compiled mutants are rejected by existing tests: fence equality routed to
 the wrong child, leaf equality skipped, repeated-key row loss, and whole-key
 deletion on any row removal. External raw mutant outputs are retained.
 
-The campaign runner truncates attempts.jsonl once per campaign, so a rerun into
-an existing output directory retains exactly the current schedule's attempts
-(measurements/test_runner.py runs the campaign twice and compares).
+The campaign runner compiles and runs both unit and contract tests, writes
+tests.txt before failing on either, records every attempt including timeouts in
+attempts.jsonl, truncates that file once per campaign, and requires one checksum
+per cell across all 8 blocks. measurements/test_runner.py exercises each of these
+with altered topic copies (failing test, wedged benchmark, drifting checksum),
+runs `cargo bench -- tree tiny`, and reruns the real campaign into one directory.

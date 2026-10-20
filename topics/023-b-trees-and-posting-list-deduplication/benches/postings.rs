@@ -17,7 +17,8 @@ fn fold(pairs: &[Pair]) -> u64 {
         .fold(0_u64, |acc, &(k, r)| acc.wrapping_add(mix(k) ^ r))
 }
 fn main() {
-    let args: Vec<_> = std::env::args().collect();
+    // `cargo bench` passes `--bench` to this executable.
+    let args: Vec<_> = std::env::args().filter(|a| a != "--bench").collect();
     if args.len() != 3 {
         return;
     }

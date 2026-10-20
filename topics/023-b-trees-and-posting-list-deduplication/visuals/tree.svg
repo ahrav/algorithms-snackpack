@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1080" height="590" viewBox="0 0 1080 590">
 <rect width="1080" height="590" fill="white"/>
-<style>text{font-family:Arial,sans-serif;fill:#172537;font-size:18px}.title{font-size:24px;font-weight:bold}.head{font-size:20px;font-weight:bold}.box{fill:#eef3f8;stroke:#294e70;stroke-width:2}.mono{font-family:monospace;font-size:19px}</style>
+<style>text{font-family:Arial,sans-serif;fill:#172537;font-size:18px}.title{font-size:24px;font-weight:bold}.head{font-size:20px;font-weight:bold}.box{fill:#eef3f8;stroke:#294e70;stroke-width:2}.mono{font-family:monospace;font-size:19px;white-space:pre}</style>
 <text x="28" y="36" class="title">Keep row identity while grouping keys and splitting leaves</text>
 <text x="28" y="70">Illustrative leaf limit: 3 distinct keys. This is a slot model, not a database byte page.</text>
 <rect x="28" y="92" width="315" height="330" rx="8" class="box"/>

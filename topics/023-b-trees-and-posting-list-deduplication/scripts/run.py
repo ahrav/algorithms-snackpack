@@ -12,17 +12,23 @@ import time
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = pathlib.Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else ROOT / "runs"
 OUT.mkdir(parents=True, exist_ok=True)
+TIMEOUT = 600
 KINDS = ["flat", "tree", "posting", "packed8", "packed32"]
 CELLS = ["tiny", "distinct", "duplicates", "hot", "range", "broad", "build_distinct", "build_duplicates", "small_lifecycle"]
 
 def cmd(args):
     return subprocess.check_output(args, text=True, stderr=subprocess.STDOUT)
 
-metadata = {"hostname": platform.node(), "architecture": platform.machine(), "uname": list(platform.uname()), "rustc": cmd(["rustc", "-Vv"]), "cpu": cmd(["lscpu"]), "cpuinfo_first": pathlib.Path("/proc/cpuinfo").read_text().split("\n\n")[0], "available": cmd(["nproc"]), "affinity": cmd(["taskset", "-pc", str(__import__("os").getpid())]), "flags": "--edition=2024 -C opt-level=3 -C target-cpu=native", "target_features": cmd(["rustc", "--print", "cfg", "-C", "target-cpu=native"]), "files": {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest() for p in ["src/lib.rs", "benches/postings.rs", "scripts/run.py"]}, "seed": 23019, "blocks": 8, "warmups": 1, "subsamples": 3, "boundary": "steady: setup/drop excluded; build: construction+64ranges+fold+drop included; all: output folding included", "selection": "lowest median, resolved only if all 8 paired competitor/winner ratios exceed 1.03; descriptive ranges, no confidence or generalization claim"}
+metadata = {"hostname": platform.node(), "architecture": platform.machine(), "uname": list(platform.uname()), "rustc": cmd(["rustc", "-Vv"]), "cpu": cmd(["lscpu"]), "cpuinfo_first": pathlib.Path("/proc/cpuinfo").read_text().split("\n\n")[0], "available": cmd(["nproc"]), "affinity": cmd(["taskset", "-pc", str(__import__("os").getpid())]), "flags": "--edition=2024 -C opt-level=3 -C target-cpu=native", "target_features": cmd(["rustc", "--print", "cfg", "-C", "target-cpu=native"]), "files": {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest() for p in ["src/lib.rs", "tests/contracts.rs", "benches/postings.rs", "scripts/run.py"]}, "seed": 23019, "timeout_s": TIMEOUT, "blocks": 8, "warmups": 1, "subsamples": 3, "boundary": "steady: setup/drop excluded; build: construction+64ranges+fold+drop included; all: output folding included", "selection": "lowest median, resolved only if all 8 paired competitor/winner ratios exceed 1.03; descriptive ranges, no confidence or generalization claim"}
 (OUT / "metadata.json").write_text(json.dumps(metadata, indent=2) + "\n")
 subprocess.run(["rustc", "--edition=2024", "-C", "opt-level=3", "-C", "target-cpu=native", str(ROOT / "benches/postings.rs"), "-o", str(OUT / "postings-bench")], check=True)
 subprocess.run(["rustc", "--edition=2024", "--test", str(ROOT / "src/lib.rs"), "-o", str(OUT / "unit-tests")], check=True)
-(OUT / "tests.txt").write_text(cmd([str(OUT / "unit-tests")]))
+subprocess.run(["rustc", "--edition=2024", "--crate-type", "lib", str(ROOT / "src/lib.rs"), "-o", str(OUT / "libtopic023.rlib")], check=True)
+subprocess.run(["rustc", "--edition=2024", "--test", str(ROOT / "tests/contracts.rs"), "--extern", "topic023_b_trees_and_posting_list_deduplication=" + str(OUT / "libtopic023.rlib"), "-o", str(OUT / "contract-tests")], check=True)
+tests = [subprocess.run([str(OUT / name)], text=True, capture_output=True) for name in ["unit-tests", "contract-tests"]]
+(OUT / "tests.txt").write_text("".join(t.stdout + t.stderr for t in tests))
+for t in tests:
+    t.check_returncode()
 metadata["binary_sha256"] = hashlib.sha256((OUT / "postings-bench").read_bytes()).hexdigest()
 (OUT / "metadata.json").write_text(json.dumps(metadata, indent=2) + "\n")
 rows = []
@@ -34,24 +40,38 @@ for block in range(8):
     for cell in cells:
         offset = (block // 2) % len(KINDS)
         order = KINDS[offset:] + KINDS[:offset]
-        if block % 2: order.reverse()
+        if block % 2:
+            order.reverse()
         for label in order + (["aa_left", "aa_right"] if block % 2 == 0 else ["aa_right", "aa_left"]):
             schedule.append({"block": block, "cell": cell, "label": label, "candidate": "tree" if label.startswith("aa_") else label})
 (OUT / "schedule.json").write_text(json.dumps(schedule, indent=2) + "\n")
 with (OUT / "raw.jsonl").open("w") as raw, (OUT / "attempts.jsonl").open("w") as attempts:
     for assignment in schedule:
-        started = time.time()
-        proc = subprocess.run([str(OUT / "postings-bench"), assignment["candidate"], assignment["cell"]], text=True, capture_output=True)
-        attempt = dict(assignment, stdout=proc.stdout, stderr=proc.stderr, returncode=proc.returncode, wall_seconds=time.time() - started)
-        attempts.write(json.dumps(attempt) + "\n"); attempts.flush()
-        if proc.returncode: raise RuntimeError(attempt)
-        row = dict(json.loads(proc.stdout), **assignment)
-        rows.append(row); raw.write(json.dumps(row) + "\n"); raw.flush()
+        started = time.monotonic()
+        try:
+            proc = subprocess.run([str(OUT / "postings-bench"), assignment["candidate"], assignment["cell"]], text=True, capture_output=True, timeout=TIMEOUT)
+        except subprocess.TimeoutExpired as e:
+            attempt = dict(assignment, stdout=str(e.stdout), stderr=str(e.stderr), returncode="timeout", wall_seconds=time.monotonic() - started)
+            attempts.write(json.dumps(attempt) + "\n")
+            attempts.flush()
+            raise RuntimeError(attempt) from e
+        attempt = dict(assignment, stdout=proc.stdout, stderr=proc.stderr, returncode=proc.returncode, wall_seconds=time.monotonic() - started)
+        attempts.write(json.dumps(attempt) + "\n")
+        attempts.flush()
+        if proc.returncode:
+            raise RuntimeError(attempt)
+        try:
+            row = dict(json.loads(proc.stdout), **assignment)
+        except json.JSONDecodeError as e:
+            raise RuntimeError(attempt) from e
+        rows.append(row)
+        raw.write(json.dumps(row) + "\n")
+        raw.flush()
 summary = {}
 for cell in CELLS:
     group = [r for r in rows if r["cell"] == cell]
-    for block in range(8):
-        assert len({r["checksum"] for r in group if r["block"] == block}) == 1
+    if len({r["checksum"] for r in group}) != 1:
+        raise RuntimeError({"cell": cell, "checksums": sorted({r["checksum"] for r in group})})
     stats = {}
     for label in KINDS + ["aa_left", "aa_right"]:
         samples = [r["ns"] for r in group if r["label"] == label]
@@ -59,7 +79,8 @@ for cell in CELLS:
     winner = min(KINDS, key=lambda k: stats[k]["median_ns"])
     ratios = {}
     for rival in KINDS:
-        if rival == winner: continue
+        if rival == winner:
+            continue
         paired = [next(r["ns"] for r in group if r["block"] == b and r["label"] == rival) / next(r["ns"] for r in group if r["block"] == b and r["label"] == winner) for b in range(8)]
         ratios[rival] = {"median": statistics.median(paired), "min": min(paired), "max": max(paired)}
     aa = [next(r["ns"] for r in group if r["block"] == b and r["label"] == "aa_right") / next(r["ns"] for r in group if r["block"] == b and r["label"] == "aa_left") for b in range(8)]
