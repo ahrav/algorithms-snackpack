@@ -38,12 +38,12 @@ for block in range(8):
         for label in order + (["aa_left", "aa_right"] if block % 2 == 0 else ["aa_right", "aa_left"]):
             schedule.append({"block": block, "cell": cell, "label": label, "candidate": "tree" if label.startswith("aa_") else label})
 (OUT / "schedule.json").write_text(json.dumps(schedule, indent=2) + "\n")
-with (OUT / "raw.jsonl").open("w") as raw:
+with (OUT / "raw.jsonl").open("w") as raw, (OUT / "attempts.jsonl").open("w") as attempts:
     for assignment in schedule:
         started = time.time()
         proc = subprocess.run([str(OUT / "postings-bench"), assignment["candidate"], assignment["cell"]], text=True, capture_output=True)
         attempt = dict(assignment, stdout=proc.stdout, stderr=proc.stderr, returncode=proc.returncode, wall_seconds=time.time() - started)
-        (OUT / "attempts.jsonl").open("a").write(json.dumps(attempt) + "\n")
+        attempts.write(json.dumps(attempt) + "\n"); attempts.flush()
         if proc.returncode: raise RuntimeError(attempt)
         row = dict(json.loads(proc.stdout), **assignment)
         rows.append(row); raw.write(json.dumps(row) + "\n"); raw.flush()

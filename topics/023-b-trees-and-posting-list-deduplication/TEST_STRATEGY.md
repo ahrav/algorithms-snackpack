@@ -25,3 +25,7 @@ durable-recovery claim.
 Four compiled mutants are rejected by existing tests: fence equality routed to
 the wrong child, leaf equality skipped, repeated-key row loss, and whole-key
 deletion on any row removal. External raw mutant outputs are retained.
+
+The campaign runner truncates attempts.jsonl once per campaign, so a rerun into
+an existing output directory retains exactly the current schedule's attempts
+(measurements/test_runner.py runs the campaign twice and compares).
