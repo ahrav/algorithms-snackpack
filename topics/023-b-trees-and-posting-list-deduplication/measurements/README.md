@@ -1,6 +1,9 @@
 # Exact committed-source results
 
-Source commit: `cb7e3eb97adc9879ec05566e65f5b77e96700f34`. Three measured files match the final topic tree.
+Source commit: `cb7e3eb97adc9879ec05566e65f5b77e96700f34`. The receipt's three source hashes identify that
+commit; `src/lib.rs` still matches the final topic tree. Later review-fix commits touch only `cargo bench`
+argument filtering in `benches/postings.rs` and runner bookkeeping in `scripts/run.py` (attempts truncation,
+contract-test execution, timeouts, checksum check); measured operation paths are unchanged.
 504fresh processes per host, every exact query/oracle and cross-candidate checksum passes.
 Initial504/host and overlap504/host remain separate. Primary alone selects winners.
 The earlier quadratic-oracle prototype was stopped; no accepted result is taken from it.

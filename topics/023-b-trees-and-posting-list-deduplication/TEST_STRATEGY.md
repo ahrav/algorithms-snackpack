@@ -30,5 +30,5 @@ The campaign runner compiles and runs both unit and contract tests, writes
 tests.txt before failing on either, records every attempt including timeouts in
 attempts.jsonl, truncates that file once per campaign, and requires one checksum
 per cell across all 8 blocks. measurements/test_runner.py exercises each of these
-with altered topic copies (failing test, wedged benchmark, drifting checksum),
-runs `cargo bench -- tree tiny`, and reruns the real campaign into one directory.
+with stub benchmarks in scratch topic copies (constant, failing test, wedged, drifting),
+runs `cargo bench -- tree tiny`, and reruns a stub campaign into one directory.
