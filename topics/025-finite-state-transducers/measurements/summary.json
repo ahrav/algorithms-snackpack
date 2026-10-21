@@ -1,0 +1,1062 @@
+{
+  "arm": {
+    "tiny": {
+      "selection": "flat",
+      "lowest_median": "flat",
+      "timings_ns": {
+        "flat": {
+          "median": 19.160666666666668,
+          "min": 19.084,
+          "max": 19.577333333333332
+        },
+        "trie": {
+          "median": 71.90133333333333,
+          "min": 70.84133333333334,
+          "max": 81.04933333333334
+        },
+        "final": {
+          "median": 79.77799999999999,
+          "min": 70.90533333333333,
+          "max": 88.90933333333334
+        },
+        "pushed": {
+          "median": 70.95666666666668,
+          "min": 70.49466666666666,
+          "max": 87.71733333333333
+        }
+      },
+      "paired_ratio_ranges": {
+        "trie": [
+          3.6303828567528833,
+          4.241348032375105
+        ],
+        "final": [
+          3.7061608075182737,
+          4.638747826086957
+        ],
+        "pushed": [
+          3.635296526308606,
+          4.480555744738814
+        ]
+      },
+      "AA_ratio_range": [
+        0.990985993620857,
+        1.1629015408722905
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 408
+        },
+        "trie": {
+          "states": 27,
+          "arcs": 26,
+          "heap_capacity_bytes": 1904
+        },
+        "final": {
+          "states": 27,
+          "arcs": 26,
+          "heap_capacity_bytes": 1904
+        },
+        "pushed": {
+          "states": 20,
+          "arcs": 26,
+          "heap_capacity_bytes": 1904
+        }
+      }
+    },
+    "shared": {
+      "selection": "flat",
+      "lowest_median": "flat",
+      "timings_ns": {
+        "flat": {
+          "median": 103.6825065885798,
+          "min": 100.93595900439239,
+          "max": 105.68785944363104
+        },
+        "trie": {
+          "median": 136.61864714494874,
+          "min": 136.033803806735,
+          "max": 140.66019912152268
+        },
+        "final": {
+          "median": 139.10748462664714,
+          "min": 138.8177979502196,
+          "max": 142.59212298682283
+        },
+        "pushed": {
+          "median": 123.26534992679356,
+          "min": 121.36713323572475,
+          "max": 123.85700146412884
+        }
+      },
+      "paired_ratio_ranges": {
+        "trie": [
+          1.2948844405828024,
+          1.392407588469288
+        ],
+        "final": [
+          1.3230472606467107,
+          1.378401299164867
+        ],
+        "pushed": [
+          1.1670877789862082,
+          1.2172709071477208
+        ]
+      },
+      "AA_ratio_range": [
+        0.9767082596145421,
+        1.0434689792332352
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 104448
+        },
+        "trie": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "final": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "pushed": {
+          "states": 20,
+          "arcs": 56,
+          "heap_capacity_bytes": 2624
+        }
+      }
+    },
+    "entropy": {
+      "selection": "flat",
+      "lowest_median": "flat",
+      "timings_ns": {
+        "flat": {
+          "median": 96.98666764275256,
+          "min": 96.48818155197658,
+          "max": 97.70870278184479
+        },
+        "trie": {
+          "median": 313.06325915080527,
+          "min": 308.6986881405564,
+          "max": 321.05115666178625
+        },
+        "final": {
+          "median": 301.7693997071742,
+          "min": 295.0379560761347,
+          "max": 307.53588286969256
+        },
+        "pushed": {
+          "median": 297.18787994143486,
+          "min": 295.21942606149344,
+          "max": 302.8029868228404
+        }
+      },
+      "paired_ratio_ranges": {
+        "trie": [
+          3.1593776127576993,
+          3.3089227067749047
+        ],
+        "final": [
+          3.0483400895410058,
+          3.1564827169050305
+        ],
+        "pushed": [
+          3.02142406619227,
+          3.128568595854252
+        ]
+      },
+      "AA_ratio_range": [
+        0.9880339254535178,
+        1.0118811722901995
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 133120
+        },
+        "trie": {
+          "states": 63761,
+          "arcs": 63760,
+          "heap_capacity_bytes": 4151680
+        },
+        "final": {
+          "states": 63761,
+          "arcs": 63760,
+          "heap_capacity_bytes": 4151680
+        },
+        "pushed": {
+          "states": 57890,
+          "arcs": 59936,
+          "heap_capacity_bytes": 4059904
+        }
+      }
+    },
+    "random-values": {
+      "selection": "flat",
+      "lowest_median": "flat",
+      "timings_ns": {
+        "flat": {
+          "median": 101.84008199121523,
+          "min": 100.25916251830161,
+          "max": 104.73343484626648
+        },
+        "trie": {
+          "median": 137.24152269399707,
+          "min": 136.0816691068814,
+          "max": 139.03860029282578
+        },
+        "final": {
+          "median": 140.25098975109807,
+          "min": 137.2602401171303,
+          "max": 141.52011127379208
+        },
+        "pushed": {
+          "median": 122.95036603221084,
+          "min": 121.53883455344071,
+          "max": 126.25584187408492
+        }
+      },
+      "paired_ratio_ranges": {
+        "trie": [
+          1.3275474111673538,
+          1.3694851854508596
+        ],
+        "final": [
+          1.3511454984849673,
+          1.4036057767009915
+        ],
+        "pushed": [
+          1.1730240179153277,
+          1.2342344900599405
+        ]
+      },
+      "AA_ratio_range": [
+        0.9915742326348148,
+        1.0458173420064643
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 104448
+        },
+        "trie": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "final": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "pushed": {
+          "states": 140,
+          "arcs": 450,
+          "heap_capacity_bytes": 21040
+        }
+      }
+    },
+    "miss": {
+      "selection": "unresolved: pushed / trie,final",
+      "lowest_median": "pushed",
+      "timings_ns": {
+        "flat": {
+          "median": 41.0971654465593,
+          "min": 40.89189458272328,
+          "max": 45.59181259150805
+        },
+        "trie": {
+          "median": 5.3679560761347,
+          "min": 5.319871156661787,
+          "max": 5.434014641288433
+        },
+        "final": {
+          "median": 5.472708638360176,
+          "min": 5.2912445095168374,
+          "max": 5.674448023426062
+        },
+        "pushed": {
+          "median": 5.204310395314788,
+          "min": 5.159431918008785,
+          "max": 5.372966325036603
+        }
+      },
+      "paired_ratio_ranges": {
+        "flat": [
+          7.6313064482022686,
+          8.751777100002137
+        ],
+        "trie": [
+          0.9981311943327177,
+          1.0443734293351477
+        ],
+        "final": [
+          1.0115081847849547,
+          1.0678908434197187
+        ]
+      },
+      "AA_ratio_range": [
+        0.9184103008382279,
+        1.1017774584615763
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 104448
+        },
+        "trie": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "final": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "pushed": {
+          "states": 20,
+          "arcs": 56,
+          "heap_capacity_bytes": 2624
+        }
+      }
+    },
+    "prefix": {
+      "selection": "flat",
+      "lowest_median": "flat",
+      "timings_ns": {
+        "flat": {
+          "median": 339.52875,
+          "min": 335.155,
+          "max": 359.11
+        },
+        "trie": {
+          "median": 488.3125,
+          "min": 477.8575,
+          "max": 496.905
+        },
+        "final": {
+          "median": 483.35125,
+          "min": 479.2875,
+          "max": 492.64
+        },
+        "pushed": {
+          "median": 482.36875,
+          "min": 479.1025,
+          "max": 498.6575
+        }
+      },
+      "paired_ratio_ranges": {
+        "trie": [
+          1.3675127398290217,
+          1.4813528499880753
+        ],
+        "final": [
+          1.339053493358581,
+          1.4603880415610595
+        ],
+        "pushed": [
+          1.340550249227256,
+          1.4569918097095638
+        ]
+      },
+      "AA_ratio_range": [
+        0.9694675293623248,
+        1.0313848096318898
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 104448
+        },
+        "trie": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "final": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "pushed": {
+          "states": 20,
+          "arcs": 56,
+          "heap_capacity_bytes": 2624
+        }
+      }
+    },
+    "broad": {
+      "selection": "flat",
+      "lowest_median": "flat",
+      "timings_ns": {
+        "flat": {
+          "median": 84270.85,
+          "min": 83974.375,
+          "max": 84816.85
+        },
+        "trie": {
+          "median": 124893.0,
+          "min": 124025.65,
+          "max": 127239.575
+        },
+        "final": {
+          "median": 125544.55,
+          "min": 124099.3,
+          "max": 127585.7
+        },
+        "pushed": {
+          "median": 112698.6375,
+          "min": 111844.775,
+          "max": 114089.325
+        }
+      },
+      "paired_ratio_ranges": {
+        "trie": [
+          1.472359642065044,
+          1.5102149636287296
+        ],
+        "final": [
+          1.4729428311580797,
+          1.5117025283010441
+        ],
+        "pushed": [
+          1.3269189986958572,
+          1.3544014300303402
+        ]
+      },
+      "AA_ratio_range": [
+        0.987104947919104,
+        1.0041514017528868
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 104448
+        },
+        "trie": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "final": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "pushed": {
+          "states": 20,
+          "arcs": 56,
+          "heap_capacity_bytes": 2624
+        }
+      }
+    },
+    "build": {
+      "selection": "flat",
+      "lowest_median": "flat",
+      "timings_ns": {
+        "flat": {
+          "median": 350113.5,
+          "min": 347887.75,
+          "max": 369909.5
+        },
+        "trie": {
+          "median": 1259373.25,
+          "min": 1238586.75,
+          "max": 1274088.25
+        },
+        "final": {
+          "median": 2367305.625,
+          "min": 2291596.5,
+          "max": 2428531.75
+        },
+        "pushed": {
+          "median": 1180080.375,
+          "min": 1176153.75,
+          "max": 1187594.75
+        }
+      },
+      "paired_ratio_ranges": {
+        "trie": [
+          3.4020064367095193,
+          3.637372220857213
+        ],
+        "final": [
+          6.3935773479729505,
+          6.936048721772093
+        ],
+        "pushed": [
+          3.21050081168502,
+          3.391252021324618
+        ]
+      },
+      "AA_ratio_range": [
+        0.9761663901022902,
+        1.0157674316399938
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 104448
+        },
+        "trie": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "final": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "pushed": {
+          "states": 20,
+          "arcs": 56,
+          "heap_capacity_bytes": 2624
+        }
+      }
+    }
+  },
+  "x86": {
+    "tiny": {
+      "selection": "flat",
+      "lowest_median": "flat",
+      "timings_ns": {
+        "flat": {
+          "median": 34.14333333333333,
+          "min": 34.065333333333335,
+          "max": 34.278666666666666
+        },
+        "trie": {
+          "median": 51.79266666666667,
+          "min": 51.708,
+          "max": 51.888
+        },
+        "final": {
+          "median": 51.84133333333334,
+          "min": 51.733333333333334,
+          "max": 51.949333333333335
+        },
+        "pushed": {
+          "median": 51.778,
+          "min": 51.589333333333336,
+          "max": 51.84133333333333
+        }
+      },
+      "paired_ratio_ranges": {
+        "trie": [
+          1.5120385857092846,
+          1.5199781275631763
+        ],
+        "final": [
+          1.5091991131510367,
+          1.5217033934791968
+        ],
+        "pushed": [
+          1.5106981102608155,
+          1.5214294101530392
+        ]
+      },
+      "AA_ratio_range": [
+        0.9975823747319165,
+        1.002073065790503
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 408
+        },
+        "trie": {
+          "states": 27,
+          "arcs": 26,
+          "heap_capacity_bytes": 1904
+        },
+        "final": {
+          "states": 27,
+          "arcs": 26,
+          "heap_capacity_bytes": 1904
+        },
+        "pushed": {
+          "states": 20,
+          "arcs": 26,
+          "heap_capacity_bytes": 1904
+        }
+      }
+    },
+    "shared": {
+      "selection": "pushed",
+      "lowest_median": "pushed",
+      "timings_ns": {
+        "flat": {
+          "median": 136.7500234260615,
+          "min": 135.6729897510981,
+          "max": 139.46245973645682
+        },
+        "trie": {
+          "median": 87.19966325036603,
+          "min": 87.02097803806735,
+          "max": 87.43315373352856
+        },
+        "final": {
+          "median": 87.70385651537336,
+          "min": 87.52600878477305,
+          "max": 87.78834553440703
+        },
+        "pushed": {
+          "median": 81.42852708638361,
+          "min": 81.17055929721816,
+          "max": 81.5008140556369
+        }
+      },
+      "paired_ratio_ranges": {
+        "flat": [
+          1.6650376255175174,
+          1.713786555364025
+        ],
+        "trie": [
+          1.0685349328003375,
+          1.0743477230996272
+        ],
+        "final": [
+          1.0749542238393657,
+          1.0807593980118
+        ]
+      },
+      "AA_ratio_range": [
+        0.9904714740057046,
+        1.016220523563124
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 104448
+        },
+        "trie": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "final": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "pushed": {
+          "states": 20,
+          "arcs": 56,
+          "heap_capacity_bytes": 2624
+        }
+      }
+    },
+    "entropy": {
+      "selection": "flat",
+      "lowest_median": "flat",
+      "timings_ns": {
+        "flat": {
+          "median": 87.26424597364567,
+          "min": 87.0240409956076,
+          "max": 88.44681698389458
+        },
+        "trie": {
+          "median": 337.35550219619324,
+          "min": 326.0085446559297,
+          "max": 350.63148462664714
+        },
+        "final": {
+          "median": 361.6412005856515,
+          "min": 349.9375636896047,
+          "max": 374.06000585651543
+        },
+        "pushed": {
+          "median": 355.35492532942897,
+          "min": 339.8102020497804,
+          "max": 371.05188872620784
+        }
+      },
+      "paired_ratio_ranges": {
+        "trie": [
+          3.736915666788465,
+          4.023985024922011
+        ],
+        "final": [
+          3.956474360782541,
+          4.281112658037202
+        ],
+        "pushed": [
+          3.9047853692169014,
+          4.250868646528375
+        ]
+      },
+      "AA_ratio_range": [
+        0.9959116727952407,
+        1.0022809013325602
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 133120
+        },
+        "trie": {
+          "states": 63761,
+          "arcs": 63760,
+          "heap_capacity_bytes": 4151680
+        },
+        "final": {
+          "states": 63761,
+          "arcs": 63760,
+          "heap_capacity_bytes": 4151680
+        },
+        "pushed": {
+          "states": 57890,
+          "arcs": 59936,
+          "heap_capacity_bytes": 4059904
+        }
+      }
+    },
+    "random-values": {
+      "selection": "unresolved: pushed / trie,final",
+      "lowest_median": "pushed",
+      "timings_ns": {
+        "flat": {
+          "median": 136.98621376281113,
+          "min": 136.19060614934114,
+          "max": 137.52552855051243
+        },
+        "trie": {
+          "median": 87.23213762811127,
+          "min": 87.09197657393851,
+          "max": 87.40583894582723
+        },
+        "final": {
+          "median": 87.71610834553441,
+          "min": 87.59611127379209,
+          "max": 87.81656808199122
+        },
+        "pushed": {
+          "median": 81.72818155197658,
+          "min": 81.64036310395315,
+          "max": 87.19269692532943
+        }
+      },
+      "paired_ratio_ranges": {
+        "flat": [
+          1.577259717844114,
+          1.6778482778110044
+        ],
+        "trie": [
+          1.0024444939543542,
+          1.0678684293072938
+        ],
+        "final": [
+          1.0069120729750696,
+          1.0748258218041848
+        ]
+      },
+      "AA_ratio_range": [
+        0.979644343564854,
+        1.0172966741445346
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 104448
+        },
+        "trie": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "final": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "pushed": {
+          "states": 140,
+          "arcs": 450,
+          "heap_capacity_bytes": 21040
+        }
+      }
+    },
+    "miss": {
+      "selection": "unresolved: trie / final,pushed",
+      "lowest_median": "trie",
+      "timings_ns": {
+        "flat": {
+          "median": 127.93836017569546,
+          "min": 127.74984480234261,
+          "max": 128.17592386530015
+        },
+        "trie": {
+          "median": 3.0464011713030748,
+          "min": 2.94801756954612,
+          "max": 3.708913616398243
+        },
+        "final": {
+          "median": 4.021961932650074,
+          "min": 2.9471273792093706,
+          "max": 4.105300146412884
+        },
+        "pushed": {
+          "median": 3.3484216691068815,
+          "min": 2.942910688140557,
+          "max": 4.08903074670571
+        }
+      },
+      "paired_ratio_ranges": {
+        "flat": [
+          34.44400652458483,
+          43.36814707811444
+        ],
+        "final": [
+          0.7947455932998262,
+          1.3868379193276512
+        ],
+        "pushed": [
+          0.7934697306319154,
+          1.3813418484841289
+        ]
+      },
+      "AA_ratio_range": [
+        0.9571333556672761,
+        0.9999069831443111
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 104448
+        },
+        "trie": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "final": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "pushed": {
+          "states": 20,
+          "arcs": 56,
+          "heap_capacity_bytes": 2624
+        }
+      }
+    },
+    "prefix": {
+      "selection": "flat",
+      "lowest_median": "flat",
+      "timings_ns": {
+        "flat": {
+          "median": 323.33875,
+          "min": 319.93499999999995,
+          "max": 332.5725
+        },
+        "trie": {
+          "median": 441.5,
+          "min": 414.105,
+          "max": 457.4275
+        },
+        "final": {
+          "median": 443.9225,
+          "min": 428.4475,
+          "max": 458.9025
+        },
+        "pushed": {
+          "median": 444.13625,
+          "min": 416.5875,
+          "max": 474.18
+        }
+      },
+      "paired_ratio_ranges": {
+        "trie": [
+          1.287619906406928,
+          1.4057107482782634
+        ],
+        "final": [
+          1.3171145968628235,
+          1.4269134497287046
+        ],
+        "pushed": [
+          1.2873432683616473,
+          1.4695053923391599
+        ]
+      },
+      "AA_ratio_range": [
+        0.9850180948291726,
+        1.056990646100477
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 104448
+        },
+        "trie": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "final": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "pushed": {
+          "states": 20,
+          "arcs": 56,
+          "heap_capacity_bytes": 2624
+        }
+      }
+    },
+    "broad": {
+      "selection": "pushed",
+      "lowest_median": "pushed",
+      "timings_ns": {
+        "flat": {
+          "median": 234293.4,
+          "min": 234071.05,
+          "max": 241701.8
+        },
+        "trie": {
+          "median": 104574.17500000002,
+          "min": 102930.75000000001,
+          "max": 105799.975
+        },
+        "final": {
+          "median": 104406.32500000001,
+          "min": 103983.875,
+          "max": 105135.75
+        },
+        "pushed": {
+          "median": 98662.58750000001,
+          "min": 97604.35,
+          "max": 99319.69999999998
+        }
+      },
+      "paired_ratio_ranges": {
+        "flat": [
+          2.356743425523839,
+          2.4763424990791902
+        ],
+        "trie": [
+          1.0506895468547337,
+          1.0807978292098963
+        ],
+        "final": [
+          1.046961227228838,
+          1.0771625444972484
+        ]
+      },
+      "AA_ratio_range": [
+        0.9290323491535482,
+        1.0059539131956157
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 104448
+        },
+        "trie": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "final": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "pushed": {
+          "states": 20,
+          "arcs": 56,
+          "heap_capacity_bytes": 2624
+        }
+      }
+    },
+    "build": {
+      "selection": "flat",
+      "lowest_median": "flat",
+      "timings_ns": {
+        "flat": {
+          "median": 290865.875,
+          "min": 288074,
+          "max": 294788.25
+        },
+        "trie": {
+          "median": 1144834.0,
+          "min": 1133475.5,
+          "max": 1172134.5
+        },
+        "final": {
+          "median": 2026166.875,
+          "min": 1965958.5,
+          "max": 2101477.5
+        },
+        "pushed": {
+          "median": 1009408.5,
+          "min": 1001828.25,
+          "max": 1159246
+        }
+      },
+      "paired_ratio_ranges": {
+        "trie": [
+          3.8905504541180647,
+          3.9983623999389044
+        ],
+        "final": [
+          6.762436041861945,
+          7.182942252149095
+        ],
+        "pushed": [
+          3.429346318925534,
+          4.016088660854563
+        ]
+      },
+      "AA_ratio_range": [
+        0.9594378811100952,
+        1.0257982907986096
+      ],
+      "structure": {
+        "flat": {
+          "states": 0,
+          "arcs": 0,
+          "heap_capacity_bytes": 104448
+        },
+        "trie": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "final": {
+          "states": 5907,
+          "arcs": 5906,
+          "heap_capacity_bytes": 469424
+        },
+        "pushed": {
+          "states": 20,
+          "arcs": 56,
+          "heap_capacity_bytes": 2624
+        }
+      }
+    }
+  }
+}
