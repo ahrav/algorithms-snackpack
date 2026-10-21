@@ -42,7 +42,7 @@ cargo run -p topic025-finite-state-transducers --example dictionary
 cargo bench -p topic025-finite-state-transducers --bench portfolio -- pushed shared
 ```
 
-On Linux, `cd topics/025-finite-state-transducers && python 3 run.py` runs the frozen campaign.
+On Linux, `cd topics/025-finite-state-transducers && python3 run.py` runs the frozen campaign.
 See BENCHMARK.md and measurements/README.md for controls, outcomes and evidence identities.
 Choose a vector when simplicity/build/output costs dominate. Choose a pushed graph only when
 measured query and space benefits justify construction and immutable rebuilds. A mutable trie

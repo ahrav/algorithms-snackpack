@@ -16,7 +16,7 @@ builds. Build includes normalization, full trie, registry, result allocation, on
 drop. Query prefix includes owned output allocation/consumption/drop. Small case 8 keys;
 others 2048. Shared-tail shape, high entropy keys, random outputs, early miss,8-result
 prefix,2048-result broad output, and complete build. Same fixed datasets per
-host/candidate/process. Miss byte 0 xff absent at root. Values additive correlated versus
+host/candidate/process. Miss byte 0xff absent at root. Values additive correlated versus
 unrelated wrapping 64 bit. Controls are unpinned with recorded affinity, no host changes; cross-
 host compiler versions differ. Warm results do not describe cold/page fault, tails, production,
 or ISA causality. No PMU mechanism claim. Structural counts and retained vector-capacity bytes
