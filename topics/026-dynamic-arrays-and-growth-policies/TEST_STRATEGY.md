@@ -1,0 +1,5 @@
+# Test strategy and invariant audit
+
+Independent oracle: BTreeMap position-to-record mappings; no growth/capacity helper shared. Every benchmark process validates exact pops and final records before timing. Library checks 6,561 exhaustive eight-operation push/pop/clear histories for four growth by three shrink policies (78,732 histories, 629,856 step-state comparisons). Dedicated checks cover odd rounding, zero capacity, arithmetic overflow, capacity reservation rejection, wide records, shrink threshold and reuse. No unsafe code. Zero-sized records and destructor behavior excluded.
+
+Invariant-to-violation map: initialized prefix matches model (reject dropped/reordered append or wrong pop); len<=capacity (storage separation); quarter threshold (reject early shrink); clear retains capacity; checked growth (reject wrapped target); impossible initial reservation returns error. Integration regression checks initial hints are reservations rather than admission caps. Mutation backstops are retained externally. These bounded cases do not prove all inputs or allocation failures. No injected allocator failure or portable physical-release claim.
