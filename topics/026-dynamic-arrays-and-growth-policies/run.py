@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+"""Fixed mirrored process schedule. Run from the source root; retain every output."""
+import hashlib,json,math,os,pathlib,platform,statistics,subprocess,sys,time
+root=pathlib.Path(__file__).resolve().parent
+os.chdir(root)
+out=root/'raw';out.mkdir(exist_ok=True)
+def command(args):
+    result=subprocess.run(args,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=60)
+    if result.returncode:
+        (out/("failure-"+str(time.time_ns())+".txt")).write_text(repr(args)+"\n"+result.stdout)
+        raise RuntimeError("retained failed command: "+repr(args))
+    return result.stdout
+meta={'hostname':platform.node(),'uname':list(platform.uname()),'rustc':command(['rustc','-Vv']),'cpu':command(['lscpu']),'available_cpus':len(os.sched_getaffinity(0)),'affinity':sorted(os.sched_getaffinity(0)),'flags':'--edition 2024 -O -C target-cpu=native','started_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'files':{str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in [pathlib.Path('src/lib.rs'),pathlib.Path('benches/portfolio.rs'),pathlib.Path('run.py')]}}
+(out/'identity.json').write_text(json.dumps(meta,indent=2))
+(out/'tests.txt').write_text(command(['rustc','--edition','2024','--test','src/lib.rs','-o','tests-bin'])+command(['./tests-bin']))
+command(['rustc','--edition','2024','-O','-C','target-cpu=native','--crate-name','algorithms_growth','--crate-type','rlib','src/lib.rs','-o','libalgorithms_growth.rlib'])
+command(['rustc','--edition','2024','-O','-C','target-cpu=native','benches/portfolio.rs','--extern','algorithms_growth=libalgorithms_growth.rlib','-o','portfolio'])
+meta['binary_sha256']=hashlib.sha256(pathlib.Path('portfolio').read_bytes()).hexdigest();(out/'identity.json').write_text(json.dumps(meta,indent=2))
+families={'tiny':['std','exact','onehalf','double','reserved'],'medium':['std','exact','onehalf','double','reserved'],'large':['std','exact','onehalf','double','reserved'],'wide':['std','exact','onehalf','double','reserved'],'reuse':['std','exact','onehalf','double','reserved'],'oscillate':['std','tight','quarter'],'drain':['std','tight','quarter']}
+runs=[]
+for block in range(10):
+    cases=list(families)
+    for case in (cases if block%2==0 else cases[::-1]):
+        names=families[case];offset=block%len(names)
+        order=names[offset:]+names[:offset]
+        if block>=5:order=order[::-1]
+        for pos,name in enumerate(order):
+            raw=command(['./portfolio',name,case]);(out/f'{block}-{case}-{pos}-{name}.json').write_text(raw)
+            item=json.loads(raw);item.update(block=block,position=pos,label=name);runs.append(item)
+        for label in (['A','B'] if block%2==0 else ['B','A']):
+            raw=command(['./portfolio','std',case]);(out/f'{block}-{case}-control-{label}.json').write_text(raw)
+            item=json.loads(raw);item.update(block=block,label=label);runs.append(item)
+    print('completed block',block,flush=True)
+summary={}
+for case,names in families.items():
+    cells={}
+    for name in names:
+        samples=[r['ns_per_op']for r in runs if r['case']==case and r['label']==name]
+        cells[name]={'median':statistics.median(samples),'min':min(samples),'max':max(samples),'samples':samples}
+    best=min(names,key=lambda name:cells[name]['median']);rivals=[];ratios={}
+    for other in names:
+        if other==best:continue
+        pair=[next(r['ns_per_op']for r in runs if r['case']==case and r['label']==other and r['block']==b)/next(r['ns_per_op']for r in runs if r['case']==case and r['label']==best and r['block']==b)for b in range(10)]
+        ratios[other]=pair
+        if min(pair)<=1.03:rivals.append(other)
+    aa=[next(r['ns_per_op']for r in runs if r['case']==case and r['label']=='A' and r['block']==b)/next(r['ns_per_op']for r in runs if r['case']==case and r['label']=='B' and r['block']==b)for b in range(10)]
+    checksums={r['checksum']for r in runs if r['case']==case};assert len(checksums)==1
+    summary[case]={'candidates':cells,'lowest_median':best,'selection':best if not rivals else 'unresolved: '+best+' / '+','.join(rivals),'paired_ratios':ratios,'AA_ratios':aa,'checksum':checksums.pop(),'counters':{n:{k:next(r[k]for r in runs if r['case']==case and r['label']==n)for k in ['grows','shrinks','capacity','peak_capacity','live_at_growth','address_changes']}for n in names}}
+assert len(runs)==450
+assert hashlib.sha256(pathlib.Path('portfolio').read_bytes()).hexdigest()==meta['binary_sha256']
+for path,digest in meta['files'].items():assert hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()==digest
+(out/'summary.json').write_text(json.dumps(summary,indent=2));print(json.dumps({k:v['selection']for k,v in summary.items()}))
