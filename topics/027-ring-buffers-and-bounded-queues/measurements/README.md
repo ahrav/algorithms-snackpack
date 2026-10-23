@@ -55,8 +55,7 @@ For the shifting baseline, successful pops model (n-1)*8 relocated bytes at pre-
 
 Five specialized execute bodies were inspected in each exact linked binary. Division
 instructions occur in the remainder bodies and none in mask bodies. The Arm conditional
-body also contains a division on a non-kernel path; function-wide counts are not per-operation
-counts. No hardware-counter or candidate-only causal speedup claim is made. Raw disassembly
+body also contains a division; function-wide counts are not per-operation counts. No hardware-counter or candidate-only causal speedup claim is made. Raw disassembly
 and inspected symbol/body hashes remain external.
 
 ## Replay and retained evidence
