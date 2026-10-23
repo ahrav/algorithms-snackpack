@@ -1,6 +1,6 @@
-# Frozen dictionary experiment
-
 benchmark_required: true
+
+# Frozen dictionary experiment
 
 Four candidates: sorted vector (`flat`), standard `BTreeMap` (`tree`), byte trie
 (`trie`), and immutable scalar adaptive radix model (`radix`). No online-update,
@@ -55,19 +55,36 @@ filter/sort oracle before warmup. Exact queries use a reverse input scan.
 Reject a mismatch before selecting timing. Verify hostname, architecture, source
 hashes, runner, binary hash, kernel, CPU, toolchain, native features and available
 CPUs. Raw observations, schedules and attempts remain outside Git. Keep only
-final summaries, allocation aggregates and compact identity receipts here.
+final summaries, allocation aggregates and the compact identity receipt
+(`measurements/EVIDENCE_RECEIPT.json`) here. `scripts/run.py` removes prior
+campaign artifacts from its output directory, compiles into that directory,
+runs unit and contract tests and writes `tests.txt` before failing on either,
+records every attempt including timeouts in `attempts.jsonl`, and requires one
+checksum per cell. `measurements/test_runner.py` exercises each of these with
+stub benchmarks in scratch topic copies and runs `cargo bench -- radix tiny`.
 
 Initial/preteach campaigns precede integration. An original committed campaign
 is retained separately. A later no-argument startup repair leaves explicit-arg
 timed behavior unchanged, but requires an exact final-source replay. Exclude
 any host campaign overlapping owned diagnostic/test work; preserve it and use
 one isolated exact-source replacement. Do not pool these as extra replicates.
+Review repairs after the committed campaigns (`--bench` argument filtering,
+case-name validation, runner bookkeeping, probe workload mapping) change no
+explicit-argument timed operation. The committed summaries carry the campaign
+source hashes in `committed-source.json`; they were not replayed after these
+repairs. Only the tiny allocation rows were regenerated on both hosts.
 
 ## Separate storage and allocation diagnostics
 
 `scripts/alloc_probe.rs` forwards System allocator operations through counters.
 Its 12 fresh processes per host report alloc, realloc, dealloc and cumulative
-requested bytes for construction, 64 exact queries, 64 prefix queries and drop.
+requested bytes for construction, 64 exact queries, 64 prefix queries and drop,
+for the tiny (32 shared keys), shared and wide workloads. Probe queries are
+`rows[i % n]` exact hits and the same keys with the final byte removed; they are
+not the timed cells' `(i * 127) % n` selection or hit/miss alternation. On
+shared keys a removed final byte matches 256 values, as in prefix256. On wide
+keys the first byte already equals the removed ordinal byte, so each prefix
+matches one value; wide prefix rows are one-result diagnostics only.
 No instrumented timing enters selection. Unsafe forwarding exists only in this
 standalone diagnostic, with safety comments; the candidate library forbids unsafe.
 Counts include requests, not live memory or RSS. Allocation failure is not

@@ -46,7 +46,16 @@ fn sample() -> [usize; 4] {
 }
 fn main() {
     let a: Vec<_> = std::env::args().collect();
-    let rows = workload(&a[2], if a[2] == "tiny" { 32 } else { 8192 });
+    if a.len() != 3 {
+        eprintln!("usage: alloc_probe CANDIDATE tiny|shared|wide");
+        std::process::exit(2);
+    }
+    let (shape, n) = match a[2].as_str() {
+        "tiny" => ("shared", 32),
+        "wide" => ("wide", 8192),
+        _ => ("shared", 8192),
+    };
+    let rows = workload(shape, n);
     reset();
     let index = Index::new(&a[1], &rows);
     let build = sample();

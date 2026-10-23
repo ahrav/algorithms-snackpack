@@ -1,9 +1,20 @@
 {
+  "topic": 24,
   "source_commit": "16d77dbde6d54ed62644395ddf6c6f226b7e1651",
-  "files": {
+  "source_hashes": {
     "src/lib.rs": "b9f07778ca4e0f8fa29d21855812d8dfb8b30a0abd9d52d2319d36a42511d13b",
     "benches/dictionary.rs": "231b081840579ad51610ecebbb327769d7018cb77a69f05c3d25a3b6c18a1b77",
     "scripts/run.py": "135102ed8fbf4d518b9752e852f980a13f3e28b761c33317408c7c47cab8a1cd"
+  },
+  "raw_root": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-024/20261020",
+  "archive": {
+    "path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-024/20261020",
+    "sha256": null,
+    "bytes": null,
+    "member_count": null,
+    "run_ids": null,
+    "manifest_hashes": null,
+    "verification": "not computed: the raw evidence root lives on the automation host and was not reachable from the review host; the committed summaries bind to source_hashes, committed-source.json and the per-host binary_sha256 below"
   },
   "hosts": {
     "arm": {
@@ -56,5 +67,15 @@
   "no_arg_repair": "Only default CLI args changed; timed explicit-argument operations unchanged. Exact source replay retained independently.",
   "excluded_campaigns": [
     "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-024/20261020/committed-final/arm/EXCLUDED.json"
-  ]
+  ],
+  "allocation": {
+    "processes_per_host": 12,
+    "probe_source_sha256": "f631df85dcc843c711a082a7d9d191a0ec27ad0049581954be137daf8c27aa09",
+    "toolchains": {
+      "arm": "rustc 1.98.1 (48a229cea 2026-09-01)",
+      "x86": "rustc 1.99.0 (b940084d7 2026-09-28)"
+    },
+    "note": "tiny rows regenerated on both hosts after mapping tiny to 32 shared-prefix keys; shared and wide rows reproduced the committed values exactly"
+  },
+  "review_repairs": "--bench argument filtering, case-name validation, runner artifact placement/tests.txt/attempts.jsonl/timeout, probe tiny workload mapping. Timed explicit-argument operations unchanged; committed summaries were not replayed."
 }

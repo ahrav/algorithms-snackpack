@@ -328,7 +328,7 @@ impl Index {
                 let mut counts = [0; 4];
                 for n in &t.nodes {
                     let i = match &n.children {
-                        Children::Small(e) => usize::from(e.capacity() > 4),
+                        Children::Small(e) => usize::from(e.len() > 4),
                         Children::Indexed { .. } => 2,
                         Children::Direct(_) => 3,
                     };

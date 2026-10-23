@@ -40,13 +40,24 @@ fn operate(index: &Index, q: &[Vec<u8>], prefix: bool) -> u64 {
     }
     black_box(sum)
 }
+const CASES: [&str; 8] = [
+    "tiny",
+    "shared",
+    "wide",
+    "miss",
+    "prefix256",
+    "prefix_all",
+    "build_shared",
+    "build_wide",
+];
 fn main() {
-    let mut args: Vec<_> = std::env::args().collect();
+    // `cargo bench` appends `--bench` after user arguments.
+    let mut args: Vec<_> = std::env::args().filter(|a| a != "--bench").collect();
     if args.len() == 1 {
         args.extend(["flat".to_owned(), "tiny".to_owned()]);
     }
-    if args.len() != 3 {
-        eprintln!("usage: dictionary CANDIDATE CASE");
+    if args.len() != 3 || !CASES.contains(&args[2].as_str()) {
+        eprintln!("usage: dictionary CANDIDATE CASE; CASE is one of {CASES:?}");
         std::process::exit(2);
     }
     let name = &args[1];
