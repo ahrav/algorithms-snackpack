@@ -1,0 +1,258 @@
+{
+  "topic": 27,
+  "date": "2026-10-23",
+  "source": {
+    "commit": "fbebe6a17c6946742954d0cc9468a6441f78dadf",
+    "base": "c660c46aacd33ca0c9a22c5c3f46f676944bc76a",
+    "branch": "curriculum/topic-027-ring-buffers-and-bounded-queues",
+    "files": {
+      "src/lib.rs": "11cfd95c0c6aa03849f2fc52973bee50e7122f61f8bffd6b1918aa4e7d5021d3",
+      "benches/portfolio.rs": "86ac88ec8d7e8a509b512212cc94e4b20f7b3a011bcd9812b3c756bded7faf30",
+      "run.py": "78733bbbf58e2456d3ce287e35204b26a68a9aae9500393bcbc2119b26c414f3",
+      "examples/wrapped.rs": "d3f4e11fd080436a50019bee57c8d7daa9c3eb14413c3ab0913ab26a628cca11",
+      "tests/contracts.rs": "67a7c86c5b39acbfedd9d5b0a4a7798659bfeabd5395ace6d53386b9b8e4db01",
+      "SOURCE.sha256": "e8100340f34a4f3173e93806e4321cf547cd1a4fd35ab39f4e843e4300a4d4cb"
+    }
+  },
+  "archive_verification": "all regular members read; source manifests, 490 output records and checksums verified per archive",
+  "campaigns": [
+    {
+      "phase": "preteach",
+      "host": "arm",
+      "archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/preteach/arm/raw.tar.gz",
+      "sha256": "4281af7d20b1cfc18ef62b8f659a628487c4fd5c86ff18633482ed1b92f75b2c",
+      "bytes": 732984,
+      "processes": 490,
+      "files": {
+        "src/lib.rs": "fe6267b5bd49855ece550d29a2c7a214e4c005031ad229fb732f44bbeb6592ce",
+        "benches/portfolio.rs": "97d2e2031b5ca68e4d1b848f8283dd7bfb385dcd2d6f8b088c711764ea6dfa78",
+        "run.py": "f99c8cf5717cf0f27bc095345cb16879e658dd622b6b2362fbd7608211cae8aa",
+        "examples/wrapped.rs": "d3f4e11fd080436a50019bee57c8d7daa9c3eb14413c3ab0913ab26a628cca11"
+      },
+      "binary_sha256": "baaf5daf0e932c492bb1f3611069eab208954a1254f2aa1dd374a1132b543c11"
+    },
+    {
+      "phase": "preteach",
+      "host": "x86",
+      "archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/preteach/x86/raw.tar.gz",
+      "sha256": "c359627855e6facfe84bf06b371d4fd536419859a55c8a4d5486305b1e13f4ca",
+      "bytes": 858220,
+      "processes": 490,
+      "files": {
+        "src/lib.rs": "fe6267b5bd49855ece550d29a2c7a214e4c005031ad229fb732f44bbeb6592ce",
+        "benches/portfolio.rs": "97d2e2031b5ca68e4d1b848f8283dd7bfb385dcd2d6f8b088c711764ea6dfa78",
+        "run.py": "f99c8cf5717cf0f27bc095345cb16879e658dd622b6b2362fbd7608211cae8aa",
+        "examples/wrapped.rs": "d3f4e11fd080436a50019bee57c8d7daa9c3eb14413c3ab0913ab26a628cca11"
+      },
+      "binary_sha256": "390abc0c7f6fd86e16e45637f5afd1f6f3fb835ee483cee9de365931a03cefc0"
+    },
+    {
+      "phase": "committed",
+      "host": "arm",
+      "archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/committed/arm/raw.tar.gz",
+      "sha256": "8b807f8a231d05b2e07ce4c121ab305ccfda15e92e5a241cb64d93d6a5ae99e5",
+      "bytes": 733066,
+      "processes": 490,
+      "files": {
+        "src/lib.rs": "11cfd95c0c6aa03849f2fc52973bee50e7122f61f8bffd6b1918aa4e7d5021d3",
+        "benches/portfolio.rs": "86ac88ec8d7e8a509b512212cc94e4b20f7b3a011bcd9812b3c756bded7faf30",
+        "run.py": "78733bbbf58e2456d3ce287e35204b26a68a9aae9500393bcbc2119b26c414f3",
+        "examples/wrapped.rs": "d3f4e11fd080436a50019bee57c8d7daa9c3eb14413c3ab0913ab26a628cca11",
+        "tests/contracts.rs": "67a7c86c5b39acbfedd9d5b0a4a7798659bfeabd5395ace6d53386b9b8e4db01"
+      },
+      "binary_sha256": "b250ae592f27750db00387b4ed54c4f6673a4f83d56d1d24145ad93b16e1dc05"
+    },
+    {
+      "phase": "committed",
+      "host": "x86",
+      "archive": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/committed/x86/raw.tar.gz",
+      "sha256": "90286f88bedaca54da09d6a64582958b37440ebd0345cdbb6fb7941ddd099d37",
+      "bytes": 858298,
+      "processes": 490,
+      "files": {
+        "src/lib.rs": "11cfd95c0c6aa03849f2fc52973bee50e7122f61f8bffd6b1918aa4e7d5021d3",
+        "benches/portfolio.rs": "86ac88ec8d7e8a509b512212cc94e4b20f7b3a011bcd9812b3c756bded7faf30",
+        "run.py": "78733bbbf58e2456d3ce287e35204b26a68a9aae9500393bcbc2119b26c414f3",
+        "examples/wrapped.rs": "d3f4e11fd080436a50019bee57c8d7daa9c3eb14413c3ab0913ab26a628cca11",
+        "tests/contracts.rs": "67a7c86c5b39acbfedd9d5b0a4a7798659bfeabd5395ace6d53386b9b8e4db01"
+      },
+      "binary_sha256": "aa29a9aa984ff142bbcea8130528185227ed982481735c3ad663faa58b8ce394"
+    }
+  ],
+  "environments": {
+    "arm": {
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "uname": [
+        "Linux",
+        "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+        "6.12.111-136.204.amzn2023.aarch64",
+        "#1 SMP Tue Oct  6 18:01:38 UTC 2026",
+        "aarch64",
+        "aarch64"
+      ],
+      "available_cpus": 64,
+      "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+      "flags": "--edition 2024 -O -C target-cpu=native",
+      "features": "debug_assertions\npanic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"aarch64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"aes\"\ntarget_feature=\"bf16\"\ntarget_feature=\"crc\"\ntarget_feature=\"dit\"\ntarget_feature=\"dotprod\"\ntarget_feature=\"dpb\"\ntarget_feature=\"dpb2\"\ntarget_feature=\"fcma\"\ntarget_feature=\"fhm\"\ntarget_feature=\"flagm\"\ntarget_feature=\"fp16\"\ntarget_feature=\"i8mm\"\ntarget_feature=\"jsconv\"\ntarget_feature=\"lor\"\ntarget_feature=\"lse\"\ntarget_feature=\"neon\"\ntarget_feature=\"paca\"\ntarget_feature=\"pacg\"\ntarget_feature=\"pan\"\ntarget_feature=\"pmuv3\"\ntarget_feature=\"rand\"\ntarget_feature=\"ras\"\ntarget_feature=\"rcpc\"\ntarget_feature=\"rcpc2\"\ntarget_feature=\"rdm\"\ntarget_feature=\"sha2\"\ntarget_feature=\"sha3\"\ntarget_feature=\"sm4\"\ntarget_feature=\"spe\"\ntarget_feature=\"ssbs\"\ntarget_feature=\"sve\"\ntarget_feature=\"vh\"\ntarget_has_atomic=\"128\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"128\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n",
+      "cpu_model": "ARM implementer 0x41 part 0xd40 variant1 revision1; MIDR 0x411fd401",
+      "layout": {
+        "u64_bytes": 8,
+        "option_u64_bytes": 16
+      }
+    },
+    "x86": {
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "uname": [
+        "Linux",
+        "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+        "6.12.111-136.204.amzn2023.x86_64",
+        "#1 SMP PREEMPT_DYNAMIC Tue Oct  6 18:01:06 UTC 2026",
+        "x86_64",
+        "x86_64"
+      ],
+      "available_cpus": 192,
+      "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+      "flags": "--edition 2024 -O -C target-cpu=native",
+      "features": "debug_assertions\npanic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"x86_64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"adx\"\ntarget_feature=\"aes\"\ntarget_feature=\"avx\"\ntarget_feature=\"avx2\"\ntarget_feature=\"avx512bf16\"\ntarget_feature=\"avx512bitalg\"\ntarget_feature=\"avx512bw\"\ntarget_feature=\"avx512cd\"\ntarget_feature=\"avx512dq\"\ntarget_feature=\"avx512f\"\ntarget_feature=\"avx512fp16\"\ntarget_feature=\"avx512ifma\"\ntarget_feature=\"avx512vbmi\"\ntarget_feature=\"avx512vbmi2\"\ntarget_feature=\"avx512vl\"\ntarget_feature=\"avx512vnni\"\ntarget_feature=\"avx512vpopcntdq\"\ntarget_feature=\"avxvnni\"\ntarget_feature=\"bmi1\"\ntarget_feature=\"bmi2\"\ntarget_feature=\"cmpxchg16b\"\ntarget_feature=\"f16c\"\ntarget_feature=\"fma\"\ntarget_feature=\"fxsr\"\ntarget_feature=\"gfni\"\ntarget_feature=\"lzcnt\"\ntarget_feature=\"movbe\"\ntarget_feature=\"pclmulqdq\"\ntarget_feature=\"popcnt\"\ntarget_feature=\"rdrand\"\ntarget_feature=\"rdseed\"\ntarget_feature=\"sha\"\ntarget_feature=\"sse\"\ntarget_feature=\"sse2\"\ntarget_feature=\"sse3\"\ntarget_feature=\"sse4.1\"\ntarget_feature=\"sse4.2\"\ntarget_feature=\"ssse3\"\ntarget_feature=\"vaes\"\ntarget_feature=\"vpclmulqdq\"\ntarget_feature=\"xsave\"\ntarget_feature=\"xsavec\"\ntarget_feature=\"xsaveopt\"\ntarget_feature=\"xsaves\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n",
+      "cpu_model": "Intel Xeon Platinum 8488C",
+      "layout": {
+        "u64_bytes": 8,
+        "option_u64_bytes": 16
+      }
+    }
+  },
+  "validation": [
+    {
+      "args": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "RUSTDOCFLAGS": null,
+      "log": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/validation/0.txt"
+    },
+    {
+      "args": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "RUSTDOCFLAGS": null,
+      "log": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/validation/1.txt"
+    },
+    {
+      "args": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--lib",
+        "--examples"
+      ],
+      "exit": 0,
+      "RUSTDOCFLAGS": null,
+      "log": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/validation/2.txt"
+    },
+    {
+      "args": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--doc"
+      ],
+      "exit": 0,
+      "RUSTDOCFLAGS": null,
+      "log": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/validation/3.txt"
+    },
+    {
+      "args": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "RUSTDOCFLAGS": null,
+      "log": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/validation/4.txt"
+    },
+    {
+      "args": [
+        "cargo",
+        "bench",
+        "--workspace",
+        "--no-run"
+      ],
+      "exit": 0,
+      "RUSTDOCFLAGS": null,
+      "log": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/validation/5.txt"
+    },
+    {
+      "args": [
+        "cargo",
+        "doc",
+        "--workspace",
+        "--no-deps"
+      ],
+      "exit": 0,
+      "RUSTDOCFLAGS": "-D warnings",
+      "log": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/validation/6.txt"
+    },
+    {
+      "args": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--all-targets"
+      ],
+      "exit": 0,
+      "RUSTDOCFLAGS": null,
+      "log": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/validation/7.txt"
+    }
+  ],
+  "mutants": {
+    "padding-admission": {
+      "compiled": true,
+      "rejected": true,
+      "exit": 101
+    },
+    "false-full-success": {
+      "compiled": true,
+      "rejected": true,
+      "exit": 101
+    },
+    "skip-head": {
+      "compiled": true,
+      "rejected": true,
+      "exit": 101
+    },
+    "suppress-pop": {
+      "compiled": true,
+      "rejected": true,
+      "exit": 101
+    }
+  },
+  "plugin": {
+    "decision": "NO_CHANGE",
+    "origin_main": "4a60043148e44033cdfc1454c11e0b13414c7236",
+    "audit": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/plugin/no-change-audit.md",
+    "tests": "11 existing bounded-design tests pass; inventory 40 JSON,260 frontmatters,19 manifest pairs"
+  },
+  "visual": {
+    "rendered_inspected": true,
+    "path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023/wraparound.png",
+    "sha256": "cd2df43f9ea7f51abe62c8a41c72eb36f864237545e57d62cd1159a4bdae60f0"
+  },
+  "boundaries": [
+    "warm unpinned processes",
+    "different host toolchains",
+    "descriptive all-pairs 3% rule with no confidence coverage",
+    "A/A outliers retained",
+    "no cold, contention, production-tail, allocator/RSS or hardware-causality claim"
+  ]
+}
