@@ -70,7 +70,7 @@
   ],
   "allocation": {
     "processes_per_host": 12,
-    "probe_source_sha256": "f631df85dcc843c711a082a7d9d191a0ec27ad0049581954be137daf8c27aa09",
+    "probe_source_sha256": "f69e14a4214fd8b6ea03d2b4b37e2d5d099791da37324f5a70f7bc2d2d928bae",
     "toolchains": {
       "arm": "rustc 1.98.1 (48a229cea 2026-09-01)",
       "x86": "rustc 1.99.0 (b940084d7 2026-09-28)"

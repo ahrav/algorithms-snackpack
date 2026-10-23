@@ -46,14 +46,14 @@ fn sample() -> [usize; 4] {
 }
 fn main() {
     let a: Vec<_> = std::env::args().collect();
-    if a.len() != 3 {
-        eprintln!("usage: alloc_probe CANDIDATE tiny|shared|wide");
-        std::process::exit(2);
-    }
-    let (shape, n) = match a[2].as_str() {
-        "tiny" => ("shared", 32),
-        "wide" => ("wide", 8192),
-        _ => ("shared", 8192),
+    let (shape, n) = match (a.len(), a.get(2).map(String::as_str)) {
+        (3, Some("tiny")) => ("shared", 32),
+        (3, Some("shared")) => ("shared", 8192),
+        (3, Some("wide")) => ("wide", 8192),
+        _ => {
+            eprintln!("usage: alloc_probe CANDIDATE tiny|shared|wide");
+            std::process::exit(2);
+        }
     };
     let rows = workload(shape, n);
     reset();
