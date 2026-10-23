@@ -97,3 +97,7 @@ version = "0.1.0"
 [[package]]
 name = "topic023-b-trees-and-posting-list-deduplication"
 version = "0.1.0"
+
+[[package]]
+name = "topic024-tries-radix-trees-and-art"
+version = "0.1.0"
