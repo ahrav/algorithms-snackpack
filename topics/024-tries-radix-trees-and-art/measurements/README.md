@@ -44,6 +44,19 @@ allocation calls: flat 8195, tree 8940, trie 68, radix 8263; realloc calls 11,
 64 lower-bound keys) and reallocate; wide prefix queries match one value each
 and allocate 64 vectors without reallocation. Instrumented timings are
 excluded. See allocation.json for complete fields.
+Regenerate the 12 rows for one host from the topic directory:
+
+```bash
+OUT=../../target/alloc-probe; mkdir -p "$OUT"
+rustc --edition=2024 --crate-type=rlib --crate-name topic024_tries_radix_trees_and_art \
+  -C opt-level=3 -C target-cpu=native src/lib.rs -o "$OUT/libtopic024.rlib"
+rustc --edition=2024 -C opt-level=3 -C target-cpu=native scripts/alloc_probe.rs \
+  --extern topic024_tries_radix_trees_and_art="$OUT/libtopic024.rlib" -o "$OUT/alloc_probe"
+for shape in tiny shared wide; do for c in flat tree trie radix; do "$OUT/alloc_probe" $c $shape; done; done
+```
+
+Each line of output is one allocation.json row. The committed rows used the
+host default toolchains named above (Arm rustc 1.98.1, x86 rustc 1.99.0).
 The tiny rows (32 shared-prefix keys) were regenerated on both hosts with the
 recorded toolchains after the probe mapped `tiny` to the shared workload; the
 earlier tiny rows had measured 32 bare eight-byte keys. Tiny build allocation
