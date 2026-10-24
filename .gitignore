@@ -4,6 +4,7 @@
 **/criterion/
 # Raw curriculum benchmark bundles are archived outside Git.
 /topics/*/measurements/runs/
+/topics/*/raw/
 *.swp
 .DS_Store
 __pycache__/
