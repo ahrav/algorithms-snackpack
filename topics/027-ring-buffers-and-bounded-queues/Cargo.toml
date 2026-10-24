@@ -1,0 +1,13 @@
+[package]
+name = "topic027-ring-buffers-and-bounded-queues"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+[lib]
+name = "algorithms_ring"
+[lints]
+workspace = true
+[[bench]]
+name = "portfolio"
+harness = false
