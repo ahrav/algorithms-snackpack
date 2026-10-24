@@ -3,7 +3,13 @@
 The current-main audit found a material deque-protocol gap in
 `low-level-systems/skills/systems-data-structures`: Worker and Stealer roles,
 Retry versus Empty, last-item claim and retired-array lifetime need explicit
-versioned guidance. The existing owner is being expanded with reciprocal
-concurrency routing. Its independent verification and evaluation records are
-retained with the Topic028 evidence. Final publication details follow in the
-measurement receipt.
+versioned guidance. These mechanics belong to the existing queue owner.
+The Topic028 plugin work expands that owner and adds reciprocal concurrency
+routing. Its claim verification, frozen evaluations, validation and publication
+records are retained under the automation evidence directory:
+
+`/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-028/20261024-final-repair/plugin/`
+
+Scheduler granularity, split publication and task migration guidance remain
+with their existing owners. This lesson measures the Rust teaching crate.
+Skill prose changes require answer-quality evaluation rather than runtime claims.

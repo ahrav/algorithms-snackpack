@@ -35,3 +35,11 @@ Dynamic spawning, cancellation, parking, Chase-Lev atomic operations, batch
 stealing and safe retired-array reclamation are explicit revisit scope. The
 current catalog supplies Topic028's ID, slug and title. It has no coverage array,
 and the repository has no ALGORITHM_INDEX.md.
+
+## Measured selection
+
+The exact-source Linux campaign selects balanced per-worker deques for medium
+work on both hosts. Global FIFO is selected for skewed medium and coarse work
+on Arm. Tiny cases and the remaining x86 cells are unresolved under the frozen
+paired 3 percent rule. See the measurement table for descriptive median ranks
+and full observed ranges.
