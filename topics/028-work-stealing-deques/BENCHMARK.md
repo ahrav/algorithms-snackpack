@@ -1,3 +1,5 @@
+benchmark_required: true
+
 # Benchmark decision
 
 Timing is required for choosing among these safe locked scheduler models.
@@ -20,15 +22,54 @@ python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
   --binary target/release/examples/compare --repetitions 8 --out campaign.json
 ```
 
-The protocol is frozen before either Linux campaign: one discarded warmup
+## Protocol
+
+The protocol was frozen before either Linux campaign: one discarded warmup
 process per candidate and workload, then eight paired repetitions with strict
-alternating order. This gives 80 measured processes and 10 warmup processes per
-host. Report median, minimum and maximum plus the eight paired steal/global
-ratios. The lowest median is a descriptive ranking. Select a candidate only
-when every paired ratio lies beyond the same 3 percent boundary: below 1/1.03
-for stealing, above 1.03 for global FIFO. Otherwise record unresolved. This
-descriptive rule supplies no confidence interval or significance claim.
-Stop after eight repetitions and retain every valid observation.
+alternating order. The runner reports median, minimum and maximum plus the
+eight paired steal/global ratios and the decision below for every cell.
+The lowest median is a descriptive ranking. Select a candidate only when every
+paired ratio lies beyond the same 3 percent boundary: below 1/1.03 for
+stealing, above 1.03 for global FIFO. Otherwise record unresolved. Stop after
+eight repetitions.
+
+Every process is retained as a row with status `ok`, `failed` or `timeout`,
+together with its command, exit code and captured output. The runner rewrites
+`campaign.json` after each process, so an interrupted campaign keeps every
+completed observation. A repetition whose pair lacks an `ok` observation is
+counted in `incomplete_repetitions` and forces `unresolved`; it is never
+dropped from the file. Failures are reported per cell as `failures`.
+
+Each repetition also runs the global FIFO artifact twice under the labels `A`
+and `B`, with the order alternating per repetition. These identical-artifact
+controls pass through the same scheduling, labelling, parser, missing-data and
+ratio code as the treatments, and the runner reports their eight paired A/B
+ratios as `aa_ratios`. Mechanical integrity is the `ok` status of every control
+row; null calibration is the spread of the A/B ratios around 1. A full
+campaign runs 10 warmup, 80 treatment and 80 control processes per host.
+
+## Uncertainty and multiplicity
+
+Pilot variance comes from the retained macOS smoke campaign in
+`measurements/LOCAL_SMOKE.md`: observed ranges within a cell spanned up to
+20x for tiny workloads and about 2x for coarse work, which motivated fresh
+processes, warmups and a paired rule over a mean difference.
+
+The independent unit is one measured process; eight paired repetitions per
+cell are the analysis units, and a cell is one host and workload. The rule is
+two-sided within a cell, since either arm can be selected. Under the null of
+exchangeable paired timings, all eight ratios fall on one side with
+probability 2 * (1/2)^8 = 1/128, so the nominal per-cell false-selection rate
+is at most 0.78 percent; the 3 percent margin makes the realised rate lower.
+The benchmark family is the ten cells per host, twenty in total, inspected at
+one fixed look. No multiplicity correction is applied; the Bonferroni bound on
+the family-wise false-selection rate is 10/128 (7.8 percent) per host and
+20/128 (15.6 percent) across both hosts. No confidence interval is reported,
+and the rule carries no power claim: a true difference below 3 percent is
+expected to remain unresolved. These rates characterise the frozen rule and
+were derived from it, not from the observed data.
+
+## Boundary and identity
 
 The binary timer starts after argument parsing and sequential oracle computation.
 It includes queue allocation and population, worker startup, scheduling, task
@@ -37,13 +78,15 @@ startup, output and JSON writing remain outside that timer. Fresh threads and
 queues are created in every measured invocation. Warmups warm executable pages
 and host state. Scheduling is unpinned, and caches are uncontrolled.
 
-The source manifest freezes all topic inputs and the original workspace inputs.
-Each host verifies SHA-256 before building the unchanged topic in a one-member
-replay workspace with the same edition, minimum Rust version and lints. Record
-the replay wrapper, host, kernel, CPU, available CPUs, compiler, target features,
-release flags, binary hash, tests and raw outputs. Run the exact committed
-source on both declared hosts. Toolchain and host differences prevent an
-ISA-only interpretation.
+The runner records the identity of each run in `environment`: source commit
+and worktree dirtiness, SHA-256 of the frozen topic and workspace inputs,
+SHA-256 of the measured binary, `rustc -Vv`, `cargo -V`, `RUSTFLAGS`, host
+name, uname, CPU model and available CPUs. Each host verifies the source
+hashes before building the unchanged topic with the same edition, minimum Rust
+version and lints. Run the exact committed source on both declared hosts.
+Toolchain and host differences prevent an ISA-only interpretation.
+
+## Scope and retained evidence
 
 The experiment covers complete invocations of a mutex-based teaching model
 with preloaded independent tasks and cyclic victim scans. Selection applies
@@ -52,5 +95,13 @@ throughput, allocator bytes, hardware counters and production tail latency
 require further experiments. Shared counters and setup contribute to the
 measured costs, so elapsed time alone cannot attribute a mechanism.
 
-The original seven-repetition macOS smoke campaign is retained separately.
-Its 4:3 order split and broad ranges support descriptive local observations.
+The retained Linux campaign in `measurements/` ran commit
+`200b157100cb9aa25c4622a545daaab9c329a627`. The runner at that commit wrote
+its file once at the end, stopped on the first failed process and had no
+control arm; every one of its 160 measured and 20 warmup processes passed the
+oracle, so no observation was lost. Its paired ratios and selections were
+computed from the retained rows with the same rule. It has no A/A ratios, so
+null calibration for those hosts is absent until the campaign is rerun with
+the current runner. The seven-repetition macOS smoke campaign is retained
+separately; its 4:3 order split and broad ranges support descriptive local
+observations.

@@ -7,7 +7,9 @@ The initial source also passed tests and three focused invocations on both hosts
 
 The timer covers scheduler queues, threads, work, shared counters, joins and
 equality checking. The sequential oracle runs before timing. Read
-[the frozen protocol](../BENCHMARK.md) for controls and selection.
+[the frozen protocol](../BENCHMARK.md) for controls and selection. The runner
+at the measured commit had no identical-artifact control arm, so these hosts
+have no A/A ratios; `BENCHMARK.md` records that limit.
 
 Times below are median [minimum, maximum] in microseconds. Ratios divide the
 stealing duration by the global duration within each repetition. A selection
