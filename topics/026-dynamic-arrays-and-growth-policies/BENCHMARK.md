@@ -22,8 +22,10 @@ Each fresh process receives one candidate and workload. Its aggregate rate is on
 sample. Inner repetitions are subsamples, never independent observations. Ten
 fixed rotating mirrored blocks contain each candidate once per workload and two
 identical standard-candidate controls under labels A/B. There are 450 processes
-per host per campaign. The five-policy family uses every position twice; the
-three-policy family has position counts differing by at most one. Assignment is
+per host per campaign. The five-policy family uses every position twice. The
+rotation with reversal does not balance three candidates over ten blocks: `std`
+and `quarter` occupy positions 0/1/2 in 3/3/4 blocks and `tight` in 4/4/2, so
+launch-order drift is spread unevenly for `tight`. Assignment is
 deterministic, not random; no randomization-based inference is claimed.
 
 A process first checks exact pop results and final records against an independent

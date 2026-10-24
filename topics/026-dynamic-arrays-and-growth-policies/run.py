@@ -63,7 +63,7 @@ for case,names in families.items():
         if min(pair)<=1.03:rivals.append(other)
     aa=[next(r['ns_per_op']for r in runs if r['case']==case and r['label']=='A' and r['block']==b)/next(r['ns_per_op']for r in runs if r['case']==case and r['label']=='B' and r['block']==b)for b in range(10)]
     checksums={r['checksum']for r in runs if r['case']==case};assert len(checksums)==1
-    summary[case]={'candidates':cells,'lowest_median':best,'selection':best if not rivals else 'unresolved: '+best+' / '+','.join(rivals),'paired_ratios':ratios,'AA_ratios':aa,'checksum':checksums.pop(),'counters':{n:{k:next(r[k]for r in runs if r['case']==case and r['label']==n)for k in ['grows','shrinks','capacity','peak_capacity','live_at_growth','address_changes']}for n in names}}
+    summary[case]={'candidates':cells,'lowest_median':best,'selection':best if not rivals else 'unresolved: '+best+' / '+','.join(rivals),'paired_ratios':ratios,'AA_ratios':aa,'checksum':checksums.pop(),'counters':{n:{k:sorted({r[k]for r in runs if r['case']==case and r['label']==n})for k in ['grows','shrinks','capacity','peak_capacity','live_at_growth','address_changes']}for n in names}}
 assert len(runs)==450
 assert hashlib.sha256(portfolio.read_bytes()).hexdigest()==meta['binary_sha256']
 for path,digest in meta['files'].items():assert hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()==digest

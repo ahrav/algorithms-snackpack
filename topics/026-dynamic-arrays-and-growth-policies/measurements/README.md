@@ -21,7 +21,7 @@ Sources, flags, kernel, architecture, compiler, CPU features, allowed CPUs and l
 | x86 | oscillate | unresolved: std / quarter | 2.328 (std) | 2.207..2.673 |
 | x86 | drain | std | 2.382 (std) | 2.342..2.465 |
 
-Candidate medians, ranges, paired-ratio ranges and counters are in preteach-summary.json. Individual samples remain in the external raw archives. A sole selection requires every rival >3% slower in every paired block; otherwise unresolved. Ranges are descriptive, not confidence intervals. A/A ranges are diagnostic; no calibrated statistical/power, universal, PMU, cold allocator, p99, physical copy-byte or resident-memory claim. Request counts need not equal allocator calls; address changes do not reveal physical copying. Counter snapshots are from the last inner repetition of each process. See BENCHMARK.md.
+Candidate medians, ranges, paired-ratio ranges and counters are in preteach-summary.json. Individual samples remain in the external raw archives. A sole selection requires every rival >3% slower in every paired block; otherwise unresolved. Ranges are descriptive, not confidence intervals. A/A ranges are diagnostic; no calibrated statistical/power, universal, PMU, cold allocator, p99, physical copy-byte or resident-memory claim. Request counts need not equal allocator calls; address changes do not reveal physical copying. Counter snapshots are from the last inner repetition of each process; the committed summaries report the block-0 process's counters for each candidate, and the current runner records every distinct value across the ten processes. See BENCHMARK.md.
 
 The reserved candidate receives a correct peak hint. Reuse includes the first fill and sixteen clear/refill cycles; it is not an isolated zero-allocation steady-state loop. Wide includes full 256-byte records and output scans. Large stops just beyond a power-of-two capacity boundary deliberately.
 
@@ -29,7 +29,7 @@ Raw replay assets and archives: /Users/ahrav/.codex/automations/algorithms-daily
 
 ## Exact committed-source campaign
 
-Source commit `51b2cf40013aa0ba5716b2917765c6d0ec602243`. Each host completed 450 processes; all source/runner hashes, library tests, oracle checks and cross-candidate/cross-campaign output checksums match. These results are reported separately from the initial campaign.
+Source commit `51b2cf40013aa0ba5716b2917765c6d0ec602243`. Each host completed 450 processes; all source/runner hashes, library tests, oracle checks and cross-candidate/cross-campaign output checksums match. These results are reported separately from the initial campaign. Later commits in this change alter `main()` argument handling and the untimed oracle in benches/portfolio.rs, a doc comment and a `Debug` derive in src/lib.rs, and run.py; both campaigns were compiled from 51b2cf4 (file hashes in EVIDENCE_RECEIPT.json) and were not rerun on the final sources.
 
 | Host | Case | Selection | Lowest median ns/op | Observed range |
 |---|---|---|---:|---|
