@@ -124,7 +124,8 @@ percent rule and reports `unresolved` for a mixed cell; failed and timed-out
 processes are retained as rows and the campaign continues; the output file
 exists with `status: running` and a `running` row for the in-flight process
 while that process is still executing; a binary that cannot start yields
-`failed` rows and an `invalid` document with no selection; a process that
+`failed` rows and an `invalid` document with no selection, as does a
+toolchain whose compiler probes return nothing; a process that
 emits invalid UTF-8 is a `failed` row and the campaign continues; replacing
 the binary at its original path mid-campaign leaves every row on the pinned
 copy; a row whose

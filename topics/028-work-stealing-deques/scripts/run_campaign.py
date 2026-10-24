@@ -299,6 +299,8 @@ def main():
     document["summaries"] = summarize(document["rows"], document["warmups"], args.repetitions)
     if pinned is None:
         document["status"] = "invalid: binary could not be pinned"
+    elif document["environment"]["rustc"] is None or document["environment"]["cargo"] is None:
+        document["status"] = "invalid: compiler identity unavailable"
     elif document["environment"]["binary_sha256_final"] != document["environment"]["binary_sha256"]:
         document["status"] = "invalid: binary changed during the campaign"
     else:

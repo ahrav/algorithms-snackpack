@@ -207,10 +207,13 @@ class RunCampaignTests(unittest.TestCase):
     def test_toolchain_flag_routes_the_compiler_probes(self):
         process, out, _ = run_campaign({}, repetitions=4, toolchain="topic028-no-such-toolchain")
         self.assertEqual(process.returncode, 0, process.stderr)
-        environment = json.loads(out.read_text())["environment"]
+        document = json.loads(out.read_text())
+        environment = document["environment"]
         self.assertEqual(environment["toolchain"], "topic028-no-such-toolchain")
         self.assertIsNone(environment["rustc"])
         self.assertIsNone(environment["cargo"])
+        self.assertEqual(document["status"], "invalid: compiler identity unavailable")
+        self.assertTrue(all(s["selected"] == "unresolved" for s in document["summaries"]))
         process, out, _ = run_campaign({}, repetitions=4)
         environment = json.loads(out.read_text())["environment"]
         self.assertIsNone(environment["toolchain"])
