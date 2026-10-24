@@ -144,7 +144,9 @@ fn execute<Q: Fifo>(w: &Work, expected: &(u64, Vec<u64>)) -> (u128, u64) {
     (elapsed, hash)
 }
 fn main() {
-    let args = std::env::args().collect::<Vec<_>>();
+    let args = std::env::args()
+        .filter(|a| a != "--bench")
+        .collect::<Vec<_>>();
     let name = args.get(1).map_or("deque", String::as_str);
     let case = args.get(2).map_or("tiny", String::as_str);
     let w = workload(case);

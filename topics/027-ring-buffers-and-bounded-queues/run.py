@@ -2,15 +2,24 @@
 """Ten mirrored rotation blocks, five candidates and paired deque A/A controls."""
 import hashlib,json,os,pathlib,platform,statistics,subprocess,time
 root=pathlib.Path(__file__).resolve().parent;os.chdir(root)
-out=root/'raw';out.mkdir(exist_ok=True)
+out=root/'raw'
+if out.exists() and any(out.iterdir()):
+    raise SystemExit('raw/ already holds a campaign; archive it elsewhere before starting another')
+out.mkdir(exist_ok=True)
 def command(args):
-    p=subprocess.run(args,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=90)
+    try:
+        p=subprocess.run(args,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=90)
+    except subprocess.TimeoutExpired as e:
+        captured=e.stdout or b''
+        captured=captured.decode(errors='replace')if isinstance(captured,bytes)else captured
+        (out/('failure-'+str(time.time_ns())+'.txt')).write_text(repr(args)+'\ntimeout after '+str(e.timeout)+'s\n'+captured)
+        raise RuntimeError('retained timed-out command: '+repr(args))from e
     if p.returncode:
         (out/('failure-'+str(time.time_ns())+'.txt')).write_text(repr(args)+'\n'+p.stdout)
         raise RuntimeError(repr(args))
     return p.stdout
 files=['src/lib.rs','benches/portfolio.rs','run.py','examples/wrapped.rs','tests/contracts.rs']
-meta={'hostname':platform.node(),'uname':list(platform.uname()),'cpu':command(['lscpu']),'available_cpus':len(os.sched_getaffinity(0)),'affinity':sorted(os.sched_getaffinity(0)),'rustc':command(['rustc','-Vv']),'features':command(['rustc','--print','cfg','-C','target-cpu=native']),'flags':'--edition 2024 -O -C target-cpu=native','started_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'files':{p:hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()for p in files}}
+meta={'hostname':platform.node(),'uname':list(platform.uname()),'cpu':command(['lscpu']),'available_cpus':len(os.sched_getaffinity(0)),'affinity':sorted(os.sched_getaffinity(0)),'rustc':command(['rustc','-Vv']),'features':command(['rustc','--print','cfg','-O','-C','target-cpu=native']),'flags':'--edition 2024 -O -C target-cpu=native','started_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'files':{p:hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()for p in files}}
 (out/'identity.json').write_text(json.dumps(meta,indent=2))
 (out/'tests.txt').write_text(command(['rustc','--edition','2024','--test','src/lib.rs','-o','tests-bin'])+command(['./tests-bin']))
 command(['rustc','--edition','2024','-O','-C','target-cpu=native','--crate-name','algorithms_ring','--crate-type','rlib','src/lib.rs','-o','libalgorithms_ring.rlib'])

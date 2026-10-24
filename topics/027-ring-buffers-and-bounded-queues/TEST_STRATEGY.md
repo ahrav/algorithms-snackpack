@@ -18,11 +18,16 @@ separate protocol and reviewed implementation. No timing candidate implements sh
 | Claim | Plausible violation | Smallest discriminating observation | Independence / comparator |
 |---|---|---|---|
 | Exact unchanged full rejection | Admit backing padding or report success | C=3 masked fourth push; C=0 first push | Map admission, exact Result, values and length |
-| FIFO after wrap | Advance head by two or leave it fixed | C=2 push0,push1,pop,pop | Map pop_first, exact Option |
+| FIFO after wrap | Advance head by two or leave it fixed | C=2 push0,push1,pop,push2,pop,pop | Map pop_first, exact Option |
 | Split spans preserve order | Skip/duplicate end slot | P=4 full, pop10, push14 | Literal expected slices plus public strings |
+| Split spans track length | Expose capacity-sized spans at partial occupancy | C=3,4,17 varied push/pop rounds, wrapped partial spans in each mode | VecDeque oracle, exact lengths and Some payloads |
 | Owning drops occur once | Lose ownership or destroy on rejected return | C=2, reject third, drop return/pop/container | External Rc<Cell> counter, exact counts |
 | Duplicate payloads remain entries | Deduplicate values | push(0),push(0),pop,pop | Ticket identity independent of value |
 
 Mutation backstops are compiled externally and retained in the evidence receipt. They
 change full admission, report full success, corrupt read advancement and suppress returned
 pops. Each must fail a named meaningful correctness check before the artifact is published.
+
+measurements/test_runner.py checks run.py on Linux with a stub benchmark: refusal over a retained
+campaign, timeout retention as a failure record, an identity whose target cfg comes from the -O
+build, and `cargo bench` argument handling.

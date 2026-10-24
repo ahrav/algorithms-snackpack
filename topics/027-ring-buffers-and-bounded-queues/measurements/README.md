@@ -61,8 +61,14 @@ and inspected symbol/body hashes remain external.
 ## Replay and retained evidence
 
 Run `python3 run.py` in this topic directory on Linux. The script records identities, tests,
-example, raw samples and linked disassembly under raw/. A compiler/toolchain mismatch is a
-new experiment; use the recorded environment when replaying a result. Raw data and frozen
+example, raw samples and linked disassembly under raw/, and refuses to start while raw/ holds
+a previous campaign. A compiler/toolchain mismatch is a new experiment; use the recorded
+environment when replaying a result. Later commits in this change alter `main()` argument
+handling in benches/portfolio.rs, a unit test in src/lib.rs, tests/contracts.rs and run.py;
+both campaigns were compiled from `fbebe6a` (file hashes in EVIDENCE_RECEIPT.json) and were
+not rerun on the final sources. The identity `features` field recorded there came from an
+unoptimized `rustc --print cfg` and lists `debug_assertions`; the measured binaries were built
+with `-O`, and the runner now prints cfg with `-O`. Raw data and frozen
 source archives live at:
 
 /Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-027/20261023

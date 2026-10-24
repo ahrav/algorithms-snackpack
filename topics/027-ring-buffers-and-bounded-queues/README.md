@@ -53,7 +53,9 @@ cargo run -p topic027-ring-buffers-and-bounded-queues --example wrapped
 cargo bench -p topic027-ring-buffers-and-bounded-queues --bench portfolio -- mask steady_odd
 ```
 
-On Linux, run `python3 run.py` from this topic directory for the full fixed schedule.
+On Linux, run `python3 run.py` from this topic directory for the full fixed schedule. It
+writes every result to `raw/` and refuses to start while `raw/` holds a previous campaign;
+archive that directory elsewhere first.
 The independent oracle uses an ordered map of insertion tickets, with no ring helpers.
 See [test strategy](TEST_STRATEGY.md), [protocol](BENCHMARK.md) and
 [results](measurements/README.md) for evidence and exact replay boundaries.

@@ -277,7 +277,9 @@ mod tests {
             assert_eq!(drops.get(), 0);
             drop(rejected);
             assert_eq!(drops.get(), 1);
-            drop(q.pop());
+            let popped = q.pop().unwrap();
+            assert_eq!(drops.get(), 1);
+            drop(popped);
             assert_eq!(drops.get(), 2);
             assert!(q.push(Token(drops.clone())).is_ok());
         }
