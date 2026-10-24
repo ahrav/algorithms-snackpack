@@ -1,0 +1,6 @@
+{
+  "status": "pending_required_linux_hosts",
+  "reason": "WSSH proxy DNS lookup failed before the initial Arm and x86 host probes",
+  "local_smoke_check": "cargo run -p topic028-work-stealing-deques --example compare",
+  "selection": "unresolved"
+}

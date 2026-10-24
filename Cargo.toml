@@ -32,6 +32,7 @@ members = [
     "topics/006-monotonic-stacks-and-deques",
     "topics/007-binary-galloping-branch-aware-search",
     "topics/008-selection-quickselect-top-k",
+    "topics/028-work-stealing-deques",
 ]
 resolver = "3"
 
