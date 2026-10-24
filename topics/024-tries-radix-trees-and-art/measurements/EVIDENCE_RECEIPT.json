@@ -1,0 +1,81 @@
+{
+  "topic": 24,
+  "source_commit": "16d77dbde6d54ed62644395ddf6c6f226b7e1651",
+  "source_hashes": {
+    "src/lib.rs": "b9f07778ca4e0f8fa29d21855812d8dfb8b30a0abd9d52d2319d36a42511d13b",
+    "benches/dictionary.rs": "231b081840579ad51610ecebbb327769d7018cb77a69f05c3d25a3b6c18a1b77",
+    "scripts/run.py": "135102ed8fbf4d518b9752e852f980a13f3e28b761c33317408c7c47cab8a1cd"
+  },
+  "raw_root": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-024/20261020",
+  "archive": {
+    "path": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-024/20261020",
+    "sha256": null,
+    "bytes": null,
+    "member_count": null,
+    "run_ids": null,
+    "manifest_hashes": null,
+    "verification": "not computed: the raw evidence root lives on the automation host and was not reachable from the review host; the committed summaries bind to source_hashes, committed-source.json and the per-host binary_sha256 below"
+  },
+  "hosts": {
+    "arm": {
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "kernel": "6.12.111-136.204.amzn2023.aarch64",
+      "available_cpus": 64,
+      "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+      "build_flags": "--edition=2024 -C opt-level=3 -C target-cpu=native; no LTO",
+      "binary_sha256": "e5544093b904aecfcdd92d20a625780548d58d4d7fdf5c3dc7b856e79e3149c4",
+      "processes": 288,
+      "allocation_processes": 12,
+      "linked_paths_inspected": [
+        "Radix::locate",
+        "Index::get"
+      ],
+      "interference_audit": "isolated own-work schedule verified",
+      "selection_evidence": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-024/20261020/committed-isolated/arm",
+      "cpu": "Architecture:                            aarch64\nCPU op-mode(s):                          32-bit, 64-bit\nByte Order:                              Little Endian\nCPU(s):                                  64\nOn-line CPU(s) list:                     0-63\nVendor ID:                               ARM\nModel:                                   1\nThread(s) per core:                      1\nCore(s) per socket:                      64\nSocket(s):                               1\nStepping:                                r1p1\nBogoMIPS:                                2100.00\nFlags:                                   fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 sm3 sm4 asimddp sha512 sve asimdfhm dit uscat ilrcpc flagm paca pacg dcpodp svei8mm svebf16 i8mm bf16 dgh rng\nL1d cache:                               4 MiB (64 instances)\nL1i cache:                               4 MiB (64 instances)\nL2 cache:                                64 MiB (64 instances)\nL3 cache:                                32 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-63\nVulnerability Gather data sampling:      Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; CSV2, BHB\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+      "native_target_features": "debug_assertions\npanic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"aarch64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"aes\"\ntarget_feature=\"bf16\"\ntarget_feature=\"crc\"\ntarget_feature=\"dit\"\ntarget_feature=\"dotprod\"\ntarget_feature=\"dpb\"\ntarget_feature=\"dpb2\"\ntarget_feature=\"fcma\"\ntarget_feature=\"fhm\"\ntarget_feature=\"flagm\"\ntarget_feature=\"fp16\"\ntarget_feature=\"i8mm\"\ntarget_feature=\"jsconv\"\ntarget_feature=\"lor\"\ntarget_feature=\"lse\"\ntarget_feature=\"neon\"\ntarget_feature=\"paca\"\ntarget_feature=\"pacg\"\ntarget_feature=\"pan\"\ntarget_feature=\"pmuv3\"\ntarget_feature=\"rand\"\ntarget_feature=\"ras\"\ntarget_feature=\"rcpc\"\ntarget_feature=\"rcpc2\"\ntarget_feature=\"rdm\"\ntarget_feature=\"sha2\"\ntarget_feature=\"sha3\"\ntarget_feature=\"sm4\"\ntarget_feature=\"spe\"\ntarget_feature=\"ssbs\"\ntarget_feature=\"sve\"\ntarget_feature=\"vh\"\ntarget_has_atomic=\"128\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"128\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n"
+    },
+    "x86": {
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "kernel": "6.12.111-136.204.amzn2023.x86_64",
+      "available_cpus": 192,
+      "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+      "build_flags": "--edition=2024 -C opt-level=3 -C target-cpu=native; no LTO",
+      "binary_sha256": "4ce312218c77ce0da9376ba0c44ef0c78e5a48b47b701814dbfd04c30a3f262e",
+      "processes": 288,
+      "allocation_processes": 12,
+      "linked_paths_inspected": [
+        "Radix::locate",
+        "Index::get"
+      ],
+      "interference_audit": "isolated own-work schedule verified",
+      "selection_evidence": "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-024/20261020/committed-final/x86",
+      "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           46 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  192\nOn-line CPU(s) list:                     0-191\nVendor ID:                               GenuineIntel\nModel name:                              Intel(R) Xeon(R) Platinum 8488C\nCPU family:                              6\nModel:                                   143\nThread(s) per core:                      2\nCore(s) per socket:                      48\nSocket(s):                               2\nStepping:                                8\nBogoMIPS:                                4800.00\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities\nHypervisor vendor:                       KVM\nVirtualization type:                     full\nL1d cache:                               4.5 MiB (96 instances)\nL1i cache:                               3 MiB (96 instances)\nL2 cache:                                192 MiB (96 instances)\nL3 cache:                                210 MiB (2 instances)\nNUMA node(s):                            2\nNUMA node0 CPU(s):                       0-47,96-143\nNUMA node1 CPU(s):                       48-95,144-191\nVulnerability Gather data sampling:      Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI BHI_DIS_S\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+      "native_target_features": "debug_assertions\npanic=\"unwind\"\ntarget_abi=\"\"\ntarget_arch=\"x86_64\"\ntarget_endian=\"little\"\ntarget_env=\"gnu\"\ntarget_family=\"unix\"\ntarget_feature=\"adx\"\ntarget_feature=\"aes\"\ntarget_feature=\"avx\"\ntarget_feature=\"avx2\"\ntarget_feature=\"avx512bf16\"\ntarget_feature=\"avx512bitalg\"\ntarget_feature=\"avx512bw\"\ntarget_feature=\"avx512cd\"\ntarget_feature=\"avx512dq\"\ntarget_feature=\"avx512f\"\ntarget_feature=\"avx512fp16\"\ntarget_feature=\"avx512ifma\"\ntarget_feature=\"avx512vbmi\"\ntarget_feature=\"avx512vbmi2\"\ntarget_feature=\"avx512vl\"\ntarget_feature=\"avx512vnni\"\ntarget_feature=\"avx512vpopcntdq\"\ntarget_feature=\"avxvnni\"\ntarget_feature=\"bmi1\"\ntarget_feature=\"bmi2\"\ntarget_feature=\"cmpxchg16b\"\ntarget_feature=\"f16c\"\ntarget_feature=\"fma\"\ntarget_feature=\"fxsr\"\ntarget_feature=\"gfni\"\ntarget_feature=\"lzcnt\"\ntarget_feature=\"movbe\"\ntarget_feature=\"pclmulqdq\"\ntarget_feature=\"popcnt\"\ntarget_feature=\"rdrand\"\ntarget_feature=\"rdseed\"\ntarget_feature=\"sha\"\ntarget_feature=\"sse\"\ntarget_feature=\"sse2\"\ntarget_feature=\"sse3\"\ntarget_feature=\"sse4.1\"\ntarget_feature=\"sse4.2\"\ntarget_feature=\"ssse3\"\ntarget_feature=\"vaes\"\ntarget_feature=\"vpclmulqdq\"\ntarget_feature=\"xsave\"\ntarget_feature=\"xsavec\"\ntarget_feature=\"xsaveopt\"\ntarget_feature=\"xsaves\"\ntarget_has_atomic=\"16\"\ntarget_has_atomic=\"32\"\ntarget_has_atomic=\"64\"\ntarget_has_atomic=\"8\"\ntarget_has_atomic=\"ptr\"\ntarget_has_atomic_primitive_alignment=\"16\"\ntarget_has_atomic_primitive_alignment=\"32\"\ntarget_has_atomic_primitive_alignment=\"64\"\ntarget_has_atomic_primitive_alignment=\"8\"\ntarget_has_atomic_primitive_alignment=\"ptr\"\ntarget_os=\"linux\"\ntarget_pointer_width=\"64\"\ntarget_vendor=\"unknown\"\nunix\n"
+    }
+  },
+  "validation": {
+    "required_gates": "pass",
+    "all_targets": "pass",
+    "integration": "pass",
+    "example": "pass",
+    "mutants_rejected": 4
+  },
+  "visual": "radix-split.svg rendered to PNG and inspected: alignment/contrast/labels/clipping pass",
+  "no_arg_repair": "Only default CLI args changed; timed explicit-argument operations unchanged. Exact source replay retained independently.",
+  "excluded_campaigns": [
+    "/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-024/20261020/committed-final/arm/EXCLUDED.json"
+  ],
+  "allocation": {
+    "processes_per_host": 12,
+    "probe_source_sha256": "f69e14a4214fd8b6ea03d2b4b37e2d5d099791da37324f5a70f7bc2d2d928bae",
+    "toolchains": {
+      "arm": "rustc 1.98.1 (48a229cea 2026-09-01)",
+      "x86": "rustc 1.99.0 (b940084d7 2026-09-28)"
+    },
+    "note": "tiny rows regenerated on both hosts after mapping tiny to 32 shared-prefix keys; shared and wide rows reproduced the committed values exactly"
+  },
+  "review_repairs": "--bench argument filtering, case-name validation, runner artifact placement/tests.txt/attempts.jsonl/timeout, probe tiny workload mapping. Timed explicit-argument operations unchanged; committed summaries were not replayed."
+}

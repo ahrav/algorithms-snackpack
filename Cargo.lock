@@ -3,6 +3,10 @@
 version = 4
 
 [[package]]
+name = "algorithms-growth"
+version = "0.1.0"
+
+[[package]]
 name = "algorithms-snackpack-catalog"
 version = "0.0.0"
 
@@ -96,6 +100,14 @@ version = "0.1.0"
 
 [[package]]
 name = "topic023-b-trees-and-posting-list-deduplication"
+version = "0.1.0"
+
+[[package]]
+name = "topic024-tries-radix-trees-and-art"
+version = "0.1.0"
+
+[[package]]
+name = "topic025-finite-state-transducers"
 version = "0.1.0"
 
 [[package]]
