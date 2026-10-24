@@ -19,7 +19,11 @@ against a planned stub binary.
 
 Oracle: `oracle` folds `task_value` over the task range on one thread. It
 shares the per-task value function and no queue, thread, counter or placement
-code with either candidate.
+code with either candidate. Because that function is shared,
+`oracle_matches_an_independent_task_value_implementation` checks `oracle`
+against a second implementation of the per-task value written in the test
+crate; the measured binary's own oracle check in `examples/compare.rs` still
+uses the shared function.
 
 Input/model/schedule domain and bounds: workers 1 through 6; tasks 0, 1, 2, 17
 and 256; leaf work 0, 1 and 7; both placements. Schedules are whatever the host
@@ -83,6 +87,19 @@ and then restored:
 | Thief peeks `front()` under one lock and pops under a second lock | Duplicated and lost steals desynchronise `remaining`; the deadline fails the test after 30 s in three of three runs |
 | Stealing worker exits when one victim scan finds nothing, ignoring `remaining` | Survives. With a preloaded closed task set, an empty scan implies every task was claimed, so this mutant is equivalent for the contract. `remaining` matters once tasks can be spawned during the run |
 
+`oracle_matches_an_independent_task_value_implementation`
+
+Claim and scope: for the listed task counts and leaf work 0, 1, 7 and 512,
+`oracle` equals a wrapping sum of an independently written per-task value.
+Plausible violation: `task_value` skips or shortens the leaf loop, so oracle
+and candidates agree on the wrong workload. Observation: `Outcome` equality.
+Oracle and independence: `independent_task_value` in the test crate, written
+from the README description with its own rotate and loop. Comparator:
+`assert_eq!` on `Outcome`. Smallest discriminating case: one task, leaf work
+1. Mutation backstop, executed: bounding the leaf loop to one iteration
+(`0..leaf_work.min(1)`) passes `all_candidates_match_the_independent_oracle`
+and fails this test.
+
 `zero_workers_is_rejected` and `zero_workers_is_rejected_by_work_stealing`
 
 Claim and scope: `global_fifo(0, ..)` and `locked_work_stealing(0, ..)` panic
@@ -108,7 +125,8 @@ processes are retained as rows and the campaign continues; the output file
 exists with `status: running` while a process is still executing; a row whose
 process echoes different arguments or a non-positive `elapsed_ns` is retained
 as `failed` and excluded from ratios; a failed warmup or an incomplete A/B
-control pair is retained and forces its cell to `unresolved`; the A and B
+control pair is retained and forces its cell to `unresolved`; a repetition
+count other than eight reports ratios and `unresolved`; the A and B
 control rows exist with alternating order and ratios of exactly 1 for a
 constant stub; and `environment` records the binary hash, source hashes,
 commit, toolchain and CPU identity, where `cpu_model` keeps the Arm

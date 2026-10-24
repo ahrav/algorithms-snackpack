@@ -31,7 +31,9 @@ eight paired steal/global ratios and the decision below for every cell.
 The lowest median is a descriptive ranking. Select a candidate only when every
 paired ratio lies beyond the same 3 percent boundary: below 1/1.03 for
 stealing, above 1.03 for global FIFO. Otherwise record unresolved. Stop after
-eight repetitions.
+eight repetitions. The runner accepts other even counts of at least four for
+smoke runs and reports their ratios, and it emits a selection only when the
+count is exactly eight.
 
 Every process is retained as a row with status `ok`, `failed` or `timeout`,
 together with its command, exit code and captured output. The runner rewrites

@@ -39,7 +39,7 @@ print("candidate=%s workers=%s tasks=%s leaf_work=%s elapsed_ns=%s" % (
 """
 
 
-def start_campaign(plan, timeout=None):
+def start_campaign(plan, timeout=None, repetitions=8):
     """Prepare a scratch directory with a planned stub; return (command, env, output path, stub path, stub log)."""
     root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-campaign-"))
     binary = root / "compare"
@@ -48,16 +48,16 @@ def start_campaign(plan, timeout=None):
     (root / "plan.json").write_text(json.dumps(plan))
     log = root / "stub.log"
     out = root / "campaign.json"
-    command = [sys.executable, str(RUNNER), "--binary", str(binary), "--repetitions", "4", "--out", str(out)]
+    command = [sys.executable, str(RUNNER), "--binary", str(binary), "--repetitions", str(repetitions), "--out", str(out)]
     if timeout is not None:
         command += ["--timeout", str(timeout)]
     env = dict(os.environ, STUB_PLAN=str(root / "plan.json"), STUB_LOG=str(log))
     return command, env, out, binary, log
 
 
-def run_campaign(plan, timeout=None):
+def run_campaign(plan, timeout=None, repetitions=8):
     """Run the runner to completion; return (completed process, output path, stub path)."""
-    command, env, out, binary, _ = start_campaign(plan, timeout)
+    command, env, out, binary, _ = start_campaign(plan, timeout, repetitions)
     return subprocess.run(command, env=env, text=True, capture_output=True, timeout=300), out, binary
 
 
@@ -142,10 +142,10 @@ class RunCampaignTests(unittest.TestCase):
         summaries = summaries_by_name(json.loads(out.read_text()))
         mixed = summaries["tiny_balanced"]
         self.assertEqual(mixed["lowest_median"], "locked_steal_balanced")
-        self.assertEqual(sorted(mixed["paired_ratios"]), [0.9, 0.9, 0.9, 0.98])
+        self.assertEqual(sorted(mixed["paired_ratios"]), [0.9] * 7 + [0.98])
         self.assertEqual(mixed["selected"], "unresolved")
         decided = summaries["tiny_skewed"]
-        self.assertEqual(decided["paired_ratios"], [1.1, 1.1, 1.1, 1.1])
+        self.assertEqual(decided["paired_ratios"], [1.1] * 8)
         self.assertEqual(decided["selected"], "global_fifo")
         self.assertEqual(summaries["medium_balanced"]["selected"], "locked_steal_balanced")
 
@@ -161,7 +161,7 @@ class RunCampaignTests(unittest.TestCase):
         timed_out = next(r for r in document["rows"] if r["status"] == "timeout")
         self.assertEqual(timed_out["stdout"], "partial output before hang")
         self.assertEqual(timed_out["stderr"], "partial stderr")
-        self.assertEqual(len([r for r in document["rows"] if r["workload"]["name"] == "coarse_skewed"]), 16)
+        self.assertEqual(len([r for r in document["rows"] if r["workload"]["name"] == "coarse_skewed"]), 32)
         affected = summaries_by_name(document)["tiny_balanced"]
         self.assertEqual(affected["selected"], "unresolved")
         self.assertEqual(affected["incomplete_repetitions"], 2)
@@ -179,6 +179,16 @@ class RunCampaignTests(unittest.TestCase):
         affected = summaries_by_name(document)["tiny_balanced"]
         self.assertEqual(affected["incomplete_repetitions"], 2)
         self.assertEqual(affected["selected"], "unresolved")
+
+    def test_only_the_eight_repetition_protocol_can_select(self):
+        process, out, _ = run_campaign({}, repetitions=4)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertFalse(document["protocol_repetitions"])
+        for summary in document["summaries"]:
+            self.assertEqual(summary["selected"], "unresolved", summary["workload"]["name"])
+            self.assertEqual(len(summary["paired_ratios"]), 4)
+        self.assertEqual(summaries_by_name(document)["medium_balanced"]["lowest_median"], "locked_steal_balanced")
 
     def test_an_incomplete_control_pair_invalidates_the_cell(self):
         process, out, _ = run_campaign({"global_fifo#2": {"fail": True}})
@@ -215,7 +225,7 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(process.returncode, 0, process.stderr)
         document = json.loads(out.read_text())
         controls = [r for r in document["rows"] if r["arm"] == "control"]
-        self.assertEqual(len(controls), 5 * 4 * 2)
+        self.assertEqual(len(controls), 5 * 8 * 2)
         self.assertEqual(sorted({r["label"] for r in controls}), ["A", "B"])
         self.assertEqual({r["candidate"] for r in controls}, {"global_fifo"})
         orders = {}
@@ -223,7 +233,7 @@ class RunCampaignTests(unittest.TestCase):
             orders.setdefault((row["workload"]["name"], row["repetition"]), []).append(row["label"])
         self.assertEqual(sorted({tuple(v) for v in orders.values()}), [("A", "B"), ("B", "A")])
         summary = summaries_by_name(document)["tiny_balanced"]
-        self.assertEqual(summary["aa_ratios"], [1.0, 1.0, 1.0, 1.0])
+        self.assertEqual(summary["aa_ratios"], [1.0] * 8)
 
     def test_environment_records_artifact_and_toolchain_identity(self):
         process, out, binary = run_campaign({})

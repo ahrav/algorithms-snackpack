@@ -18,6 +18,43 @@ fn within_deadline(run: impl FnOnce() -> Outcome + Send + 'static) -> Outcome {
         .expect("scheduler did not terminate within 30 seconds")
 }
 
+/// Second implementation of the per-task value, written from the README's
+/// description so a regression in the crate's shared `task_value` reaches an
+/// assertion instead of cancelling out between the oracle and the candidates.
+/// The manual rotation is deliberate: it keeps this implementation's operations
+/// distinct from the crate's.
+#[allow(clippy::manual_rotate)]
+fn independent_task_value(id: u32, leaf_work: u32) -> u64 {
+    let mut value = u64::from(id).wrapping_mul(0x9e37_79b9);
+    let mut remaining = leaf_work;
+    while remaining > 0 {
+        value = (value << 7) | (value >> 57);
+        value = value.wrapping_mul(0x9e37_79b9_7f4a_7c15).wrapping_add(17);
+        remaining -= 1;
+    }
+    value
+}
+
+#[test]
+fn oracle_matches_an_independent_task_value_implementation() {
+    for tasks in [0, 1, 2, 17, 256] {
+        for work in [0, 1, 7, 512] {
+            let mut checksum = 0_u64;
+            for id in 0..tasks {
+                checksum = checksum.wrapping_add(independent_task_value(id, work));
+            }
+            assert_eq!(
+                oracle(tasks, work),
+                Outcome {
+                    completed: tasks as usize,
+                    checksum
+                },
+                "tasks={tasks} leaf_work={work}"
+            );
+        }
+    }
+}
+
 #[test]
 fn all_candidates_match_the_independent_oracle() {
     for workers in 1..=6 {

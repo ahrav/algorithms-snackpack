@@ -27,6 +27,7 @@ WORKLOADS = [
 BASELINE = "global_fifo"
 CONTROL_LABELS = ["A", "B"]
 BOUNDARY = 1.03
+PROTOCOL_REPETITIONS = 8
 TOPIC = Path(__file__).resolve().parent.parent
 REPOSITORY = TOPIC.parent.parent
 SOURCE_FILES = [
@@ -175,7 +176,7 @@ def summarize(rows, warmups, repetitions):
             observed[label] = {"median_ns": statistics.median(values) if values else None, "min_ns": min(values, default=None), "max_ns": max(values, default=None), "samples": len(values)}
         ratios, incomplete = paired_ratios(cell, challenger, baseline, repetitions)
         aa_ratios, aa_incomplete = paired_ratios(cell, CONTROL_LABELS[0], CONTROL_LABELS[1], repetitions)
-        if incomplete or warmup_failures or aa_incomplete:
+        if incomplete or warmup_failures or aa_incomplete or repetitions != PROTOCOL_REPETITIONS:
             selected = "unresolved"
         elif all(r < 1 / BOUNDARY for r in ratios):
             selected = challenger
@@ -210,7 +211,7 @@ def write_document(out, document):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--binary", type=Path, required=True)
-    parser.add_argument("--repetitions", type=int, default=8)
+    parser.add_argument("--repetitions", type=int, default=PROTOCOL_REPETITIONS, help="paired repetitions per cell; a selection is emitted only for the frozen protocol's eight")
     parser.add_argument("--timeout", type=float, default=60.0, help="seconds allowed per process")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
@@ -223,6 +224,7 @@ def main():
         "control": "identical global_fifo artifact labelled A and B once each per repetition with alternating order",
         "order": "treatment order rotates once per repetition; control order alternates once per repetition",
         "repetitions": args.repetitions,
+        "protocol_repetitions": args.repetitions == PROTOCOL_REPETITIONS,
         "timeout_s": args.timeout,
         "environment": identity(args.binary, args.out),
         "created_unix_s": time.time(),

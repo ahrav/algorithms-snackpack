@@ -53,23 +53,43 @@ tests changed after the campaign and are outside the measured binary.
 
 ## Reproduction
 
-The retained hosts built with Rust 1.98.1 (Arm) and 1.99.0 (x86), while
-`rust-toolchain.toml` pins 1.93.0 for the workspace. A rerun reproduces a
-retained artifact only when it selects the host's retained toolchain with
-Cargo's `+toolchain` syntax; under the pinned toolchain it is a new
-measurement of the same source, and its binary hash differs from the receipt.
+Two commands serve two purposes.
+
+Replay of a retained artifact. The retained hosts built commit `200b157` with
+Rust 1.98.1 (Arm) and 1.99.0 (x86); the current tree's root manifest,
+lockfile, runner and contract tests differ from `frozen_inputs_sha256`, so a
+replay builds the retained revision in a separate worktree and uses the
+current runner only as the driver:
 
 ```bash
+git worktree add ../topic028-replay 200b157100cb9aa25c4622a545daaab9c329a627
 # Arm host (retained: 1.98.1); use +1.99.0 on the x86 host.
-cargo +1.98.1 build --release -p topic028-work-stealing-deques --example compare
+(cd ../topic028-replay && cargo +1.98.1 build --release \
+  -p topic028-work-stealing-deques --example compare)
+python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
+  --binary ../topic028-replay/target/release/examples/compare \
+  --repetitions 8 --out campaign.json
+```
+
+The run is a replay when `environment.binary_sha256` and `environment.rustc`
+match the host's entry in `EVIDENCE_RECEIPT.json`. `environment.source_sha256`
+and `source_commit` describe the tree the runner was invoked from and identify
+the runner, not the binary.
+
+New measurement of the current tree. The same runner command against a binary
+built from this checkout under the pinned toolchain measures the current
+source and records its own hashes; it is a new campaign and its selections
+replace the retained ones only with a fresh receipt.
+
+```bash
+cargo build --release -p topic028-work-stealing-deques --example compare
 python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
   --binary target/release/examples/compare --repetitions 8 --out campaign.json
 ```
 
 `campaign.json` holds every process row, the per-cell paired ratios and the
-selection. Compare its `environment.source_sha256` against the receipt's
-`frozen_inputs_sha256`, and `environment.rustc` and `binary_sha256` against
-the host's receipt entry, before treating a rerun as a replay.
+selection. The runner emits a selection only for the frozen protocol's eight
+repetitions; other counts report ratios and `unresolved`.
 
 ## Derived operation counts
 
