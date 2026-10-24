@@ -68,11 +68,14 @@ git worktree add ../topic028-replay 200b157100cb9aa25c4622a545daaab9c329a627
   -p topic028-work-stealing-deques --example compare)
 python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
   --binary ../topic028-replay/target/release/examples/compare \
-  --repetitions 8 --out campaign.json
+  --toolchain 1.98.1 --repetitions 8 --out campaign.json
 ```
 
-The run is a replay when `environment.binary_sha256` and `environment.rustc`
-match the host's entry in `EVIDENCE_RECEIPT.json`. `environment.source_sha256`
+`--toolchain` routes the `rustc` and `cargo` probes through `rustup run`, so
+`environment.rustc` reports the compiler that built the binary rather than the
+toolchain pinned for the runner's checkout. The run is a replay when
+`environment.binary_sha256` and `environment.rustc` match the host's entry in
+`EVIDENCE_RECEIPT.json`. `environment.source_sha256`
 and `source_commit` describe the tree the runner was invoked from and identify
 the runner, not the binary.
 

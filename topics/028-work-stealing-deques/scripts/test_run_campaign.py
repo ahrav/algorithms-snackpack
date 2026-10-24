@@ -39,7 +39,7 @@ print("candidate=%s workers=%s tasks=%s leaf_work=%s elapsed_ns=%s" % (
 """
 
 
-def start_campaign(plan, timeout=None, repetitions=8):
+def start_campaign(plan, timeout=None, repetitions=8, toolchain=None):
     """Prepare a scratch directory with a planned stub; return (command, env, output path, stub path, stub log)."""
     root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-campaign-"))
     binary = root / "compare"
@@ -51,13 +51,15 @@ def start_campaign(plan, timeout=None, repetitions=8):
     command = [sys.executable, str(RUNNER), "--binary", str(binary), "--repetitions", str(repetitions), "--out", str(out)]
     if timeout is not None:
         command += ["--timeout", str(timeout)]
+    if toolchain is not None:
+        command += ["--toolchain", toolchain]
     env = dict(os.environ, STUB_PLAN=str(root / "plan.json"), STUB_LOG=str(log))
     return command, env, out, binary, log
 
 
-def run_campaign(plan, timeout=None, repetitions=8):
+def run_campaign(plan, timeout=None, repetitions=8, toolchain=None):
     """Run the runner to completion; return (completed process, output path, stub path)."""
-    command, env, out, binary, _ = start_campaign(plan, timeout, repetitions)
+    command, env, out, binary, _ = start_campaign(plan, timeout, repetitions, toolchain)
     return subprocess.run(command, env=env, text=True, capture_output=True, timeout=300), out, binary
 
 
@@ -179,6 +181,18 @@ class RunCampaignTests(unittest.TestCase):
         affected = summaries_by_name(document)["tiny_balanced"]
         self.assertEqual(affected["incomplete_repetitions"], 2)
         self.assertEqual(affected["selected"], "unresolved")
+
+    def test_toolchain_flag_routes_the_compiler_probes(self):
+        process, out, _ = run_campaign({}, repetitions=4, toolchain="topic028-no-such-toolchain")
+        self.assertEqual(process.returncode, 0, process.stderr)
+        environment = json.loads(out.read_text())["environment"]
+        self.assertEqual(environment["toolchain"], "topic028-no-such-toolchain")
+        self.assertIsNone(environment["rustc"])
+        self.assertIsNone(environment["cargo"])
+        process, out, _ = run_campaign({}, repetitions=4)
+        environment = json.loads(out.read_text())["environment"]
+        self.assertIsNone(environment["toolchain"])
+        self.assertIn("release:", environment["rustc"] or "release:")
 
     def test_only_the_eight_repetition_protocol_can_select(self):
         process, out, _ = run_campaign({}, repetitions=4)

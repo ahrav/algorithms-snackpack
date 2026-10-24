@@ -126,7 +126,12 @@ def worktree_status(repository, out):
     return [line for line in status.splitlines() if line[3:] != relative]
 
 
-def identity(binary, out):
+def toolchain_command(toolchain, command):
+    """Route a compiler probe through rustup so it reports the toolchain that built the binary, not the directory override."""
+    return ["rustup", "run", toolchain] + command if toolchain else command
+
+
+def identity(binary, out, toolchain=None):
     status = worktree_status(REPOSITORY, out)
     return {
         "hostname": platform.node(),
@@ -141,8 +146,9 @@ def identity(binary, out):
         "source_sha256": {name: sha256_of(REPOSITORY / name) for name in SOURCE_FILES},
         "binary": str(binary),
         "binary_sha256": sha256_of(binary),
-        "rustc": probe(["rustc", "-Vv"]),
-        "cargo": probe(["cargo", "-V"]),
+        "toolchain": toolchain,
+        "rustc": probe(toolchain_command(toolchain, ["rustc", "-Vv"])),
+        "cargo": probe(toolchain_command(toolchain, ["cargo", "-V"])),
         "rustflags": os.environ.get("RUSTFLAGS", ""),
     }
 
@@ -213,6 +219,7 @@ def main():
     parser.add_argument("--binary", type=Path, required=True)
     parser.add_argument("--repetitions", type=int, default=PROTOCOL_REPETITIONS, help="paired repetitions per cell; a selection is emitted only for the frozen protocol's eight")
     parser.add_argument("--timeout", type=float, default=60.0, help="seconds allowed per process")
+    parser.add_argument("--toolchain", help="rustup toolchain that built --binary, e.g. 1.98.1; compiler probes run through it")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
     if args.repetitions < 4 or args.repetitions % 2:
@@ -226,7 +233,7 @@ def main():
         "repetitions": args.repetitions,
         "protocol_repetitions": args.repetitions == PROTOCOL_REPETITIONS,
         "timeout_s": args.timeout,
-        "environment": identity(args.binary, args.out),
+        "environment": identity(args.binary, args.out, args.toolchain),
         "created_unix_s": time.time(),
         "warmups": [],
         "rows": [],
