@@ -45,6 +45,15 @@ def candidates_for(workload):
     return [BASELINE, placement]
 
 
+def captured_text(output):
+    """TimeoutExpired carries bytes even under text=True, so decode before the row is serialised."""
+    if output is None:
+        return ""
+    if isinstance(output, bytes):
+        output = output.decode("utf-8", errors="replace")
+    return output.strip()
+
+
 def invoke(binary, workload, candidate, timeout):
     command = [
         str(binary), "--candidate", candidate, "--workers", str(workload["workers"]),
@@ -54,7 +63,7 @@ def invoke(binary, workload, candidate, timeout):
     try:
         process = subprocess.run(command, text=True, capture_output=True, timeout=timeout)
     except subprocess.TimeoutExpired as expired:
-        row.update({"status": "timeout", "timeout_s": timeout, "stdout": expired.stdout or "", "stderr": expired.stderr or ""})
+        row.update({"status": "timeout", "timeout_s": timeout, "stdout": captured_text(expired.stdout), "stderr": captured_text(expired.stderr)})
         return row
     row.update({"stdout": process.stdout.strip(), "stderr": process.stderr.strip(), "returncode": process.returncode})
     fields = dict(item.split("=", 1) for item in process.stdout.split() if "=" in item)

@@ -27,6 +27,8 @@ with open(os.environ["STUB_LOG"], "a+") as log:
     log.write(candidate + " " + " ".join(sys.argv[1:]) + "\\n")
 action = json.load(open(os.environ["STUB_PLAN"])).get(candidate + "#" + str(occurrence), {})
 if action.get("hang"):
+    print("partial output before hang", flush=True)
+    print("partial stderr", file=sys.stderr, flush=True)
     time.sleep(30)
 if action.get("fail"):
     print("stub failure", file=sys.stderr)
@@ -98,6 +100,9 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(failed["returncode"], 3)
         self.assertIn("stub failure", failed["stderr"])
         self.assertNotIn("elapsed_ns", failed)
+        timed_out = next(r for r in document["rows"] if r["status"] == "timeout")
+        self.assertEqual(timed_out["stdout"], "partial output before hang")
+        self.assertEqual(timed_out["stderr"], "partial stderr")
         self.assertEqual(len([r for r in document["rows"] if r["workload"]["name"] == "coarse_skewed"]), 16)
         affected = summaries_by_name(document)["tiny_balanced"]
         self.assertEqual(affected["selected"], "unresolved")
