@@ -23,7 +23,7 @@ A/A ratios span0.918..1.163 on Arm and0.929..1.057 on x86. Results are descripti
 
 Codegen: actual linked get bodies retain byte comparisons, fanout selection, target loads, checked accumulation and acceptance. Flat branch calls memcmp. The first symbol extractor incorrectly assumed a demangled spelling; the discovered label is `<algorithms_fst::Index>::get`. Two failed extraction attempts retained in external notes; corrected extraction does not rerun or alter timings.
 
-Raw archives, identity, complete samples, assembly, prior campaign, mutations, validation and audit: `/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-025/20261021`. receipt.json records archive/source/binary hashes.
+Raw archives, identity, complete samples, assembly, prior campaign, mutations, validation and audit: `/Users/ahrav/.codex/automations/algorithms-daily-curriculum/evidence/topic-025/20261021`. EVIDENCE_RECEIPT.json records archive/source/binary hashes.
 
 Reproduce on Linux from topic root: `python3 run.py`; standalone smoke: build/run portfolio with no arguments. Existing raw output should be retained or run in a fresh exported source directory. Target flags are `-O -C target-cpu=native`, edition2024. Tests/oracle/warmup precede timing. Startup and first-touch/cold requests are not sampled. Build includes drop; point teardown is outside the query boundary; prefix output allocation/drop is inside.
 

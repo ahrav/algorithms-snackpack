@@ -26,7 +26,7 @@ fn data(case: &str) -> Vec<Record> {
         .collect()
 }
 fn main() {
-    let args: Vec<_> = std::env::args().collect();
+    let args: Vec<_> = std::env::args().filter(|a| a != "--bench").collect();
     let name = args.get(1).map_or("pushed", String::as_str);
     let case = args.get(2).map_or("tiny", String::as_str);
     let kind = match name {
@@ -81,10 +81,11 @@ fn main() {
     } else {
         250
     };
+    let probe = &rows[rows.len() - 1].0;
     let run = || -> u64 {
         if case == "build" {
             let x = Index::build(black_box(&rows), kind).unwrap();
-            return black_box(x.get(&rows[0].0)).unwrap();
+            return black_box(x.get(probe)).unwrap();
         }
         if case == "prefix" || case == "broad" {
             return black_box(index.prefix(black_box(prefix)))
