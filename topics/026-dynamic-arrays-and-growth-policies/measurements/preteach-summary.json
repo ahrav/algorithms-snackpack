@@ -1,0 +1,1276 @@
+{
+  "arm": {
+    "tiny": {
+      "lowest_median": "reserved",
+      "selection": "reserved",
+      "checksum": 544000,
+      "counters": {
+        "std": {
+          "grows": 4,
+          "shrinks": 0,
+          "capacity": 32,
+          "peak_capacity": 32,
+          "live_at_growth": 28,
+          "address_changes": 1
+        },
+        "exact": {
+          "grows": 17,
+          "shrinks": 0,
+          "capacity": 17,
+          "peak_capacity": 17,
+          "live_at_growth": 136,
+          "address_changes": 1
+        },
+        "onehalf": {
+          "grows": 5,
+          "shrinks": 0,
+          "capacity": 21,
+          "peak_capacity": 21,
+          "live_at_growth": 33,
+          "address_changes": 1
+        },
+        "double": {
+          "grows": 4,
+          "shrinks": 0,
+          "capacity": 32,
+          "peak_capacity": 32,
+          "live_at_growth": 28,
+          "address_changes": 1
+        },
+        "reserved": {
+          "grows": 1,
+          "shrinks": 0,
+          "capacity": 17,
+          "peak_capacity": 17,
+          "live_at_growth": 0,
+          "address_changes": 0
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 9.628485294117647,
+          "min": 9.49864705882353,
+          "max": 10.125367647058823,
+          "processes": 10
+        },
+        "exact": {
+          "median": 21.738867647058825,
+          "min": 21.534926470588236,
+          "max": 23.55260294117647,
+          "processes": 10
+        },
+        "onehalf": {
+          "median": 10.793897058823529,
+          "min": 10.577558823529412,
+          "max": 11.246382352941177,
+          "processes": 10
+        },
+        "double": {
+          "median": 9.937426470588235,
+          "min": 9.819764705882353,
+          "max": 10.12895588235294,
+          "processes": 10
+        },
+        "reserved": {
+          "median": 5.570882352941177,
+          "min": 5.487558823529412,
+          "max": 5.635808823529412,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "std": [
+          1.701214659412632,
+          1.828950828642694
+        ],
+        "exact": [
+          3.8210888880191005,
+          4.2019598583234945
+        ],
+        "onehalf": [
+          1.8871153089334907,
+          2.008277289187791
+        ],
+        "double": [
+          1.743061046094433,
+          1.824471480754509
+        ]
+      },
+      "AA_ratio_range": [
+        0.9675608706618988,
+        1.0164532543479912
+      ]
+    },
+    "medium": {
+      "lowest_median": "reserved",
+      "selection": "unresolved: reserved / std,double",
+      "checksum": 1073872896,
+      "counters": {
+        "std": {
+          "grows": 13,
+          "shrinks": 0,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 16380,
+          "address_changes": 2
+        },
+        "exact": {
+          "grows": 8193,
+          "shrinks": 0,
+          "capacity": 8193,
+          "peak_capacity": 8193,
+          "live_at_growth": 33558528,
+          "address_changes": 5
+        },
+        "onehalf": {
+          "grows": 20,
+          "shrinks": 0,
+          "capacity": 9368,
+          "peak_capacity": 9368,
+          "live_at_growth": 18720,
+          "address_changes": 7
+        },
+        "double": {
+          "grows": 13,
+          "shrinks": 0,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 16380,
+          "address_changes": 2
+        },
+        "reserved": {
+          "grows": 1,
+          "shrinks": 0,
+          "capacity": 8193,
+          "peak_capacity": 8193,
+          "live_at_growth": 0,
+          "address_changes": 0
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 3.860690909923105,
+          "min": 3.8507529293299156,
+          "max": 3.914965519345783,
+          "processes": 10
+        },
+        "exact": {
+          "median": 25.038746872330037,
+          "min": 24.934269345782987,
+          "max": 25.15793589039424,
+          "processes": 10
+        },
+        "onehalf": {
+          "median": 4.24902546381057,
+          "min": 4.141607164652752,
+          "max": 4.2614960942267786,
+          "processes": 10
+        },
+        "double": {
+          "median": 3.8771455053094104,
+          "min": 3.793535640180642,
+          "max": 3.9908611009398265,
+          "processes": 10
+        },
+        "reserved": {
+          "median": 3.72547449041865,
+          "min": 3.6704885267911633,
+          "max": 3.8651859819357988,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "std": [
+          1.0035633965850208,
+          1.0497791332860813
+        ],
+        "exact": [
+          6.456757180821406,
+          6.8356305738043925
+        ],
+        "onehalf": [
+          1.0946219454309873,
+          1.150568360654892
+        ],
+        "double": [
+          0.9886126029890309,
+          1.0665978048745004
+        ]
+      },
+      "AA_ratio_range": [
+        0.7749517128265839,
+        1.01641810392907
+      ]
+    },
+    "large": {
+      "lowest_median": "reserved",
+      "selection": "unresolved: reserved / std,onehalf,double",
+      "checksum": 68719738880,
+      "counters": {
+        "std": {
+          "grows": 18,
+          "shrinks": 0,
+          "capacity": 524288,
+          "peak_capacity": 524288,
+          "live_at_growth": 524284,
+          "address_changes": 6
+        },
+        "exact": {
+          "grows": 262145,
+          "shrinks": 0,
+          "capacity": 262145,
+          "peak_capacity": 262145,
+          "live_at_growth": 34359869440,
+          "address_changes": 22
+        },
+        "onehalf": {
+          "grows": 29,
+          "shrinks": 0,
+          "capacity": 360144,
+          "peak_capacity": 360144,
+          "live_at_growth": 720269,
+          "address_changes": 9
+        },
+        "double": {
+          "grows": 18,
+          "shrinks": 0,
+          "capacity": 524288,
+          "peak_capacity": 524288,
+          "live_at_growth": 524284,
+          "address_changes": 6
+        },
+        "reserved": {
+          "grows": 1,
+          "shrinks": 0,
+          "capacity": 262145,
+          "peak_capacity": 262145,
+          "live_at_growth": 0,
+          "address_changes": 0
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 3.876900188826794,
+          "min": 3.76564496747983,
+          "max": 3.944061492685346,
+          "processes": 10
+        },
+        "exact": {
+          "median": 19.250289915886245,
+          "min": 19.152482404775984,
+          "max": 19.277584924373915,
+          "processes": 10
+        },
+        "onehalf": {
+          "median": 3.881679986267142,
+          "min": 3.799366762669515,
+          "max": 3.9371073260981517,
+          "processes": 10
+        },
+        "double": {
+          "median": 3.8861422113715696,
+          "min": 3.775133990730321,
+          "max": 3.922687825440119,
+          "processes": 10
+        },
+        "reserved": {
+          "median": 3.750862118293311,
+          "min": 3.7077819527360814,
+          "max": 3.869362375784394,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "std": [
+          0.9885087101598211,
+          1.0461461774024372
+        ],
+        "exact": [
+          4.974799227867744,
+          5.1921281018625445
+        ],
+        "onehalf": [
+          0.995080209113507,
+          1.0459423207619547
+        ],
+        "double": [
+          1.0028185982132118,
+          1.0466772544924425
+        ]
+      },
+      "AA_ratio_range": [
+        0.9781618242353579,
+        1.046011428800176
+      ]
+    },
+    "wide": {
+      "lowest_median": "onehalf",
+      "selection": "unresolved: onehalf / reserved",
+      "checksum": 137441050624,
+      "counters": {
+        "std": {
+          "grows": 16,
+          "shrinks": 0,
+          "capacity": 131072,
+          "peak_capacity": 131072,
+          "live_at_growth": 131068,
+          "address_changes": 2
+        },
+        "exact": {
+          "grows": 65537,
+          "shrinks": 0,
+          "capacity": 65537,
+          "peak_capacity": 65537,
+          "live_at_growth": 2147516416,
+          "address_changes": 4
+        },
+        "onehalf": {
+          "grows": 25,
+          "shrinks": 0,
+          "capacity": 71139,
+          "peak_capacity": 71139,
+          "live_at_growth": 142261,
+          "address_changes": 1
+        },
+        "double": {
+          "grows": 16,
+          "shrinks": 0,
+          "capacity": 131072,
+          "peak_capacity": 131072,
+          "live_at_growth": 131068,
+          "address_changes": 2
+        },
+        "reserved": {
+          "grows": 1,
+          "shrinks": 0,
+          "capacity": 65537,
+          "peak_capacity": 65537,
+          "live_at_growth": 0,
+          "address_changes": 0
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 117.3100729358988,
+          "min": 115.26335505134504,
+          "max": 120.67046859026199,
+          "processes": 10
+        },
+        "exact": {
+          "median": 36.50841509376383,
+          "min": 36.11044905931001,
+          "max": 39.435814883195754,
+          "processes": 10
+        },
+        "onehalf": {
+          "median": 22.898393274028415,
+          "min": 22.529326945084456,
+          "max": 24.16119138807086,
+          "processes": 10
+        },
+        "double": {
+          "median": 117.07478599874881,
+          "min": 114.95712345697851,
+          "max": 119.73822420922532,
+          "processes": 10
+        },
+        "reserved": {
+          "median": 23.509059767764775,
+          "min": 23.106733600866686,
+          "max": 23.900216671498544,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "std": [
+          4.86671525249897,
+          5.291263412352779
+        ],
+        "exact": [
+          1.5113388343947274,
+          1.7292158294031024
+        ],
+        "double": [
+          4.843044080888316,
+          5.257630306223939
+        ],
+        "reserved": [
+          0.9595658725367109,
+          1.0556079161066034
+        ]
+      },
+      "AA_ratio_range": [
+        0.9691678003102918,
+        1.0311716013734615
+      ]
+    },
+    "reuse": {
+      "lowest_median": "reserved",
+      "selection": "unresolved: reserved / std,onehalf,double",
+      "checksum": 268468224,
+      "counters": {
+        "std": {
+          "grows": 13,
+          "shrinks": 0,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 16380,
+          "address_changes": 1
+        },
+        "exact": {
+          "grows": 8193,
+          "shrinks": 0,
+          "capacity": 8193,
+          "peak_capacity": 8193,
+          "live_at_growth": 33558528,
+          "address_changes": 1
+        },
+        "onehalf": {
+          "grows": 20,
+          "shrinks": 0,
+          "capacity": 9368,
+          "peak_capacity": 9368,
+          "live_at_growth": 18720,
+          "address_changes": 2
+        },
+        "double": {
+          "grows": 13,
+          "shrinks": 0,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 16380,
+          "address_changes": 1
+        },
+        "reserved": {
+          "grows": 1,
+          "shrinks": 0,
+          "capacity": 8193,
+          "peak_capacity": 8193,
+          "live_at_growth": 0,
+          "address_changes": 0
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 3.6465712649949387,
+          "min": 3.5610610781280285,
+          "max": 3.69286398845632,
+          "processes": 10
+        },
+        "exact": {
+          "median": 4.988120257435551,
+          "min": 4.9115845998119125,
+          "max": 5.032437884520126,
+          "processes": 10
+        },
+        "onehalf": {
+          "median": 3.662579775587414,
+          "min": 3.5726442421588405,
+          "max": 3.7138730554139716,
+          "processes": 10
+        },
+        "double": {
+          "median": 3.6524036770353994,
+          "min": 3.549049871856537,
+          "max": 3.7004278627680423,
+          "processes": 10
+        },
+        "reserved": {
+          "median": 3.62584486744151,
+          "min": 3.588248490635118,
+          "max": 3.6915610171073316,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "std": [
+          0.9769528660574794,
+          1.0282218537110748
+        ],
+        "exact": [
+          1.3401249583284582,
+          1.4024775312117215
+        ],
+        "onehalf": [
+          0.9851432898934621,
+          1.0299994074820762
+        ],
+        "double": [
+          0.9816650803075939,
+          1.0188742263746726
+        ]
+      },
+      "AA_ratio_range": [
+        0.964646815920156,
+        1.031457463554856
+      ]
+    },
+    "oscillate": {
+      "lowest_median": "std",
+      "selection": "unresolved: std / quarter",
+      "checksum": 10376293541465819320,
+      "counters": {
+        "std": {
+          "grows": 10,
+          "shrinks": 0,
+          "capacity": 2048,
+          "peak_capacity": 2048,
+          "live_at_growth": 2044,
+          "address_changes": 2
+        },
+        "tight": {
+          "grows": 4106,
+          "shrinks": 4096,
+          "capacity": 2048,
+          "peak_capacity": 2048,
+          "live_at_growth": 4196348,
+          "address_changes": 2
+        },
+        "quarter": {
+          "grows": 10,
+          "shrinks": 0,
+          "capacity": 2048,
+          "peak_capacity": 2048,
+          "live_at_growth": 2044,
+          "address_changes": 2
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 3.493008842356515,
+          "min": 3.451773896061625,
+          "max": 3.6318894434197677,
+          "processes": 10
+        },
+        "tight": {
+          "median": 18.825268525550612,
+          "min": 18.757269176521646,
+          "max": 18.981284582836064,
+          "processes": 10
+        },
+        "quarter": {
+          "median": 3.5613811435391125,
+          "min": 3.5044889877400456,
+          "max": 3.6388331344255183,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "tight": [
+          5.181074753268286,
+          5.479596430990404
+        ],
+        "quarter": [
+          0.969458220267615,
+          1.0474427758123843
+        ]
+      },
+      "AA_ratio_range": [
+        0.9345200665471309,
+        1.0533788958934778
+      ]
+    },
+    "drain": {
+      "lowest_median": "std",
+      "selection": "unresolved: std / quarter",
+      "checksum": 138789617664,
+      "counters": {
+        "std": {
+          "grows": 13,
+          "shrinks": 0,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 16380,
+          "address_changes": 2
+        },
+        "tight": {
+          "grows": 65,
+          "shrinks": 32772,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 81900,
+          "address_changes": 28
+        },
+        "quarter": {
+          "grows": 61,
+          "shrinks": 48,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 81900,
+          "address_changes": 10
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 3.3700330227701154,
+          "min": 3.3492293556830357,
+          "max": 3.6354255665405426,
+          "processes": 10
+        },
+        "tight": {
+          "median": 10.280785087540854,
+          "min": 10.209760703581649,
+          "max": 10.406393669392571,
+          "processes": 10
+        },
+        "quarter": {
+          "median": 3.6372385979901543,
+          "min": 3.4906356374682996,
+          "max": 3.6868634471161017,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "tight": [
+          2.8281044316148627,
+          3.107100937036398
+        ],
+        "quarter": [
+          0.9724617955230465,
+          1.0943388251561479
+        ]
+      },
+      "AA_ratio_range": [
+        0.9334545647688962,
+        1.0815375419801123
+      ]
+    }
+  },
+  "x86": {
+    "tiny": {
+      "lowest_median": "reserved",
+      "selection": "reserved",
+      "checksum": 544000,
+      "counters": {
+        "std": {
+          "grows": 4,
+          "shrinks": 0,
+          "capacity": 32,
+          "peak_capacity": 32,
+          "live_at_growth": 28,
+          "address_changes": 1
+        },
+        "exact": {
+          "grows": 17,
+          "shrinks": 0,
+          "capacity": 17,
+          "peak_capacity": 17,
+          "live_at_growth": 136,
+          "address_changes": 1
+        },
+        "onehalf": {
+          "grows": 5,
+          "shrinks": 0,
+          "capacity": 21,
+          "peak_capacity": 21,
+          "live_at_growth": 33,
+          "address_changes": 1
+        },
+        "double": {
+          "grows": 4,
+          "shrinks": 0,
+          "capacity": 32,
+          "peak_capacity": 32,
+          "live_at_growth": 28,
+          "address_changes": 1
+        },
+        "reserved": {
+          "grows": 1,
+          "shrinks": 0,
+          "capacity": 17,
+          "peak_capacity": 17,
+          "live_at_growth": 0,
+          "address_changes": 0
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 6.809014705882353,
+          "min": 6.63375,
+          "max": 8.270720588235294,
+          "processes": 10
+        },
+        "exact": {
+          "median": 17.20749264705882,
+          "min": 16.88129411764706,
+          "max": 18.87419117647059,
+          "processes": 10
+        },
+        "onehalf": {
+          "median": 8.389698529411763,
+          "min": 7.970823529411764,
+          "max": 10.71885294117647,
+          "processes": 10
+        },
+        "double": {
+          "median": 7.537875,
+          "min": 7.1077352941176475,
+          "max": 9.245117647058823,
+          "processes": 10
+        },
+        "reserved": {
+          "median": 3.742889705882353,
+          "min": 3.707044117647059,
+          "max": 4.022867647058823,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "std": [
+          1.770742966606346,
+          2.2308256778840816
+        ],
+        "exact": [
+          4.2401345250498075,
+          5.082789456175647
+        ],
+        "onehalf": [
+          1.9890296284111058,
+          2.8911498246783123
+        ],
+        "double": [
+          1.8985305150856906,
+          2.4706548138366857
+        ]
+      },
+      "AA_ratio_range": [
+        0.8799607201815531,
+        1.2620940263006326
+      ]
+    },
+    "medium": {
+      "lowest_median": "reserved",
+      "selection": "unresolved: reserved / std,onehalf,double",
+      "checksum": 1073872896,
+      "counters": {
+        "std": {
+          "grows": 13,
+          "shrinks": 0,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 16380,
+          "address_changes": 2
+        },
+        "exact": {
+          "grows": 8193,
+          "shrinks": 0,
+          "capacity": 8193,
+          "peak_capacity": 8193,
+          "live_at_growth": 33558528,
+          "address_changes": 5
+        },
+        "onehalf": {
+          "grows": 20,
+          "shrinks": 0,
+          "capacity": 9368,
+          "peak_capacity": 9368,
+          "live_at_growth": 18720,
+          "address_changes": 7
+        },
+        "double": {
+          "grows": 13,
+          "shrinks": 0,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 16380,
+          "address_changes": 2
+        },
+        "reserved": {
+          "grows": 1,
+          "shrinks": 0,
+          "capacity": 8193,
+          "peak_capacity": 8193,
+          "live_at_growth": 0,
+          "address_changes": 0
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 2.4951292261686806,
+          "min": 2.4789072989137066,
+          "max": 2.560314445258147,
+          "processes": 10
+        },
+        "exact": {
+          "median": 18.810867508849014,
+          "min": 18.638079000366165,
+          "max": 20.35810676797266,
+          "processes": 10
+        },
+        "onehalf": {
+          "median": 2.781137480165995,
+          "min": 2.7711727999511777,
+          "max": 2.847751129012572,
+          "processes": 10
+        },
+        "double": {
+          "median": 2.4913531368241184,
+          "min": 2.47190055535213,
+          "max": 2.8763502380080554,
+          "processes": 10
+        },
+        "reserved": {
+          "median": 2.439752303795923,
+          "min": 2.4125739960942267,
+          "max": 2.807331716099109,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "std": [
+          0.9120099454494813,
+          1.0365610399556797
+        ],
+        "exact": [
+          6.712115921550511,
+          8.391001545386088
+        ],
+        "onehalf": [
+          0.989888793027316,
+          1.1717424091427713
+        ],
+        "double": [
+          0.8905049489480513,
+          1.1871018318685627
+        ]
+      },
+      "AA_ratio_range": [
+        0.9355611498524931,
+        1.0533122216175128
+      ]
+    },
+    "large": {
+      "lowest_median": "reserved",
+      "selection": "unresolved: reserved / std,onehalf,double",
+      "checksum": 68719738880,
+      "counters": {
+        "std": {
+          "grows": 18,
+          "shrinks": 0,
+          "capacity": 524288,
+          "peak_capacity": 524288,
+          "live_at_growth": 524284,
+          "address_changes": 6
+        },
+        "exact": {
+          "grows": 262145,
+          "shrinks": 0,
+          "capacity": 262145,
+          "peak_capacity": 262145,
+          "live_at_growth": 34359869440,
+          "address_changes": 22
+        },
+        "onehalf": {
+          "grows": 29,
+          "shrinks": 0,
+          "capacity": 360144,
+          "peak_capacity": 360144,
+          "live_at_growth": 720269,
+          "address_changes": 9
+        },
+        "double": {
+          "grows": 18,
+          "shrinks": 0,
+          "capacity": 524288,
+          "peak_capacity": 524288,
+          "live_at_growth": 524284,
+          "address_changes": 6
+        },
+        "reserved": {
+          "grows": 1,
+          "shrinks": 0,
+          "capacity": 262145,
+          "peak_capacity": 262145,
+          "live_at_growth": 0,
+          "address_changes": 0
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 2.8599124530317193,
+          "min": 2.793156459211505,
+          "max": 2.9609204829388314,
+          "processes": 10
+        },
+        "exact": {
+          "median": 15.41754754048332,
+          "min": 15.302500524518873,
+          "max": 15.50671765625894,
+          "processes": 10
+        },
+        "onehalf": {
+          "median": 2.867181330942799,
+          "min": 2.825300883099048,
+          "max": 2.9671841919548343,
+          "processes": 10
+        },
+        "double": {
+          "median": 2.8181359552919183,
+          "min": 2.7893932747143757,
+          "max": 3.0181292795971695,
+          "processes": 10
+        },
+        "reserved": {
+          "median": 2.798091704972439,
+          "min": 2.748616223845582,
+          "max": 2.9382650823017795,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "std": [
+          0.9848549467284388,
+          1.0483932184525948
+        ],
+        "exact": [
+          5.2775080606788825,
+          5.609753017198308
+        ],
+        "onehalf": [
+          0.9881915192635132,
+          1.072208384049051
+        ],
+        "double": [
+          0.959985796846874,
+          1.0772854211514555
+        ]
+      },
+      "AA_ratio_range": [
+        0.670388243417885,
+        1.038312518061283
+      ]
+    },
+    "wide": {
+      "lowest_median": "reserved",
+      "selection": "unresolved: reserved / exact,onehalf",
+      "checksum": 137441050624,
+      "counters": {
+        "std": {
+          "grows": 16,
+          "shrinks": 0,
+          "capacity": 131072,
+          "peak_capacity": 131072,
+          "live_at_growth": 131068,
+          "address_changes": 2
+        },
+        "exact": {
+          "grows": 65537,
+          "shrinks": 0,
+          "capacity": 65537,
+          "peak_capacity": 65537,
+          "live_at_growth": 2147516416,
+          "address_changes": 4
+        },
+        "onehalf": {
+          "grows": 25,
+          "shrinks": 0,
+          "capacity": 71139,
+          "peak_capacity": 71139,
+          "live_at_growth": 142261,
+          "address_changes": 1
+        },
+        "double": {
+          "grows": 16,
+          "shrinks": 0,
+          "capacity": 131072,
+          "peak_capacity": 131072,
+          "live_at_growth": 131068,
+          "address_changes": 2
+        },
+        "reserved": {
+          "grows": 1,
+          "shrinks": 0,
+          "capacity": 65537,
+          "peak_capacity": 65537,
+          "live_at_growth": 0,
+          "address_changes": 0
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 179.34731144239132,
+          "min": 131.36985214459008,
+          "max": 257.6710560446771,
+          "processes": 10
+        },
+        "exact": {
+          "median": 56.745094374170314,
+          "min": 48.413537391092056,
+          "max": 113.31915559149793,
+          "processes": 10
+        },
+        "onehalf": {
+          "median": 51.08328119993286,
+          "min": 34.96895646733906,
+          "max": 87.91476570486901,
+          "processes": 10
+        },
+        "double": {
+          "median": 188.27214779437568,
+          "min": 143.50867448921983,
+          "max": 276.3049727634771,
+          "processes": 10
+        },
+        "reserved": {
+          "median": 48.819979553534644,
+          "min": 43.23714085173261,
+          "max": 93.64628377862887,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "std": [
+          2.5639461476447374,
+          5.061961092056079
+        ],
+        "exact": [
+          0.6814341624198863,
+          2.0097362616040684
+        ],
+        "onehalf": [
+          0.6095615140302904,
+          1.3933138464822385
+        ],
+        "double": [
+          2.7205772932756305,
+          4.900319986729122
+        ]
+      },
+      "AA_ratio_range": [
+        0.8427323073627248,
+        1.1047792420540508
+      ]
+    },
+    "reuse": {
+      "lowest_median": "reserved",
+      "selection": "unresolved: reserved / std,onehalf,double",
+      "checksum": 268468224,
+      "counters": {
+        "std": {
+          "grows": 13,
+          "shrinks": 0,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 16380,
+          "address_changes": 1
+        },
+        "exact": {
+          "grows": 8193,
+          "shrinks": 0,
+          "capacity": 8193,
+          "peak_capacity": 8193,
+          "live_at_growth": 33558528,
+          "address_changes": 1
+        },
+        "onehalf": {
+          "grows": 20,
+          "shrinks": 0,
+          "capacity": 9368,
+          "peak_capacity": 9368,
+          "live_at_growth": 18720,
+          "address_changes": 2
+        },
+        "double": {
+          "grows": 13,
+          "shrinks": 0,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 16380,
+          "address_changes": 1
+        },
+        "reserved": {
+          "grows": 1,
+          "shrinks": 0,
+          "capacity": 8193,
+          "peak_capacity": 8193,
+          "live_at_growth": 0,
+          "address_changes": 0
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 2.414844271592353,
+          "min": 2.402169465243329,
+          "max": 2.509899710690108,
+          "processes": 10
+        },
+        "exact": {
+          "median": 3.413521558253229,
+          "min": 3.393867061027876,
+          "max": 3.4537355434790413,
+          "processes": 10
+        },
+        "onehalf": {
+          "median": 2.435588616409542,
+          "min": 2.403878044753297,
+          "max": 2.5191883170491827,
+          "processes": 10
+        },
+        "double": {
+          "median": 2.411853360086721,
+          "min": 2.3808445264434983,
+          "max": 2.531908440239201,
+          "processes": 10
+        },
+        "reserved": {
+          "median": 2.4086713102220436,
+          "min": 2.3908438444474753,
+          "max": 2.483988348636367,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "std": [
+          0.9720237404975332,
+          1.0415798209298939
+        ],
+        "exact": [
+          1.3662974960776302,
+          1.433260952058919
+        ],
+        "onehalf": [
+          0.9755301205123953,
+          1.0458718706621057
+        ],
+        "double": [
+          0.981015880037999,
+          1.0457057127763494
+        ]
+      },
+      "AA_ratio_range": [
+        0.8969812958896343,
+        1.0177552284048168
+      ]
+    },
+    "oscillate": {
+      "lowest_median": "std",
+      "selection": "unresolved: std / quarter",
+      "checksum": 10376293541465819320,
+      "counters": {
+        "std": {
+          "grows": 10,
+          "shrinks": 0,
+          "capacity": 2048,
+          "peak_capacity": 2048,
+          "live_at_growth": 2044,
+          "address_changes": 2
+        },
+        "tight": {
+          "grows": 4106,
+          "shrinks": 4096,
+          "capacity": 2048,
+          "peak_capacity": 2048,
+          "live_at_growth": 4196348,
+          "address_changes": 2
+        },
+        "quarter": {
+          "grows": 10,
+          "shrinks": 0,
+          "capacity": 2048,
+          "peak_capacity": 2048,
+          "live_at_growth": 2044,
+          "address_changes": 2
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 2.3282521427796463,
+          "min": 2.2070359119019205,
+          "max": 2.6730633611804273,
+          "processes": 10
+        },
+        "tight": {
+          "median": 13.78027693392644,
+          "min": 13.436652381469024,
+          "max": 14.63404578496257,
+          "processes": 10
+        },
+        "quarter": {
+          "median": 2.505757025062385,
+          "min": 2.4574427687967884,
+          "max": 2.5593061733752847,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "tight": [
+          5.4746348318882205,
+          6.240533864248055
+        ],
+        "quarter": [
+          0.9193357720153627,
+          1.1525888237535178
+        ]
+      },
+      "AA_ratio_range": [
+        0.9377564743611848,
+        1.1520818285322527
+      ]
+    },
+    "drain": {
+      "lowest_median": "std",
+      "selection": "std",
+      "checksum": 138789617664,
+      "counters": {
+        "std": {
+          "grows": 13,
+          "shrinks": 0,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 16380,
+          "address_changes": 2
+        },
+        "tight": {
+          "grows": 65,
+          "shrinks": 32772,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 81900,
+          "address_changes": 28
+        },
+        "quarter": {
+          "grows": 61,
+          "shrinks": 48,
+          "capacity": 16384,
+          "peak_capacity": 16384,
+          "live_at_growth": 81900,
+          "address_changes": 10
+        }
+      },
+      "candidates": {
+        "std": {
+          "median": 2.3815638688853626,
+          "min": 2.3419585825298017,
+          "max": 2.464578501973229,
+          "processes": 10
+        },
+        "tight": {
+          "median": 7.124614338798704,
+          "min": 7.076660970747386,
+          "max": 7.703573172220188,
+          "processes": 10
+        },
+        "quarter": {
+          "median": 2.6450179353648777,
+          "min": 2.6032063278950868,
+          "max": 2.957673895059468,
+          "processes": 10
+        }
+      },
+      "paired_ratio_ranges": {
+        "tight": [
+          2.8908941462122852,
+          3.2333650196877564
+        ],
+        "quarter": [
+          1.0682679377787865,
+          1.231091423031384
+        ]
+      },
+      "AA_ratio_range": [
+        0.9780682972993353,
+        1.0211528276851762
+      ]
+    }
+  }
+}
