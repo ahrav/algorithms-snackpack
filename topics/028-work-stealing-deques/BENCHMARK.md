@@ -70,9 +70,9 @@ order effect spanning several repetitions moves paired ratios in the same
 direction, and the rate is then unknown. The eight paired A/B control ratios
 are the only diagnostic for such shared-direction effects; eight A/B ratios
 on one side of 1 are evidence against the assumption for that cell. The
-benchmark family is the ten cells per host, twenty in total, inspected at one
+benchmark family is the five cells per host, ten in total, inspected at one
 fixed look. No multiplicity correction is applied, and the Bonferroni bounds
-that would follow from the assumption, 10/128 per host and 20/128 overall,
+that would follow from the assumption, 5/128 per host and 10/128 overall,
 hold only when it does. No confidence interval is reported, and the rule
 carries no power claim: a true difference below 3 percent is expected to
 remain unresolved. The rule is descriptive; the figures above characterise it

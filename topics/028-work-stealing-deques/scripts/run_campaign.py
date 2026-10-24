@@ -90,13 +90,22 @@ def sha256_of(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest() if Path(path).is_file() else None
 
 
-def cpu_model():
-    cpuinfo = Path("/proc/cpuinfo")
-    if cpuinfo.is_file():
-        for line in cpuinfo.read_text(errors="replace").splitlines():
-            if line.lower().startswith(("model name", "cpu implementer", "hardware")):
-                return line.split(":", 1)[1].strip()
-    return platform.processor() or None
+CPU_IDENTITY_FIELDS = ("model name", "hardware", "cpu implementer", "cpu variant", "cpu part", "cpu revision")
+
+
+def cpu_model(cpuinfo=Path("/proc/cpuinfo")):
+    """Identify the CPU from the first processor block: the model name on x86, implementer/variant/part/revision on Arm."""
+    if not cpuinfo.is_file():
+        return platform.processor() or None
+    block = cpuinfo.read_text(errors="replace").split("\n\n", 1)[0]
+    fields = {}
+    for line in block.splitlines():
+        key, _, value = line.partition(":")
+        if key.strip().lower() in CPU_IDENTITY_FIELDS:
+            fields[key.strip()] = value.strip()
+    if "model name" in fields:
+        return fields["model name"]
+    return ", ".join(f"{key} {value}" for key, value in fields.items()) or platform.processor() or None
 
 
 def identity(binary):

@@ -77,6 +77,45 @@ def summaries_by_name(document):
     return {s["workload"]["name"]: s for s in document["summaries"]}
 
 
+ARM_CPUINFO = """processor\t: 0
+BogoMIPS\t: 2100.00
+Features\t: fp asimd
+CPU implementer\t: 0x41
+CPU architecture: 8
+CPU variant\t: 0x1
+CPU part\t: 0xd40
+CPU revision\t: 1
+
+processor\t: 1
+BogoMIPS\t: 2100.00
+CPU implementer\t: 0x41
+CPU part\t: 0xd40
+"""
+X86_CPUINFO = """processor\t: 0
+vendor_id\t: GenuineIntel
+model name\t: Intel(R) Xeon(R) Platinum 8488C
+stepping\t: 8
+
+processor\t: 1
+model name\t: Intel(R) Xeon(R) Platinum 8488C
+"""
+
+
+class CpuModelTests(unittest.TestCase):
+    def read(self, text):
+        sys.path.insert(0, str(RUNNER.parent))
+        import run_campaign
+        path = pathlib.Path(tempfile.mkdtemp(prefix="topic028-cpuinfo-")) / "cpuinfo"
+        path.write_text(text)
+        return run_campaign.cpu_model(path)
+
+    def test_arm_identity_keeps_implementer_part_variant_and_revision(self):
+        self.assertEqual(self.read(ARM_CPUINFO), "CPU implementer 0x41, CPU variant 0x1, CPU part 0xd40, CPU revision 1")
+
+    def test_x86_identity_is_the_model_name(self):
+        self.assertEqual(self.read(X86_CPUINFO), "Intel(R) Xeon(R) Platinum 8488C")
+
+
 class RunCampaignTests(unittest.TestCase):
     def test_summary_applies_the_declared_paired_three_percent_rule(self):
         process, out, _ = run_campaign({"locked_steal_balanced#1": {"elapsed_ns": 980}})

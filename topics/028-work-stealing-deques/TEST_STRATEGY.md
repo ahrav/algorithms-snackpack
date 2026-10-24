@@ -106,5 +106,7 @@ as `failed` and excluded from ratios; a failed warmup is retained and forces
 its cell to `unresolved`; the A and B
 control rows exist with alternating order and ratios of exactly 1 for a
 constant stub; and `environment` records the binary hash, source hashes,
-commit, toolchain and CPU identity. Each assertion failed on the previous
+commit, toolchain and CPU identity, where `cpu_model` keeps the Arm
+implementer, variant, part and revision from the first processor block and
+the x86 model name. Each assertion failed on the previous
 runner before the corresponding change landed.
