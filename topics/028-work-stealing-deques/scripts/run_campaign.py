@@ -108,8 +108,25 @@ def cpu_model(cpuinfo=Path("/proc/cpuinfo")):
     return ", ".join(f"{key} {value}" for key, value in fields.items()) or platform.processor() or None
 
 
-def identity(binary):
-    dirty = probe(["git", "status", "--porcelain", "--untracked-files=no"], cwd=REPOSITORY)
+def worktree_status(repository, out):
+    """Return porcelain status lines for tracked changes and untracked files, except the campaign output itself.
+
+    Untracked files count because Cargo reads inputs such as `build.rs` or `.cargo/config.toml`
+    without them being committed. Ignored paths (`target/`) are excluded by `.gitignore`.
+    Returns None when git is unavailable.
+    """
+    status = probe(["git", "status", "--porcelain", "--untracked-files=all"], cwd=repository)
+    if status is None:
+        return None
+    try:
+        relative = str(Path(out).resolve().relative_to(Path(repository).resolve()))
+    except ValueError:
+        relative = None
+    return [line for line in status.splitlines() if line[3:] != relative]
+
+
+def identity(binary, out):
+    status = worktree_status(REPOSITORY, out)
     return {
         "hostname": platform.node(),
         "platform": platform.platform(),
@@ -118,7 +135,8 @@ def identity(binary):
         "cpu_model": cpu_model(),
         "available_cpus": len(os.sched_getaffinity(0)) if hasattr(os, "sched_getaffinity") else os.cpu_count(),
         "source_commit": probe(["git", "rev-parse", "HEAD"], cwd=REPOSITORY),
-        "worktree_dirty": None if dirty is None else bool(dirty),
+        "worktree_dirty": None if status is None else bool(status),
+        "worktree_status": status,
         "source_sha256": {name: sha256_of(REPOSITORY / name) for name in SOURCE_FILES},
         "binary": str(binary),
         "binary_sha256": sha256_of(binary),
@@ -206,7 +224,7 @@ def main():
         "order": "treatment order rotates once per repetition; control order alternates once per repetition",
         "repetitions": args.repetitions,
         "timeout_s": args.timeout,
-        "environment": identity(args.binary),
+        "environment": identity(args.binary, args.out),
         "created_unix_s": time.time(),
         "warmups": [],
         "rows": [],

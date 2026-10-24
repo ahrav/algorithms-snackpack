@@ -101,6 +101,25 @@ model name\t: Intel(R) Xeon(R) Platinum 8488C
 """
 
 
+class WorktreeStatusTests(unittest.TestCase):
+    def test_untracked_build_inputs_make_the_worktree_dirty(self):
+        sys.path.insert(0, str(RUNNER.parent))
+        import run_campaign
+        repo = pathlib.Path(tempfile.mkdtemp(prefix="topic028-repo-"))
+        subprocess.run(["git", "init", "-q", repo], check=True)
+        (repo / ".gitignore").write_text("target/\n")
+        (repo / "src.rs").write_text("fn main() {}\n")
+        subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "init"], check=True)
+        (repo / "target").mkdir()
+        (repo / "target" / "artifact").write_text("ignored")
+        self.assertEqual(run_campaign.worktree_status(repo, repo / "campaign.json"), [])
+        (repo / "campaign.json").write_text("{}")
+        self.assertEqual(run_campaign.worktree_status(repo, repo / "campaign.json"), [])
+        (repo / "build.rs").write_text("fn main() {}\n")
+        self.assertEqual(run_campaign.worktree_status(repo, repo / "campaign.json"), ["?? build.rs"])
+
+
 class CpuModelTests(unittest.TestCase):
     def read(self, text):
         sys.path.insert(0, str(RUNNER.parent))
