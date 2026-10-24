@@ -96,7 +96,10 @@ and host state. Scheduling is unpinned, and caches are uncontrolled.
 The runner copies `--binary` into a private directory before the first
 process and executes that copy throughout, so every row runs the artifact
 whose hash is recorded; it re-hashes the copy at the end and marks the
-document `invalid` if the hash changed. It records the identity of each run
+document `invalid` if the hash changed or the copy could not be made, and an
+`invalid` document carries no selection. Child output is decoded with
+replacement so a process that emits invalid UTF-8 is retained as a `failed`
+row. It records the identity of each run
 in `environment`: source commit
 and worktree dirtiness, SHA-256 of the frozen topic and workspace inputs,
 SHA-256 of the measured binary, `rustc -Vv`, `cargo -V`, `RUSTFLAGS`, host

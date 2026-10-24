@@ -50,7 +50,7 @@ def candidates_for(workload):
 
 
 def captured_text(output):
-    """TimeoutExpired carries bytes even under text=True, so decode before the row is serialised."""
+    """Decode captured child output with replacement so invalid UTF-8 is retained in the row instead of aborting the campaign."""
     if output is None:
         return ""
     if isinstance(output, bytes):
@@ -73,15 +73,16 @@ def start_row(binary, workload, candidate, label, arm, repetition=None):
 def run_row(row, workload, timeout):
     """Execute the row's command and replace `running` with ok, failed or timeout."""
     try:
-        process = subprocess.run(row["command"], text=True, capture_output=True, timeout=timeout)
+        process = subprocess.run(row["command"], capture_output=True, timeout=timeout)
     except subprocess.TimeoutExpired as expired:
         row.update({"status": "timeout", "timeout_s": timeout, "stdout": captured_text(expired.stdout), "stderr": captured_text(expired.stderr)})
         return row
     except OSError as error:
         row.update({"status": "failed", "reason": f"launch failed: {error}"})
         return row
-    row.update({"stdout": process.stdout.strip(), "stderr": process.stderr.strip(), "returncode": process.returncode})
-    fields = dict(item.split("=", 1) for item in process.stdout.split() if "=" in item)
+    stdout = captured_text(process.stdout)
+    row.update({"stdout": stdout, "stderr": captured_text(process.stderr), "returncode": process.returncode})
+    fields = dict(item.split("=", 1) for item in stdout.split() if "=" in item)
     expected = {"candidate": row["candidate"], "workers": str(workload["workers"]), "tasks": str(workload["tasks"]), "leaf_work": str(workload["leaf_work"])}
     if process.returncode != 0:
         row.update({"status": "failed", "reason": f"exit code {process.returncode}"})
@@ -148,12 +149,13 @@ def toolchain_command(toolchain, command):
 def pin_binary(binary, staging):
     """Copy the binary into a private directory so every invocation runs the artifact that was hashed.
 
-    Returns the copy, or the original path when the copy fails so a missing binary still surfaces as failed rows.
+    Returns the copy, or None when the copy cannot be made; the campaign then runs the original path
+    so launch failures are retained, and the document is marked invalid without a selection.
     """
     try:
         return Path(shutil.copy2(binary, staging / Path(binary).name))
     except OSError:
-        return Path(binary)
+        return None
 
 
 def identity(binary, pinned, out, toolchain=None):
@@ -170,8 +172,8 @@ def identity(binary, pinned, out, toolchain=None):
         "worktree_status": status,
         "source_sha256": {name: sha256_of(REPOSITORY / name) for name in SOURCE_FILES},
         "binary": str(binary),
-        "binary_copy": str(pinned),
-        "binary_sha256": sha256_of(pinned),
+        "binary_copy": None if pinned is None else str(pinned),
+        "binary_sha256": None if pinned is None else sha256_of(pinned),
         "toolchain": toolchain,
         "rustc": probe(toolchain_command(toolchain, ["rustc", "-Vv"])),
         "cargo": probe(toolchain_command(toolchain, ["cargo", "-V"])),
@@ -258,7 +260,8 @@ def main():
     if args.repetitions < 4 or args.repetitions % 2:
         raise SystemExit("--repetitions must be even and at least four")
     staging = Path(tempfile.mkdtemp(prefix="topic028-campaign-"))
-    binary = pin_binary(args.binary, staging)
+    pinned = pin_binary(args.binary, staging)
+    binary = args.binary if pinned is None else pinned
     document = {
         "status": "running",
         "boundary": "scheduler lifecycle: queues, threads, task work, counters, joins and equality; sequential oracle before timer",
@@ -268,7 +271,7 @@ def main():
         "repetitions": args.repetitions,
         "protocol_repetitions": args.repetitions == PROTOCOL_REPETITIONS,
         "timeout_s": args.timeout,
-        "environment": identity(args.binary, binary, args.out, args.toolchain),
+        "environment": identity(args.binary, pinned, args.out, args.toolchain),
         "created_unix_s": time.time(),
         "warmups": [],
         "rows": [],
@@ -292,14 +295,17 @@ def main():
                 write_document(args.out, document)
                 run_row(row, workload, args.timeout)
                 write_document(args.out, document)
-    document["environment"]["binary_sha256_final"] = sha256_of(binary)
+    document["environment"]["binary_sha256_final"] = None if pinned is None else sha256_of(pinned)
     document["summaries"] = summarize(document["rows"], document["warmups"], args.repetitions)
-    if document["environment"]["binary_sha256_final"] != document["environment"]["binary_sha256"]:
-        for summary in document["summaries"]:
-            summary["selected"] = "unresolved"
+    if pinned is None:
+        document["status"] = "invalid: binary could not be pinned"
+    elif document["environment"]["binary_sha256_final"] != document["environment"]["binary_sha256"]:
         document["status"] = "invalid: binary changed during the campaign"
     else:
         document["status"] = "complete"
+    if document["status"] != "complete":
+        for summary in document["summaries"]:
+            summary["selected"] = "unresolved"
     write_document(args.out, document)
     shutil.rmtree(staging, ignore_errors=True)
     for summary in document["summaries"]:

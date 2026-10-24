@@ -38,6 +38,10 @@ if action.get("hang"):
 if action.get("fail"):
     print("stub failure", file=sys.stderr)
     sys.exit(3)
+if action.get("garbage"):
+    sys.stdout.buffer.write(bytes([0xff, 0xfe]) + b"garbage")
+    sys.stdout.flush()
+    sys.exit(2)
 base = {"global_fifo": 1000, "locked_steal_balanced": 900, "locked_steal_skewed": 1100}[candidate]
 print("candidate=%s workers=%s tasks=%s leaf_work=%s elapsed_ns=%s" % (
     action.get("echo_candidate", candidate), args["--workers"], args["--tasks"], args["--leaf-work"], action.get("elapsed_ns", base)))
@@ -255,6 +259,17 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual((started["candidate"], started["arm"], started["repetition"]), ("locked_steal_balanced", "treatment", 1))
         self.assertIn("command", started)
 
+    def test_invalid_utf8_output_is_a_failed_row_and_the_campaign_continues(self):
+        process, out, _ = run_campaign({"global_fifo#1": {"garbage": True}}, repetitions=4)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        failed = [r for r in document["rows"] if r["status"] == "failed"]
+        self.assertEqual(len(failed), 1)
+        self.assertEqual(failed[0]["returncode"], 2)
+        self.assertIn("garbage", failed[0]["stdout"])
+        self.assertEqual(len(document["rows"]), 5 * 4 * 4)
+        self.assertEqual(document["status"], "complete")
+
     def test_the_campaign_runs_from_a_pinned_copy_of_the_binary(self):
         process, out, binary = run_campaign({"global_fifo#3": {"replace_binary": True}}, repetitions=4)
         self.assertEqual(process.returncode, 0, process.stderr)
@@ -276,6 +291,8 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(len(document["rows"]), 5 * 4 * 4)
         self.assertTrue(all(s["selected"] == "unresolved" for s in document["summaries"]))
         self.assertIsNone(document["environment"]["binary_sha256"])
+        self.assertIsNone(document["environment"]["binary_copy"])
+        self.assertEqual(document["status"], "invalid: binary could not be pinned")
 
     def test_identical_artifact_aa_arm_flows_through_the_same_paths(self):
         process, out, _ = run_campaign({})
