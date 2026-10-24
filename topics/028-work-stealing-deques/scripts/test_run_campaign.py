@@ -62,26 +62,38 @@ def clean_repository(root):
         path = repo / name
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(RUNNER.read_text() if name.endswith("run_campaign.py") else name + chr(10))
+    (repo / ".gitignore").write_text("/target/" + chr(10))
     subprocess.run(["git", "init", "-q", repo], check=True)
     subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
     subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "frozen"], check=True)
     return repo
 
 
-def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=False, extra_env=None):
-    """Prepare a scratch directory with a planned stub; return (command, env, output path, stub path, stub log)."""
+def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=False, extra_env=None, build=None, skip_build=False):
+    """Prepare a scratch repository whose stub build command installs the planned stub as the built example.
+
+    Returns (command, env, output path, built binary path, stub log). `build` overrides the stub build command.
+    """
     root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-campaign-"))
     repo = clean_repository(root)
     if dirty:
         (repo / "topics/028-work-stealing-deques/build.rs").write_text("fn main() {}" + chr(10))
     runner = repo / "topics/028-work-stealing-deques/scripts/run_campaign.py"
-    binary = root / "compare"
-    binary.write_text(STUB)
-    binary.chmod(0o755)
+    stub = root / "stub.py"
+    stub.write_text(STUB)
+    stub.chmod(0o755)
+    binary = repo / "target/release/examples/compare"
+    if build is None:
+        build = f"mkdir -p target/release/examples && cp {stub} {binary}"
     (root / "plan.json").write_text(json.dumps(plan))
     log = root / "stub.log"
     out = root / "campaign.json"
-    command = [sys.executable, str(runner), "--binary", str(binary), "--repetitions", str(repetitions), "--out", str(out)]
+    command = [sys.executable, str(runner), "--source", str(repo), "--build-command", build, "--repetitions", str(repetitions), "--out", str(out)]
+    if skip_build:
+        binary.parent.mkdir(parents=True, exist_ok=True)
+        binary.write_text(STUB)
+        binary.chmod(0o755)
+        command += ["--skip-build"]
     if timeout is not None:
         command += ["--timeout", str(timeout)]
     if toolchain is not None:
@@ -90,9 +102,9 @@ def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=Fals
     return command, env, out, binary, log
 
 
-def run_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=False, extra_env=None):
-    """Run the runner to completion; return (completed process, output path, stub path)."""
-    command, env, out, binary, _ = start_campaign(plan, timeout, repetitions, toolchain, dirty, extra_env)
+def run_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=False, extra_env=None, build=None, skip_build=False):
+    """Run the runner to completion; return (completed process, output path, built binary path)."""
+    command, env, out, binary, _ = start_campaign(plan, timeout, repetitions, toolchain, dirty, extra_env, build, skip_build)
     return subprocess.run(command, env=env, text=True, capture_output=True, timeout=300), out, binary
 
 
@@ -308,8 +320,7 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(document["status"], "complete")
 
     def test_a_binary_that_cannot_start_is_a_failed_row(self):
-        command, env, out, binary, _ = start_campaign({}, repetitions=4)
-        binary.unlink()
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build="true")
         process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
         self.assertEqual(process.returncode, 0, process.stderr)
         document = json.loads(out.read_text())
@@ -371,6 +382,51 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(recorded["CARGO_ENCODED_RUSTFLAGS"], "-C\x1ftarget-cpu=native")
         self.assertEqual(recorded["CARGO_BUILD_RUSTFLAGS"], "-C opt-level=2")
         self.assertIn("cargo_config_sha256", recorded)
+
+    def test_the_runner_builds_the_binary_and_records_the_build(self):
+        process, out, binary = run_campaign({}, repetitions=4)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["status"], "ok")
+        self.assertIn("cp ", document["build"]["command"])
+        self.assertEqual(document["build"]["cwd"], str(binary.parents[3]))
+        self.assertEqual(document["environment"]["binary"], str(binary))
+        self.assertEqual(document["environment"]["binary_sha256"], hashlib.sha256(STUB.encode()).hexdigest())
+        self.assertEqual(document["status"], "complete")
+
+    def test_a_failed_build_is_an_invalid_campaign_with_no_rows(self):
+        process, out, _ = run_campaign({}, repetitions=4, build="echo compiler exploded >&2; exit 7")
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["status"], "failed")
+        self.assertEqual(document["build"]["returncode"], 7)
+        self.assertIn("compiler exploded", document["build"]["stderr"])
+        self.assertEqual(document["rows"], [])
+        self.assertEqual(document["status"], "invalid: build failed")
+
+    def test_a_prebuilt_binary_has_unverified_provenance(self):
+        process, out, _ = run_campaign({}, repetitions=4, skip_build=True)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["status"], "skipped")
+        self.assertEqual(len(document["rows"]), 5 * 4 * 4)
+        self.assertEqual(document["status"], "invalid: binary provenance unverified")
+        self.assertTrue(all(s["selected"] == "unresolved" for s in document["summaries"]))
+
+    def test_cargo_config_hashes_walk_up_from_the_source_tree(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        (repo / ".cargo").mkdir()
+        (repo / ".cargo" / "config.toml").write_text("[build]" + chr(10) + 'rustflags = ["-C", "target-cpu=native"]' + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", ".cargo"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "config"], check=True)
+        (repo.parent / ".cargo").mkdir()
+        (repo.parent / ".cargo" / "config").write_text("[build]" + chr(10))
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        hashes = json.loads(out.read_text())["environment"]["rustflags"]["cargo_config_sha256"]
+        self.assertIn(str(repo / ".cargo" / "config.toml"), hashes)
+        self.assertIn(str(repo.parent / ".cargo" / "config"), hashes)
 
     def test_a_dirty_source_tree_withholds_selection(self):
         process, out, _ = run_campaign({}, dirty=True)

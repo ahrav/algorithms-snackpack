@@ -53,49 +53,45 @@ tests changed after the campaign and are outside the measured binary.
 
 ## Reproduction
 
-Two commands serve two purposes.
+The runner builds the example itself and records the build, so two commands
+serve two purposes.
 
 Replay of a retained artifact. The retained hosts built commit `200b157` with
 Rust 1.98.1 (Arm) and 1.99.0 (x86); the current tree's root manifest,
 lockfile, runner and contract tests differ from `frozen_inputs_sha256`, so a
-replay builds the retained revision in a separate worktree and uses the
-current runner only as the driver:
+replay builds the retained revision in a separate worktree:
 
 ```bash
 git worktree add ../topic028-replay 200b157100cb9aa25c4622a545daaab9c329a627
-# Arm host (retained: 1.98.1); use +1.99.0 on the x86 host.
-(cd ../topic028-replay && cargo +1.98.1 build --release \
-  -p topic028-work-stealing-deques --example compare)
+# Arm host (retained: 1.98.1); use --toolchain 1.99.0 on the x86 host.
 python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
-  --binary ../topic028-replay/target/release/examples/compare \
-  --toolchain 1.98.1 --repetitions 8 --out campaign.json
+  --source ../topic028-replay --toolchain 1.98.1 \
+  --repetitions 8 --out campaign.json
 ```
 
-`--toolchain` routes the `rustc` and `cargo` probes through `rustup run`, so
-`environment.rustc` reports the compiler that built the binary rather than the
-toolchain pinned for the runner's checkout. The run is a replay when
+`--toolchain` adds `+<toolchain>` to the build and routes the `rustc` and
+`cargo` probes through `rustup run`, so `environment.rustc` reports the
+compiler that built the binary. The run is a replay when
 `environment.binary_sha256` and `environment.rustc` match the host's entry in
 `EVIDENCE_RECEIPT.json` and the run took place on that host: `hostname`,
 `uname`, `cpu_model` and `available_cpus` must match the entry's
 `environment` as well, since the selections are host-specific. A matching
-binary on a different machine is a new measurement. `environment.source_sha256`
-and `source_commit` describe the tree the runner was invoked from and identify
-the runner, not the binary.
+binary on a different machine is a new measurement. `environment.source_*`
+describe the `--source` tree the binary was built from.
 
-New measurement of the current tree. The same runner command against a binary
-built from this checkout under the pinned toolchain measures the current
-source and records its own hashes; it is a new campaign and its selections
-replace the retained ones only with a fresh receipt.
+New measurement of the current tree. The default `--source` is this
+repository under the pinned toolchain; the run is a new campaign and its
+selections replace the retained ones only with a fresh receipt.
 
 ```bash
-cargo build --release -p topic028-work-stealing-deques --example compare
 python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
-  --binary target/release/examples/compare --repetitions 8 --out campaign.json
+  --repetitions 8 --out campaign.json
 ```
 
-`campaign.json` holds every process row, the per-cell paired ratios and the
-selection. The runner emits a selection only for the frozen protocol's eight
-repetitions; other counts report ratios and `unresolved`.
+`campaign.json` holds the build record, every process row, the per-cell
+paired ratios and the selection. The runner emits a selection only for the
+frozen protocol's eight repetitions from a clean, identified source tree;
+other runs report ratios and `unresolved`.
 
 ## Derived operation counts
 

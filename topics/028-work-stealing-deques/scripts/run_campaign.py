@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """Run the frozen order-balanced work-stealing campaign as fresh processes.
 
-Every invocation is retained as a row that starts as running and ends as ok,
+The runner builds the compare example from `--source` with `--build-command`
+(default: the release cargo build), hashes the built binary, and identifies
+the source tree it was built from, so a selection is attributed to a
+verifiable build. Every invocation is retained as a row that starts as running and ends as ok,
 failed or timeout. The output document is rewritten before and after each
 invocation, so an interrupted campaign keeps its completed observations and
 records the attempt that was in flight. Each repetition also runs the
@@ -33,6 +36,7 @@ BOUNDARY = 1.03
 PROTOCOL_REPETITIONS = 8
 TOPIC = Path(__file__).resolve().parent.parent
 REPOSITORY = TOPIC.parent.parent
+BUILT_BINARY = Path("target/release/examples/compare")
 SOURCE_FILES = [
     "Cargo.lock",
     "Cargo.toml",
@@ -161,19 +165,23 @@ def pin_binary(binary, staging):
 RUSTFLAGS_SOURCES = ("CARGO_ENCODED_RUSTFLAGS", "CARGO_BUILD_RUSTFLAGS", "RUSTFLAGS")
 
 
-def rustflags_identity():
-    """Record every Cargo flag source in precedence order, plus hashes of the config files Cargo reads for build.rustflags."""
+def rustflags_identity(source):
+    """Record every Cargo flag source, plus hashes of the config files Cargo reads: `.cargo/config{,.toml}` in the
+    build directory and each ancestor, then Cargo home."""
     cargo_home = Path(os.environ.get("CARGO_HOME", Path.home() / ".cargo"))
-    config_files = [REPOSITORY / ".cargo" / "config.toml", REPOSITORY / ".cargo" / "config", cargo_home / "config.toml", cargo_home / "config"]
+    directories = [Path(source).resolve(), *Path(source).resolve().parents, cargo_home]
+    candidates = [directory / ".cargo" / name for directory in directories[:-1] for name in ("config.toml", "config")]
+    candidates += [cargo_home / "config.toml", cargo_home / "config"]
     return {
         **{name: os.environ.get(name) for name in RUSTFLAGS_SOURCES},
-        "cargo_config_sha256": {str(path): sha256_of(path) for path in config_files if path.is_file()},
+        "cargo_config_sha256": {str(path): sha256_of(path) for path in candidates if path.is_file()},
     }
 
 
-def identity(binary, pinned, out, toolchain=None):
-    status = worktree_status(REPOSITORY, out)
+def identity(source, binary, pinned, out, toolchain=None):
+    status = worktree_status(source, out)
     return {
+        "source": str(source),
         "hostname": platform.node(),
         "platform": platform.platform(),
         "uname": list(platform.uname()),
@@ -181,18 +189,39 @@ def identity(binary, pinned, out, toolchain=None):
         "cpu_model": cpu_model(),
         "available_cpus": len(os.sched_getaffinity(0)) if hasattr(os, "sched_getaffinity") else os.cpu_count(),
         "affinity": sorted(os.sched_getaffinity(0)) if hasattr(os, "sched_getaffinity") else None,
-        "source_commit": probe(["git", "rev-parse", "HEAD"], cwd=REPOSITORY),
+        "source_commit": probe(["git", "rev-parse", "HEAD"], cwd=source),
         "worktree_dirty": None if status is None else bool(status),
         "worktree_status": status,
-        "source_sha256": {name: sha256_of(REPOSITORY / name) for name in SOURCE_FILES},
+        "source_sha256": {name: sha256_of(Path(source) / name) for name in SOURCE_FILES},
         "binary": str(binary),
         "binary_copy": None if pinned is None else str(pinned),
         "binary_sha256": None if pinned is None else sha256_of(pinned),
         "toolchain": toolchain,
         "rustc": probe(toolchain_command(toolchain, ["rustc", "-Vv"])),
         "cargo": probe(toolchain_command(toolchain, ["cargo", "-V"])),
-        "rustflags": rustflags_identity(),
+        "rustflags": rustflags_identity(source),
     }
+
+
+def default_build_command(toolchain):
+    plus = f" +{toolchain}" if toolchain else ""
+    return f"cargo{plus} build --release -p topic028-work-stealing-deques --example compare"
+
+
+def build(source, command, timeout):
+    """Run the build command in the source tree and record its outcome; the runner owns the artifact's provenance."""
+    record = {"command": command, "cwd": str(source), "started_unix_s": time.time()}
+    try:
+        process = subprocess.run(command, shell=True, cwd=source, capture_output=True, timeout=timeout)
+    except subprocess.TimeoutExpired as expired:
+        record.update({"status": "timeout", "timeout_s": timeout, "stdout": captured_text(expired.stdout), "stderr": captured_text(expired.stderr)})
+        return record
+    except OSError as error:
+        record.update({"status": "failed", "reason": f"launch failed: {error}"})
+        return record
+    record.update({"returncode": process.returncode, "stdout": captured_text(process.stdout)[-4000:], "stderr": captured_text(process.stderr)[-4000:]})
+    record["status"] = "ok" if process.returncode == 0 else "failed"
+    return record
 
 
 def paired_ratios(rows, numerator, denominator, repetitions):
@@ -265,7 +294,11 @@ def write_document(out, document):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--binary", type=Path, required=True)
+    parser.add_argument("--source", type=Path, default=REPOSITORY, help="checkout to build and identify (default: this runner's repository)")
+    parser.add_argument("--binary", type=Path, default=BUILT_BINARY, help="built example, relative to --source")
+    parser.add_argument("--build-command", help="shell command run in --source that produces --binary (default: the release cargo build)")
+    parser.add_argument("--build-timeout", type=float, default=1800.0, help="seconds allowed for the build")
+    parser.add_argument("--skip-build", action="store_true", help="use the existing --binary; its provenance is then unverified and no selection is emitted")
     parser.add_argument("--repetitions", type=int, default=PROTOCOL_REPETITIONS, help="paired repetitions per cell; a selection is emitted only for the frozen protocol's eight")
     parser.add_argument("--timeout", type=float, default=60.0, help="seconds allowed per process")
     parser.add_argument("--toolchain", help="rustup toolchain that built --binary, e.g. 1.98.1; compiler probes run through it")
@@ -273,9 +306,15 @@ def main():
     args = parser.parse_args()
     if args.repetitions < 4 or args.repetitions % 2:
         raise SystemExit("--repetitions must be even and at least four")
+    source = args.source.resolve()
+    built = args.binary if args.binary.is_absolute() else source / args.binary
+    if args.skip_build:
+        build_record = {"status": "skipped", "command": None, "cwd": str(source)}
+    else:
+        build_record = build(source, args.build_command or default_build_command(args.toolchain), args.build_timeout)
     staging = Path(tempfile.mkdtemp(prefix="topic028-campaign-"))
-    pinned = pin_binary(args.binary, staging)
-    binary = args.binary if pinned is None else pinned
+    pinned = pin_binary(built, staging) if build_record["status"] in ("ok", "skipped") else None
+    binary = built if pinned is None else pinned
     document = {
         "status": "running",
         "boundary": "scheduler lifecycle: queues, threads, task work, counters, joins and equality; sequential oracle before timer",
@@ -285,13 +324,15 @@ def main():
         "repetitions": args.repetitions,
         "protocol_repetitions": args.repetitions == PROTOCOL_REPETITIONS,
         "timeout_s": args.timeout,
-        "environment": identity(args.binary, pinned, args.out, args.toolchain),
+        "build": build_record,
+        "environment": identity(source, built, pinned, args.out, args.toolchain),
         "created_unix_s": time.time(),
         "warmups": [],
         "rows": [],
         "summaries": [],
     }
-    for workload in WORKLOADS:
+    write_document(args.out, document)
+    for workload in WORKLOADS if build_record["status"] in ("ok", "skipped") else []:
         candidates = candidates_for(workload)
         for candidate in candidates:
             row = start_row(binary, workload, candidate, candidate, "warmup")
@@ -313,8 +354,12 @@ def main():
     document["environment"]["binary_sha256_final"] = None if pinned is None else sha256_of(pinned)
     document["summaries"] = summarize(document["rows"], document["warmups"], args.repetitions)
     environment = document["environment"]
-    if pinned is None:
+    if build_record["status"] not in ("ok", "skipped"):
+        document["status"] = "invalid: build failed"
+    elif pinned is None:
         document["status"] = "invalid: binary could not be pinned"
+    elif build_record["status"] == "skipped":
+        document["status"] = "invalid: binary provenance unverified"
     elif environment["rustc"] is None or environment["cargo"] is None:
         document["status"] = "invalid: compiler identity unavailable"
     elif environment["source_commit"] is None or environment["worktree_dirty"] is not False or not all(environment["source_sha256"].values()):

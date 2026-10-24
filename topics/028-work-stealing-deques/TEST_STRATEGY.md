@@ -118,8 +118,12 @@ earlier `should_panic(expected = ...)` substring form passed.
 
 ## Runner checks
 
-`scripts/test_run_campaign.py` replaces the compare binary with a stub whose
-plan controls each invocation. It asserts: the summary applies the paired 3
+`scripts/test_run_campaign.py` runs the runner from a committed scratch
+repository whose stub build command installs a planned stub as the built
+example. It asserts: the runner records the build and hashes its output; a
+failed build yields an `invalid` document with no rows; `--skip-build`
+yields an `invalid` document with no selection; Cargo config hashes are
+collected from the source tree and its ancestors; the summary applies the paired 3
 percent rule and reports `unresolved` for a mixed cell; failed and timed-out
 processes are retained as rows and the campaign continues; the output file
 exists with `status: running` and a `running` row for the in-flight process

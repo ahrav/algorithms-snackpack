@@ -14,13 +14,19 @@ owner-bottom, thief-top deques using the stated initial placement.
 | medium_skewed | 4 | 16384 | 8 | All on worker zero |
 | coarse_skewed | 4 | 4096 | 512 | All on worker zero |
 
-Build once, then run fresh processes:
+The runner builds the example and then runs fresh processes:
 
 ```bash
-cargo build --release -p topic028-work-stealing-deques --example compare
 python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
-  --binary target/release/examples/compare --repetitions 8 --out campaign.json
+  --repetitions 8 --out campaign.json
 ```
+
+It runs `cargo build --release -p topic028-work-stealing-deques --example
+compare` in `--source` (default: this repository; `--toolchain` adds
+`+<toolchain>`), records the build command, exit code and output, hashes the
+built example and identifies the source tree it came from. `--skip-build`
+measures an existing binary and yields an `invalid` document with no
+selection, since that binary's provenance is unverified.
 
 ## Protocol
 
@@ -96,24 +102,25 @@ startup, output and JSON writing remain outside that timer. Fresh threads and
 queues are created in every measured invocation. Warmups warm executable pages
 and host state. Scheduling is unpinned, and caches are uncontrolled.
 
-The runner copies `--binary` into a private directory before the first
-process and executes that copy throughout, so every row runs the artifact
-whose hash is recorded; it re-hashes the copy at the end and marks the
-document `invalid` if the hash changed, the copy could not be made, the
-`rustc` and `cargo` identity probes returned nothing, or the source tree is
-not reproducible (no commit, a dirty or untracked path, or a frozen input
-that could not be hashed); an `invalid` document carries no selection and
-keeps every row and ratio. Child output is decoded with
+The runner copies the built binary into a private directory before the
+first process and executes that copy throughout, so every row runs the
+artifact whose hash is recorded; it re-hashes the copy at the end and marks
+the document `invalid` if the build failed, the binary's provenance is
+unverified, the hash changed, the copy could not be made, the `rustc` and
+`cargo` identity probes returned nothing, or the source tree is not
+reproducible (no commit, a dirty or untracked path, or a frozen input that
+could not be hashed); an `invalid` document carries no selection and keeps
+every row and ratio. Child output is decoded with
 replacement so a process that emits invalid UTF-8 is retained as a `failed`
 row. It records the identity of each run
 in `environment`: source commit
 and worktree dirtiness, SHA-256 of the frozen topic and workspace inputs,
 SHA-256 of the measured binary, `rustc -Vv`, `cargo -V`, every Cargo flag
 source (`CARGO_ENCODED_RUSTFLAGS`, `CARGO_BUILD_RUSTFLAGS`, `RUSTFLAGS`, and
-hashes of the `.cargo/config` files Cargo reads), host name, uname, CPU
-model, available CPUs and the sorted CPU affinity set. Run the build and the
-campaign in the same shell so the recorded flag sources are the ones the
-build saw. Each host verifies the source
+hashes of the `.cargo/config` files Cargo reads from the source directory,
+its ancestors and Cargo home), host name, uname, CPU model, available CPUs
+and the sorted CPU affinity set. The runner performs the build itself, so the
+recorded flag sources are the ones the build saw. Each host verifies the source
 hashes before building the unchanged topic with the same edition, minimum Rust
 version and lints. Run the exact committed source on both declared hosts.
 Toolchain and host differences prevent an ISA-only interpretation.
