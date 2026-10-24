@@ -78,15 +78,18 @@ and then restored:
 | Thief peeks `front()` under one lock and pops under a second lock | Duplicated and lost steals desynchronise `remaining`; the deadline fails the test after 30 s in three of three runs |
 | Stealing worker exits when one victim scan finds nothing, ignoring `remaining` | Survives. With a preloaded closed task set, an empty scan implies every task was claimed, so this mutant is equivalent for the contract. `remaining` matters once tasks can be spawned during the run |
 
-`zero_workers_is_rejected`
+`zero_workers_is_rejected` and `zero_workers_is_rejected_by_work_stealing`
 
-Claim and scope: `global_fifo(0, ..)` panics with `workers must be positive`.
-Plausible violation: a zero-worker run returns an empty `Outcome`. Observation
-and comparator: `should_panic(expected = ...)` matches the exact message.
+Claim and scope: `global_fifo(0, ..)` and `locked_work_stealing(0, ..)` panic
+with `workers must be positive`.
+Plausible violation: a zero-worker run returns an empty `Outcome`, or fails
+later with a different panic. Observation and comparator:
+`should_panic(expected = ...)` matches the exact message.
 Independence: the message is asserted, not computed from the implementation.
-Smallest case: the single call in the test. Mutation backstop: removing the
-assertion in `checked_args` fails the test by design of `should_panic`; this
-mutant was not executed.
+Smallest case: the single call in each test. Mutation backstop, executed:
+removing `checked_args` from `locked_work_stealing` makes it panic at the
+`id as usize % workers` division instead, and the work-stealing test fails on
+the message mismatch while the `global_fifo` test still passes.
 
 ## Runner checks
 
@@ -94,7 +97,9 @@ mutant was not executed.
 plan controls each invocation. It asserts: the summary applies the paired 3
 percent rule and reports `unresolved` for a mixed cell; failed and timed-out
 processes are retained as rows and the campaign continues; the output file
-exists with `status: running` while a process is still executing; the A and B
+exists with `status: running` while a process is still executing; a row whose
+process echoes different arguments or a non-positive `elapsed_ns` is retained
+as `failed` and excluded from ratios; the A and B
 control rows exist with alternating order and ratios of exactly 1 for a
 constant stub; and `environment` records the binary hash, source hashes,
 commit, toolchain and CPU identity. Each assertion failed on the previous

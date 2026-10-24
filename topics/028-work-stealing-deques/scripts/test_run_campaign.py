@@ -32,8 +32,8 @@ if action.get("fail"):
     print("stub failure", file=sys.stderr)
     sys.exit(3)
 base = {"global_fifo": 1000, "locked_steal_balanced": 900, "locked_steal_skewed": 1100}[candidate]
-print("candidate=%s workers=%s tasks=%s leaf_work=%s elapsed_ns=%d" % (
-    candidate, args["--workers"], args["--tasks"], args["--leaf-work"], action.get("elapsed_ns", base)))
+print("candidate=%s workers=%s tasks=%s leaf_work=%s elapsed_ns=%s" % (
+    action.get("echo_candidate", candidate), args["--workers"], args["--tasks"], args["--leaf-work"], action.get("elapsed_ns", base)))
 """
 
 
@@ -105,6 +105,17 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(affected["aa_incomplete_repetitions"], 0)
         self.assertEqual(affected["failures"], 2)
         self.assertEqual(document["status"], "complete")
+
+    def test_zero_or_mismatched_output_is_a_failed_row_and_never_divides(self):
+        process, out, _ = run_campaign({"global_fifo#1": {"elapsed_ns": 0}, "locked_steal_balanced#2": {"echo_candidate": "global_fifo"}})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        failed = {r["reason"][:20]: r for r in document["rows"] if r["status"] == "failed"}
+        self.assertEqual(sorted(failed), ["echoed arguments {'c", "elapsed_ns '0' is no"])
+        self.assertTrue(all("elapsed_ns" not in r for r in failed.values()))
+        affected = summaries_by_name(document)["tiny_balanced"]
+        self.assertEqual(affected["incomplete_repetitions"], 2)
+        self.assertEqual(affected["selected"], "unresolved")
 
     def test_observations_are_checkpointed_before_the_campaign_completes(self):
         out = run_campaign_killed_after({"locked_steal_balanced#2": {"hang": True}}, invocations=7)

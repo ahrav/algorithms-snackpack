@@ -43,7 +43,41 @@ Linux 6.12.111-136.204.amzn2023.x86_64.
 Both builds use Cargo release defaults, generic targets and empty RUSTFLAGS.
 Full uname, CPU identification, target configuration, binary SHA-256, symbol
 list, replay workspace and test logs are retained in the external archives.
-All seven executable/workspace input hashes match the measured commit.
+All seven executable/workspace input hashes match the measured commit. The
+`target_cfg` field in the receipt came from `rustc --print cfg` without an
+optimization flag, so its `debug_assertions` line describes that probe and
+the release build has the flag off; the `target_*` lines identify the target.
+`src/lib.rs`, `examples/compare.rs` and the crate `Cargo.toml` are byte for
+byte identical to the measured commit. The campaign runner and the contract
+tests changed after the campaign and are outside the measured binary.
+
+## Reproduction
+
+```bash
+cargo build --release -p topic028-work-stealing-deques --example compare
+python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
+  --binary target/release/examples/compare --repetitions 8 --out campaign.json
+```
+
+`campaign.json` holds every process row, the per-cell paired ratios and the
+selection. Compare its `environment.source_sha256` against the receipt's
+`frozen_inputs_sha256` before treating a rerun as a replay.
+
+## Derived operation counts
+
+These counts follow from reading `src/lib.rs`; they were not measured.
+Each executed task costs one mutex acquisition for its successful pop or
+steal. `global_fifo` performs two shared atomic read-modify-writes per task
+(`checksum`, `completed`); `locked_work_stealing` performs three (`checksum`,
+`completed`, `remaining`). Setup differs: `global_fifo` builds its queue
+before wrapping it in a mutex, so it acquires zero locks while populating;
+`locked_work_stealing` acquires one lock per task while populating, for
+256, 16384 or 4096 single-threaded acquisitions inside the timed region. On
+this Arm host that populate step took a median 4.5 us for 256 tasks and
+259 us for 16384 tasks in an isolated probe, against measured cell medians of
+134 us and 1686 us. Successful steals, empty victim scans and `yield_now`
+calls are unmeasured; counting them requires instrumenting the measured
+source and rerunning both hosts.
 
 Timing includes setup and shared counters. Different hosts and compilers,
 unpinned scheduling and uncontrolled caches limit interpretation. These

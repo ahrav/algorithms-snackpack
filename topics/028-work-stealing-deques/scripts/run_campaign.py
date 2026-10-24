@@ -58,10 +58,15 @@ def invoke(binary, workload, candidate, timeout):
         return row
     row.update({"stdout": process.stdout.strip(), "stderr": process.stderr.strip(), "returncode": process.returncode})
     fields = dict(item.split("=", 1) for item in process.stdout.split() if "=" in item)
-    if process.returncode != 0 or "elapsed_ns" not in fields:
-        row["status"] = "failed"
-        return row
-    row.update({"status": "ok", "elapsed_ns": int(fields["elapsed_ns"])})
+    expected = {"candidate": candidate, "workers": str(workload["workers"]), "tasks": str(workload["tasks"]), "leaf_work": str(workload["leaf_work"])}
+    if process.returncode != 0:
+        row.update({"status": "failed", "reason": f"exit code {process.returncode}"})
+    elif any(fields.get(key) != value for key, value in expected.items()):
+        row.update({"status": "failed", "reason": f"echoed arguments {fields} differ from {expected}"})
+    elif not fields.get("elapsed_ns", "").isdigit() or int(fields["elapsed_ns"]) <= 0:
+        row.update({"status": "failed", "reason": f"elapsed_ns {fields.get('elapsed_ns')!r} is not a positive integer"})
+    else:
+        row.update({"status": "ok", "elapsed_ns": int(fields["elapsed_ns"])})
     return row
 
 

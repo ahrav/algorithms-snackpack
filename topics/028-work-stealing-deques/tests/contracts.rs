@@ -56,3 +56,9 @@ fn all_candidates_match_the_independent_oracle() {
 fn zero_workers_is_rejected() {
     let _ = global_fifo(0, 1, 1);
 }
+
+#[test]
+#[should_panic(expected = "workers must be positive")]
+fn zero_workers_is_rejected_by_work_stealing() {
+    let _ = locked_work_stealing(0, 1, 1, Placement::Skewed);
+}
