@@ -1,0 +1,13 @@
+[package]
+name = "topic025-finite-state-transducers"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+[lib]
+name = "algorithms_fst"
+[lints]
+workspace = true
+[[bench]]
+name = "portfolio"
+harness = false

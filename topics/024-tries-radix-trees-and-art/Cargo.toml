@@ -1,0 +1,11 @@
+[package]
+name = "topic024-tries-radix-trees-and-art"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+[lints]
+workspace = true
+[[bench]]
+name = "dictionary"
+harness = false
