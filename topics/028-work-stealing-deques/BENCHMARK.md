@@ -108,8 +108,12 @@ replacement so a process that emits invalid UTF-8 is retained as a `failed`
 row. It records the identity of each run
 in `environment`: source commit
 and worktree dirtiness, SHA-256 of the frozen topic and workspace inputs,
-SHA-256 of the measured binary, `rustc -Vv`, `cargo -V`, `RUSTFLAGS`, host
-name, uname, CPU model, available CPUs and the sorted CPU affinity set. Each host verifies the source
+SHA-256 of the measured binary, `rustc -Vv`, `cargo -V`, every Cargo flag
+source (`CARGO_ENCODED_RUSTFLAGS`, `CARGO_BUILD_RUSTFLAGS`, `RUSTFLAGS`, and
+hashes of the `.cargo/config` files Cargo reads), host name, uname, CPU
+model, available CPUs and the sorted CPU affinity set. Run the build and the
+campaign in the same shell so the recorded flag sources are the ones the
+build saw. Each host verifies the source
 hashes before building the unchanged topic with the same edition, minimum Rust
 version and lints. Run the exact committed source on both declared hosts.
 Toolchain and host differences prevent an ISA-only interpretation.

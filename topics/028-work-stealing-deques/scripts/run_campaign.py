@@ -158,6 +158,19 @@ def pin_binary(binary, staging):
         return None
 
 
+RUSTFLAGS_SOURCES = ("CARGO_ENCODED_RUSTFLAGS", "CARGO_BUILD_RUSTFLAGS", "RUSTFLAGS")
+
+
+def rustflags_identity():
+    """Record every Cargo flag source in precedence order, plus hashes of the config files Cargo reads for build.rustflags."""
+    cargo_home = Path(os.environ.get("CARGO_HOME", Path.home() / ".cargo"))
+    config_files = [REPOSITORY / ".cargo" / "config.toml", REPOSITORY / ".cargo" / "config", cargo_home / "config.toml", cargo_home / "config"]
+    return {
+        **{name: os.environ.get(name) for name in RUSTFLAGS_SOURCES},
+        "cargo_config_sha256": {str(path): sha256_of(path) for path in config_files if path.is_file()},
+    }
+
+
 def identity(binary, pinned, out, toolchain=None):
     status = worktree_status(REPOSITORY, out)
     return {
@@ -178,7 +191,7 @@ def identity(binary, pinned, out, toolchain=None):
         "toolchain": toolchain,
         "rustc": probe(toolchain_command(toolchain, ["rustc", "-Vv"])),
         "cargo": probe(toolchain_command(toolchain, ["cargo", "-V"])),
-        "rustflags": os.environ.get("RUSTFLAGS", ""),
+        "rustflags": rustflags_identity(),
     }
 
 

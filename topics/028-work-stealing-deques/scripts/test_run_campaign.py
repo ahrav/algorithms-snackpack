@@ -68,7 +68,7 @@ def clean_repository(root):
     return repo
 
 
-def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=False):
+def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=False, extra_env=None):
     """Prepare a scratch directory with a planned stub; return (command, env, output path, stub path, stub log)."""
     root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-campaign-"))
     repo = clean_repository(root)
@@ -86,13 +86,13 @@ def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=Fals
         command += ["--timeout", str(timeout)]
     if toolchain is not None:
         command += ["--toolchain", toolchain]
-    env = dict(os.environ, STUB_PLAN=str(root / "plan.json"), STUB_LOG=str(log), STUB_BINARY=str(binary))
+    env = dict(os.environ, STUB_PLAN=str(root / "plan.json"), STUB_LOG=str(log), STUB_BINARY=str(binary), **(extra_env or {}))
     return command, env, out, binary, log
 
 
-def run_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=False):
+def run_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=False, extra_env=None):
     """Run the runner to completion; return (completed process, output path, stub path)."""
-    command, env, out, binary, _ = start_campaign(plan, timeout, repetitions, toolchain, dirty)
+    command, env, out, binary, _ = start_campaign(plan, timeout, repetitions, toolchain, dirty, extra_env)
     return subprocess.run(command, env=env, text=True, capture_output=True, timeout=300), out, binary
 
 
@@ -361,6 +361,16 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(environment["affinity"], sorted(environment["affinity"]))
         self.assertFalse(environment["worktree_dirty"])
         self.assertTrue(all(environment["source_sha256"].values()))
+
+    def test_every_cargo_rustflags_source_is_recorded(self):
+        flags = {"CARGO_ENCODED_RUSTFLAGS": "-C\x1ftarget-cpu=native", "CARGO_BUILD_RUSTFLAGS": "-C opt-level=2"}
+        process, out, _ = run_campaign({}, repetitions=4, extra_env=dict(flags, RUSTFLAGS=""))
+        self.assertEqual(process.returncode, 0, process.stderr)
+        recorded = json.loads(out.read_text())["environment"]["rustflags"]
+        self.assertEqual(recorded["RUSTFLAGS"], "")
+        self.assertEqual(recorded["CARGO_ENCODED_RUSTFLAGS"], "-C\x1ftarget-cpu=native")
+        self.assertEqual(recorded["CARGO_BUILD_RUSTFLAGS"], "-C opt-level=2")
+        self.assertIn("cargo_config_sha256", recorded)
 
     def test_a_dirty_source_tree_withholds_selection(self):
         process, out, _ = run_campaign({}, dirty=True)
