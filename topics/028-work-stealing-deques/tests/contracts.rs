@@ -51,14 +51,27 @@ fn all_candidates_match_the_independent_oracle() {
     }
 }
 
-#[test]
-#[should_panic(expected = "workers must be positive")]
-fn zero_workers_is_rejected() {
-    let _ = global_fifo(0, 1, 1);
+fn panic_message(run: impl FnOnce() -> Outcome + std::panic::UnwindSafe) -> String {
+    let payload = std::panic::catch_unwind(run).expect_err("zero workers must panic");
+    payload
+        .downcast_ref::<String>()
+        .cloned()
+        .or_else(|| payload.downcast_ref::<&str>().map(|s| (*s).to_owned()))
+        .expect("panic payload must be a string")
 }
 
 #[test]
-#[should_panic(expected = "workers must be positive")]
+fn zero_workers_is_rejected() {
+    assert_eq!(
+        panic_message(|| global_fifo(0, 1, 1)),
+        "workers must be positive"
+    );
+}
+
+#[test]
 fn zero_workers_is_rejected_by_work_stealing() {
-    let _ = locked_work_stealing(0, 1, 1, Placement::Skewed);
+    assert_eq!(
+        panic_message(|| locked_work_stealing(0, 1, 1, Placement::Skewed)),
+        "workers must be positive"
+    );
 }

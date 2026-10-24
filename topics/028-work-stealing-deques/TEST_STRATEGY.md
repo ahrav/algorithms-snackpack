@@ -81,15 +81,18 @@ and then restored:
 `zero_workers_is_rejected` and `zero_workers_is_rejected_by_work_stealing`
 
 Claim and scope: `global_fifo(0, ..)` and `locked_work_stealing(0, ..)` panic
-with `workers must be positive`.
-Plausible violation: a zero-worker run returns an empty `Outcome`, or fails
-later with a different panic. Observation and comparator:
-`should_panic(expected = ...)` matches the exact message.
+with exactly `workers must be positive`.
+Plausible violation: a zero-worker run returns an empty `Outcome`, fails
+later with a different panic, or the diagnostic drifts. Observation and
+comparator: `catch_unwind` captures the payload and `assert_eq!` compares the
+complete string, so a longer message containing the phrase fails.
 Independence: the message is asserted, not computed from the implementation.
-Smallest case: the single call in each test. Mutation backstop, executed:
+Smallest case: the single call in each test. Mutation backstops, executed:
 removing `checked_args` from `locked_work_stealing` makes it panic at the
-`id as usize % workers` division instead, and the work-stealing test fails on
-the message mismatch while the `global_fifo` test still passes.
+`id as usize % workers` division instead, and the work-stealing test fails
+while the `global_fifo` test still passes; changing the message to
+`workers must be positive (got {workers})` fails both tests, where the
+earlier `should_panic(expected = ...)` substring form passed.
 
 ## Runner checks
 
@@ -99,7 +102,8 @@ percent rule and reports `unresolved` for a mixed cell; failed and timed-out
 processes are retained as rows and the campaign continues; the output file
 exists with `status: running` while a process is still executing; a row whose
 process echoes different arguments or a non-positive `elapsed_ns` is retained
-as `failed` and excluded from ratios; the A and B
+as `failed` and excluded from ratios; a failed warmup is retained and forces
+its cell to `unresolved`; the A and B
 control rows exist with alternating order and ratios of exactly 1 for a
 constant stub; and `environment` records the binary hash, source hashes,
 commit, toolchain and CPU identity. Each assertion failed on the previous

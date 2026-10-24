@@ -122,6 +122,17 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(affected["incomplete_repetitions"], 2)
         self.assertEqual(affected["selected"], "unresolved")
 
+    def test_a_failed_warmup_invalidates_the_cell(self):
+        process, out, _ = run_campaign({"global_fifo#0": {"fail": True}})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual([w["status"] for w in document["warmups"]][:2], ["failed", "ok"])
+        affected = summaries_by_name(document)["tiny_balanced"]
+        self.assertEqual(affected["warmup_failures"], 1)
+        self.assertEqual(affected["selected"], "unresolved")
+        self.assertEqual(summaries_by_name(document)["tiny_skewed"]["warmup_failures"], 0)
+        self.assertEqual(summaries_by_name(document)["tiny_skewed"]["selected"], "global_fifo")
+
     def test_observations_are_checkpointed_before_the_campaign_completes(self):
         out = run_campaign_killed_after({"locked_steal_balanced#2": {"hang": True}}, invocations=7)
         partial = json.loads(out.read_text())

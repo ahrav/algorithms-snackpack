@@ -38,7 +38,10 @@ together with its command, exit code and captured output. The runner rewrites
 `campaign.json` after each process, so an interrupted campaign keeps every
 completed observation. A repetition whose pair lacks an `ok` observation is
 counted in `incomplete_repetitions` and forces `unresolved`; it is never
-dropped from the file. Failures are reported per cell as `failures`.
+dropped from the file. Failures are reported per cell as `failures`. A warmup
+that fails or times out is retained in `warmups`, counted per cell as
+`warmup_failures`, and forces that cell to `unresolved`, since the protocol's
+required warmup did not complete.
 
 Each repetition also runs the global FIFO artifact twice under the labels `A`
 and `B`, with the order alternating per repetition. These identical-artifact
@@ -57,17 +60,23 @@ processes, warmups and a paired rule over a mean difference.
 
 The independent unit is one measured process; eight paired repetitions per
 cell are the analysis units, and a cell is one host and workload. The rule is
-two-sided within a cell, since either arm can be selected. Under the null of
-exchangeable paired timings, all eight ratios fall on one side with
-probability 2 * (1/2)^8 = 1/128, so the nominal per-cell false-selection rate
-is at most 0.78 percent; the 3 percent margin makes the realised rate lower.
-The benchmark family is the ten cells per host, twenty in total, inspected at
-one fixed look. No multiplicity correction is applied; the Bonferroni bound on
-the family-wise false-selection rate is 10/128 (7.8 percent) per host and
-20/128 (15.6 percent) across both hosts. No confidence interval is reported,
-and the rule carries no power claim: a true difference below 3 percent is
-expected to remain unresolved. These rates characterise the frozen rule and
-were derived from it, not from the observed data.
+two-sided within a cell, since either arm can be selected. If the sign of
+each paired ratio were an independent fair coin under the null, all eight
+would fall on one side with probability 2 * (1/2)^8 = 1/128, and the
+per-cell false-selection rate would be at most 0.78 percent before the 3
+percent margin. That independence is an assumption, and this deterministic
+alternating design does not establish it: a host-state drift or an
+order effect spanning several repetitions moves paired ratios in the same
+direction, and the rate is then unknown. The eight paired A/B control ratios
+are the only diagnostic for such shared-direction effects; eight A/B ratios
+on one side of 1 are evidence against the assumption for that cell. The
+benchmark family is the ten cells per host, twenty in total, inspected at one
+fixed look. No multiplicity correction is applied, and the Bonferroni bounds
+that would follow from the assumption, 10/128 per host and 20/128 overall,
+hold only when it does. No confidence interval is reported, and the rule
+carries no power claim: a true difference below 3 percent is expected to
+remain unresolved. The rule is descriptive; the figures above characterise it
+under a stated assumption and were derived from the rule, not from data.
 
 ## Boundary and identity
 

@@ -136,10 +136,11 @@ def paired_ratios(rows, numerator, denominator, repetitions):
     return ratios, incomplete
 
 
-def summarize(rows, repetitions):
+def summarize(rows, warmups, repetitions):
     summaries = []
     for workload in WORKLOADS:
         cell = [r for r in rows if r["workload"]["name"] == workload["name"]]
+        warmup_failures = len([w for w in warmups if w["workload"]["name"] == workload["name"] and w["status"] != "ok"])
         baseline, challenger = candidates_for(workload)
         observed = {}
         for label in [baseline, challenger] + CONTROL_LABELS:
@@ -147,7 +148,7 @@ def summarize(rows, repetitions):
             observed[label] = {"median_ns": statistics.median(values) if values else None, "min_ns": min(values, default=None), "max_ns": max(values, default=None), "samples": len(values)}
         ratios, incomplete = paired_ratios(cell, challenger, baseline, repetitions)
         aa_ratios, aa_incomplete = paired_ratios(cell, CONTROL_LABELS[0], CONTROL_LABELS[1], repetitions)
-        if incomplete:
+        if incomplete or warmup_failures:
             selected = "unresolved"
         elif all(r < 1 / BOUNDARY for r in ratios):
             selected = challenger
@@ -167,6 +168,7 @@ def summarize(rows, repetitions):
             "aa_ratios": aa_ratios,
             "aa_incomplete_repetitions": aa_incomplete,
             "failures": len([r for r in cell if r["status"] != "ok"]),
+            "warmup_failures": warmup_failures,
         })
     return summaries
 
@@ -217,11 +219,11 @@ def main():
                 row.update({"workload": workload, "label": label, "arm": arm, "repetition": repetition})
                 document["rows"].append(row)
                 write_document(args.out, document)
-    document["summaries"] = summarize(document["rows"], args.repetitions)
+    document["summaries"] = summarize(document["rows"], document["warmups"], args.repetitions)
     document["status"] = "complete"
     write_document(args.out, document)
     for summary in document["summaries"]:
-        print(f'{summary["workload"]["name"]}: lowest median {summary["lowest_median"]}, selected {summary["selected"]}, failures {summary["failures"]}')
+        print(f'{summary["workload"]["name"]}: lowest median {summary["lowest_median"]}, selected {summary["selected"]}, failures {summary["failures"]}, warmup failures {summary["warmup_failures"]}')
 
 
 if __name__ == "__main__":
