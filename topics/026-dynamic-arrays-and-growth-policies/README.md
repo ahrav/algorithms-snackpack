@@ -63,8 +63,9 @@ cd topics/026-dynamic-arrays-and-growth-policies
 python3 run.py
 ```
 
-The runner compiles with `rustc -O -C target-cpu=native`. Keep its raw directory
-outside Git. See BENCHMARK.md and measurements/README.md for workload dimensions,
+The runner requires Linux and compiles with `rustc -O -C target-cpu=native`. It
+writes every artifact to `raw/`, which Git ignores, and refuses to start while
+`raw/` holds a previous campaign; archive that directory elsewhere first. See BENCHMARK.md and measurements/README.md for workload dimensions,
 controls, all candidate results, and measurement limits. Timings include the safe
 wrapper and request accounting, not just unwrapped `Vec::push`.
 

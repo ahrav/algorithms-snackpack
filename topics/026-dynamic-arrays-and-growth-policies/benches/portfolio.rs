@@ -87,13 +87,20 @@ fn validate<const W: usize>(ops: &[Op<W>], name: &str, hint: usize) {
     let (growth, shrink, reserved) = config(name);
     let mut a = Array::<W>::new(growth, shrink, if reserved { hint } else { 0 }).unwrap();
     let mut model = BTreeMap::new();
+    let mut popped = 0_u64;
     for op in ops {
         match op {
             Op::Push(value) => {
                 a.try_push(*value).unwrap();
                 model.insert(model.len(), *value);
             }
-            Op::Pop => assert_eq!(a.pop(), model.pop_last().map(|(_, v)| v)),
+            Op::Pop => {
+                let expected = model.pop_last().map(|(_, v)| v);
+                assert_eq!(a.pop(), expected);
+                if let Some(value) = expected {
+                    popped = popped.rotate_left(7) ^ value[0]; // Same fold as execute.
+                }
+            }
             Op::Clear => {
                 a.clear();
                 model.clear();
@@ -101,8 +108,9 @@ fn validate<const W: usize>(ops: &[Op<W>], name: &str, hint: usize) {
         }
     }
     assert_eq!(a.as_slice(), model.values().copied().collect::<Vec<_>>());
-    let (actual, _) = execute(ops, name, hint);
+    let (actual, actual_popped) = execute(ops, name, hint);
     assert_eq!(actual.as_slice(), a.as_slice());
+    assert_eq!(actual_popped, popped);
 }
 
 fn sample<const W: usize>(name: &str, case: &str) {
@@ -140,7 +148,9 @@ fn sample<const W: usize>(name: &str, case: &str) {
 }
 
 fn main() {
-    let args = std::env::args().collect::<Vec<_>>();
+    let args = std::env::args()
+        .filter(|a| a != "--bench")
+        .collect::<Vec<_>>();
     if args.len() == 1 {
         sample::<1>("std", "tiny");
         return;

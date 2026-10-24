@@ -41,8 +41,8 @@ pub struct Stats {
     pub peak_capacity: usize,
 }
 
-/// Checked geometric target, with a four-record startup floor.
-/// Returns `None` when the policy arithmetic overflows.
+/// Checked capacity target. Only `OneHalf` and `Double` apply the four-record
+/// startup floor. Returns `None` when the policy arithmetic overflows.
 #[must_use]
 pub fn growth_target(capacity: usize, growth: Growth) -> Option<usize> {
     match growth {
@@ -63,6 +63,7 @@ pub fn growth_target(capacity: usize, growth: Growth) -> Option<usize> {
 /// assert_eq!(a.as_slice(), &[[42]]);
 /// assert_eq!(a.pop(), Some([42]));
 /// ```
+#[derive(Debug)]
 pub struct Array<const W: usize> {
     data: Vec<[u64; W]>,
     growth: Growth,
