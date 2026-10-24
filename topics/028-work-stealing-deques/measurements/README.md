@@ -75,7 +75,10 @@ python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
 `environment.rustc` reports the compiler that built the binary rather than the
 toolchain pinned for the runner's checkout. The run is a replay when
 `environment.binary_sha256` and `environment.rustc` match the host's entry in
-`EVIDENCE_RECEIPT.json`. `environment.source_sha256`
+`EVIDENCE_RECEIPT.json` and the run took place on that host: `hostname`,
+`uname`, `cpu_model` and `available_cpus` must match the entry's
+`environment` as well, since the selections are host-specific. A matching
+binary on a different machine is a new measurement. `environment.source_sha256`
 and `source_commit` describe the tree the runner was invoked from and identify
 the runner, not the binary.
 

@@ -48,10 +48,13 @@ that fails or times out is retained in `warmups`, counted per cell as
 required warmup did not complete.
 
 Each repetition also runs the global FIFO artifact twice under the labels `A`
-and `B`, with the order alternating per repetition. These identical-artifact
-controls pass through the same scheduling, labelling, parser, missing-data and
-ratio code as the treatments, and the runner reports their eight paired A/B
-ratios as `aa_ratios`. Mechanical integrity is the `ok` status of every control
+and `B`, with the order alternating per repetition. The treatment pair and
+the control pair alternate first position by repetition parity, so each pair
+occupies the first two process slots in four repetitions and the last two in
+the other four, and a host effect tied to slot position reaches both pairs
+alike. These identical-artifact controls pass through the same scheduling,
+labelling, parser, missing-data and ratio code as the treatments, and the
+runner reports their eight paired A/B ratios as `aa_ratios`. Mechanical integrity is the `ok` status of every control
 row, and a repetition whose control pair lacks an `ok` observation forces the
 cell to `unresolved`; null calibration is the spread of the A/B ratios around 1. A full
 campaign runs 10 warmup, 80 treatment and 80 control processes per host.
@@ -96,15 +99,17 @@ and host state. Scheduling is unpinned, and caches are uncontrolled.
 The runner copies `--binary` into a private directory before the first
 process and executes that copy throughout, so every row runs the artifact
 whose hash is recorded; it re-hashes the copy at the end and marks the
-document `invalid` if the hash changed, the copy could not be made, or the
-`rustc` and `cargo` identity probes returned nothing; an `invalid` document
-carries no selection. Child output is decoded with
+document `invalid` if the hash changed, the copy could not be made, the
+`rustc` and `cargo` identity probes returned nothing, or the source tree is
+not reproducible (no commit, a dirty or untracked path, or a frozen input
+that could not be hashed); an `invalid` document carries no selection and
+keeps every row and ratio. Child output is decoded with
 replacement so a process that emits invalid UTF-8 is retained as a `failed`
 row. It records the identity of each run
 in `environment`: source commit
 and worktree dirtiness, SHA-256 of the frozen topic and workspace inputs,
 SHA-256 of the measured binary, `rustc -Vv`, `cargo -V`, `RUSTFLAGS`, host
-name, uname, CPU model and available CPUs. Each host verifies the source
+name, uname, CPU model, available CPUs and the sorted CPU affinity set. Each host verifies the source
 hashes before building the unchanged topic with the same edition, minimum Rust
 version and lints. Run the exact committed source on both declared hosts.
 Toolchain and host differences prevent an ISA-only interpretation.

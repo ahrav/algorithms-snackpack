@@ -167,6 +167,7 @@ def identity(binary, pinned, out, toolchain=None):
         "python": platform.python_version(),
         "cpu_model": cpu_model(),
         "available_cpus": len(os.sched_getaffinity(0)) if hasattr(os, "sched_getaffinity") else os.cpu_count(),
+        "affinity": sorted(os.sched_getaffinity(0)) if hasattr(os, "sched_getaffinity") else None,
         "source_commit": probe(["git", "rev-parse", "HEAD"], cwd=REPOSITORY),
         "worktree_dirty": None if status is None else bool(status),
         "worktree_status": status,
@@ -267,7 +268,7 @@ def main():
         "boundary": "scheduler lifecycle: queues, threads, task work, counters, joins and equality; sequential oracle before timer",
         "selection_rule": "lowest median is descriptive; select only when every paired steal/global ratio passes the same 3 percent boundary; otherwise unresolved",
         "control": "identical global_fifo artifact labelled A and B once each per repetition with alternating order",
-        "order": "treatment order rotates once per repetition; control order alternates once per repetition",
+        "order": "the treatment pair and the control pair alternate first position by repetition parity; order within each pair rotates once per repetition",
         "repetitions": args.repetitions,
         "protocol_repetitions": args.repetitions == PROTOCOL_REPETITIONS,
         "timeout_s": args.timeout,
@@ -289,7 +290,8 @@ def main():
             rotated = candidates[repetition % 2:] + candidates[:repetition % 2]
             treatments = [(candidate, candidate, "treatment") for candidate in rotated]
             controls = [(BASELINE, label, "control") for label in (CONTROL_LABELS if repetition % 2 == 0 else CONTROL_LABELS[::-1])]
-            for candidate, label, arm in treatments + controls:
+            schedule = treatments + controls if repetition % 2 == 0 else controls + treatments
+            for candidate, label, arm in schedule:
                 row = start_row(binary, workload, candidate, label, arm, repetition)
                 document["rows"].append(row)
                 write_document(args.out, document)
@@ -297,11 +299,14 @@ def main():
                 write_document(args.out, document)
     document["environment"]["binary_sha256_final"] = None if pinned is None else sha256_of(pinned)
     document["summaries"] = summarize(document["rows"], document["warmups"], args.repetitions)
+    environment = document["environment"]
     if pinned is None:
         document["status"] = "invalid: binary could not be pinned"
-    elif document["environment"]["rustc"] is None or document["environment"]["cargo"] is None:
+    elif environment["rustc"] is None or environment["cargo"] is None:
         document["status"] = "invalid: compiler identity unavailable"
-    elif document["environment"]["binary_sha256_final"] != document["environment"]["binary_sha256"]:
+    elif environment["source_commit"] is None or environment["worktree_dirty"] is not False or not all(environment["source_sha256"].values()):
+        document["status"] = "invalid: source identity not reproducible"
+    elif environment["binary_sha256_final"] != environment["binary_sha256"]:
         document["status"] = "invalid: binary changed during the campaign"
     else:
         document["status"] = "complete"

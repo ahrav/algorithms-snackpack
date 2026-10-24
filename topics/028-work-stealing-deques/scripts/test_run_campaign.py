@@ -48,16 +48,40 @@ print("candidate=%s workers=%s tasks=%s leaf_work=%s elapsed_ns=%s" % (
 """
 
 
-def start_campaign(plan, timeout=None, repetitions=8, toolchain=None):
+SOURCE_FILES = [
+    "Cargo.lock", "Cargo.toml", "topics/028-work-stealing-deques/Cargo.toml",
+    "topics/028-work-stealing-deques/examples/compare.rs", "topics/028-work-stealing-deques/scripts/run_campaign.py",
+    "topics/028-work-stealing-deques/src/lib.rs", "topics/028-work-stealing-deques/tests/contracts.rs",
+]
+
+
+def clean_repository(root):
+    """Commit a copy of the runner and placeholder frozen inputs so the runner sees a clean, identified source tree."""
+    repo = root / "repo"
+    for name in SOURCE_FILES:
+        path = repo / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(RUNNER.read_text() if name.endswith("run_campaign.py") else name + chr(10))
+    subprocess.run(["git", "init", "-q", repo], check=True)
+    subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "frozen"], check=True)
+    return repo
+
+
+def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=False):
     """Prepare a scratch directory with a planned stub; return (command, env, output path, stub path, stub log)."""
     root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-campaign-"))
+    repo = clean_repository(root)
+    if dirty:
+        (repo / "topics/028-work-stealing-deques/build.rs").write_text("fn main() {}" + chr(10))
+    runner = repo / "topics/028-work-stealing-deques/scripts/run_campaign.py"
     binary = root / "compare"
     binary.write_text(STUB)
     binary.chmod(0o755)
     (root / "plan.json").write_text(json.dumps(plan))
     log = root / "stub.log"
     out = root / "campaign.json"
-    command = [sys.executable, str(RUNNER), "--binary", str(binary), "--repetitions", str(repetitions), "--out", str(out)]
+    command = [sys.executable, str(runner), "--binary", str(binary), "--repetitions", str(repetitions), "--out", str(out)]
     if timeout is not None:
         command += ["--timeout", str(timeout)]
     if toolchain is not None:
@@ -66,9 +90,9 @@ def start_campaign(plan, timeout=None, repetitions=8, toolchain=None):
     return command, env, out, binary, log
 
 
-def run_campaign(plan, timeout=None, repetitions=8, toolchain=None):
+def run_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=False):
     """Run the runner to completion; return (completed process, output path, stub path)."""
-    command, env, out, binary, _ = start_campaign(plan, timeout, repetitions, toolchain)
+    command, env, out, binary, _ = start_campaign(plan, timeout, repetitions, toolchain, dirty)
     return subprocess.run(command, env=env, text=True, capture_output=True, timeout=300), out, binary
 
 
@@ -192,7 +216,7 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(affected["selected"], "unresolved")
 
     def test_a_one_sided_aa_control_withholds_selection(self):
-        plan = {f"global_fifo#{occurrence}": {"elapsed_ns": 900} for occurrence in [2, 6, 8, 12, 14, 18, 20, 24]}
+        plan = {f"global_fifo#{occurrence}": {"elapsed_ns": 900} for occurrence in [2, 5, 8, 11, 14, 17, 20, 23]}
         process, out, _ = run_campaign(plan)
         self.assertEqual(process.returncode, 0, process.stderr)
         summaries = summaries_by_name(json.loads(out.read_text()))
@@ -253,11 +277,11 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(summaries_by_name(document)["tiny_skewed"]["selected"], "global_fifo")
 
     def test_observations_are_checkpointed_before_the_campaign_completes(self):
-        out = run_campaign_killed_after({"locked_steal_balanced#2": {"hang": True}}, invocations=7)
+        out = run_campaign_killed_after({"locked_steal_balanced#2": {"hang": True}}, invocations=9)
         partial = json.loads(out.read_text())
         self.assertEqual(partial["status"], "running")
         self.assertEqual(len(partial["warmups"]), 2)
-        self.assertEqual([r["status"] for r in partial["rows"]], ["ok"] * 4 + ["running"])
+        self.assertEqual([r["status"] for r in partial["rows"]], ["ok"] * 6 + ["running"])
         started = partial["rows"][-1]
         self.assertEqual((started["candidate"], started["arm"], started["repetition"]), ("locked_steal_balanced", "treatment", 1))
         self.assertIn("command", started)
@@ -297,6 +321,18 @@ class RunCampaignTests(unittest.TestCase):
         self.assertIsNone(document["environment"]["binary_copy"])
         self.assertEqual(document["status"], "invalid: binary could not be pinned")
 
+    def test_control_and_treatment_pairs_alternate_schedule_slots(self):
+        process, out, _ = run_campaign({})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        rows = [r for r in json.loads(out.read_text())["rows"] if r["workload"]["name"] == "tiny_balanced"]
+        by_repetition = {}
+        for row in rows:
+            by_repetition.setdefault(row["repetition"], []).append((row["arm"], row["label"]))
+        self.assertEqual(by_repetition[0], [("treatment", "global_fifo"), ("treatment", "locked_steal_balanced"), ("control", "A"), ("control", "B")])
+        self.assertEqual(by_repetition[1], [("control", "B"), ("control", "A"), ("treatment", "locked_steal_balanced"), ("treatment", "global_fifo")])
+        self.assertEqual(by_repetition[2], by_repetition[0])
+        self.assertEqual(by_repetition[3], by_repetition[1])
+
     def test_identical_artifact_aa_arm_flows_through_the_same_paths(self):
         process, out, _ = run_campaign({})
         self.assertEqual(process.returncode, 0, process.stderr)
@@ -318,9 +354,23 @@ class RunCampaignTests(unittest.TestCase):
         environment = json.loads(out.read_text())["environment"]
         self.assertEqual(environment["binary_sha256"], hashlib.sha256(binary.read_bytes()).hexdigest())
         self.assertEqual(environment["binary"], str(binary))
-        for key in ["source_commit", "worktree_dirty", "source_sha256", "rustc", "cargo", "rustflags", "cpu_model", "available_cpus", "uname", "hostname"]:
+        for key in ["source_commit", "worktree_dirty", "source_sha256", "rustc", "cargo", "rustflags", "cpu_model", "available_cpus", "affinity", "uname", "hostname"]:
             self.assertIn(key, environment)
         self.assertIn("topics/028-work-stealing-deques/src/lib.rs", environment["source_sha256"])
+        self.assertEqual(len(environment["affinity"]), environment["available_cpus"])
+        self.assertEqual(environment["affinity"], sorted(environment["affinity"]))
+        self.assertFalse(environment["worktree_dirty"])
+        self.assertTrue(all(environment["source_sha256"].values()))
+
+    def test_a_dirty_source_tree_withholds_selection(self):
+        process, out, _ = run_campaign({}, dirty=True)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertTrue(document["environment"]["worktree_dirty"])
+        self.assertEqual(document["environment"]["worktree_status"], ["?? topics/028-work-stealing-deques/build.rs"])
+        self.assertEqual(document["status"], "invalid: source identity not reproducible")
+        self.assertTrue(all(s["selected"] == "unresolved" for s in document["summaries"]))
+        self.assertEqual(summaries_by_name(document)["medium_balanced"]["lowest_median"], "locked_steal_balanced")
 
 
 if __name__ == "__main__":
