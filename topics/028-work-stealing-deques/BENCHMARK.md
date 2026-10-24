@@ -35,10 +35,12 @@ eight repetitions. The runner accepts other even counts of at least four for
 smoke runs and reports their ratios, and it emits a selection only when the
 count is exactly eight.
 
-Every process is retained as a row with status `ok`, `failed` or `timeout`,
-together with its command, exit code and captured output. The runner rewrites
-`campaign.json` after each process, so an interrupted campaign keeps every
-completed observation. A repetition whose pair lacks an `ok` observation is
+Every process is retained as a row that is written as `running` before
+launch and finishes as `ok`, `failed` or `timeout`, together with its command,
+exit code and captured output; a binary that cannot start is a `failed` row
+carrying the launch error. The runner rewrites `campaign.json` before and
+after each process, so an interrupted campaign keeps every completed
+observation and records the attempt that was in flight. A repetition whose pair lacks an `ok` observation is
 counted in `incomplete_repetitions` and forces `unresolved`; it is never
 dropped from the file. Failures are reported per cell as `failures`. A warmup
 that fails or times out is retained in `warmups`, counted per cell as

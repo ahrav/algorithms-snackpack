@@ -122,7 +122,9 @@ earlier `should_panic(expected = ...)` substring form passed.
 plan controls each invocation. It asserts: the summary applies the paired 3
 percent rule and reports `unresolved` for a mixed cell; failed and timed-out
 processes are retained as rows and the campaign continues; the output file
-exists with `status: running` while a process is still executing; a row whose
+exists with `status: running` and a `running` row for the in-flight process
+while that process is still executing; a binary that cannot start yields
+`failed` rows and a completed campaign; a row whose
 process echoes different arguments or a non-positive `elapsed_ns` is retained
 as `failed` and excluded from ratios; a failed warmup or an incomplete A/B
 control pair, or eight A/B ratios on one side of 1, forces its cell to

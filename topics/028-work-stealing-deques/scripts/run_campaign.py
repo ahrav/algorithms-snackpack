@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Run the frozen order-balanced work-stealing campaign as fresh processes.
 
-Every invocation is retained as a row with a status of ok, failed or timeout.
-The output document is rewritten after each invocation so an interrupted
-campaign keeps its completed observations. Each repetition also runs the
+Every invocation is retained as a row that starts as running and ends as ok,
+failed or timeout. The output document is rewritten before and after each
+invocation, so an interrupted campaign keeps its completed observations and
+records the attempt that was in flight. Each repetition also runs the
 global FIFO artifact twice under the labels A and B as an identical-artifact
 control that flows through the same scheduling, parsing and analysis paths.
 """
@@ -55,20 +56,31 @@ def captured_text(output):
     return output.strip()
 
 
-def invoke(binary, workload, candidate, timeout):
+def start_row(binary, workload, candidate, label, arm, repetition=None):
+    """Create the row for one invocation before launching it, so a killed attempt leaves a `running` record."""
     command = [
         str(binary), "--candidate", candidate, "--workers", str(workload["workers"]),
         "--tasks", str(workload["tasks"]), "--leaf-work", str(workload["leaf_work"]),
     ]
-    row = {"candidate": candidate, "command": command, "started_unix_s": time.time()}
+    row = {"candidate": candidate, "command": command, "workload": workload, "label": label, "arm": arm, "status": "running", "started_unix_s": time.time()}
+    if repetition is not None:
+        row["repetition"] = repetition
+    return row
+
+
+def run_row(row, workload, timeout):
+    """Execute the row's command and replace `running` with ok, failed or timeout."""
     try:
-        process = subprocess.run(command, text=True, capture_output=True, timeout=timeout)
+        process = subprocess.run(row["command"], text=True, capture_output=True, timeout=timeout)
     except subprocess.TimeoutExpired as expired:
         row.update({"status": "timeout", "timeout_s": timeout, "stdout": captured_text(expired.stdout), "stderr": captured_text(expired.stderr)})
         return row
+    except OSError as error:
+        row.update({"status": "failed", "reason": f"launch failed: {error}"})
+        return row
     row.update({"stdout": process.stdout.strip(), "stderr": process.stderr.strip(), "returncode": process.returncode})
     fields = dict(item.split("=", 1) for item in process.stdout.split() if "=" in item)
-    expected = {"candidate": candidate, "workers": str(workload["workers"]), "tasks": str(workload["tasks"]), "leaf_work": str(workload["leaf_work"])}
+    expected = {"candidate": row["candidate"], "workers": str(workload["workers"]), "tasks": str(workload["tasks"]), "leaf_work": str(workload["leaf_work"])}
     if process.returncode != 0:
         row.update({"status": "failed", "reason": f"exit code {process.returncode}"})
     elif any(fields.get(key) != value for key, value in expected.items()):
@@ -249,18 +261,20 @@ def main():
     for workload in WORKLOADS:
         candidates = candidates_for(workload)
         for candidate in candidates:
-            row = invoke(args.binary, workload, candidate, args.timeout)
-            row.update({"workload": workload, "label": candidate, "arm": "warmup"})
+            row = start_row(args.binary, workload, candidate, candidate, "warmup")
             document["warmups"].append(row)
+            write_document(args.out, document)
+            run_row(row, workload, args.timeout)
             write_document(args.out, document)
         for repetition in range(args.repetitions):
             rotated = candidates[repetition % 2:] + candidates[:repetition % 2]
             treatments = [(candidate, candidate, "treatment") for candidate in rotated]
             controls = [(BASELINE, label, "control") for label in (CONTROL_LABELS if repetition % 2 == 0 else CONTROL_LABELS[::-1])]
             for candidate, label, arm in treatments + controls:
-                row = invoke(args.binary, workload, candidate, args.timeout)
-                row.update({"workload": workload, "label": label, "arm": arm, "repetition": repetition})
+                row = start_row(args.binary, workload, candidate, label, arm, repetition)
                 document["rows"].append(row)
+                write_document(args.out, document)
+                run_row(row, workload, args.timeout)
                 write_document(args.out, document)
     document["summaries"] = summarize(document["rows"], document["warmups"], args.repetitions)
     document["status"] = "complete"

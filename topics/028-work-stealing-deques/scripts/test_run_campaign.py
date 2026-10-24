@@ -245,7 +245,22 @@ class RunCampaignTests(unittest.TestCase):
         partial = json.loads(out.read_text())
         self.assertEqual(partial["status"], "running")
         self.assertEqual(len(partial["warmups"]), 2)
-        self.assertGreaterEqual(len(partial["rows"]), 4)
+        self.assertEqual([r["status"] for r in partial["rows"]], ["ok"] * 4 + ["running"])
+        started = partial["rows"][-1]
+        self.assertEqual((started["candidate"], started["arm"], started["repetition"]), ("locked_steal_balanced", "treatment", 1))
+        self.assertIn("command", started)
+
+    def test_a_binary_that_cannot_start_is_a_failed_row(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        binary.unlink()
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual({r["status"] for r in document["warmups"] + document["rows"]}, {"failed"})
+        self.assertIn("launch failed", document["rows"][0]["reason"])
+        self.assertEqual(len(document["rows"]), 5 * 4 * 4)
+        self.assertTrue(all(s["selected"] == "unresolved" for s in document["summaries"]))
+        self.assertIsNone(document["environment"]["binary_sha256"])
 
     def test_identical_artifact_aa_arm_flows_through_the_same_paths(self):
         process, out, _ = run_campaign({})
