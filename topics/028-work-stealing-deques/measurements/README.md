@@ -53,15 +53,23 @@ tests changed after the campaign and are outside the measured binary.
 
 ## Reproduction
 
+The retained hosts built with Rust 1.98.1 (Arm) and 1.99.0 (x86), while
+`rust-toolchain.toml` pins 1.93.0 for the workspace. A rerun reproduces a
+retained artifact only when it selects the host's retained toolchain with
+Cargo's `+toolchain` syntax; under the pinned toolchain it is a new
+measurement of the same source, and its binary hash differs from the receipt.
+
 ```bash
-cargo build --release -p topic028-work-stealing-deques --example compare
+# Arm host (retained: 1.98.1); use +1.99.0 on the x86 host.
+cargo +1.98.1 build --release -p topic028-work-stealing-deques --example compare
 python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
   --binary target/release/examples/compare --repetitions 8 --out campaign.json
 ```
 
 `campaign.json` holds every process row, the per-cell paired ratios and the
 selection. Compare its `environment.source_sha256` against the receipt's
-`frozen_inputs_sha256` before treating a rerun as a replay.
+`frozen_inputs_sha256`, and `environment.rustc` and `binary_sha256` against
+the host's receipt entry, before treating a rerun as a replay.
 
 ## Derived operation counts
 
