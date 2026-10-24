@@ -13,8 +13,10 @@ import hashlib
 import json
 import os
 import platform
+import shutil
 import statistics
 import subprocess
+import tempfile
 import time
 from pathlib import Path
 
@@ -143,7 +145,18 @@ def toolchain_command(toolchain, command):
     return ["rustup", "run", toolchain] + command if toolchain else command
 
 
-def identity(binary, out, toolchain=None):
+def pin_binary(binary, staging):
+    """Copy the binary into a private directory so every invocation runs the artifact that was hashed.
+
+    Returns the copy, or the original path when the copy fails so a missing binary still surfaces as failed rows.
+    """
+    try:
+        return Path(shutil.copy2(binary, staging / Path(binary).name))
+    except OSError:
+        return Path(binary)
+
+
+def identity(binary, pinned, out, toolchain=None):
     status = worktree_status(REPOSITORY, out)
     return {
         "hostname": platform.node(),
@@ -157,7 +170,8 @@ def identity(binary, out, toolchain=None):
         "worktree_status": status,
         "source_sha256": {name: sha256_of(REPOSITORY / name) for name in SOURCE_FILES},
         "binary": str(binary),
-        "binary_sha256": sha256_of(binary),
+        "binary_copy": str(pinned),
+        "binary_sha256": sha256_of(pinned),
         "toolchain": toolchain,
         "rustc": probe(toolchain_command(toolchain, ["rustc", "-Vv"])),
         "cargo": probe(toolchain_command(toolchain, ["cargo", "-V"])),
@@ -243,6 +257,8 @@ def main():
     args = parser.parse_args()
     if args.repetitions < 4 or args.repetitions % 2:
         raise SystemExit("--repetitions must be even and at least four")
+    staging = Path(tempfile.mkdtemp(prefix="topic028-campaign-"))
+    binary = pin_binary(args.binary, staging)
     document = {
         "status": "running",
         "boundary": "scheduler lifecycle: queues, threads, task work, counters, joins and equality; sequential oracle before timer",
@@ -252,7 +268,7 @@ def main():
         "repetitions": args.repetitions,
         "protocol_repetitions": args.repetitions == PROTOCOL_REPETITIONS,
         "timeout_s": args.timeout,
-        "environment": identity(args.binary, args.out, args.toolchain),
+        "environment": identity(args.binary, binary, args.out, args.toolchain),
         "created_unix_s": time.time(),
         "warmups": [],
         "rows": [],
@@ -261,7 +277,7 @@ def main():
     for workload in WORKLOADS:
         candidates = candidates_for(workload)
         for candidate in candidates:
-            row = start_row(args.binary, workload, candidate, candidate, "warmup")
+            row = start_row(binary, workload, candidate, candidate, "warmup")
             document["warmups"].append(row)
             write_document(args.out, document)
             run_row(row, workload, args.timeout)
@@ -271,14 +287,21 @@ def main():
             treatments = [(candidate, candidate, "treatment") for candidate in rotated]
             controls = [(BASELINE, label, "control") for label in (CONTROL_LABELS if repetition % 2 == 0 else CONTROL_LABELS[::-1])]
             for candidate, label, arm in treatments + controls:
-                row = start_row(args.binary, workload, candidate, label, arm, repetition)
+                row = start_row(binary, workload, candidate, label, arm, repetition)
                 document["rows"].append(row)
                 write_document(args.out, document)
                 run_row(row, workload, args.timeout)
                 write_document(args.out, document)
+    document["environment"]["binary_sha256_final"] = sha256_of(binary)
     document["summaries"] = summarize(document["rows"], document["warmups"], args.repetitions)
-    document["status"] = "complete"
+    if document["environment"]["binary_sha256_final"] != document["environment"]["binary_sha256"]:
+        for summary in document["summaries"]:
+            summary["selected"] = "unresolved"
+        document["status"] = "invalid: binary changed during the campaign"
+    else:
+        document["status"] = "complete"
     write_document(args.out, document)
+    shutil.rmtree(staging, ignore_errors=True)
     for summary in document["summaries"]:
         print(f'{summary["workload"]["name"]}: lowest median {summary["lowest_median"]}, selected {summary["selected"]}, failures {summary["failures"]}, warmup failures {summary["warmup_failures"]}')
 

@@ -93,7 +93,11 @@ startup, output and JSON writing remain outside that timer. Fresh threads and
 queues are created in every measured invocation. Warmups warm executable pages
 and host state. Scheduling is unpinned, and caches are uncontrolled.
 
-The runner records the identity of each run in `environment`: source commit
+The runner copies `--binary` into a private directory before the first
+process and executes that copy throughout, so every row runs the artifact
+whose hash is recorded; it re-hashes the copy at the end and marks the
+document `invalid` if the hash changed. It records the identity of each run
+in `environment`: source commit
 and worktree dirtiness, SHA-256 of the frozen topic and workspace inputs,
 SHA-256 of the measured binary, `rustc -Vv`, `cargo -V`, `RUSTFLAGS`, host
 name, uname, CPU model and available CPUs. Each host verifies the source

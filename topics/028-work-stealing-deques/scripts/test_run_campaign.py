@@ -26,6 +26,11 @@ with open(os.environ["STUB_LOG"], "a+") as log:
     occurrence = sum(1 for line in log if line.split()[0] == candidate)
     log.write(candidate + " " + " ".join(sys.argv[1:]) + "\\n")
 action = json.load(open(os.environ["STUB_PLAN"])).get(candidate + "#" + str(occurrence), {})
+if action.get("replace_binary"):
+    lines = ["#!/usr/bin/env python3", "import sys", "a = dict(zip(sys.argv[1::2], sys.argv[2::2]))",
+             "print('candidate=%s workers=%s tasks=%s leaf_work=%s elapsed_ns=5' % (a['--candidate'], a['--workers'], a['--tasks'], a['--leaf-work']))"]
+    with open(os.environ["STUB_BINARY"], "w") as replacement:
+        replacement.write(chr(10).join(lines) + chr(10))
 if action.get("hang"):
     print("partial output before hang", flush=True)
     print("partial stderr", file=sys.stderr, flush=True)
@@ -53,7 +58,7 @@ def start_campaign(plan, timeout=None, repetitions=8, toolchain=None):
         command += ["--timeout", str(timeout)]
     if toolchain is not None:
         command += ["--toolchain", toolchain]
-    env = dict(os.environ, STUB_PLAN=str(root / "plan.json"), STUB_LOG=str(log))
+    env = dict(os.environ, STUB_PLAN=str(root / "plan.json"), STUB_LOG=str(log), STUB_BINARY=str(binary))
     return command, env, out, binary, log
 
 
@@ -250,6 +255,16 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual((started["candidate"], started["arm"], started["repetition"]), ("locked_steal_balanced", "treatment", 1))
         self.assertIn("command", started)
 
+    def test_the_campaign_runs_from_a_pinned_copy_of_the_binary(self):
+        process, out, binary = run_campaign({"global_fifo#3": {"replace_binary": True}}, repetitions=4)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual({r["elapsed_ns"] for r in document["rows"]}, {900, 1000, 1100})
+        self.assertNotEqual(hashlib.sha256(binary.read_bytes()).hexdigest(), document["environment"]["binary_sha256"])
+        self.assertEqual(hashlib.sha256(STUB.encode()).hexdigest(), document["environment"]["binary_sha256"])
+        self.assertEqual(document["environment"]["binary_sha256_final"], document["environment"]["binary_sha256"])
+        self.assertEqual(document["status"], "complete")
+
     def test_a_binary_that_cannot_start_is_a_failed_row(self):
         command, env, out, binary, _ = start_campaign({}, repetitions=4)
         binary.unlink()
@@ -282,6 +297,7 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(process.returncode, 0, process.stderr)
         environment = json.loads(out.read_text())["environment"]
         self.assertEqual(environment["binary_sha256"], hashlib.sha256(binary.read_bytes()).hexdigest())
+        self.assertEqual(environment["binary"], str(binary))
         for key in ["source_commit", "worktree_dirty", "source_sha256", "rustc", "cargo", "rustflags", "cpu_model", "available_cpus", "uname", "hostname"]:
             self.assertIn(key, environment)
         self.assertIn("topics/028-work-stealing-deques/src/lib.rs", environment["source_sha256"])
