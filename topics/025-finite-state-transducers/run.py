@@ -7,12 +7,15 @@ out=root/'raw'
 if out.exists() and any(out.iterdir()):
     sys.exit("raw/ already holds a campaign; move it aside or run from a fresh source directory")
 out.mkdir(exist_ok=True)
-def command(args):
+def command(args,log=None):
     try:
         result=subprocess.run(args,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=60)
     except subprocess.TimeoutExpired as e:
         (out/("failure-"+str(time.time_ns())+".txt")).write_text(repr(args)+"\ntimeout after "+str(e.timeout)+"s\n"+(e.stdout or b'').decode(errors='replace'))
         raise RuntimeError("retained timed-out command: "+repr(args)) from e
+    if log:
+        with log.open('a') as f:
+            f.write(result.stdout)
     if result.returncode:
         (out/("failure-"+str(time.time_ns())+".txt")).write_text(repr(args)+"\n"+result.stdout)
         raise RuntimeError("retained failed command: "+repr(args))
@@ -22,9 +25,16 @@ meta={'hostname':platform.node(),'uname':list(platform.uname()),'rustc':command(
 rlib=str(out/'libalgorithms_fst.rlib')
 portfolio=out/'portfolio'
 command(['rustc','--edition','2024','-O','-C','target-cpu=native','--crate-name','algorithms_fst','--crate-type','rlib','src/lib.rs','-o',rlib])
-for step in [['rustc','--edition','2024','--test','src/lib.rs','-o',str(out/'tests-bin')],[str(out/'tests-bin')],['rustc','--edition','2024','--test','tests/contract.rs','--extern','algorithms_fst='+rlib,'-o',str(out/'contract-bin')],[str(out/'contract-bin')]]:
-    with (out/'tests.txt').open('a') as tests:
-        tests.write(command(step))
+command(['rustc','--edition','2024','--test','src/lib.rs','-o',str(out/'tests-bin')])
+command(['rustc','--edition','2024','--test','tests/contract.rs','--extern','algorithms_fst='+rlib,'-o',str(out/'contract-bin')])
+failed=[]
+for binary in ['tests-bin','contract-bin']:
+    try:
+        command([str(out/binary)],log=out/'tests.txt')
+    except RuntimeError as e:
+        failed.append(e)
+if failed:
+    raise failed[0]
 command(['rustc','--edition','2024','-O','-C','target-cpu=native','benches/portfolio.rs','--extern','algorithms_fst='+rlib,'-o',str(portfolio)])
 meta['binary_sha256']=hashlib.sha256(portfolio.read_bytes()).hexdigest()
 (out/'identity.json').write_text(json.dumps(meta,indent=2))

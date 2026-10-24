@@ -75,12 +75,15 @@ Mutation backstop: retained externally.
 `every_incoming_prefix_emits_its_own_values` (`tests/contract.rs`)
 Claim and scope: enumeration follows every incoming path through a shared state and the public
 rejection contract holds for each kind.
-Plausible violation: a global visited set during enumeration that emits a shared state once.
+Plausible violation: a per-call visited set inside `emit` that emits the shared `{at, ats}` state
+once, or `prefix` seeding `emit` without the accumulated path output (`initial` plus arc outputs).
 Observation: prefixes `""`, `b`, `c`, `cat`, `cats`, `catss` each equal the oracle; `bat` and `cat`
 return 10 and 20; the 65-byte key is rejected.
 Oracle and independence: `oracle()`.
 Comparator: `Vec<Record>` equality and the exact error variant.
-Smallest discriminating case: prefixes `b` and `c` over bat/bats/cat/cats.
+Smallest discriminating case: `prefix("")` over bat/bats/cat/cats reaches the shared state along
+both incoming paths in one call and catches the visited set; `prefix("b")` versus `prefix("c")`
+catches a missing path-output seed, since each call is a fresh traversal.
 Mutation backstop: retained externally.
 
 ## Runner checks (`measurements/test_runner.py`)

@@ -6,6 +6,7 @@ campaign takes seconds. The cargo bench scenarios run the real benchmark for one
 """
 
 import contextlib
+import json
 import os
 import pathlib
 import shutil
@@ -64,14 +65,14 @@ def rerun_refuses_existing_campaign():
         code, stderr = run(root, 300)
         assert code == 0, stderr
         raw = root / "raw"
-        before = sorted(p.name for p in raw.iterdir())
-        summary = (raw / "summary.json").read_bytes()
+        before = {p.name: p.read_bytes() for p in raw.iterdir()}
         code, stderr = run(root, 300)
         assert code != 0, "run.py started a second campaign into a raw/ directory that already holds one"
         assert "raw" in stderr, stderr[-400:]
-        assert sorted(p.name for p in raw.iterdir()) == before, "refused rerun changed raw/ contents"
-        assert (raw / "summary.json").read_bytes() == summary, "refused rerun rewrote summary.json"
-    print(f"ok: a rerun over {len(before)} retained files refuses without touching them")
+        after = {p.name: p.read_bytes() for p in raw.iterdir()}
+        changed = sorted(set(before) ^ set(after) | {n for n in before if n in after and before[n] != after[n]})
+        assert not changed, f"refused rerun changed retained files: {changed}"
+    print(f"ok: a rerun over {len(before)} retained files refuses without touching any of them")
 
 
 def build_artifacts_stay_inside_raw():
@@ -93,10 +94,24 @@ def failing_contract_test_is_run_and_retained():
         assert code != 0, "campaign continued past a failing contract test"
         tests = root / "raw" / "tests.txt"
         assert tests.exists(), f"tests.txt missing after contract-test failure; stderr tail: {stderr[-400:]}"
-        assert "generated_differential_and_arrival_order" in tests.read_text(), "unit tests did not run: " + tests.read_text()[-400:]
+        text = tests.read_text()
+        assert "generated_differential_and_arrival_order" in text, "unit tests did not run: " + text[-400:]
+        assert "deliberate_failure" in text, "failing contract output absent from tests.txt: " + text[-400:]
         failures = [f.read_text() for f in (root / "raw").glob("failure-*.txt")]
         assert any("contract-bin" in f and "deliberate_failure" in f for f in failures), f"contract-test failure not retained; stderr tail: {stderr[-400:]}"
-    print("ok: tests.txt retains unit test output, the contract failure is retained, and the campaign aborts")
+    print("ok: tests.txt holds unit and failing contract output, the failure is retained, and the campaign aborts")
+
+
+def failing_unit_test_still_runs_contract_tests():
+    with scratch(CONSTANT_BENCH) as root:
+        with (root / "src" / "lib.rs").open("a") as lib:
+            lib.write(RED_TEST)
+        code, stderr = run(root, 300)
+        assert code != 0, "campaign continued past a failing unit test"
+        text = (root / "raw" / "tests.txt").read_text()
+        assert "deliberate_failure" in text, "failing unit output absent from tests.txt: " + text[-400:]
+        assert "every_incoming_prefix_emits_its_own_values" in text, "contract tests skipped after a unit failure: " + text[-400:]
+    print("ok: a unit-test failure still runs the contract tests and tests.txt holds both results")
 
 
 def timed_out_command_is_recorded_and_aborts():
@@ -126,13 +141,17 @@ def cargo_bench_defaults_candidate_and_case():
 
 
 def build_checksum_discriminates():
+    rows = {}
     for name in ["flat", "pushed"]:
         out = bench(name, "build")
-        assert f'"candidate":"{name}","case":"build"' in out, out[-300:]
-        assert '"checksum":0,' not in out, f"{name} build checksum is 0, so cross-candidate agreement is vacuous:\n{out[-300:]}"
-    print("ok: build probe returns a nonzero output for flat and pushed")
+        row = next(json.loads(line) for line in out.splitlines() if line.startswith('{"candidate":'))
+        assert row["candidate"] == name and row["case"] == "build", row
+        assert row["checksum"] != 0, f"{name} build checksum is 0, so cross-candidate agreement is vacuous: {row}"
+        rows[name] = row["checksum"]
+    assert rows["flat"] == rows["pushed"], f"flat and pushed build probes disagree: {rows}"
+    print(f"ok: build probe returns the same nonzero output {rows['flat']} for flat and pushed")
 
 
-for scenario in [rerun_refuses_existing_campaign, build_artifacts_stay_inside_raw, failing_contract_test_is_run_and_retained, timed_out_command_is_recorded_and_aborts, cargo_bench_defaults_candidate_and_case, build_checksum_discriminates]:
+for scenario in [rerun_refuses_existing_campaign, build_artifacts_stay_inside_raw, failing_contract_test_is_run_and_retained, failing_unit_test_still_runs_contract_tests, timed_out_command_is_recorded_and_aborts, cargo_bench_defaults_candidate_and_case, build_checksum_discriminates]:
     if len(sys.argv) == 1 or scenario.__name__ in sys.argv[1:]:
         scenario()

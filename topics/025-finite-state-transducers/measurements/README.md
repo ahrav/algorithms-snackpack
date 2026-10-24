@@ -1,6 +1,6 @@
 # Committed-source results
 
-Source `3f8125cc809aacd68d6368212eef5ea7495bd107`. Library, benchmark and exact runner hashes match both hosts. All384processes/host completed; four library groups and every pre-timing oracle check pass. Preliminary384processes/host are retained separately and never pooled.
+Source `3f8125cc809aacd68d6368212eef5ea7495bd107`. Library, benchmark and exact runner hashes match both hosts at that commit. Later review repairs changed `benches/portfolio.rs` (`--bench` filtering; the build probe reads the last row, so a replay reports build checksum 102028 instead of 0) and `run.py` (fresh `raw/` requirement, timeout retention, contract tests, artifact placement); timed operations are unchanged and the committed summaries were not replayed. `EVIDENCE_RECEIPT.json` `review_repairs` lists the changes. All384processes/host completed; four library groups and every pre-timing oracle check pass. Preliminary384processes/host are retained separately and never pooled.
 
 Times below are process medians in nanoseconds; point cases are per lookup, prefix/broad per complete owned-output call, build per complete lifecycle. All 8 process ranges, paired ranges and A/A ranges are in summary.json.
 
