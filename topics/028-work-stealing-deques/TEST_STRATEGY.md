@@ -38,13 +38,18 @@ produce.
 
 Known gaps and delegated skills: no exhaustive schedule exploration and no
 model checker, so a race that the host rarely schedules can pass. Steal
-direction and victim order are policy, and the oracle cannot observe them. A
-Chase-Lev candidate needs atomic-ordering review and a reclamation argument
+direction and victim order are policy, and the oracle cannot observe them.
+The checksum is a wrapping sum, and at `leaf_work = 0` the per-task value is
+linear in the ID, so a race that drops IDs 0 and 3 while running IDs 1 and 2
+twice leaves `completed` and `checksum` unchanged; observing per-ID execution
+counts needs a trace exposed from `src/lib.rs`, which is the measured source.
+A Chase-Lev candidate needs atomic-ordering review and a reclamation argument
 before it enters this crate.
 
 Concrete tests to add: a scoped-thread harness that interleaves owner pops and
 thief steals on a two-task deque at every lock boundary; a test that observes
-steal direction through an instrumented queue; a property over random
+steal direction through an instrumented queue; a per-ID execution-count
+oracle once the scheduler exposes a task trace; a property over random
 (workers, tasks, leaf_work) triples once a Chase-Lev candidate exists.
 
 ## Invariant-test audit
@@ -102,8 +107,8 @@ percent rule and reports `unresolved` for a mixed cell; failed and timed-out
 processes are retained as rows and the campaign continues; the output file
 exists with `status: running` while a process is still executing; a row whose
 process echoes different arguments or a non-positive `elapsed_ns` is retained
-as `failed` and excluded from ratios; a failed warmup is retained and forces
-its cell to `unresolved`; the A and B
+as `failed` and excluded from ratios; a failed warmup or an incomplete A/B
+control pair is retained and forces its cell to `unresolved`; the A and B
 control rows exist with alternating order and ratios of exactly 1 for a
 constant stub; and `environment` records the binary hash, source hashes,
 commit, toolchain and CPU identity, where `cpu_model` keeps the Arm

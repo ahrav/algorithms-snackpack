@@ -157,7 +157,7 @@ def summarize(rows, warmups, repetitions):
             observed[label] = {"median_ns": statistics.median(values) if values else None, "min_ns": min(values, default=None), "max_ns": max(values, default=None), "samples": len(values)}
         ratios, incomplete = paired_ratios(cell, challenger, baseline, repetitions)
         aa_ratios, aa_incomplete = paired_ratios(cell, CONTROL_LABELS[0], CONTROL_LABELS[1], repetitions)
-        if incomplete or warmup_failures:
+        if incomplete or warmup_failures or aa_incomplete:
             selected = "unresolved"
         elif all(r < 1 / BOUNDARY for r in ratios):
             selected = challenger

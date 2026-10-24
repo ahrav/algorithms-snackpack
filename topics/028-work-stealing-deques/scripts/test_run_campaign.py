@@ -161,6 +161,18 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(affected["incomplete_repetitions"], 2)
         self.assertEqual(affected["selected"], "unresolved")
 
+    def test_an_incomplete_control_pair_invalidates_the_cell(self):
+        process, out, _ = run_campaign({"global_fifo#2": {"fail": True}})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        failed = [r for r in document["rows"] if r["status"] == "failed"]
+        self.assertEqual([(r["arm"], r["label"]) for r in failed], [("control", "A")])
+        affected = summaries_by_name(document)["tiny_balanced"]
+        self.assertEqual(affected["incomplete_repetitions"], 0)
+        self.assertEqual(affected["aa_incomplete_repetitions"], 1)
+        self.assertEqual(affected["selected"], "unresolved")
+        self.assertEqual(summaries_by_name(document)["medium_balanced"]["selected"], "locked_steal_balanced")
+
     def test_a_failed_warmup_invalidates_the_cell(self):
         process, out, _ = run_campaign({"global_fifo#0": {"fail": True}})
         self.assertEqual(process.returncode, 0, process.stderr)

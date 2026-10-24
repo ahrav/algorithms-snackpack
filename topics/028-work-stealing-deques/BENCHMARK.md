@@ -48,7 +48,8 @@ and `B`, with the order alternating per repetition. These identical-artifact
 controls pass through the same scheduling, labelling, parser, missing-data and
 ratio code as the treatments, and the runner reports their eight paired A/B
 ratios as `aa_ratios`. Mechanical integrity is the `ok` status of every control
-row; null calibration is the spread of the A/B ratios around 1. A full
+row, and a repetition whose control pair lacks an `ok` observation forces the
+cell to `unresolved`; null calibration is the spread of the A/B ratios around 1. A full
 campaign runs 10 warmup, 80 treatment and 80 control processes per host.
 
 ## Uncertainty and multiplicity
