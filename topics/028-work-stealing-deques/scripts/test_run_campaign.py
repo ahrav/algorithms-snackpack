@@ -182,6 +182,19 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(affected["incomplete_repetitions"], 2)
         self.assertEqual(affected["selected"], "unresolved")
 
+    def test_a_one_sided_aa_control_withholds_selection(self):
+        plan = {f"global_fifo#{occurrence}": {"elapsed_ns": 900} for occurrence in [2, 6, 8, 12, 14, 18, 20, 24]}
+        process, out, _ = run_campaign(plan)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        summaries = summaries_by_name(json.loads(out.read_text()))
+        biased = summaries["tiny_balanced"]
+        self.assertEqual(biased["aa_ratios"], [0.9] * 8)
+        self.assertEqual(biased["aa_null_check"], "failed")
+        self.assertEqual(biased["selected"], "unresolved")
+        clean = summaries["tiny_skewed"]
+        self.assertEqual(clean["aa_null_check"], "passed")
+        self.assertEqual(clean["selected"], "global_fifo")
+
     def test_toolchain_flag_routes_the_compiler_probes(self):
         process, out, _ = run_campaign({}, repetitions=4, toolchain="topic028-no-such-toolchain")
         self.assertEqual(process.returncode, 0, process.stderr)

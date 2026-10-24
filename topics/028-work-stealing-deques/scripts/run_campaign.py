@@ -182,7 +182,13 @@ def summarize(rows, warmups, repetitions):
             observed[label] = {"median_ns": statistics.median(values) if values else None, "min_ns": min(values, default=None), "max_ns": max(values, default=None), "samples": len(values)}
         ratios, incomplete = paired_ratios(cell, challenger, baseline, repetitions)
         aa_ratios, aa_incomplete = paired_ratios(cell, CONTROL_LABELS[0], CONTROL_LABELS[1], repetitions)
-        if incomplete or warmup_failures or aa_incomplete or repetitions != PROTOCOL_REPETITIONS:
+        if aa_incomplete:
+            aa_null_check = "incomplete"
+        elif all(r < 1 for r in aa_ratios) or all(r > 1 for r in aa_ratios):
+            aa_null_check = "failed"
+        else:
+            aa_null_check = "passed"
+        if incomplete or warmup_failures or aa_null_check != "passed" or repetitions != PROTOCOL_REPETITIONS:
             selected = "unresolved"
         elif all(r < 1 / BOUNDARY for r in ratios):
             selected = challenger
@@ -201,6 +207,7 @@ def summarize(rows, warmups, repetitions):
             "selected": selected,
             "aa_ratios": aa_ratios,
             "aa_incomplete_repetitions": aa_incomplete,
+            "aa_null_check": aa_null_check,
             "failures": len([r for r in cell if r["status"] != "ok"]),
             "warmup_failures": warmup_failures,
         })

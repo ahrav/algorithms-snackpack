@@ -125,7 +125,8 @@ processes are retained as rows and the campaign continues; the output file
 exists with `status: running` while a process is still executing; a row whose
 process echoes different arguments or a non-positive `elapsed_ns` is retained
 as `failed` and excluded from ratios; a failed warmup or an incomplete A/B
-control pair is retained and forces its cell to `unresolved`; a repetition
+control pair, or eight A/B ratios on one side of 1, forces its cell to
+`unresolved`; a repetition
 count other than eight reports ratios and `unresolved`; the A and B
 control rows exist with alternating order and ratios of exactly 1 for a
 constant stub; and `environment` records the binary hash, source hashes,

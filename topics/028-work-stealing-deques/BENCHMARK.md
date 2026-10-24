@@ -72,7 +72,8 @@ alternating design does not establish it: a host-state drift or an
 order effect spanning several repetitions moves paired ratios in the same
 direction, and the rate is then unknown. The eight paired A/B control ratios
 are the only diagnostic for such shared-direction effects; eight A/B ratios
-on one side of 1 are evidence against the assumption for that cell. The
+on one side of 1 are evidence against the assumption for that cell, and the
+runner reports that as `aa_null_check: failed` and withholds selection. The
 benchmark family is the five cells per host, ten in total, inspected at one
 fixed look. No multiplicity correction is applied, and the Bonferroni bounds
 that would follow from the assumption, 5/128 per host and 10/128 overall,
