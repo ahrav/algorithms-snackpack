@@ -1,0 +1,822 @@
+{
+  "arm": [
+    {
+      "candidate": "flat",
+      "shape": "tiny",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        34,
+        3,
+        1,
+        4096
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        192,
+        64,
+        30720
+      ],
+      "teardown": [
+        0,
+        0,
+        33,
+        0
+      ]
+    },
+    {
+      "candidate": "tree",
+      "shape": "tiny",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        37,
+        0,
+        1,
+        3744
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        128,
+        192,
+        128,
+        32960
+      ],
+      "teardown": [
+        0,
+        0,
+        36,
+        0
+      ]
+    },
+    {
+      "candidate": "trie",
+      "shape": "tiny",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        37,
+        9,
+        0,
+        13320
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        192,
+        64,
+        30720
+      ],
+      "teardown": [
+        0,
+        0,
+        37,
+        0
+      ]
+    },
+    {
+      "candidate": "radix",
+      "shape": "tiny",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        38,
+        10,
+        34,
+        14275
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        192,
+        64,
+        30720
+      ],
+      "teardown": [
+        0,
+        0,
+        4,
+        0
+      ]
+    },
+    {
+      "candidate": "flat",
+      "shape": "shared",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        8195,
+        11,
+        2,
+        1343360
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        384,
+        64,
+        260096
+      ],
+      "teardown": [
+        0,
+        0,
+        8193,
+        0
+      ]
+    },
+    {
+      "candidate": "tree",
+      "shape": "shared",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        8940,
+        0,
+        2,
+        1099776
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        128,
+        384,
+        128,
+        262336
+      ],
+      "teardown": [
+        0,
+        0,
+        8938,
+        0
+      ]
+    },
+    {
+      "candidate": "trie",
+      "shape": "shared",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        68,
+        208,
+        0,
+        1573832
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        384,
+        64,
+        260096
+      ],
+      "teardown": [
+        0,
+        0,
+        68,
+        0
+      ]
+    },
+    {
+      "candidate": "radix",
+      "shape": "shared",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        8263,
+        218,
+        8227,
+        4029250
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        384,
+        64,
+        260096
+      ],
+      "teardown": [
+        0,
+        0,
+        36,
+        0
+      ]
+    },
+    {
+      "candidate": "flat",
+      "shape": "wide",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        8195,
+        11,
+        2,
+        1122176
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        0,
+        64,
+        2048
+      ],
+      "teardown": [
+        0,
+        0,
+        8193,
+        0
+      ]
+    },
+    {
+      "candidate": "tree",
+      "shape": "wide",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        8940,
+        0,
+        2,
+        878592
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        128,
+        0,
+        128,
+        2560
+      ],
+      "teardown": [
+        0,
+        0,
+        8938,
+        0
+      ]
+    },
+    {
+      "candidate": "trie",
+      "shape": "wide",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        9986,
+        788,
+        0,
+        3497800
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        0,
+        64,
+        2048
+      ],
+      "teardown": [
+        0,
+        0,
+        9986,
+        0
+      ]
+    },
+    {
+      "candidate": "radix",
+      "shape": "wide",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        17158,
+        797,
+        8196,
+        3812384
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        0,
+        64,
+        2048
+      ],
+      "teardown": [
+        0,
+        0,
+        8962,
+        0
+      ]
+    }
+  ],
+  "x86": [
+    {
+      "candidate": "flat",
+      "shape": "tiny",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        34,
+        3,
+        1,
+        4096
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        192,
+        64,
+        30720
+      ],
+      "teardown": [
+        0,
+        0,
+        33,
+        0
+      ]
+    },
+    {
+      "candidate": "tree",
+      "shape": "tiny",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        37,
+        0,
+        1,
+        3744
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        128,
+        192,
+        128,
+        32960
+      ],
+      "teardown": [
+        0,
+        0,
+        36,
+        0
+      ]
+    },
+    {
+      "candidate": "trie",
+      "shape": "tiny",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        37,
+        9,
+        0,
+        13320
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        192,
+        64,
+        30720
+      ],
+      "teardown": [
+        0,
+        0,
+        37,
+        0
+      ]
+    },
+    {
+      "candidate": "radix",
+      "shape": "tiny",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        38,
+        10,
+        34,
+        14275
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        192,
+        64,
+        30720
+      ],
+      "teardown": [
+        0,
+        0,
+        4,
+        0
+      ]
+    },
+    {
+      "candidate": "flat",
+      "shape": "shared",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        8195,
+        11,
+        2,
+        1343360
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        384,
+        64,
+        260096
+      ],
+      "teardown": [
+        0,
+        0,
+        8193,
+        0
+      ]
+    },
+    {
+      "candidate": "tree",
+      "shape": "shared",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        8940,
+        0,
+        2,
+        1099776
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        128,
+        384,
+        128,
+        262336
+      ],
+      "teardown": [
+        0,
+        0,
+        8938,
+        0
+      ]
+    },
+    {
+      "candidate": "trie",
+      "shape": "shared",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        68,
+        208,
+        0,
+        1573832
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        384,
+        64,
+        260096
+      ],
+      "teardown": [
+        0,
+        0,
+        68,
+        0
+      ]
+    },
+    {
+      "candidate": "radix",
+      "shape": "shared",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        8263,
+        218,
+        8227,
+        4029250
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        384,
+        64,
+        260096
+      ],
+      "teardown": [
+        0,
+        0,
+        36,
+        0
+      ]
+    },
+    {
+      "candidate": "flat",
+      "shape": "wide",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        8195,
+        11,
+        2,
+        1122176
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        0,
+        64,
+        2048
+      ],
+      "teardown": [
+        0,
+        0,
+        8193,
+        0
+      ]
+    },
+    {
+      "candidate": "tree",
+      "shape": "wide",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        8940,
+        0,
+        2,
+        878592
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        128,
+        0,
+        128,
+        2560
+      ],
+      "teardown": [
+        0,
+        0,
+        8938,
+        0
+      ]
+    },
+    {
+      "candidate": "trie",
+      "shape": "wide",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        9986,
+        788,
+        0,
+        3497800
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        0,
+        64,
+        2048
+      ],
+      "teardown": [
+        0,
+        0,
+        9986,
+        0
+      ]
+    },
+    {
+      "candidate": "radix",
+      "shape": "wide",
+      "fields": [
+        "alloc",
+        "realloc",
+        "free",
+        "requested_bytes"
+      ],
+      "build": [
+        17158,
+        797,
+        8196,
+        3812384
+      ],
+      "get64": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "prefix64": [
+        64,
+        0,
+        64,
+        2048
+      ],
+      "teardown": [
+        0,
+        0,
+        8962,
+        0
+      ]
+    }
+  ]
+}

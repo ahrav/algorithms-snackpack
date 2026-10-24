@@ -8,6 +8,7 @@ publish = false
 [workspace]
 members = [
     "topics/025-finite-state-transducers",
+    "topics/024-tries-radix-trees-and-art",
     "topics/023-b-trees-and-posting-list-deduplication",
     "topics/022-skip-lists-and-hybrid-indexes",
     "topics/021-heaps-and-priority-queues",
