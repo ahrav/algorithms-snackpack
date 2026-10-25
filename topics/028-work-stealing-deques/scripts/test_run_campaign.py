@@ -887,6 +887,23 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(document["environment"]["rustc"], "")
         self.assertEqual(document["status"], "invalid: compiler identity unavailable")
 
+    def test_a_target_directory_overlapping_tracked_inputs_is_refused(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        env["CARGO_TARGET_DIR"] = str(repo / "topics")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertNotEqual(process.returncode, 0)
+        self.assertIn("target directory", process.stderr)
+        self.assertFalse(out.exists())
+
+    def test_macos_runtime_overrides_are_recorded(self):
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"DYLD_INSERT_LIBRARIES": "/lib/x.dylib", "MallocNanoZone": "0", "MallocStackLogging": "1"})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        runtime = json.loads(out.read_text())["environment"]["runtime_env"]
+        self.assertEqual(runtime["DYLD_INSERT_LIBRARIES"], "/lib/x.dylib")
+        self.assertEqual(runtime["MallocNanoZone"], "0")
+        self.assertEqual(runtime["MallocStackLogging"], "1")
+
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})
         self.assertEqual(process.returncode, 0, process.stderr)

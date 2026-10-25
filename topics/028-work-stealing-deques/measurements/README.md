@@ -14,12 +14,14 @@ have no A/A ratios; `BENCHMARK.md` records that limit.
 Times below are median [minimum, maximum] in microseconds. Ratios divide the
 stealing duration by the global duration within each repetition. A selection
 requires all eight ratios beyond the same 3 percent boundary. Lowest median
-rankings remain descriptive when selection is unresolved. The "Selection"
-column records the rule's outcome on this campaign; because the campaign had
-no A/A control, every entry other than "Unresolved" is provisional until the
+rankings remain descriptive when selection is unresolved. The "Rule
+outcome" column records the paired rule's result on this campaign; because
+the campaign had no A/A control, `SUMMARY.json` carries each row's
+`rule_outcome` with `selected` set to `unresolved` and `aa_null_check` set to
+`missing`, and every outcome other than "Unresolved" is provisional until the
 rerun described in `../BENCHMARK.md` passes its null check.
 
-| Host | Workload | Global FIFO us | Locked stealing us | Paired ratio range | Lowest median | Selection |
+| Host | Workload | Global FIFO us | Locked stealing us | Paired ratio range | Lowest median | Rule outcome |
 | --- | --- | ---: | ---: | ---: | --- | --- |
 | arm | tiny_balanced | 134.821 [123.773, 155.339] | 140.530 [129.422, 157.371] | 0.861..1.183 | Global | Unresolved |
 | arm | tiny_skewed | 132.625 [120.706, 141.649] | 133.795 [129.967, 142.281] | 0.932..1.126 | Global | Unresolved |

@@ -203,7 +203,7 @@ def pin_binary(binary, staging):
 RUSTFLAGS_SOURCES = ("CARGO_ENCODED_RUSTFLAGS", "CARGO_BUILD_RUSTFLAGS", "RUSTFLAGS")
 COMPILER_OVERRIDES = ("RUSTC", "CARGO_BUILD_RUSTC", "RUSTC_WRAPPER", "CARGO_BUILD_RUSTC_WRAPPER", "RUSTC_WORKSPACE_WRAPPER", "CARGO_BUILD_RUSTC_WORKSPACE_WRAPPER")
 CARGO_INPUT_PATTERN = r".*(\.rs|Cargo\.toml|Cargo\.lock|\.cargo/config(\.toml)?|rust-toolchain(\.toml)?)$"
-RUNTIME_ENV_PATTERN = r"(LD_|GLIBC_|MALLOC_|RUST_|RUSTUP_|OMP_|GOMP_|TCMALLOC_|JEMALLOC_|MIMALLOC_|MALLOC)[A-Z0-9_]*"
+RUNTIME_ENV_PATTERN = r"(LD_|DYLD_|GLIBC_|MALLOC_|Malloc|RUST_|RUSTUP_|OMP_|GOMP_|TCMALLOC_|JEMALLOC_|MIMALLOC_|MALLOC)[A-Za-z0-9_]*"
 
 
 def compiler_overrides(source):
@@ -560,6 +560,13 @@ def main():
     if tracked:
         raise SystemExit(f"--out {args.out} names a file tracked in {source}; choose a generated path")
     target = target_directory(source, args.toolchain)
+    if target is not None:
+        try:
+            inside = target.resolve().relative_to(source)
+        except ValueError:
+            inside = None
+        if inside is not None and probe(["git", "ls-files", "--", str(inside)], cwd=source):
+            raise SystemExit(f"Cargo's target directory {target} contains tracked inputs of {source}; the build would hide source changes")
     if args.binary is not None:
         built = args.binary if args.binary.is_absolute() else source / args.binary
     else:

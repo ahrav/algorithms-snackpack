@@ -57,7 +57,10 @@ only provenance variables (`CARGO*`, `PATH`, `LD_LIBRARY_PATH`,
 tunables) are recorded verbatim; any other variable, such as a credential
 from `[env]` config, is recorded as a hash and redacted from the retained
 build output. `--out` has to name a generated path: the runner refuses an
-output path that is a tracked file in `--source`.
+output path that is a tracked file in `--source`, and refuses a Cargo target
+directory that contains tracked inputs, since either would hide source
+changes from the dirty check. The recorded runtime variables include the
+macOS loader and allocator controls (`DYLD_*`, `Malloc*`).
 
 The environment also records Cargo's compiler overrides (`RUSTC`,
 `RUSTC_WRAPPER`, `RUSTC_WORKSPACE_WRAPPER` and their `CARGO_BUILD_*` forms,

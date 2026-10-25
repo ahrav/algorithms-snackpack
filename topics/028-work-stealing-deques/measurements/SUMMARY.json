@@ -38,7 +38,9 @@
         0.8608977784072255,
         1.1830447674371631
       ],
-      "selected": "unresolved"
+      "selected": "unresolved",
+      "rule_outcome": "unresolved",
+      "aa_null_check": "missing"
     },
     {
       "host": "arm",
@@ -77,7 +79,9 @@
         0.9315228531905592,
         1.1263269555029567
       ],
-      "selected": "unresolved"
+      "selected": "unresolved",
+      "rule_outcome": "unresolved",
+      "aa_null_check": "missing"
     },
     {
       "host": "arm",
@@ -116,7 +120,9 @@
         0.6131051018217768,
         0.7758564026543413
       ],
-      "selected": "locked_steal_balanced"
+      "selected": "unresolved",
+      "rule_outcome": "locked_steal_balanced",
+      "aa_null_check": "missing"
     },
     {
       "host": "arm",
@@ -155,7 +161,9 @@
         1.1174464038537983,
         1.3819810088655409
       ],
-      "selected": "global_fifo"
+      "selected": "unresolved",
+      "rule_outcome": "global_fifo",
+      "aa_null_check": "missing"
     },
     {
       "host": "arm",
@@ -194,7 +202,9 @@
         1.1143971201865983,
         1.3198561396967436
       ],
-      "selected": "global_fifo"
+      "selected": "unresolved",
+      "rule_outcome": "global_fifo",
+      "aa_null_check": "missing"
     },
     {
       "host": "x86",
@@ -233,7 +243,9 @@
         0.8329238837899385,
         1.3590790287223877
       ],
-      "selected": "unresolved"
+      "selected": "unresolved",
+      "rule_outcome": "unresolved",
+      "aa_null_check": "missing"
     },
     {
       "host": "x86",
@@ -272,7 +284,9 @@
         0.6012004254672542,
         1.4495887020455704
       ],
-      "selected": "unresolved"
+      "selected": "unresolved",
+      "rule_outcome": "unresolved",
+      "aa_null_check": "missing"
     },
     {
       "host": "x86",
@@ -311,7 +325,9 @@
         0.37815762640643413,
         0.7273904978383696
       ],
-      "selected": "locked_steal_balanced"
+      "selected": "unresolved",
+      "rule_outcome": "locked_steal_balanced",
+      "aa_null_check": "missing"
     },
     {
       "host": "x86",
@@ -350,7 +366,9 @@
         0.8843584364170057,
         1.610131823972026
       ],
-      "selected": "unresolved"
+      "selected": "unresolved",
+      "rule_outcome": "unresolved",
+      "aa_null_check": "missing"
     },
     {
       "host": "x86",
@@ -389,7 +407,10 @@
         0.6014400668050356,
         1.013300859608196
       ],
-      "selected": "unresolved"
+      "selected": "unresolved",
+      "rule_outcome": "unresolved",
+      "aa_null_check": "missing"
     }
-  ]
+  ],
+  "selection_note": "The campaign at source_commit ran without the identical-artifact A/A control the frozen protocol requires; rule_outcome is the paired 3 percent rule's result on these rows and selected is unresolved until a controlled rerun passes its null check."
 }
