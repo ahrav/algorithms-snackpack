@@ -365,7 +365,10 @@ def build(source, command, timeout):
     try:
         stdout, stderr = process.communicate(timeout=timeout)
     except subprocess.TimeoutExpired:
-        os.killpg(process.pid, signal.SIGKILL)
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
         stdout, stderr = process.communicate()
         record.update({"status": "timeout", "timeout_s": timeout, "stdout": captured_text(stdout)[-4000:], "stderr": captured_text(stderr)[-4000:]})
         return record
@@ -483,10 +486,18 @@ def main():
         build_record = {"status": "skipped", "command": None, "cwd": str(source), "executable": None}
     else:
         build_record = build(source, args.build_command or default_build_command(args.toolchain), args.build_timeout)
-        if args.binary is None and build_record.get("executable"):
-            built = source / build_record["executable"]
+        reported = source / build_record["executable"] if build_record.get("executable") else None
+        if args.binary is None and reported is not None:
+            built = reported
         elif args.binary is None and build_record["status"] == "ok":
             build_record["status"] = "no artifact"
+        elif args.binary is not None and build_record["status"] == "ok":
+            if reported is not None and reported.resolve() != built.resolve():
+                build_record["status"] = "artifact mismatch"
+                build_record["reason"] = f"build reported {reported}, --binary names {built}"
+            elif not built.is_file() or built.stat().st_mtime + 1.0 < build_record["started_unix_s"]:
+                build_record["status"] = "artifact mismatch"
+                build_record["reason"] = f"{built} was not produced by this build"
     build_record["target_directory"] = None if target is None else str(target)
     staging = Path(tempfile.mkdtemp(prefix="topic028-campaign-"))
     pinned = pin_binary(built, staging) if build_record["status"] in ("ok", "skipped") else None
@@ -528,6 +539,8 @@ def main():
     environment = document["environment"]
     if build_record["status"] == "no artifact":
         document["status"] = "invalid: build reported no artifact"
+    elif build_record["status"] == "artifact mismatch":
+        document["status"] = "invalid: build artifact mismatch"
     elif build_record["status"] not in ("ok", "skipped"):
         document["status"] = "invalid: build failed"
     elif pinned is None:

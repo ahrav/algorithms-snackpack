@@ -351,7 +351,8 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(document["status"], "complete")
 
     def test_a_binary_that_cannot_start_is_a_failed_row(self):
-        command, env, out, binary, _ = start_campaign({}, repetitions=4, build="true")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, skip_build=True)
+        binary.chmod(0o644)
         process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
         self.assertEqual(process.returncode, 0, process.stderr)
         document = json.loads(out.read_text())
@@ -359,8 +360,17 @@ class RunCampaignTests(unittest.TestCase):
         self.assertIn("launch failed", document["rows"][0]["reason"])
         self.assertEqual(len(document["rows"]), 5 * 4 * 4)
         self.assertTrue(all(s["selected"] == "unresolved" for s in document["summaries"]))
+        self.assertEqual(document["status"], "invalid: binary provenance unverified")
+
+    def test_a_missing_binary_cannot_be_pinned(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, skip_build=True)
+        binary.unlink()
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
         self.assertIsNone(document["environment"]["binary_sha256"])
         self.assertIsNone(document["environment"]["binary_copy"])
+        self.assertEqual({r["status"] for r in document["rows"]}, {"failed"})
         self.assertEqual(document["status"], "invalid: binary could not be pinned")
 
     def test_control_and_treatment_pairs_alternate_schedule_slots(self):
@@ -663,6 +673,43 @@ class RunCampaignTests(unittest.TestCase):
         document = json.loads(out.read_text())
         self.assertEqual(document["build"]["target_spec_sha256"], hashlib.sha256(spec.read_bytes()).hexdigest())
         self.assertEqual(document["status"], "complete")
+
+    def test_an_explicit_binary_must_match_the_reported_artifact(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare"))
+        repo = binary.parents[3]
+        stale = repo / "target" / "stale-compare"
+        stale.parent.mkdir(parents=True, exist_ok=True)
+        stale.write_text(STUB)
+        stale.chmod(0o755)
+        command = [("target/stale-compare" if c == "target/release/examples/compare" else c) for c in command]
+        env["STUB_SOURCE"] = str(repo.parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["executable"], "target/release/examples/compare")
+        self.assertEqual(document["rows"], [])
+        self.assertEqual(document["status"], "invalid: build artifact mismatch")
+
+    def test_an_explicit_binary_must_be_produced_by_the_build(self):
+        message_free = "mkdir -p target/release/examples && echo \"     Running \\`" + sys.executable + " --crate-name compare -C opt-level=3\\`\" >&2"
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=message_free)
+        binary.parent.mkdir(parents=True, exist_ok=True)
+        binary.write_text(STUB)
+        binary.chmod(0o755)
+        os.utime(binary, (1_000_000_000, 1_000_000_000))
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["rows"], [])
+        self.assertEqual(document["status"], "invalid: build artifact mismatch")
+
+    def test_a_timed_out_build_that_exits_during_cleanup_is_still_recorded(self):
+        from unittest import mock
+        sys.path.insert(0, str(RUNNER.parent))
+        import run_campaign
+        with mock.patch.object(run_campaign.os, "killpg", side_effect=ProcessLookupError):
+            record = run_campaign.build(tempfile.mkdtemp(prefix="topic028-build-"), "sleep 1", 0.2)
+        self.assertEqual(record["status"], "timeout")
 
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})
