@@ -1,0 +1,9 @@
+digraph G {
+ graph [bgcolor="white", rankdir=LR, pad="0.3", nodesep="0.35", fontname="Helvetica", label="Full compression: find(7) visits 7, 6, 4, 0\nOnly the visited path is shown; the component stays {0,1,2,3,4,5,6,7}.", labelloc="t", fontsize=16];
+ node [shape=box, style="rounded,filled", fillcolor="#f2f6fb", color="#24374e", fontcolor="#142334", fontname="Helvetica", fontsize=14];
+ edge [color="#24374e", fontname="Helvetica", fontcolor="#142334", fontsize=12];
+ subgraph cluster_before { label="BEFORE: balanced unions"; color="#7e8da0"; b7[label="7"];b6[label="6"];b4[label="4"];b0[label="0: root"];b7->b6;b6->b4;b4->b0; }
+ subgraph cluster_during { label="DURING: root located"; color="#7e8da0"; d7[label="7: start"];d6[label="6"];d4[label="4"];d0[label="0: root found"];d7->d6 [label="read"];d6->d4;d4->d0; }
+ subgraph cluster_after { label="AFTER: rewrite visited parents"; color="#7e8da0"; a7[label="7"];a6[label="6"];a4[label="4"];a0[label="0: same root"];a7->a0;a6->a0;a4->a0; }
+ b0->d7 [style=invis];d0->a7[style=invis];
+}
