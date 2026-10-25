@@ -178,7 +178,11 @@ def worktree_status(repository, out, target=None):
         return path in generated or any(g is not None and path.startswith(g + "/") for g in generated)
 
     def is_cargo_output(path):
-        return re.search(r"(^|/)build/[^/]+/out/", path) is not None or "/.fingerprint/" in path or "/deps/" in path or "/incremental/" in path
+        """Cargo's own artifact layout: build-script output trees, build-script binaries, flat `deps` files,
+        fingerprints and incremental sessions. A deeper tree under `deps` is somebody's source."""
+        return re.search(r"(^|/)build/[^/]+/(out/|[^/]+$)", path) is not None or re.search(r"(^|/)deps/[^/]+$", path) is not None or re.search(
+            r"(^|/)\.fingerprint/[^/]+/[^/]+$", path
+        ) is not None or re.search(r"(^|/)incremental/[^/]+/[^/]+(/[^/]+)?$", path) is not None
 
     lines = []
     target_relative = generated[1]
@@ -303,37 +307,77 @@ EXTERNAL_INPUT_FLAGS = ("profile-use=", "profile-sample-use=", "link-arg=@", "li
 LINKER_INPUT_SUFFIXES = (".o", ".a", ".so", ".dylib", ".obj", ".lib", ".rlib")
 
 
-def rustflags_external_inputs(source, extra_tokens=()):
-    """Files that compiler flags name as inputs (PGO profiles, response files), hashed; a missing file hashes to None."""
-    flags = []
-    for name in RUSTFLAGS_SOURCES + tuple(k for k in os.environ if re.fullmatch(r"CARGO_TARGET_[A-Z0-9_]+_RUSTFLAGS", k)):
-        value = os.environ.get(name)
-        if value:
-            flags.extend(value.split("\x1f") if name == "CARGO_ENCODED_RUSTFLAGS" else shlex.split(value))
-    extra = list(extra_tokens)
-    for index, token in enumerate(extra):
-        if token == "-C" and index + 1 < len(extra):
-            flags.append("-C" + extra[index + 1])
-        elif token.startswith("-C"):
-            flags.append(token)
-    inputs = {}
-    for token in flags:
+def split_flags(value):
+    """Shell-split a flag string; a string the shell could not parse is split on whitespace so it is still recorded."""
+    try:
+        return shlex.split(value)
+    except ValueError:
+        return value.split()
+
+
+RESPONSE_FILE_DEPTH = 4
+
+
+def linker_inputs(arguments, source, inputs, depth):
+    """Hash the path-like inputs among linker arguments, following `@file` response files to a bounded depth."""
+    for argument in arguments:
+        if argument.startswith("@") and len(argument) > 1:
+            resolved = (Path(source) / argument[1:]).resolve()
+            inputs[str(resolved)] = sha256_of(resolved)
+            if inputs[str(resolved)] is not None and depth > 0:
+                linker_inputs(split_flags(resolved.read_text(errors="replace")), source, inputs, depth - 1)
+        elif argument and not argument.startswith("-") and (os.sep in argument or argument.endswith(LINKER_INPUT_SUFFIXES)):
+            resolved = (Path(source) / argument).resolve()
+            inputs[str(resolved)] = sha256_of(resolved)
+
+
+def join_codegen_flags(tokens):
+    """Fold separated `-C value` pairs into `-Cvalue` tokens and keep every other token."""
+    folded = []
+    skip = False
+    for index, token in enumerate(tokens):
+        if skip:
+            skip = False
+            continue
+        if token == "-C" and index + 1 < len(tokens):
+            folded.append("-C" + tokens[index + 1])
+            skip = True
+        else:
+            folded.append(token)
+    return folded
+
+
+def flag_inputs(flags, source, inputs, depth):
+    """Hash every file the compiler flags name as an input, following rustc `@file` response files to a bounded depth."""
+    for token in join_codegen_flags(flags):
         body = token[2:] if token.startswith("-C") and not token.startswith("-C ") else token
         if token.startswith("@") and len(token) > 1:
             resolved = (Path(source) / token[1:]).resolve()
             inputs[str(resolved)] = sha256_of(resolved)
+            if inputs[str(resolved)] is not None and depth > 0:
+                flag_inputs(resolved.read_text(errors="replace").splitlines(), source, inputs, depth - 1)
         for prefix in EXTERNAL_INPUT_FLAGS:
-            if body.startswith(prefix):
+            if body.startswith(prefix) and not prefix.startswith("link-arg"):
                 path = body[len(prefix):]
                 if path:
                     resolved = (Path(source) / path).resolve()
                     inputs[str(resolved)] = sha256_of(resolved)
         for prefix in ("link-arg=", "link-args="):
             if body.startswith(prefix):
-                for argument in shlex.split(body[len(prefix):]) if prefix == "link-args=" else [body[len(prefix):]]:
-                    if argument and not argument.startswith(("-", "@")) and (os.sep in argument or argument.endswith(LINKER_INPUT_SUFFIXES)):
-                        resolved = (Path(source) / argument).resolve()
-                        inputs[str(resolved)] = sha256_of(resolved)
+                linker_inputs(split_flags(body[len(prefix):]) if prefix == "link-args=" else [body[len(prefix):]], source, inputs, depth)
+
+
+def rustflags_external_inputs(source, extra_tokens=()):
+    """Files that compiler flags name as inputs (PGO profiles, response files and what they name), hashed; a missing
+    file hashes to None."""
+    flags = []
+    for name in RUSTFLAGS_SOURCES + tuple(k for k in os.environ if re.fullmatch(r"CARGO_TARGET_[A-Z0-9_]+_RUSTFLAGS", k)):
+        value = os.environ.get(name)
+        if value:
+            flags.extend(value.split("\x1f") if name == "CARGO_ENCODED_RUSTFLAGS" else split_flags(value))
+    flags.extend(token for token in join_codegen_flags(list(extra_tokens)) if token.startswith("-C"))
+    inputs = {}
+    flag_inputs(flags, source, inputs, RESPONSE_FILE_DEPTH)
     return inputs
 
 
@@ -541,12 +585,18 @@ def target_is_builtin(target, chain, source, invocation_env=None):
     return None if listing is None else target in listing.split()
 
 
-ENVIRONMENT_MUTATORS = {"env", "export", "unset", "setenv", "unsetenv", "declare", "source", ".", "exec"}
+ENVIRONMENT_MUTATORS = {
+    "env", "export", "unset", "setenv", "unsetenv", "declare", "typeset", "local", "readonly", "source", ".", "eval",
+    "sudo", "doas", "su", "login", "chroot", "nsenter", "unshare", "systemd-run", "docker", "podman",
+    "sh", "bash", "dash", "zsh", "ksh", "mksh", "fish", "csh", "tcsh",
+}
+COMMAND_WRAPPERS = {"command", "builtin", "exec", "nohup", "time", "nice", "ionice", "taskset", "chrt", "stdbuf", "timeout", "setsid", "xargs"}
 
 
 def mutates_environment(command):
-    """Whether a build command visibly changes the environment its build runs in: an `env`, `export`, `unset` or
-    similar word, or a `NAME=value` assignment in command position."""
+    """Whether a build command visibly changes the environment its build runs in: an `env`, `export`, `unset`, nested
+    shell or privilege-changing word (matched by basename, through wrappers such as `command` or `nohup`), or a
+    `NAME=value` assignment in command position."""
     try:
         tokens = shlex.split(command)
     except ValueError:
@@ -556,12 +606,14 @@ def mutates_environment(command):
         if token in ("&&", "||", ";", "|", "(", ")", "{", "}"):
             command_position = True
             continue
-        if command_position:
-            if token in ENVIRONMENT_MUTATORS or re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*=.*", token):
-                return True
-            command_position = False
-        elif re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*=.*", token) is None and token.endswith(";"):
-            command_position = True
+        if not command_position:
+            continue
+        word = os.path.basename(token)
+        if word in ENVIRONMENT_MUTATORS or re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*=.*", token):
+            return True
+        if word in COMMAND_WRAPPERS or token.startswith("-") or re.fullmatch(r"[0-9][0-9.,smhd-]*", token):
+            continue
+        command_position = False
     return False
 
 
@@ -833,6 +885,8 @@ def main():
                 run_row(row, workload, args.timeout, source)
                 write_document(args.out, document)
     document["environment"]["binary_sha256_final"] = None if pinned is None else sha256_of(pinned)
+    document["environment"]["runtime_libraries_final"] = runtime_libraries(source)
+    document["environment"]["loaded_objects_final"] = loaded_objects(binary, source, dict(os.environ))
     document["summaries"] = summarize(document["rows"], document["warmups"], args.repetitions)
     environment = document["environment"]
     if build_record["status"] == "no artifact":
@@ -870,6 +924,8 @@ def main():
         document["status"] = "invalid: source identity not reproducible"
     elif environment["binary_sha256_final"] != environment["binary_sha256"]:
         document["status"] = "invalid: binary changed during the campaign"
+    elif environment["runtime_libraries_final"] != environment["runtime_libraries"] or environment["loaded_objects_final"] != environment["loaded_objects"]:
+        document["status"] = "invalid: loaded objects changed during the campaign"
     else:
         document["status"] = "complete"
     if document["status"] != "complete":

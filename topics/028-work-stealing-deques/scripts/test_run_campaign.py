@@ -32,6 +32,9 @@ if action.get("replace_binary"):
              "print('candidate=%s workers=%s tasks=%s leaf_work=%s elapsed_ns=5' % (a['--candidate'], a['--workers'], a['--tasks'], a['--leaf-work']))"]
     with open(os.environ["STUB_BINARY"], "w") as replacement:
         replacement.write(chr(10).join(lines) + chr(10))
+if action.get("rewrite_file"):
+    with open(action["rewrite_file"][0], "w") as target:
+        target.write(action["rewrite_file"][1])
 if action.get("hang"):
     print("partial output before hang", flush=True)
     print("partial stderr", file=sys.stderr, flush=True)
@@ -1296,6 +1299,70 @@ class RunCampaignTests(unittest.TestCase):
         document = json.loads(out.read_text())
         self.assertEqual(document["environment"]["loaded_objects"], {})
         self.assertEqual(document["status"], "complete")
+
+    def test_malformed_rustflags_are_recorded_instead_of_aborting(self):
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTFLAGS": "-C opt-level=3 'unterminated"})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["rustflags"]["external_inputs"], {})
+        self.assertEqual(document["status"], "complete")
+
+    def test_inputs_named_inside_response_files_are_hashed(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-rspin-"))
+        hook = root / "hook.o"
+        hook.write_bytes(b"hook object")
+        linker_response = root / "link.rsp"
+        linker_response.write_text(f"-Wl,--gc-sections {hook}" + chr(10))
+        rustc_response = root / "rustc.rsp"
+        rustc_response.write_text("-C" + chr(10) + f"link-arg=@{linker_response}" + chr(10))
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTFLAGS": f"@{rustc_response}"})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        inputs = json.loads(out.read_text())["environment"]["rustflags"]["external_inputs"]
+        self.assertEqual(set(inputs), {str(rustc_response), str(linker_response), str(hook)})
+        self.assertEqual(inputs[str(hook)], hashlib.sha256(b"hook object").hexdigest())
+        hook.unlink()
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTFLAGS": f"-Clink-arg=@{linker_response}"})
+        self.assertEqual(json.loads(out.read_text())["status"], "invalid: source identity not reproducible")
+
+    def test_path_qualified_and_wrapped_environment_mutators_are_refused(self):
+        for build in ("/usr/bin/env -u BACKEND cargo build", "command env -u BACKEND cargo build", "nohup /usr/bin/env -u BACKEND cargo build", "sh -c 'unset BACKEND; cargo build'", "sudo cargo build"):
+            with self.subTest(build=build):
+                process, out, _ = run_campaign({}, repetitions=4, build=build)
+                self.assertNotEqual(process.returncode, 0)
+                self.assertIn("environment", process.stderr)
+                self.assertFalse(out.exists())
+
+    def test_a_runtime_library_rewritten_during_the_campaign_invalidates_it(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        lib = repo / "liballoc.dylib"
+        lib.write_bytes(b"first")
+        (repo / ".gitignore").write_text("/target/" + chr(10) + "/liballoc.dylib" + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", ".gitignore"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "lib"], check=True)
+        pathlib.Path(env["STUB_PLAN"]).write_text(json.dumps({"global_fifo#2": {"rewrite_file": [str(lib), "second"]}}))
+        env["DYLD_INSERT_LIBRARIES"] = "./liballoc.dylib"
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["status"], "invalid: loaded objects changed during the campaign")
+        self.assertEqual(document["environment"]["runtime_libraries_final"]["./liballoc.dylib"], hashlib.sha256(b"second").hexdigest())
+        self.assertTrue(all(row["selected"] == "unresolved" for row in document["summaries"]))
+
+    def test_a_path_dependency_under_a_deps_directory_is_dirty(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        dep = repo / "target/release/deps/helper/src/lib.rs"
+        dep.parent.mkdir(parents=True)
+        dep.write_text("pub fn helper() {}" + chr(10))
+        artifact = repo / "target/release/deps/libhelper-abc.rlib"
+        artifact.write_bytes(b"rlib")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertIs(document["environment"]["worktree_dirty"], True)
+        self.assertIn("!! target/release/deps/helper/src/lib.rs", document["environment"]["worktree_status"])
+        self.assertEqual(document["status"], "invalid: source identity not reproducible")
 
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})
