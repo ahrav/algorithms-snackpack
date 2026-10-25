@@ -17,6 +17,7 @@ import json
 import os
 import platform
 import re
+import shlex
 import shutil
 import signal
 import statistics
@@ -164,12 +165,19 @@ def worktree_status(repository, out, target=None):
             generated.append(str(Path(path).resolve().relative_to(root)) if path is not None else None)
         except ValueError:
             generated.append(None)
+    def is_generated(path):
+        return path in generated or any(g is not None and path.startswith(g + "/") for g in generated)
+
     lines = []
     for line in status.splitlines():
         path = line[3:]
-        if path in generated or any(g is not None and path.startswith(g + "/") for g in generated):
+        if is_generated(path):
             continue
-        if line.startswith("!!") and not re.fullmatch(CARGO_INPUT_PATTERN, path.rstrip("/")) and not path.endswith(".cargo/"):
+        if line.startswith("!!") and path.endswith("/"):
+            listing = probe(["git", "ls-files", "--others", "--ignored", "--exclude-standard", "--", path], cwd=repository) or ""
+            lines.extend(f"!! {inner}" for inner in listing.splitlines() if re.fullmatch(CARGO_INPUT_PATTERN, inner) and not is_generated(inner))
+            continue
+        if line.startswith("!!") and not re.fullmatch(CARGO_INPUT_PATTERN, path):
             continue
         lines.append(line)
     return lines
@@ -251,8 +259,9 @@ def rustflags_identity(source):
     }
 
 
-def identity(source, binary, pinned, out, toolchain=None, target=None):
+def identity(source, binary, pinned, out, toolchain=None, target=None, chain=None):
     status = worktree_status(source, out, target)
+    rustc = chain[-1]["resolved"] if chain else (os.environ.get("RUSTC") or os.environ.get("CARGO_BUILD_RUSTC") or "rustc")
     return {
         "source": str(source),
         "hostname": platform.node(),
@@ -275,7 +284,7 @@ def identity(source, binary, pinned, out, toolchain=None, target=None):
         "binary_copy": None if pinned is None else str(pinned),
         "binary_sha256": None if pinned is None else sha256_of(pinned),
         "toolchain": toolchain,
-        "rustc": probe(toolchain_command(toolchain, [os.environ.get("RUSTC") or os.environ.get("CARGO_BUILD_RUSTC") or "rustc", "-Vv"]), cwd=source),
+        "rustc": probe(toolchain_command(None if chain else toolchain, [rustc, "-Vv"]), cwd=source),
         "cargo": probe(toolchain_command(toolchain, ["cargo", "-V"]), cwd=source),
         "compiler_overrides": compiler_overrides(source),
         "cargo_profile": cargo_profile(),
@@ -285,8 +294,47 @@ def identity(source, binary, pinned, out, toolchain=None, target=None):
 
 
 def default_build_command(toolchain):
+    """Clean the topic package first so Cargo recompiles it and prints the verbose invocation the identity is read from."""
     plus = f" +{toolchain}" if toolchain else ""
-    return f"cargo{plus} build --release -p topic028-work-stealing-deques --example compare --message-format=json-render-diagnostics"
+    return (f"cargo{plus} clean --release -p topic028-work-stealing-deques && "
+            f"cargo{plus} build --release -p topic028-work-stealing-deques --example compare -v --message-format=json-render-diagnostics")
+
+
+def compiler_chain(stderr, source):
+    """The wrapper and compiler executables Cargo invoked for the compare example, from its verbose `Running` line,
+    together with the `--target` it passed. Returns (chain, target) with chain a list of {path, sha256}."""
+    for line in stderr.splitlines():
+        match = re.search(r"Running `(.+)`\s*$", line)
+        if not match or "--crate-name compare" not in match.group(1):
+            continue
+        tokens = shlex.split(match.group(1))
+        executables = []
+        for token in tokens:
+            if token.startswith("--") or token.startswith("-C"):
+                break
+            if "=" in token and not token.startswith(("/", ".")):
+                continue
+            executables.append(token)
+        target = tokens[tokens.index("--target") + 1] if "--target" in tokens and tokens.index("--target") + 1 < len(tokens) else None
+        chain = []
+        for path in executables:
+            resolved = str((Path(source) / path).resolve()) if os.sep in path else (shutil.which(path) or path)
+            chain.append({"path": path, "resolved": resolved, "sha256": sha256_of(resolved)})
+        return chain, target
+    return None, None
+
+
+def effective_target_spec(target, source):
+    """Hash of the custom target specification behind `target`: a `.json` path, or `<name>.json` found via RUST_TARGET_PATH."""
+    if not target:
+        return None
+    if target.endswith(".json"):
+        return sha256_of((Path(source) / target).resolve())
+    for directory in filter(None, os.environ.get("RUST_TARGET_PATH", "").split(os.pathsep)):
+        candidate = Path(directory) / f"{target}.json"
+        if candidate.is_file():
+            return sha256_of(candidate)
+    return None
 
 
 def built_executable(stdout):
@@ -322,8 +370,14 @@ def build(source, command, timeout):
         record.update({"status": "timeout", "timeout_s": timeout, "stdout": captured_text(stdout)[-4000:], "stderr": captured_text(stderr)[-4000:]})
         return record
     text = captured_text(stdout)
+    errors = captured_text(stderr)
     executable = built_executable(text)
-    record.update({"returncode": process.returncode, "stdout": text[-4000:], "stderr": captured_text(stderr)[-4000:], "executable": None if executable is None else str(executable)})
+    chain, target = compiler_chain(errors, source)
+    record.update({
+        "returncode": process.returncode, "stdout": text[-4000:], "stderr": errors[-4000:],
+        "executable": None if executable is None else str(executable),
+        "compiler_chain": chain, "target": target, "target_spec_sha256": effective_target_spec(target, source),
+    })
     record["status"] = "ok" if process.returncode == 0 else "failed"
     return record
 
@@ -430,7 +484,7 @@ def main():
     else:
         build_record = build(source, args.build_command or default_build_command(args.toolchain), args.build_timeout)
         if args.binary is None and build_record.get("executable"):
-            built = Path(build_record["executable"])
+            built = source / build_record["executable"]
         elif args.binary is None and build_record["status"] == "ok":
             build_record["status"] = "no artifact"
     build_record["target_directory"] = None if target is None else str(target)
@@ -447,7 +501,7 @@ def main():
         "protocol_repetitions": args.repetitions == PROTOCOL_REPETITIONS,
         "timeout_s": args.timeout,
         "build": build_record,
-        "environment": identity(source, built, pinned, args.out, args.toolchain, target),
+        "environment": identity(source, built, pinned, args.out, args.toolchain, target, build_record.get("compiler_chain")),
         "created_unix_s": time.time(),
         "warmups": [],
         "rows": [],
@@ -482,10 +536,14 @@ def main():
         document["status"] = "invalid: binary provenance unverified"
     elif environment["rustc"] is None or environment["cargo"] is None or any(
         override is not None and override["sha256"] is None for override in environment["compiler_overrides"].values()
+    ) or (args.build_command is None and not args.skip_build and not build_record.get("compiler_chain")) or any(
+        member["sha256"] is None for member in (build_record.get("compiler_chain") or [])
     ):
         document["status"] = "invalid: compiler identity unavailable"
     elif environment["source_commit"] is None or environment["worktree_dirty"] is not False or not all(environment["source_sha256"].values()) or (
         (environment["rustflags"]["CARGO_BUILD_TARGET"] or "").endswith(".json") and environment["rustflags"]["target_spec_sha256"] is None
+    ) or (
+        (build_record.get("target") or "").endswith(".json") and build_record.get("target_spec_sha256") is None
     ):
         document["status"] = "invalid: source identity not reproducible"
     elif environment["binary_sha256_final"] != environment["binary_sha256"]:

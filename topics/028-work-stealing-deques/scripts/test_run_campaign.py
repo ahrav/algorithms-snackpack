@@ -565,6 +565,69 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(document["environment"]["worktree_status"], ["!! topics/028-work-stealing-deques/build.rs"])
         self.assertEqual(document["status"], "invalid: source identity not reproducible")
 
+    def test_the_effective_compiler_chain_comes_from_cargos_verbose_invocation(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-chain-"))
+        wrapper = root / "wrapper"
+        wrapper.write_text("#!/bin/sh" + chr(10) + 'exec "$@"' + chr(10))
+        wrapper.chmod(0o755)
+        fake = root / "fake-rustc"
+        fake.write_text("#!/bin/sh" + chr(10) + "echo 'rustc 7.7.7-chain'" + chr(10) + "echo 'release: 7.7.7-chain'" + chr(10))
+        fake.chmod(0o755)
+        spec = root / "custom.json"
+        spec.write_text('{"llvm-target": "aarch64-unknown-linux-gnu"}' + chr(10))
+        running = f"     Running `CARGO=/x/cargo CARGO_PKG_NAME=compare {wrapper} {fake} --crate-name compare --edition=2024 examples/compare.rs --target {spec} -C opt-level=3`"
+        message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": "target/release/examples/compare"})
+        build = f"mkdir -p target/release/examples && cp \"$STUB_SOURCE\" target/release/examples/compare && echo '{running}' >&2 && echo '{message}'"
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        chain = document["build"]["compiler_chain"]
+        self.assertEqual([c["path"] for c in chain], [str(wrapper), str(fake)])
+        self.assertEqual(chain[1]["sha256"], hashlib.sha256(fake.read_bytes()).hexdigest())
+        self.assertIn("7.7.7-chain", document["environment"]["rustc"])
+        self.assertEqual(document["build"]["target"], str(spec))
+        self.assertEqual(document["build"]["target_spec_sha256"], hashlib.sha256(spec.read_bytes()).hexdigest())
+        self.assertEqual(document["status"], "complete")
+
+    def test_a_named_custom_target_is_found_through_rust_target_path(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-rtp-"))
+        (root / "specs").mkdir()
+        spec = root / "specs" / "mycpu-unknown-none.json"
+        spec.write_text('{"llvm-target": "aarch64-unknown-none"}' + chr(10))
+        running = "     Running `/usr/bin/rustc --crate-name compare --target mycpu-unknown-none -C opt-level=3`"
+        message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": "target/release/examples/compare"})
+        build = f"mkdir -p target/release/examples && cp \"$STUB_SOURCE\" target/release/examples/compare && echo '{running}' >&2 && echo '{message}'"
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build, extra_env={"RUST_TARGET_PATH": str(root / "specs")})
+        command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["target"], "mycpu-unknown-none")
+        self.assertEqual(document["build"]["target_spec_sha256"], hashlib.sha256(spec.read_bytes()).hexdigest())
+
+    def test_ignored_directories_are_inspected_for_cargo_inputs(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        (repo / ".gitignore").write_text("/target/" + chr(10) + "vendor/" + chr(10) + "scratch/" + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", ".gitignore"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "ignore dirs"], check=True)
+        (repo / "scratch").mkdir()
+        (repo / "scratch" / "notes.txt").write_text("harmless" + chr(10))
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        self.assertEqual(json.loads(out.read_text())["status"], "complete")
+        (repo / "vendor" / "dep" / "src").mkdir(parents=True)
+        (repo / "vendor" / "dep" / "Cargo.toml").write_text("[package]" + chr(10))
+        (repo / "vendor" / "dep" / "src" / "lib.rs").write_text("" + chr(10))
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        document = json.loads(out.read_text())
+        self.assertEqual(sorted(document["environment"]["worktree_status"]), ["!! vendor/dep/Cargo.toml", "!! vendor/dep/src/lib.rs"])
+        self.assertEqual(document["status"], "invalid: source identity not reproducible")
+
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})
         self.assertEqual(process.returncode, 0, process.stderr)
