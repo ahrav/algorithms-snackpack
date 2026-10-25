@@ -218,7 +218,21 @@ def identity(source, binary, pinned, out, toolchain=None):
 
 def default_build_command(toolchain):
     plus = f" +{toolchain}" if toolchain else ""
-    return f"cargo{plus} build --release -p topic028-work-stealing-deques --example compare"
+    return f"cargo{plus} build --release -p topic028-work-stealing-deques --example compare --message-format=json-render-diagnostics"
+
+
+def built_executable(stdout):
+    """The path Cargo reports for the compare example, from its JSON compiler-artifact messages."""
+    for line in stdout.splitlines():
+        try:
+            message = json.loads(line)
+        except ValueError:
+            continue
+        if isinstance(message, dict) and message.get("reason") == "compiler-artifact":
+            target = message.get("target") or {}
+            if target.get("name") == "compare" and "example" in (target.get("kind") or []) and message.get("executable"):
+                return Path(message["executable"])
+    return None
 
 
 def build(source, command, timeout):
@@ -239,7 +253,9 @@ def build(source, command, timeout):
         stdout, stderr = process.communicate()
         record.update({"status": "timeout", "timeout_s": timeout, "stdout": captured_text(stdout)[-4000:], "stderr": captured_text(stderr)[-4000:]})
         return record
-    record.update({"returncode": process.returncode, "stdout": captured_text(stdout)[-4000:], "stderr": captured_text(stderr)[-4000:]})
+    text = captured_text(stdout)
+    executable = built_executable(text)
+    record.update({"returncode": process.returncode, "stdout": text[-4000:], "stderr": captured_text(stderr)[-4000:], "executable": None if executable is None else str(executable)})
     record["status"] = "ok" if process.returncode == 0 else "failed"
     return record
 
@@ -342,9 +358,11 @@ def main():
     else:
         built = (target or source / "target") / "release" / "examples" / "compare"
     if args.skip_build:
-        build_record = {"status": "skipped", "command": None, "cwd": str(source)}
+        build_record = {"status": "skipped", "command": None, "cwd": str(source), "executable": None}
     else:
         build_record = build(source, args.build_command or default_build_command(args.toolchain), args.build_timeout)
+        if args.binary is None and build_record.get("executable"):
+            built = Path(build_record["executable"])
     build_record["target_directory"] = None if target is None else str(target)
     staging = Path(tempfile.mkdtemp(prefix="topic028-campaign-"))
     pinned = pin_binary(built, staging) if build_record["status"] in ("ok", "skipped") else None

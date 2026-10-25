@@ -36,10 +36,14 @@ stealing and safe retired-array reclamation are explicit revisit scope. The
 current catalog supplies Topic028's ID, slug and title. It has no coverage array,
 and the repository has no ALGORITHM_INDEX.md.
 
-## Measured selection
+## Measured results
 
-The exact-source Linux campaign selects balanced per-worker deques for medium
-work on both hosts. Global FIFO is selected for skewed medium and coarse work
-on Arm. Tiny cases and the remaining x86 cells are unresolved under the frozen
-paired 3 percent rule. See the measurement table for descriptive median ranks
-and full observed ranges.
+The exact-source Linux campaign ran under the frozen paired 3 percent rule
+without the identical-artifact A/A control the protocol now requires, so its
+cells are reported as provisional rather than selected. Under that rule the
+paired ratios favour balanced per-worker deques for medium balanced work on
+both hosts and global FIFO for skewed medium and coarse work on Arm; tiny
+cases and the remaining x86 cells are unresolved. These results become
+selections once the campaign is rerun with the current runner and its A/A
+ratios pass. See the measurement table for descriptive median ranks and full
+observed ranges.

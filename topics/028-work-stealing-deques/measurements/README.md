@@ -14,7 +14,10 @@ have no A/A ratios; `BENCHMARK.md` records that limit.
 Times below are median [minimum, maximum] in microseconds. Ratios divide the
 stealing duration by the global duration within each repetition. A selection
 requires all eight ratios beyond the same 3 percent boundary. Lowest median
-rankings remain descriptive when selection is unresolved.
+rankings remain descriptive when selection is unresolved. The "Selection"
+column records the rule's outcome on this campaign; because the campaign had
+no A/A control, every entry other than "Unresolved" is provisional until the
+rerun described in `../BENCHMARK.md` passes its null check.
 
 | Host | Workload | Global FIFO us | Locked stealing us | Paired ratio range | Lowest median | Selection |
 | --- | --- | ---: | ---: | ---: | --- | --- |

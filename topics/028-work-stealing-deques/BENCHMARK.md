@@ -22,9 +22,13 @@ python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
 ```
 
 It runs `cargo build --release -p topic028-work-stealing-deques --example
-compare` in `--source` (default: this repository; `--toolchain` adds
-`+<toolchain>`), records the build command, exit code and output, hashes the
-built example and identifies the source tree it came from. `--skip-build`
+compare --message-format=json-render-diagnostics` in `--source` (default:
+this repository; `--toolchain` adds `+<toolchain>`), records the build
+command, exit code and output, takes the example's path from Cargo's
+`compiler-artifact` message (so a configured target triple or redirected
+target directory is honoured), hashes it and identifies the source tree it
+came from. The build runs in its own process group and a timed-out build is
+killed with its descendants. `--skip-build`
 measures an existing binary and yields an `invalid` document with no
 selection, since that binary's provenance is unverified.
 

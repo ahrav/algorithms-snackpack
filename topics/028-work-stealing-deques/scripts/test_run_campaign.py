@@ -453,6 +453,20 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(document["build"]["status"], "ok")
         self.assertEqual(document["status"], "complete")
 
+    def test_the_built_binary_follows_cargos_compiler_artifact_message(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-triple-"))
+        produced = root / "alt" / "aarch64-unknown-linux-gnu" / "release" / "examples" / "compare"
+        message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": str(produced)})
+        build = f"mkdir -p {produced.parent} && cp \"$STUB_SOURCE\" {produced} && echo '{message}'"
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build, extra_env={"CARGO_BUILD_TARGET": "aarch64-unknown-linux-gnu"})
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["executable"], str(produced))
+        self.assertEqual(document["environment"]["binary"], str(produced))
+        self.assertEqual(document["status"], "complete")
+
     def test_a_timed_out_build_takes_its_descendants_with_it(self):
         marker = "topic028-build-marker-" + os.urandom(6).hex()
         sleeper = pathlib.Path(tempfile.mkdtemp(prefix="topic028-sleeper-")) / marker
