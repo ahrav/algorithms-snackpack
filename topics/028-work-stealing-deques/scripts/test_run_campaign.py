@@ -287,7 +287,7 @@ class RunCampaignTests(unittest.TestCase):
         subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
         document = json.loads(out.read_text())
         self.assertIsNone(document["environment"]["toolchain"])
-        self.assertEqual(document["build"]["compiler_chain"][-1]["path"], env["FAKE_RUSTC"])
+        self.assertEqual([c["path"] for c in document["build"]["compiler_chain"] if c["role"] == "compiler"], [env["FAKE_RUSTC"]])
         self.assertIn("0.0.0-stub", document["environment"]["rustc"])
 
     def test_compiler_probes_honour_the_source_checkouts_toolchain_file(self):
@@ -622,7 +622,7 @@ class RunCampaignTests(unittest.TestCase):
         process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
         self.assertEqual(process.returncode, 0, process.stderr)
         document = json.loads(out.read_text())
-        chain = [c for c in document["build"]["compiler_chain"] if c["role"] != "cargo"]
+        chain = [c for c in document["build"]["compiler_chain"] if c["role"] in ("wrapper", "compiler")]
         self.assertEqual([c["path"] for c in chain], [str(wrapper), str(fake)])
         self.assertEqual(chain[1]["sha256"], hashlib.sha256(fake.read_bytes()).hexdigest())
         self.assertIn("7.7.7-chain", document["environment"]["rustc"])
@@ -977,6 +977,63 @@ class RunCampaignTests(unittest.TestCase):
         process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
         self.assertEqual(process.returncode, 0, process.stderr)
         self.assertIn("1.0.0-dispatch", json.loads(out.read_text())["environment"]["rustc"])
+
+    def test_prefix_lookalike_secrets_are_hashed(self):
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", env_prefix="RUST_API_TOKEN=$STUB_SECRET CARGO_BUILD_TOKEN=$STUB_SECRET CARGO_TARGET_SECRET=$STUB_SECRET RUST_BACKTRACE=1 CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=cc")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build, extra_env={"RUST_SECRET_KEY": "hunter2runtime"})
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        env["STUB_SECRET"] = "hunter2secret"
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        text = out.read_text()
+        self.assertNotIn("hunter2secret", text)
+        self.assertNotIn("hunter2runtime", text)
+        document = json.loads(text)
+        recorded = document["build"]["invocation_env"]
+        for key in ["RUST_API_TOKEN", "CARGO_BUILD_TOKEN", "CARGO_TARGET_SECRET"]:
+            self.assertEqual(recorded[key], {"sha256": hashlib.sha256(b"hunter2secret").hexdigest()}, key)
+        self.assertEqual(recorded["RUST_BACKTRACE"], "1")
+        self.assertEqual(recorded["CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER"], "cc")
+        self.assertEqual(document["environment"]["runtime_env"]["RUST_SECRET_KEY"], {"sha256": hashlib.sha256(b"hunter2runtime").hexdigest()})
+
+    def test_the_inferred_linker_is_recorded_when_none_is_named(self):
+        process, out, _ = run_campaign({}, repetitions=4)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        linker = [c for c in document["build"]["compiler_chain"] if c["role"] == "linker"]
+        self.assertEqual(len(linker), 1)
+        self.assertTrue(linker[0]["inferred"])
+        self.assertEqual(linker[0]["path"], "cc")
+        self.assertTrue(linker[0]["resolved"].endswith("/cc"))
+        self.assertIsNotNone(linker[0]["sha256"])
+        self.assertTrue(document["environment"]["linker"])
+
+    def test_an_output_path_matching_a_cargo_input_is_refused(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        command = [(str(repo / "topics/028-work-stealing-deques/build.rs") if c == str(out) else c) for c in command]
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertNotEqual(process.returncode, 0)
+        self.assertIn("Cargo input", process.stderr)
+        self.assertFalse((repo / "topics/028-work-stealing-deques/build.rs").exists())
+
+    def test_external_compiler_inputs_named_in_rustflags_are_hashed(self):
+        profile = pathlib.Path(tempfile.mkdtemp(prefix="topic028-pgo-")) / "run.profdata"
+        profile.write_bytes(b"profile bytes")
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTFLAGS": f"-Cprofile-use={profile} -C target-cpu=native"})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["rustflags"]["external_inputs"], {str(profile): hashlib.sha256(b"profile bytes").hexdigest()})
+        self.assertEqual(document["status"], "complete")
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_ENCODED_RUSTFLAGS": "-C\x1fprofile-use=/no/such/run.profdata"})
+        self.assertEqual(json.loads(out.read_text())["status"], "invalid: source identity not reproducible")
+
+    def test_an_empty_wrapper_override_is_a_disabled_wrapper(self):
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTC_WRAPPER": "", "CARGO_BUILD_RUSTC_WORKSPACE_WRAPPER": ""})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["compiler_overrides"]["RUSTC_WRAPPER"], {"value": "", "disabled": True})
+        self.assertEqual(document["status"], "complete")
 
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})

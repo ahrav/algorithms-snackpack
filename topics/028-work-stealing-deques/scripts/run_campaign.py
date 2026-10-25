@@ -221,6 +221,9 @@ def compiler_overrides(source):
         if value is None:
             result[name] = None
             continue
+        if value == "" and "WRAPPER" in name:
+            result[name] = {"value": "", "disabled": True}
+            continue
         if os.sep in value:
             resolved = str((Path(source) / value).resolve())
         else:
@@ -235,8 +238,9 @@ def cargo_profile():
 
 
 def runtime_env():
-    """Environment variables inherited by every measured child that can change allocator, loader or thread behaviour."""
-    return {name: value for name, value in sorted(os.environ.items()) if re.fullmatch(RUNTIME_ENV_PATTERN, name)}
+    """Environment variables inherited by every measured child that can change allocator, loader or thread behaviour;
+    a name outside the known knobs is kept only as a hash."""
+    return {name: redacted_value(name, value) for name, value in sorted(os.environ.items()) if re.fullmatch(RUNTIME_ENV_PATTERN, name)}
 
 
 def target_spec_sha256(source):
@@ -245,6 +249,29 @@ def target_spec_sha256(source):
     if not target or not target.endswith(".json"):
         return None
     return sha256_of((Path(source) / target).resolve())
+
+
+EXTERNAL_INPUT_FLAGS = ("profile-use=", "profile-sample-use=", "instrument-coverage=", "link-arg=@", "link-args=@")
+
+
+def rustflags_external_inputs(source, extra_tokens=()):
+    """Files that compiler flags name as inputs (PGO profiles, response files), hashed; a missing file hashes to None."""
+    flags = []
+    for name in RUSTFLAGS_SOURCES + tuple(k for k in os.environ if re.fullmatch(r"CARGO_TARGET_[A-Z0-9_]+_RUSTFLAGS", k)):
+        value = os.environ.get(name)
+        if value:
+            flags.extend(value.split("\x1f") if name == "CARGO_ENCODED_RUSTFLAGS" else shlex.split(value))
+    flags.extend(extra_tokens)
+    inputs = {}
+    for token in flags:
+        body = token[2:] if token.startswith("-C") and not token.startswith("-C ") else token
+        for prefix in EXTERNAL_INPUT_FLAGS:
+            if body.startswith(prefix):
+                path = body[len(prefix):]
+                if path:
+                    resolved = (Path(source) / path).resolve()
+                    inputs[str(resolved)] = sha256_of(resolved)
+    return inputs
 
 
 def rustflags_identity(source):
@@ -259,6 +286,7 @@ def rustflags_identity(source):
         "target_specific": {name: value for name, value in os.environ.items() if re.fullmatch(r"CARGO_TARGET_[A-Z0-9_]+_RUSTFLAGS", name)},
         "CARGO_BUILD_TARGET": os.environ.get("CARGO_BUILD_TARGET"),
         "target_spec_sha256": target_spec_sha256(source),
+        "external_inputs": rustflags_external_inputs(source),
         "cargo_config_sha256": {str(path): sha256_of(path) for path in candidates if path.is_file()},
     }
 
@@ -268,6 +296,7 @@ def identity(source, binary, pinned, out, toolchain=None, target=None, chain=Non
     probe_env = dict(os.environ, **(invocation_env or {}))
     compilers = [member["resolved"] for member in (chain or []) if member["role"] == "compiler"]
     cargos = [member["resolved"] for member in (chain or []) if member["role"] == "cargo"]
+    linkers = [member["resolved"] for member in (chain or []) if member["role"] in ("linker", "target-linker")]
     rustc = compilers[-1] if compilers else (os.environ.get("RUSTC") or os.environ.get("CARGO_BUILD_RUSTC") or "rustc")
     cargo = cargos[-1] if cargos else "cargo"
     return {
@@ -294,6 +323,7 @@ def identity(source, binary, pinned, out, toolchain=None, target=None, chain=Non
         "toolchain": toolchain,
         "rustc": probe(toolchain_command(None if chain else toolchain, [rustc, "-Vv"]), cwd=source, env=probe_env),
         "cargo": probe(toolchain_command(None if cargos else toolchain, [cargo, "-V"]), cwd=source, env=probe_env),
+        "linker": probe([linkers[-1], "--version"], cwd=source, env=probe_env) if linkers else None,
         "compiler_overrides": compiler_overrides(source),
         "cargo_profile": cargo_profile(),
         "runtime_env": runtime_env(),
@@ -308,15 +338,33 @@ def default_build_command(toolchain):
             f"cargo{plus} build --release -p topic028-work-stealing-deques --example compare -vv --message-format=json-render-diagnostics")
 
 
-PROVENANCE_ENV = re.compile(r"(CARGO|CARGO_PKG_[A-Z_]+|CARGO_CRATE_NAME|CARGO_BIN_NAME|CARGO_MANIFEST_DIR|CARGO_MANIFEST_PATH|"
-                            r"CARGO_PRIMARY_PACKAGE|CARGO_SBOM_PATH|CARGO_TARGET_TMPDIR|PATH|LD_LIBRARY_PATH|DYLD_[A-Z_]+|RUST_TARGET_PATH|"
-                            r"RUSTC|RUSTC_WRAPPER|RUSTC_WORKSPACE_WRAPPER|RUSTFLAGS|CARGO_ENCODED_RUSTFLAGS|CARGO_BUILD_[A-Z_]+|"
-                            r"CARGO_PROFILE_[A-Z_]+|CARGO_TARGET_[A-Z0-9_]+|RUST_[A-Z_]+|RUSTUP_[A-Z_]+|LD_[A-Z_]+|GLIBC_[A-Z_]+|MALLOC_[A-Z_]+)")
+PROVENANCE_ENV_NAMES = {
+    "CARGO", "CARGO_CRATE_NAME", "CARGO_BIN_NAME", "CARGO_MANIFEST_DIR", "CARGO_MANIFEST_PATH", "CARGO_PRIMARY_PACKAGE",
+    "CARGO_SBOM_PATH", "CARGO_TARGET_TMPDIR", "CARGO_HOME", "CARGO_TARGET_DIR", "CARGO_BUILD_TARGET", "CARGO_BUILD_TARGET_DIR",
+    "CARGO_BUILD_RUSTC", "CARGO_BUILD_RUSTC_WRAPPER", "CARGO_BUILD_RUSTC_WORKSPACE_WRAPPER", "CARGO_BUILD_RUSTFLAGS",
+    "CARGO_ENCODED_RUSTFLAGS", "RUSTFLAGS", "RUSTC", "RUSTC_WRAPPER", "RUSTC_WORKSPACE_WRAPPER", "RUSTDOCFLAGS",
+    "RUST_TARGET_PATH", "RUST_BACKTRACE", "RUST_MIN_STACK", "RUST_LOG", "RUSTUP_TOOLCHAIN", "RUSTUP_HOME",
+    "PATH", "LD_LIBRARY_PATH", "LD_PRELOAD", "LD_BIND_NOW", "DYLD_LIBRARY_PATH", "DYLD_FALLBACK_LIBRARY_PATH", "DYLD_INSERT_LIBRARIES",
+    "GLIBC_TUNABLES", "MALLOC_ARENA_MAX", "MALLOC_ARENA_TEST", "MALLOC_TRIM_THRESHOLD_", "MALLOC_MMAP_THRESHOLD_",
+    "MALLOC_MMAP_MAX_", "MALLOC_TOP_PAD_", "MALLOC_PERTURB_", "MALLOC_CHECK_", "MallocNanoZone", "MallocStackLogging",
+    "MallocScribble", "MallocGuardEdges", "OMP_NUM_THREADS", "OMP_PROC_BIND", "OMP_PLACES", "GOMP_CPU_AFFINITY",
+}
+PROVENANCE_ENV_PATTERNS = (
+    re.compile(r"CARGO_PKG_[A-Z_]+"),
+    re.compile(r"CARGO_PROFILE_[A-Z_]+_(OPT_LEVEL|LTO|CODEGEN_UNITS|DEBUG|DEBUG_ASSERTIONS|OVERFLOW_CHECKS|PANIC|INCREMENTAL|RPATH|STRIP|SPLIT_DEBUGINFO)"),
+    re.compile(r"CARGO_TARGET_[A-Z0-9_]+_(RUSTFLAGS|LINKER|RUNNER|AR)"),
+    re.compile(r"(TCMALLOC|JEMALLOC|MIMALLOC)_[A-Z_]+"),
+)
+
+
+def is_provenance_variable(key):
+    """Only exact, known build and runtime knobs are recorded verbatim; everything else is kept as a hash."""
+    return key in PROVENANCE_ENV_NAMES or any(pattern.fullmatch(key) for pattern in PROVENANCE_ENV_PATTERNS)
 
 
 def redacted_value(key, value):
     """Keep provenance variables verbatim; anything else (an `[env]` credential, for example) is kept only as a hash."""
-    if PROVENANCE_ENV.fullmatch(key):
+    if is_provenance_variable(key):
         return value
     return {"sha256": hashlib.sha256(value.encode()).hexdigest()}
 
@@ -328,7 +376,7 @@ def redact_running_lines(text):
         out = []
         for token in tokens:
             key, sep, value = token.partition("=")
-            if sep and not token.startswith(("/", ".")) and re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", key) and not PROVENANCE_ENV.fullmatch(key):
+            if sep and not token.startswith(("/", ".")) and re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", key) and not is_provenance_variable(key):
                 out.append(f"{key}=<redacted>")
             else:
                 out.append(shlex.quote(token) if " " in token else token)
@@ -475,6 +523,10 @@ def build(source, command, timeout):
     spec_linker = target_spec_linker(target, source, invocation_env)
     if chain is not None and spec_linker is not None:
         chain = chain + [spec_linker]
+    if chain is not None and not any(member["role"] in ("linker", "target-linker") for member in chain):
+        inferred = "link.exe" if (target or "").endswith("msvc") else "cc"
+        resolved = which_from(inferred, source, (invocation_env or {}).get("PATH")) or inferred
+        chain = chain + [{"role": "linker", "inferred": True, "path": inferred, "resolved": resolved, "sha256": sha256_of(resolved)}]
     record.update({
         "returncode": process.returncode, "stdout": redact_running_lines(text)[-4000:], "stderr": redact_running_lines(errors)[-4000:],
         "executable": str(executables[0]) if len(executables) == 1 else None,
@@ -590,6 +642,8 @@ def main():
     lexical_out = Path(os.path.abspath(args.out))
     if lexical_out.is_symlink() or probe(["git", "ls-files", "--error-unmatch", "--", str(lexical_out)], cwd=source):
         raise SystemExit(f"--out {args.out} is a symlink or names a file tracked in {source}; choose a generated path")
+    if re.fullmatch(CARGO_INPUT_PATTERN, str(lexical_out)):
+        raise SystemExit(f"--out {args.out} matches a Cargo input pattern; choose a generated path")
     target = target_directory(source, args.toolchain)
     if target is not None:
         try:
@@ -671,7 +725,7 @@ def main():
     elif build_record["status"] == "skipped":
         document["status"] = "invalid: binary provenance unverified"
     elif not environment["rustc"] or not environment["cargo"] or any(
-        override is not None and override["sha256"] is None for override in environment["compiler_overrides"].values()
+        override is not None and not override.get("disabled") and override["sha256"] is None for override in environment["compiler_overrides"].values()
     ) or (not args.skip_build and not build_record.get("compiler_chain")) or any(
         member["sha256"] is None for member in (build_record.get("compiler_chain") or [])
     ):
@@ -683,7 +737,7 @@ def main():
     ) or (
         build_record.get("target") and not build_record["target"].endswith(".json")
         and build_record.get("target_spec_sha256") is None and build_record.get("target_is_builtin") is not True
-    ):
+    ) or any(digest is None for digest in environment["rustflags"]["external_inputs"].values()):
         document["status"] = "invalid: source identity not reproducible"
     elif environment["binary_sha256_final"] != environment["binary_sha256"]:
         document["status"] = "invalid: binary changed during the campaign"

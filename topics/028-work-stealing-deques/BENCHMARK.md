@@ -53,14 +53,26 @@ mismatch`); and any build, including one run through `--build-command`,
 whose compiler chain cannot be read or hashed (`invalid: compiler identity
 unavailable`), so a custom build command has to print Cargo's verbose
 `Running` line for the example; a compiler or Cargo probe that prints
-nothing counts as unavailable. Of the environment Cargo passes to rustc,
-only provenance variables (`CARGO*`, `PATH`, `LD_LIBRARY_PATH`,
-`RUST_TARGET_PATH`, `RUSTC*`, `RUSTFLAGS`, `RUST_*`, loader and allocator
-tunables) are recorded verbatim; any other variable, such as a credential
-from `[env]` config, is recorded as a hash and redacted from the retained
-build output. `--out` has to name a generated path: the runner refuses an
-output path that is a symlink or a tracked file in `--source` (checked on
-the path as written, before symlink resolution), and refuses a Cargo target
+nothing counts as unavailable. Of the environment Cargo passes to rustc and of the
+runtime variables the runner records, only an exact allowlist of known
+build and runtime knobs (`CARGO`, `CARGO_PKG_*`, the `RUSTC*`, `RUSTFLAGS`
+and `CARGO_BUILD_*` tool settings, `CARGO_PROFILE_*` profile keys,
+`CARGO_TARGET_<triple>_{RUSTFLAGS,LINKER,RUNNER,AR}`, `PATH`, loader paths,
+`RUST_TARGET_PATH`, `RUST_BACKTRACE`, `RUST_MIN_STACK`, `RUST_LOG`, and the
+named glibc, macOS and allocator tunables) is recorded verbatim; any other
+variable, including one with a provenance-like prefix such as
+`RUST_API_TOKEN`, is recorded as a hash and redacted from the retained build
+output. An empty `RUSTC_WRAPPER` or `RUSTC_WORKSPACE_WRAPPER` is recorded as
+a disabled wrapper, as Cargo treats it. Files that compiler flags name as
+inputs (`-C profile-use`, `-C profile-sample-use`, `-C instrument-coverage`,
+`@` response files in link arguments) are hashed under
+`rustflags.external_inputs`, and a missing one invalidates the campaign.
+When no linker is named on the command line or in the target specification,
+the inferred default (`cc`, or `link.exe` for MSVC targets) is resolved,
+hashed and probed with `--version` as `environment.linker`. `--out` has to name a generated path: the runner refuses an
+output path that is a symlink, a tracked file in `--source` (checked on the
+path as written, before symlink resolution), or a path matching a Cargo
+input pattern such as `build.rs`, and refuses a Cargo target
 directory that contains tracked inputs, since either would hide source
 changes from the dirty check. An identity file that exists but cannot be
 read hashes to nothing and invalidates the campaign like a missing one.
