@@ -298,22 +298,25 @@ def default_build_command(toolchain):
     """Clean the topic package first so Cargo recompiles it and prints the verbose invocation the identity is read from."""
     plus = f" +{toolchain}" if toolchain else ""
     return (f"cargo{plus} clean --release -p topic028-work-stealing-deques && "
-            f"cargo{plus} build --release -p topic028-work-stealing-deques --example compare -v --message-format=json-render-diagnostics")
+            f"cargo{plus} build --release -p topic028-work-stealing-deques --example compare -vv --message-format=json-render-diagnostics")
 
 
-def compiler_chain(stderr, source):
-    """The wrapper and compiler executables Cargo invoked for the compare example, from its verbose `Running` line,
-    together with the `--target` it passed. Returns (chain, target) with chain a list of {path, sha256}."""
+def compiler_invocations(stderr, source):
+    """Every verbose `Running` line Cargo printed for the compare example, parsed into
+    (chain, target, invocation environment); chain members are {role, path, resolved, sha256}."""
+    results = []
     for line in stderr.splitlines():
         match = re.search(r"Running `(.+)`\s*$", line)
         if not match or "--crate-name compare" not in match.group(1):
             continue
         tokens = shlex.split(match.group(1))
-        executables = []
+        executables, invocation_env = [], {}
         for token in tokens:
             if token.startswith("--") or token.startswith("-C"):
                 break
             if "=" in token and not token.startswith(("/", ".")):
+                key, _, value = token.partition("=")
+                invocation_env[key] = value
                 continue
             executables.append(token)
         target = tokens[tokens.index("--target") + 1] if "--target" in tokens and tokens.index("--target") + 1 < len(tokens) else None
@@ -327,27 +330,39 @@ def compiler_chain(stderr, source):
         members = list(zip(roles, executables)) + ([("linker", linker)] if linker else [])
         chain = []
         for role, path in members:
-            resolved = str((Path(source) / path).resolve()) if os.sep in path else (shutil.which(path) or path)
+            resolved = str((Path(source) / path).resolve()) if os.sep in path else (which_from(path, source) or path)
             chain.append({"role": role, "path": path, "resolved": resolved, "sha256": sha256_of(resolved)})
-        return chain, target
-    return None, None
+        results.append((chain, target, invocation_env))
+    return results
 
 
-def effective_target_spec(target, source):
-    """Hash of the custom target specification behind `target`: a `.json` path, or `<name>.json` found via RUST_TARGET_PATH."""
+def effective_target_spec(target, source, invocation_env=None):
+    """Hash of the custom target specification behind `target`: a `.json` path, or `<name>.json` found via the
+    RUST_TARGET_PATH the compiler saw (Cargo's invocation environment first, then the runner's)."""
     if not target:
         return None
     if target.endswith(".json"):
         return sha256_of((Path(source) / target).resolve())
-    for directory in filter(None, os.environ.get("RUST_TARGET_PATH", "").split(os.pathsep)):
+    search = (invocation_env or {}).get("RUST_TARGET_PATH", os.environ.get("RUST_TARGET_PATH", ""))
+    for directory in filter(None, search.split(os.pathsep)):
         candidate = (Path(source) / directory).resolve() / f"{target}.json"
         if candidate.is_file():
             return sha256_of(candidate)
     return None
 
 
-def built_executable(stdout):
-    """The path Cargo reports for the compare example, from its JSON compiler-artifact messages."""
+def target_is_builtin(target, chain, source):
+    """Whether `target` is one of the compiler's builtin targets; None when the compiler cannot be asked."""
+    compilers = [member["resolved"] for member in (chain or []) if member["role"] == "compiler"]
+    if not target or target.endswith(".json") or not compilers:
+        return None
+    listing = probe([compilers[-1], "--print", "target-list"], cwd=source)
+    return None if listing is None else target in listing.split()
+
+
+def built_executables(stdout):
+    """Every path Cargo reports for the compare example in its JSON compiler-artifact messages."""
+    found = []
     for line in stdout.splitlines():
         try:
             message = json.loads(line)
@@ -356,7 +371,16 @@ def built_executable(stdout):
         if isinstance(message, dict) and message.get("reason") == "compiler-artifact":
             target = message.get("target") or {}
             if target.get("name") == "compare" and "example" in (target.get("kind") or []) and message.get("executable"):
-                return Path(message["executable"])
+                found.append(Path(message["executable"]))
+    return found
+
+
+def which_from(name, source):
+    """Locate a bare tool name on PATH, resolving relative PATH entries against the build directory as the build does."""
+    for entry in os.environ.get("PATH", "").split(os.pathsep):
+        candidate = (Path(source) / (entry or ".")).resolve() / name
+        if candidate.is_file() and os.access(candidate, os.X_OK):
+            return str(candidate)
     return None
 
 
@@ -383,14 +407,25 @@ def build(source, command, timeout):
         return record
     text = captured_text(stdout)
     errors = captured_text(stderr)
-    executable = built_executable(text)
-    chain, target = compiler_chain(errors, source)
+    executables = built_executables(text)
+    invocations = compiler_invocations(errors, source)
+    chain, target, invocation_env = invocations[0] if len(invocations) == 1 else (None, None, None)
     record.update({
         "returncode": process.returncode, "stdout": text[-4000:], "stderr": errors[-4000:],
-        "executable": None if executable is None else str(executable),
-        "compiler_chain": chain, "target": target, "target_spec_sha256": effective_target_spec(target, source),
+        "executable": str(executables[0]) if len(executables) == 1 else None,
+        "reported_executables": [str(path) for path in executables],
+        "compiler_invocations": len(invocations),
+        "compiler_chain": chain, "invocation_env": invocation_env, "target": target,
+        "target_spec_sha256": effective_target_spec(target, source, invocation_env),
+        "target_is_builtin": target_is_builtin(target, chain, source),
     })
-    record["status"] = "ok" if process.returncode == 0 else "failed"
+    if process.returncode != 0:
+        record["status"] = "failed"
+    elif len(executables) > 1 or len(invocations) > 1:
+        record["status"] = "ambiguous"
+        record["reason"] = f"{len(executables)} reported artifacts, {len(invocations)} compiler invocations for the compare example"
+    else:
+        record["status"] = "ok"
     return record
 
 
@@ -551,6 +586,8 @@ def main():
         document["status"] = "invalid: build reported no artifact"
     elif build_record["status"] == "artifact mismatch":
         document["status"] = "invalid: build artifact mismatch"
+    elif build_record["status"] == "ambiguous":
+        document["status"] = "invalid: build artifact ambiguous"
     elif build_record["status"] not in ("ok", "skipped"):
         document["status"] = "invalid: build failed"
     elif pinned is None:
@@ -567,6 +604,9 @@ def main():
         (environment["rustflags"]["CARGO_BUILD_TARGET"] or "").endswith(".json") and environment["rustflags"]["target_spec_sha256"] is None
     ) or (
         (build_record.get("target") or "").endswith(".json") and build_record.get("target_spec_sha256") is None
+    ) or (
+        build_record.get("target") and not build_record["target"].endswith(".json")
+        and build_record.get("target_spec_sha256") is None and build_record.get("target_is_builtin") is not True
     ):
         document["status"] = "invalid: source identity not reproducible"
     elif environment["binary_sha256_final"] != environment["binary_sha256"]:

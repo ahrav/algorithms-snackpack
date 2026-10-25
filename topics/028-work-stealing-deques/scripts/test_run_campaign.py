@@ -75,10 +75,26 @@ def clean_repository(root):
     return repo
 
 
-def stub_build(stub, executable, running_args="", compiler=None):
+FAKE_RUSTC = """#!/bin/sh
+case "$1" in
+  -Vv) echo 'rustc 0.0.0-stub'; echo 'release: 0.0.0-stub' ;;
+  --print) printf 'aarch64-unknown-linux-gnu\\nx86_64-unknown-linux-gnu\\n' ;;
+esac
+"""
+
+
+def fake_rustc(root):
+    path = root / "fake-rustc"
+    path.write_text(FAKE_RUSTC)
+    path.chmod(0o755)
+    return path
+
+
+def stub_build(stub, executable, running_args="", compiler=None, env_prefix=""):
     """A stub build command: install the stub as the example, report it as Cargo would, and print the verbose
     Running line Cargo prints, naming the compiler an override would select."""
-    compiler = compiler or '${RUSTC:-${CARGO_BUILD_RUSTC:-' + sys.executable + '}}'
+    compiler = compiler or '${RUSTC:-${CARGO_BUILD_RUSTC:-$FAKE_RUSTC}}'
+    compiler = f"{env_prefix} {compiler}".strip()
     message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": executable})
     running = "     Running \\`" + f"{compiler} --crate-name compare --edition=2024 examples/compare.rs {running_args} -C opt-level=3" + "\\`"
     return f"mkdir -p \"$(dirname {executable})\" && cp {stub} {executable} && echo '{message}' && echo \"{running}\" >&2"
@@ -97,6 +113,7 @@ def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=Fals
     stub = root / "stub.py"
     stub.write_text(STUB)
     stub.chmod(0o755)
+    rustc_stub = fake_rustc(root)
     binary = repo / "target/release/examples/compare"
     if build is None:
         build = stub_build(stub, "target/release/examples/compare")
@@ -113,7 +130,7 @@ def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=Fals
         command += ["--timeout", str(timeout)]
     if toolchain is not None:
         command += ["--toolchain", toolchain]
-    env = dict(os.environ, STUB_PLAN=str(root / "plan.json"), STUB_LOG=str(log), STUB_BINARY=str(binary), **(extra_env or {}))
+    env = dict(os.environ, STUB_PLAN=str(root / "plan.json"), STUB_LOG=str(log), STUB_BINARY=str(binary), FAKE_RUSTC=str(rustc_stub), **(extra_env or {}))
     return command, env, out, binary, log
 
 
@@ -266,11 +283,12 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(document["build"]["status"], "failed")
         self.assertEqual(document["status"], "invalid: build failed")
         self.assertTrue(all(s["selected"] == "unresolved" for s in document["summaries"]))
-        process, out, _ = run_campaign({}, repetitions=4)
+        command, env, out, _, _ = start_campaign({}, repetitions=4)
+        subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
         document = json.loads(out.read_text())
         self.assertIsNone(document["environment"]["toolchain"])
-        self.assertEqual(pathlib.Path(document["build"]["compiler_chain"][-1]["resolved"]).resolve(), pathlib.Path(sys.executable).resolve())
-        self.assertIn("Python", document["environment"]["rustc"])
+        self.assertEqual(document["build"]["compiler_chain"][-1]["path"], env["FAKE_RUSTC"])
+        self.assertIn("0.0.0-stub", document["environment"]["rustc"])
 
     def test_compiler_probes_honour_the_source_checkouts_toolchain_file(self):
         command, env, out, binary, _ = start_campaign({}, repetitions=4)
@@ -735,6 +753,69 @@ class RunCampaignTests(unittest.TestCase):
         with mock.patch.object(run_campaign.os, "killpg", side_effect=ProcessLookupError):
             record = run_campaign.build(tempfile.mkdtemp(prefix="topic028-build-"), "sleep 1", 0.2)
         self.assertEqual(record["status"], "timeout")
+
+    def test_bare_tool_names_resolve_through_a_source_relative_path(self):
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args="-C linker=my-ld")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        repo = binary.parents[3]
+        launch = pathlib.Path(tempfile.mkdtemp(prefix="topic028-launch-"))
+        for base, body in ((repo, "exec source-ld"), (launch, "exec launch-ld")):
+            (base / "tools").mkdir()
+            tool = base / "tools" / "my-ld"
+            tool.write_text("#!/bin/sh" + chr(10) + body + chr(10))
+            tool.chmod(0o755)
+        (repo / ".gitignore").write_text("/target/" + chr(10) + "/tools/" + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", ".gitignore"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "tools"], check=True)
+        env["STUB_SOURCE"] = str(repo.parent / "stub.py")
+        env["PATH"] = "tools:" + env["PATH"]
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300, cwd=launch)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        linker = json.loads(out.read_text())["build"]["compiler_chain"][-1]
+        self.assertEqual(linker["resolved"], str(repo / "tools" / "my-ld"))
+        self.assertEqual(linker["sha256"], hashlib.sha256((repo / "tools" / "my-ld").read_bytes()).hexdigest())
+
+    def test_target_search_paths_from_the_invocation_environment_are_honoured(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-envspec-"))
+        (root / "specs").mkdir()
+        spec = root / "specs" / "mycpu-unknown-none.json"
+        spec.write_text('{"llvm-target": "aarch64-unknown-none"}' + chr(10))
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args="--target mycpu-unknown-none", env_prefix=f"CARGO_PKG_NAME=compare RUST_TARGET_PATH={root / 'specs'}")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        env.pop("RUST_TARGET_PATH", None)
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["invocation_env"]["RUST_TARGET_PATH"], str(root / "specs"))
+        self.assertEqual(document["build"]["target_spec_sha256"], hashlib.sha256(spec.read_bytes()).hexdigest())
+        self.assertEqual(document["status"], "complete")
+
+    def test_a_named_target_that_is_neither_builtin_nor_found_is_invalid(self):
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args="--target mycpu-unknown-none")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        env.pop("RUST_TARGET_PATH", None)
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertFalse(document["build"]["target_is_builtin"])
+        self.assertIsNone(document["build"]["target_spec_sha256"])
+        self.assertEqual(document["status"], "invalid: source identity not reproducible")
+
+    def test_a_build_that_compiles_the_example_twice_is_ambiguous(self):
+        once = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=f"{once} && {once}")
+        command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["status"], "ambiguous")
+        self.assertEqual(document["rows"], [])
+        self.assertEqual(document["status"], "invalid: build artifact ambiguous")
 
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})
