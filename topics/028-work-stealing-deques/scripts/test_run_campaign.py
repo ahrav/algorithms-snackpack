@@ -94,7 +94,7 @@ def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=Fals
     (root / "plan.json").write_text(json.dumps(plan))
     log = root / "stub.log"
     out = root / "campaign.json"
-    command = [sys.executable, str(runner), "--source", str(repo), "--build-command", build, "--repetitions", str(repetitions), "--out", str(out)]
+    command = [sys.executable, str(runner), "--source", str(repo), "--build-command", build, "--binary", "target/release/examples/compare", "--repetitions", str(repetitions), "--out", str(out)]
     if skip_build:
         binary.parent.mkdir(parents=True, exist_ok=True)
         binary.write_text(STUB)
@@ -234,7 +234,7 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(affected["selected"], "unresolved")
 
     def test_a_one_sided_aa_control_withholds_selection(self):
-        plan = {f"global_fifo#{occurrence}": {"elapsed_ns": 900} for occurrence in [1, 5, 7, 11, 13, 17, 19, 23]}
+        plan = {f"global_fifo#{occurrence}": {"elapsed_ns": 900} for occurrence in [1, 6, 8, 11, 13, 18, 20, 23]}
         process, out, _ = run_campaign(plan)
         self.assertEqual(process.returncode, 0, process.stderr)
         summaries = summaries_by_name(json.loads(out.read_text()))
@@ -307,11 +307,11 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(summaries_by_name(document)["tiny_skewed"]["selected"], "global_fifo")
 
     def test_observations_are_checkpointed_before_the_campaign_completes(self):
-        out = run_campaign_killed_after({"locked_steal_balanced#2": {"hang": True}}, invocations=8)
+        out = run_campaign_killed_after({"locked_steal_balanced#2": {"hang": True}}, invocations=7)
         partial = json.loads(out.read_text())
         self.assertEqual(partial["status"], "running")
         self.assertEqual(len(partial["warmups"]), 2)
-        self.assertEqual([r["status"] for r in partial["rows"]], ["ok"] * 5 + ["running"])
+        self.assertEqual([r["status"] for r in partial["rows"]], ["ok"] * 4 + ["running"])
         started = partial["rows"][-1]
         self.assertEqual((started["candidate"], started["arm"], started["repetition"]), ("locked_steal_balanced", "treatment", 1))
         self.assertIn("command", started)
@@ -358,9 +358,14 @@ class RunCampaignTests(unittest.TestCase):
         for row in rows:
             by_repetition.setdefault(row["repetition"], []).append((row["arm"], row["label"]))
         self.assertEqual(by_repetition[0], [("control", "A"), ("treatment", "global_fifo"), ("control", "B"), ("treatment", "locked_steal_balanced")])
-        self.assertEqual(by_repetition[1], [("control", "B"), ("treatment", "locked_steal_balanced"), ("control", "A"), ("treatment", "global_fifo")])
-        self.assertEqual(by_repetition[2], by_repetition[0])
-        self.assertEqual(by_repetition[3], by_repetition[1])
+        self.assertEqual(by_repetition[1], [("treatment", "locked_steal_balanced"), ("control", "B"), ("treatment", "global_fifo"), ("control", "A")])
+        self.assertEqual(by_repetition[2], [("control", "B"), ("treatment", "locked_steal_balanced"), ("control", "A"), ("treatment", "global_fifo")])
+        self.assertEqual(by_repetition[3], [("treatment", "global_fifo"), ("control", "A"), ("treatment", "locked_steal_balanced"), ("control", "B")])
+        for repetition in range(4, 8):
+            self.assertEqual(by_repetition[repetition], by_repetition[repetition - 4])
+        for label in ["global_fifo", "locked_steal_balanced", "A", "B"]:
+            slots = sorted(order.index(next(entry for entry in order if entry[1] == label)) for order in by_repetition.values())
+            self.assertEqual(slots, [0, 0, 1, 1, 2, 2, 3, 3], label)
 
     def test_identical_artifact_aa_arm_flows_through_the_same_paths(self):
         process, out, _ = run_campaign({})
@@ -442,8 +447,11 @@ class RunCampaignTests(unittest.TestCase):
     def test_the_built_binary_is_resolved_from_cargos_target_directory(self):
         root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-target-"))
         alt = root / "alt-target"
-        build = "mkdir -p \"$CARGO_TARGET_DIR/release/examples\" && cp \"$STUB_SOURCE\" \"$CARGO_TARGET_DIR/release/examples/compare\""
+        produced = alt / "release" / "examples" / "compare"
+        message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": str(produced)})
+        build = f"mkdir -p {produced.parent} && cp \"$STUB_SOURCE\" {produced} && echo '{message}'"
         command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build, extra_env={"CARGO_TARGET_DIR": str(alt)})
+        command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
         env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
         process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
         self.assertEqual(process.returncode, 0, process.stderr)
@@ -459,6 +467,7 @@ class RunCampaignTests(unittest.TestCase):
         message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": str(produced)})
         build = f"mkdir -p {produced.parent} && cp \"$STUB_SOURCE\" {produced} && echo '{message}'"
         command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build, extra_env={"CARGO_BUILD_TARGET": "aarch64-unknown-linux-gnu"})
+        command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
         env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
         process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
         self.assertEqual(process.returncode, 0, process.stderr)
@@ -466,6 +475,43 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(document["build"]["executable"], str(produced))
         self.assertEqual(document["environment"]["binary"], str(produced))
         self.assertEqual(document["status"], "complete")
+
+    def test_a_build_that_reports_no_artifact_is_invalid_without_an_explicit_binary(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["status"], "no artifact")
+        self.assertEqual(document["build"]["returncode"], 0)
+        self.assertIsNone(document["build"]["executable"])
+        self.assertEqual(document["rows"], [])
+        self.assertEqual(document["status"], "invalid: build reported no artifact")
+
+    def test_compiler_overrides_are_recorded_and_probed(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-rustc-"))
+        fake = root / "rustc-stub"
+        fake.write_text("#!/bin/sh" + chr(10) + "echo 'rustc 9.9.9-stub'" + chr(10) + "echo 'release: 9.9.9-stub'" + chr(10))
+        fake.chmod(0o755)
+        wrapper = root / "wrapper"
+        wrapper.write_text("#!/bin/sh" + chr(10) + 'exec "$@"' + chr(10))
+        wrapper.chmod(0o755)
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTC": str(fake), "RUSTC_WRAPPER": str(wrapper)})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        environment = json.loads(out.read_text())["environment"]
+        self.assertIn("9.9.9-stub", environment["rustc"])
+        self.assertEqual(environment["compiler_overrides"]["RUSTC"], {"value": str(fake), "sha256": hashlib.sha256(fake.read_bytes()).hexdigest()})
+        self.assertEqual(environment["compiler_overrides"]["RUSTC_WRAPPER"]["sha256"], hashlib.sha256(wrapper.read_bytes()).hexdigest())
+        self.assertIsNone(environment["compiler_overrides"]["RUSTC_WORKSPACE_WRAPPER"])
+
+    def test_runtime_overrides_inherited_by_children_are_recorded(self):
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"GLIBC_TUNABLES": "glibc.malloc.arena_max=1", "RUST_MIN_STACK": "1048576", "UNRELATED_VAR": "x"})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        runtime = json.loads(out.read_text())["environment"]["runtime_env"]
+        self.assertEqual(runtime["GLIBC_TUNABLES"], "glibc.malloc.arena_max=1")
+        self.assertEqual(runtime["RUST_MIN_STACK"], "1048576")
+        self.assertNotIn("UNRELATED_VAR", runtime)
+        self.assertNotIn("LD_PRELOAD", runtime)
 
     def test_a_timed_out_build_takes_its_descendants_with_it(self):
         marker = "topic028-build-marker-" + os.urandom(6).hex()

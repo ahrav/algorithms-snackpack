@@ -63,6 +63,18 @@ def captured_text(output):
     return output.strip()
 
 
+def schedule_for(repetition, candidates):
+    """Four-repetition cycle over the slots (control, treatment, control, treatment) and its parity mirror.
+
+    Over four repetitions each treatment candidate and each control label occupies every slot once, each
+    candidate follows a control run three times and itself once, and the order within each pair rotates.
+    """
+    t0, t1 = [(candidate, candidate, "treatment") for candidate in candidates]
+    c0, c1 = [(BASELINE, label, "control") for label in CONTROL_LABELS]
+    cycle = [[c0, t0, c1, t1], [t1, c1, t0, c0], [c1, t1, c0, t0], [t0, c0, t1, c1]]
+    return cycle[repetition % 4]
+
+
 def start_row(binary, workload, candidate, label, arm, repetition=None):
     """Create the row for one invocation before launching it, so a killed attempt leaves a `running` record."""
     command = [
@@ -169,6 +181,26 @@ def pin_binary(binary, staging):
 
 
 RUSTFLAGS_SOURCES = ("CARGO_ENCODED_RUSTFLAGS", "CARGO_BUILD_RUSTFLAGS", "RUSTFLAGS")
+COMPILER_OVERRIDES = ("RUSTC", "RUSTC_WRAPPER", "RUSTC_WORKSPACE_WRAPPER")
+RUNTIME_ENV_PATTERN = r"(LD_|GLIBC_|MALLOC_|RUST_|RUSTUP_|OMP_|GOMP_|TCMALLOC_|JEMALLOC_|MIMALLOC_|MALLOC)[A-Z0-9_]*"
+
+
+def compiler_overrides():
+    """Cargo's compiler override variables with a hash of each named executable, so a wrapper is part of the identity."""
+    result = {}
+    for name in COMPILER_OVERRIDES:
+        value = os.environ.get(name)
+        if value is None:
+            result[name] = None
+            continue
+        resolved = shutil.which(value) or value
+        result[name] = {"value": value, "sha256": sha256_of(resolved)}
+    return result
+
+
+def runtime_env():
+    """Environment variables inherited by every measured child that can change allocator, loader or thread behaviour."""
+    return {name: value for name, value in sorted(os.environ.items()) if re.fullmatch(RUNTIME_ENV_PATTERN, name)}
 
 
 def rustflags_identity(source):
@@ -210,8 +242,10 @@ def identity(source, binary, pinned, out, toolchain=None):
         "binary_copy": None if pinned is None else str(pinned),
         "binary_sha256": None if pinned is None else sha256_of(pinned),
         "toolchain": toolchain,
-        "rustc": probe(toolchain_command(toolchain, ["rustc", "-Vv"]), cwd=source),
+        "rustc": probe(toolchain_command(toolchain, [os.environ.get("RUSTC", "rustc"), "-Vv"]), cwd=source),
         "cargo": probe(toolchain_command(toolchain, ["cargo", "-V"]), cwd=source),
+        "compiler_overrides": compiler_overrides(),
+        "runtime_env": runtime_env(),
         "rustflags": rustflags_identity(source),
     }
 
@@ -363,6 +397,8 @@ def main():
         build_record = build(source, args.build_command or default_build_command(args.toolchain), args.build_timeout)
         if args.binary is None and build_record.get("executable"):
             built = Path(build_record["executable"])
+        elif args.binary is None and build_record["status"] == "ok":
+            build_record["status"] = "no artifact"
     build_record["target_directory"] = None if target is None else str(target)
     staging = Path(tempfile.mkdtemp(prefix="topic028-campaign-"))
     pinned = pin_binary(built, staging) if build_record["status"] in ("ok", "skipped") else None
@@ -371,8 +407,8 @@ def main():
         "status": "running",
         "boundary": "scheduler lifecycle: queues, threads, task work, counters, joins and equality; sequential oracle before timer",
         "selection_rule": "lowest median is descriptive; select only when every paired steal/global ratio passes the same 3 percent boundary; otherwise unresolved",
-        "control": "identical global_fifo artifact labelled A and B once each per repetition with alternating order",
-        "order": "each repetition runs control, treatment, control, treatment; order within each pair rotates once per repetition, so every treatment follows a control run of the global_fifo artifact",
+        "control": "identical global_fifo artifact labelled A and B once each per repetition",
+        "order": "four-repetition cycle: [A, base, B, chal], [chal, B, base, A], [B, chal, A, base], [base, A, chal, B]; every label occupies each slot once per cycle and each treatment follows a control run three times and itself once",
         "repetitions": args.repetitions,
         "protocol_repetitions": args.repetitions == PROTOCOL_REPETITIONS,
         "timeout_s": args.timeout,
@@ -393,11 +429,7 @@ def main():
             run_row(row, workload, args.timeout)
             write_document(args.out, document)
         for repetition in range(args.repetitions):
-            rotated = candidates[repetition % 2:] + candidates[:repetition % 2]
-            treatments = [(candidate, candidate, "treatment") for candidate in rotated]
-            controls = [(BASELINE, label, "control") for label in (CONTROL_LABELS if repetition % 2 == 0 else CONTROL_LABELS[::-1])]
-            schedule = [controls[0], treatments[0], controls[1], treatments[1]]
-            for candidate, label, arm in schedule:
+            for candidate, label, arm in schedule_for(repetition, candidates):
                 row = start_row(binary, workload, candidate, label, arm, repetition)
                 document["rows"].append(row)
                 write_document(args.out, document)
@@ -406,7 +438,9 @@ def main():
     document["environment"]["binary_sha256_final"] = None if pinned is None else sha256_of(pinned)
     document["summaries"] = summarize(document["rows"], document["warmups"], args.repetitions)
     environment = document["environment"]
-    if build_record["status"] not in ("ok", "skipped"):
+    if build_record["status"] == "no artifact":
+        document["status"] = "invalid: build reported no artifact"
+    elif build_record["status"] not in ("ok", "skipped"):
         document["status"] = "invalid: build failed"
     elif pinned is None:
         document["status"] = "invalid: binary could not be pinned"

@@ -130,8 +130,13 @@ exists with `status: running` and a `running` row for the in-flight process
 while that process is still executing; a binary that cannot start yields
 `failed` rows and an `invalid` document with no selection, as does a
 toolchain whose compiler probes return nothing or a dirty source tree; the
-treatment and control pairs alternate schedule slots by repetition parity; a
-process that
+schedule follows the four-repetition slot cycle in `BENCHMARK.md`, with
+every label in every slot once per cycle; the built example is taken from
+Cargo's `compiler-artifact` message and a build that reports none is
+invalid; a timed-out build leaves no descendant processes; compiler probes
+honour the source checkout's toolchain file; compiler overrides,
+target-specific Cargo rustflags, inherited runtime variables and
+receipt-comparable host fields are recorded; a process that
 emits invalid UTF-8 is a `failed` row and the campaign continues; replacing
 the binary at its original path mid-campaign leaves every row on the pinned
 copy; a row whose

@@ -74,13 +74,18 @@ python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
 
 `--toolchain` adds `+<toolchain>` to the build and routes the `rustc` and
 `cargo` probes through `rustup run`, so `environment.rustc` reports the
-compiler that built the binary. The run is a replay when
-`environment.binary_sha256` and `environment.rustc` match the host's entry in
-`EVIDENCE_RECEIPT.json` and the run took place on that host: `hostname`,
-`uname`, `cpu_model` and `available_cpus` must match the entry's
-`environment` as well, since the selections are host-specific. A matching
-binary on a different machine is a new measurement. `environment.source_*`
-describe the `--source` tree the binary was built from.
+compiler that built the binary. The run is a replay when these fields match
+the host's entry in `EVIDENCE_RECEIPT.json`: `environment.binary_sha256`
+against `binary_sha256`; `environment.rustc` against `environment.rustc`;
+`environment.hostname` against `environment.hostname`; `environment.uname_a`
+against `environment.uname` (both are `uname -a` strings);
+`environment.cpu_identification` against `environment.cpu_identification`
+(both are the first `/proc/cpuinfo` block); and `environment.available_cpus`
+against `environment.available_cpus`. The selections are host-specific, so a
+matching binary on a different machine is a new measurement.
+`environment.source_*` describe the `--source` tree the binary was built
+from, and `environment.runner_sha256` identifies the runner script that
+drove the campaign.
 
 New measurement of the current tree. The default `--source` is this
 repository under the pinned toolchain; the run is a new campaign and its

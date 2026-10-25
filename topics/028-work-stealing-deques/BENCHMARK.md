@@ -28,7 +28,15 @@ command, exit code and output, takes the example's path from Cargo's
 `compiler-artifact` message (so a configured target triple or redirected
 target directory is honoured), hashes it and identifies the source tree it
 came from. The build runs in its own process group and a timed-out build is
-killed with its descendants. `--skip-build`
+killed with its descendants. A build that exits successfully without
+reporting an artifact, with no explicit `--binary`, ends as `invalid: build
+reported no artifact` with no rows, so a stale executable at the default
+path is never measured. The environment also records Cargo's compiler
+overrides (`RUSTC`, `RUSTC_WRAPPER`, `RUSTC_WORKSPACE_WRAPPER`, each with the
+hash of the named executable; the `rustc` probe uses `RUSTC` when set) and
+the loader, allocator and Rust runtime variables (`LD_*`, `GLIBC_*`,
+`MALLOC_*`, `RUST_*` and allocator tunables) that every measured child
+inherits. `--skip-build`
 measures an existing binary and yields an `invalid` document with no
 selection, since that binary's provenance is unverified.
 
@@ -58,11 +66,14 @@ that fails or times out is retained in `warmups`, counted per cell as
 required warmup did not complete.
 
 Each repetition also runs the global FIFO artifact twice under the labels `A`
-and `B`, with the order alternating per repetition. The treatment pair and
-the control pair alternate first position by repetition parity, so each pair
-occupies the first two process slots in four repetitions and the last two in
-the other four, and a host effect tied to slot position reaches both pairs
-alike. These identical-artifact controls pass through the same scheduling,
+and `B`. The four process slots follow a four-repetition cycle:
+`[A, global, B, steal]`, `[steal, B, global, A]`, `[B, steal, A, global]`,
+`[global, A, steal, B]`. Over one cycle each treatment candidate and each
+control label occupies every slot once, so a host effect tied to slot
+position or parity reaches both pairs alike, and each treatment candidate
+follows a control run three times and itself once, so predecessor state is
+balanced between the candidates. These identical-artifact controls pass
+through the same scheduling,
 labelling, parser, missing-data and ratio code as the treatments, and the
 runner reports their eight paired A/B ratios as `aa_ratios`. Mechanical integrity is the `ok` status of every control
 row, and a repetition whose control pair lacks an `ok` observation forces the
