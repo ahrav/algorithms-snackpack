@@ -117,3 +117,7 @@ version = "0.1.0"
 [[package]]
 name = "topic028-work-stealing-deques"
 version = "0.1.0"
+
+[[package]]
+name = "topic029-union-find"
+version = "0.1.0"

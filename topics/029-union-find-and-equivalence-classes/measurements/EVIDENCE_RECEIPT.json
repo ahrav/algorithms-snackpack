@@ -1,0 +1,78 @@
+{
+  "topic": 29,
+  "source_commit": "5eebe81dae94a91ec55978cc43268f88804bf00b",
+  "source_manifest": {
+    "src/lib.rs": "69712f87032553396cbe2ccf619e272d11d72c7ebc5b0835f7e666f020d6de92",
+    "src/bench.rs": "078a6677edae0b4b5b2d859c8001bb1b837b939668aedcdc10f7ef102e1ee41a",
+    "run.py": "b1be761578f487981e44eac6d4c51ad79107d4d67a91e30ce4417b6401d626da",
+    "tests/contracts.rs": "ba6328d88753f9251ecc11d6c34819a8343f64be215bc8cc5e65616c678de168"
+  },
+  "archives": [
+    {
+      "phase": "initial",
+      "host": "arm",
+      "path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-029/20261025/initial/arm.tar.gz",
+      "sha256": "b10fea9f0190f1f61879c5814eeb2508e932d1da4caae0d5491459a4478a790c",
+      "bytes": 1651936,
+      "members": 13,
+      "manifest_sha256": "c9c205b5da40c662f155f430c6303befc1865fd9740718d00554d62e4654e48c",
+      "binary_sha256": "3066df1c4ae557aea35c8d689ebd4d3e1930a9cbe7f9bfa4d1b9862d88c3ecbf",
+      "environment_sha256": "71074a937303688aacbbb7464060af18c0eca9a998617af10c59ccefe17e392c",
+      "measured_processes": 304,
+      "warmup_processes": 36,
+      "tests": 6
+    },
+    {
+      "phase": "initial",
+      "host": "x86",
+      "path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-029/20261025/initial/x86.tar.gz",
+      "sha256": "0cacbd9ab2bb46cd32fb84d71cd5b0209618e379ccf8d306bb3e12e8006e3d8f",
+      "bytes": 1946821,
+      "members": 13,
+      "manifest_sha256": "c9c205b5da40c662f155f430c6303befc1865fd9740718d00554d62e4654e48c",
+      "binary_sha256": "ed7260e05b3be587eea8668df4ecdc386cae4ea6865df142e7c0c4f32772dd93",
+      "environment_sha256": "6d48933a3350164aee1718131b448d3a5fbf26d3289b32c1bd08bf56db58ba89",
+      "measured_processes": 304,
+      "warmup_processes": 36,
+      "tests": 6
+    },
+    {
+      "phase": "committed",
+      "host": "arm",
+      "path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-029/20261025/committed/arm-reconciled.tar.gz",
+      "sha256": "135c92152edebcb67d7eb39e7747eeacc1d18a3d6974c68f675d8dd3a87a3341",
+      "bytes": 1656245,
+      "members": 14,
+      "manifest_sha256": "e07f4968c009852ef1a482d0457ae11a523d123e9bd1c9dc9a5459346d9b2949",
+      "binary_sha256": "cbaf6cfc1dc9f20fd1f149ae0b67e545fa333a6b0309c6f6d8ea9eb65e671a6e",
+      "environment_sha256": "71074a937303688aacbbb7464060af18c0eca9a998617af10c59ccefe17e392c",
+      "measured_processes": 304,
+      "warmup_processes": 36,
+      "tests": 8
+    },
+    {
+      "phase": "committed",
+      "host": "x86",
+      "path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-029/20261025/committed/x86-reconciled.tar.gz",
+      "sha256": "0dffceca5240fd0926906fcbcbad85fe45773ee375ccaedb14500b366ec5ff89",
+      "bytes": 1954177,
+      "members": 14,
+      "manifest_sha256": "e07f4968c009852ef1a482d0457ae11a523d123e9bd1c9dc9a5459346d9b2949",
+      "binary_sha256": "275e55272d189a724f86bebfcfe7757b296ac877fb323ca04073d3f05c547900",
+      "environment_sha256": "6d48933a3350164aee1718131b448d3a5fbf26d3289b32c1bd08bf56db58ba89",
+      "measured_processes": 304,
+      "warmup_processes": 36,
+      "tests": 8
+    }
+  ],
+  "verification": {
+    "safe_members": true,
+    "embedded_source_manifests_match": true,
+    "binary_hashes_match": true,
+    "oracle_rows": true,
+    "pair_order_4_to_4": true
+  },
+  "initial_status": "exploratory, excluded: cyclic-only pair imbalance",
+  "measurement_boundary": "operation trace including response allocation; setup and teardown separate",
+  "build_flags": "rustc --edition 2024 -O -C target-cpu=generic -A dead_code"
+}
