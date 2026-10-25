@@ -1502,6 +1502,56 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(document["environment"]["runtime_libraries"]["./libaudit.so"], hashlib.sha256(b"audit module").hexdigest())
         self.assertEqual(document["status"], "complete")
 
+    def test_bare_response_tokens_in_cargo_invocations_are_hashed(self):
+        response = pathlib.Path(tempfile.mkdtemp(prefix="topic028-rspinv-")) / "args.rsp"
+        response.write_text("-C opt-level=3" + chr(10))
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args=f"@{response}")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        self.assertEqual(json.loads(out.read_text())["build"]["external_inputs"], {str(response): hashlib.sha256(("-C opt-level=3" + chr(10)).encode()).hexdigest()})
+
+    def test_linker_side_library_search_arguments_are_resolved(self):
+        outside = pathlib.Path(tempfile.mkdtemp(prefix="topic028-ldlib-"))
+        archive = outside / "libhook.a"
+        archive.write_bytes(b"linker-side archive")
+        exact = outside / "libexact.a"
+        exact.write_bytes(b"exact archive")
+        flags = f"-C link-args=-Wl,--whole-archive,-L{outside},-lhook,--no-whole-archive -C link-arg=-l:libexact.a"
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTFLAGS": flags})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        inputs = json.loads(out.read_text())["environment"]["rustflags"]["external_inputs"]
+        self.assertEqual(inputs, {str(archive): hashlib.sha256(b"linker-side archive").hexdigest(), str(exact): hashlib.sha256(b"exact archive").hexdigest()})
+
+    def test_a_runner_differing_from_the_source_checkout_invalidates_the_campaign(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        copy = repo / "topics/028-work-stealing-deques/scripts/run_campaign.py"
+        copy.write_text(copy.read_text() + "# committed divergence" + chr(10))
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-am", "diverge"], check=True)
+        command[1] = str(RUNNER)
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertIs(document["environment"]["runner_matches_source"], False)
+        self.assertIs(document["environment"]["worktree_dirty"], False)
+        self.assertEqual(document["status"], "invalid: runner differs from source")
+        self.assertTrue(all(row["selected"] == "unresolved" for row in document["summaries"]))
+
+    def test_path_dependencies_outside_the_source_checkout_invalidate_the_campaign(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        manifest = repo / "topics/028-work-stealing-deques/Cargo.toml"
+        manifest.write_text("[package]" + chr(10) + 'name = "topic028"' + chr(10) + "[dependencies]" + chr(10) + 'helper = { path = "/outside/helper" }' + chr(10) + 'local = { path = "../local" }' + chr(10))
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-am", "deps"], check=True)
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertIs(document["environment"]["worktree_dirty"], False)
+        self.assertEqual(document["environment"]["external_path_dependencies"], {"topics/028-work-stealing-deques/Cargo.toml": ["/outside/helper"]})
+        self.assertEqual(document["status"], "invalid: source identity not reproducible")
+
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})
         self.assertEqual(process.returncode, 0, process.stderr)

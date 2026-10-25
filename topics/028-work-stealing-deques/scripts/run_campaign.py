@@ -324,6 +324,38 @@ def external_symlinks(repository):
     return found
 
 
+def external_path_dependencies(repository):
+    """Path dependencies, workspace members, patches and `paths` overrides that tracked manifests and `.cargo`
+    configuration resolve outside the repository: Cargo compiles those crates while the commit, the status check
+    and the source hashes cover only this tree. Maps the tracked manifest to its outside paths."""
+    listing = probe(["git", "ls-files", "-z", "--", "Cargo.toml", "**/Cargo.toml", ".cargo/config", ".cargo/config.toml", "**/.cargo/config", "**/.cargo/config.toml"], cwd=repository)
+    if listing is None:
+        return None
+    root = Path(repository).resolve()
+    found = {}
+    for relative in sorted(filter(None, listing.split("\0"))):
+        manifest = root / relative
+        try:
+            text = manifest.read_text(errors="replace")
+        except OSError:
+            continue
+        base = manifest.parent.parent if manifest.parent.name == ".cargo" else manifest.parent
+        candidates = re.findall(r"""(?m)^\s*path\s*=\s*["']([^"']+)["']|\bpath\s*=\s*["']([^"']+)["']""", text)
+        values = [a or b for a, b in candidates]
+        for block in re.findall(r"(?ms)^\s*(?:paths|members)\s*=\s*\[(.*?)\]", text):
+            values.extend(re.findall(r"""["']([^"']+)["']""", block))
+        outside = []
+        for value in values:
+            resolved = (base / value).resolve()
+            try:
+                resolved.relative_to(root)
+            except ValueError:
+                outside.append(value)
+        if outside:
+            found[relative] = outside
+    return found
+
+
 def runtime_env():
     """Environment variables inherited by every measured child that can change allocator, loader or thread behaviour;
     a name outside the known knobs is kept only as a hash."""
@@ -359,10 +391,12 @@ LINKER_FILE_OPTIONS = (
 )
 
 
-def linker_inputs(arguments, source, inputs, depth):
-    """Hash the files linker arguments name: bare paths, `@file` response files (followed to a bounded depth), and
-    the operands of file-taking switches such as `-T`, `--script=` or `--version-script=`, including those packed
-    into a `-Wl,a,b` driver argument."""
+def linker_inputs(arguments, source, inputs, depth, search=None, names=None):
+    """Hash the files linker arguments name: bare paths, `@file` response files (followed to a bounded depth), the
+    operands of file-taking switches such as `-T`, `--script=` or `--version-script=`, including those packed into
+    a `-Wl,a,b` driver argument, and the libraries linker-side `-l` selects from linker-side `-L` directories."""
+    search = [] if search is None else search
+    names = [] if names is None else names
     expanded = []
     for argument in arguments:
         if argument.startswith("-Wl,"):
@@ -370,17 +404,34 @@ def linker_inputs(arguments, source, inputs, depth):
         elif argument != "-Xlinker":
             expanded.append(argument)
     pending_file = False
+    pending = None
     for argument in expanded:
         if pending_file:
             pending_file = False
             resolved = (Path(source) / argument).resolve()
             inputs[str(resolved)] = sha256_of(resolved)
             continue
+        if pending is not None:
+            pending.append(argument)
+            pending = None
+            continue
         if argument.startswith("@") and len(argument) > 1:
             resolved = (Path(source) / argument[1:]).resolve()
             inputs[str(resolved)] = sha256_of(resolved)
             if inputs[str(resolved)] is not None and depth > 0:
-                linker_inputs(split_flags(resolved.read_text(errors="replace")), source, inputs, depth - 1)
+                linker_inputs(split_flags(resolved.read_text(errors="replace")), source, inputs, depth - 1, search, names)
+        elif argument in ("-L", "--library-path"):
+            pending = search
+        elif argument in ("-l", "--library"):
+            pending = names
+        elif argument.startswith("--library-path="):
+            search.append(argument[len("--library-path="):])
+        elif argument.startswith("--library="):
+            names.append(argument[len("--library="):])
+        elif argument.startswith("-L") and len(argument) > 2:
+            search.append(argument[2:])
+        elif argument.startswith("-l") and len(argument) > 2:
+            names.append(argument[2:])
         elif argument in LINKER_FILE_OPTIONS:
             pending_file = True
         elif argument.startswith("-"):
@@ -397,6 +448,17 @@ def linker_inputs(arguments, source, inputs, depth):
         elif argument and (os.sep in argument or argument.endswith(LINKER_INPUT_SUFFIXES)):
             resolved = (Path(source) / argument).resolve()
             inputs[str(resolved)] = sha256_of(resolved)
+
+
+def resolve_linker_libraries(search, names, source, inputs):
+    """Hash the library each linker-side `-l` name selects from the linker-side `-L` directories gathered across
+    the whole command line; `-l:file` names an exact file."""
+    for name in names:
+        for directory in ((Path(source) / entry).resolve() for entry in search):
+            candidates = [directory / name[1:]] if name.startswith(":") else sorted(directory.glob(f"lib{name}.*"))
+            for candidate in candidates:
+                if candidate.is_file():
+                    inputs[str(candidate)] = sha256_of(candidate)
 
 
 def join_codegen_flags(tokens):
@@ -445,8 +507,12 @@ def native_library_inputs(flags, source, inputs):
                     inputs[str(candidate)] = sha256_of(candidate)
 
 
-def flag_inputs(flags, source, inputs, depth):
-    """Hash every file the compiler flags name as an input, following rustc `@file` response files to a bounded depth."""
+def flag_inputs(flags, source, inputs, depth, search=None, names=None):
+    """Hash every file the compiler flags name as an input, following rustc `@file` response files to a bounded depth;
+    linker-side search directories and library names are gathered across the whole flag set before resolution."""
+    top_level = search is None
+    search = [] if search is None else search
+    names = [] if names is None else names
     native_library_inputs(flags, source, inputs)
     for token in join_codegen_flags(flags):
         body = token[2:] if token.startswith("-C") and not token.startswith("-C ") else token
@@ -454,7 +520,7 @@ def flag_inputs(flags, source, inputs, depth):
             resolved = (Path(source) / token[1:]).resolve()
             inputs[str(resolved)] = sha256_of(resolved)
             if inputs[str(resolved)] is not None and depth > 0:
-                flag_inputs(resolved.read_text(errors="replace").splitlines(), source, inputs, depth - 1)
+                flag_inputs(resolved.read_text(errors="replace").splitlines(), source, inputs, depth - 1, search, names)
         for prefix in EXTERNAL_INPUT_FLAGS:
             if body.startswith(prefix) and not prefix.startswith("link-arg"):
                 path = body[len(prefix):]
@@ -463,7 +529,9 @@ def flag_inputs(flags, source, inputs, depth):
                     inputs[str(resolved)] = sha256_of(resolved)
         for prefix in ("link-arg=", "link-args="):
             if body.startswith(prefix):
-                linker_inputs(split_flags(body[len(prefix):]) if prefix == "link-args=" else [body[len(prefix):]], source, inputs, depth)
+                linker_inputs(split_flags(body[len(prefix):]) if prefix == "link-args=" else [body[len(prefix):]], source, inputs, depth, search, names)
+    if top_level:
+        resolve_linker_libraries(search, names, source, inputs)
 
 
 def rustflags_external_inputs(source, extra_tokens=()):
@@ -476,7 +544,9 @@ def rustflags_external_inputs(source, extra_tokens=()):
             flags.extend(value.split("\x1f") if name == "CARGO_ENCODED_RUSTFLAGS" else split_flags(value))
     extra = list(extra_tokens)
     for index, token in enumerate(extra):
-        if token.startswith(("-C", "-L", "-l")) and not token.startswith("--") and (len(token) > 2 or index + 1 < len(extra)):
+        if token.startswith("@") and len(token) > 1:
+            flags.append(token)
+        elif token.startswith(("-C", "-L", "-l")) and not token.startswith("--") and (len(token) > 2 or index + 1 < len(extra)):
             flags.append(token if len(token) > 2 else token + extra[index + 1])
     inputs = {}
     flag_inputs(flags, source, inputs, RESPONSE_FILE_DEPTH)
@@ -524,6 +594,7 @@ def identity(source, binary, pinned, out, toolchain=None, target=None, chain=Non
         "worktree_status": status,
         "source_sha256": {name: sha256_of(Path(source) / name) for name in SOURCE_FILES},
         "external_symlinks": external_symlinks(source),
+        "external_path_dependencies": external_path_dependencies(source),
         "runner": str(Path(__file__).resolve()),
         "runner_sha256": sha256_of(Path(__file__).resolve()),
         "runner_matches_source": sha256_of(Path(__file__).resolve()) == sha256_of(Path(source) / "topics/028-work-stealing-deques/scripts/run_campaign.py"),
@@ -1030,6 +1101,8 @@ def main():
         document["status"] = "invalid: build artifact ambiguous"
     elif build_record["status"] not in ("ok", "skipped"):
         document["status"] = "invalid: build failed"
+    elif environment["runner_matches_source"] is not True:
+        document["status"] = "invalid: runner differs from source"
     elif pinned is None:
         document["status"] = "invalid: binary could not be pinned"
     elif build_record["status"] == "skipped":
@@ -1040,7 +1113,7 @@ def main():
         member["sha256"] is None for member in (build_record.get("compiler_chain") or [])
     ):
         document["status"] = "invalid: compiler identity unavailable"
-    elif environment["source_commit"] is None or environment["worktree_dirty"] is not False or not all(environment["source_sha256"].values()) or environment["external_symlinks"] != {} or (
+    elif environment["source_commit"] is None or environment["worktree_dirty"] is not False or not all(environment["source_sha256"].values()) or environment["external_symlinks"] != {} or environment["external_path_dependencies"] != {} or (
         (environment["rustflags"]["CARGO_BUILD_TARGET"] or "").endswith(".json") and environment["rustflags"]["target_spec_sha256"] is None
     ) or (
         (build_record.get("target") or "").endswith(".json") and build_record.get("target_spec_sha256") is None

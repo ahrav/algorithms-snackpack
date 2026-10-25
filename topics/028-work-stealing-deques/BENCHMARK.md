@@ -69,8 +69,10 @@ files, `@` response files and path-like objects or archives in link
 arguments, the operands of file-taking linker switches such as `-T`,
 `--script=` or `--version-script=` including those packed into `-Wl,`, the
 files those response files name, four levels deep, and the native libraries
-`-l` selects from explicit `-L` search directories, `+verbatim` names
-resolved exactly) are hashed under
+`-l` selects from explicit `-L` search directories, on the rustc side
+(`+verbatim` names resolved exactly) and on the linker side (`-l:file` names
+resolved exactly, directories gathered across the whole command line)) are
+hashed under
 `rustflags.external_inputs` for the environment flag sources and under
 `build.external_inputs` for the flags in Cargo's effective invocation
 (which includes flags from Cargo config), and a missing one invalidates the
@@ -108,8 +110,13 @@ campaign`. Beneath the target directory, only build-script `out/` trees are exem
 from the input scan, so a Cargo input anywhere else under the target
 directory, `deps/` included, marks the tree dirty. Tracked symlinks that
 resolve to a directory or outside the repository are recorded under
-`environment.external_symlinks` and invalidate the campaign, since Cargo
-follows them to files the commit never recorded. Git status and listings are read
+`environment.external_symlinks`, and `path = "..."`, `members` or `paths`
+entries in tracked manifests and `.cargo` configuration that resolve outside
+the repository under `environment.external_path_dependencies`; either
+invalidates the campaign, since Cargo follows them to files the commit never
+recorded. The executing runner must be byte-identical to the committed
+runner in `--source` (`runner_matches_source`); a differing runner ends the
+campaign as `invalid: runner differs from source`. Git status and listings are read
 NUL-delimited and decoded with `surrogateescape`, so paths with spaces or
 bytes outside UTF-8 are filtered and recorded verbatim. Cargo's coloured output is stripped of ANSI sequences before the
 `Running` line is parsed and redacted. `--out` is refused when either its
