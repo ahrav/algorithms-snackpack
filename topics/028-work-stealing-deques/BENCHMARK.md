@@ -32,11 +32,13 @@ killed with its descendants. A build that exits successfully without
 reporting an artifact, with no explicit `--binary`, ends as `invalid: build
 reported no artifact` with no rows, so a stale executable at the default
 path is never measured. The environment also records Cargo's compiler
-overrides (`RUSTC`, `RUSTC_WRAPPER`, `RUSTC_WORKSPACE_WRAPPER`, each with the
-hash of the named executable; the `rustc` probe uses `RUSTC` when set) and
-the loader, allocator and Rust runtime variables (`LD_*`, `GLIBC_*`,
-`MALLOC_*`, `RUST_*` and allocator tunables) that every measured child
-inherits. `--skip-build`
+overrides (`RUSTC`, `RUSTC_WRAPPER`, `RUSTC_WORKSPACE_WRAPPER`, each resolved
+against `--source` the way Cargo resolves them and recorded with the hash of
+the named executable; an override that cannot be hashed invalidates the
+campaign, and the `rustc` probe uses `RUSTC` when set), every
+`CARGO_PROFILE_*` override, and the loader, allocator and Rust runtime
+variables (`LD_*`, `GLIBC_*`, `MALLOC_*`, `RUST_*` and allocator tunables)
+that every measured child inherits. `--skip-build`
 measures an existing binary and yields an `invalid` document with no
 selection, since that binary's provenance is unverified.
 

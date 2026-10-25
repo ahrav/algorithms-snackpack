@@ -79,8 +79,11 @@ the host's entry in `EVIDENCE_RECEIPT.json`: `environment.binary_sha256`
 against `binary_sha256`; `environment.rustc` against `environment.rustc`;
 `environment.hostname` against `environment.hostname`; `environment.uname_a`
 against `environment.uname` (both are `uname -a` strings);
-`environment.cpu_identification` against `environment.cpu_identification`
-(both are the first `/proc/cpuinfo` block); and `environment.available_cpus`
+`environment.cpu_model` against the identity fields of the first processor
+block in the receipt's `environment.cpu_identification` (`model name` on x86;
+`CPU implementer`, `CPU variant`, `CPU part` and `CPU revision` on Arm, which
+`cpu_model` joins as `CPU implementer 0x41, CPU variant 0x1, CPU part 0xd40,
+CPU revision 1` for the retained Arm host); and `environment.available_cpus`
 against `environment.available_cpus`. The selections are host-specific, so a
 matching binary on a different machine is a new measurement.
 `environment.source_*` describe the `--source` tree the binary was built

@@ -185,17 +185,28 @@ COMPILER_OVERRIDES = ("RUSTC", "RUSTC_WRAPPER", "RUSTC_WORKSPACE_WRAPPER")
 RUNTIME_ENV_PATTERN = r"(LD_|GLIBC_|MALLOC_|RUST_|RUSTUP_|OMP_|GOMP_|TCMALLOC_|JEMALLOC_|MIMALLOC_|MALLOC)[A-Z0-9_]*"
 
 
-def compiler_overrides():
-    """Cargo's compiler override variables with a hash of each named executable, so a wrapper is part of the identity."""
+def compiler_overrides(source):
+    """Cargo's compiler override variables with a hash of each named executable, so a wrapper is part of the identity.
+
+    Cargo resolves a relative override against the build's working directory, so paths resolve against `source`.
+    """
     result = {}
     for name in COMPILER_OVERRIDES:
         value = os.environ.get(name)
         if value is None:
             result[name] = None
             continue
-        resolved = shutil.which(value) or value
-        result[name] = {"value": value, "sha256": sha256_of(resolved)}
+        if os.sep in value:
+            resolved = str((Path(source) / value).resolve())
+        else:
+            resolved = shutil.which(value) or value
+        result[name] = {"value": value, "resolved": resolved, "sha256": sha256_of(resolved)}
     return result
+
+
+def cargo_profile():
+    """Profile overrides Cargo reads from the environment, which change the generated release executable."""
+    return {name: value for name, value in sorted(os.environ.items()) if name.startswith("CARGO_PROFILE_")}
 
 
 def runtime_env():
@@ -244,7 +255,8 @@ def identity(source, binary, pinned, out, toolchain=None):
         "toolchain": toolchain,
         "rustc": probe(toolchain_command(toolchain, [os.environ.get("RUSTC", "rustc"), "-Vv"]), cwd=source),
         "cargo": probe(toolchain_command(toolchain, ["cargo", "-V"]), cwd=source),
-        "compiler_overrides": compiler_overrides(),
+        "compiler_overrides": compiler_overrides(source),
+        "cargo_profile": cargo_profile(),
         "runtime_env": runtime_env(),
         "rustflags": rustflags_identity(source),
     }
@@ -446,7 +458,9 @@ def main():
         document["status"] = "invalid: binary could not be pinned"
     elif build_record["status"] == "skipped":
         document["status"] = "invalid: binary provenance unverified"
-    elif environment["rustc"] is None or environment["cargo"] is None:
+    elif environment["rustc"] is None or environment["cargo"] is None or any(
+        override is not None and override["sha256"] is None for override in environment["compiler_overrides"].values()
+    ):
         document["status"] = "invalid: compiler identity unavailable"
     elif environment["source_commit"] is None or environment["worktree_dirty"] is not False or not all(environment["source_sha256"].values()):
         document["status"] = "invalid: source identity not reproducible"

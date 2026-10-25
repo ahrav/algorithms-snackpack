@@ -500,9 +500,35 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(process.returncode, 0, process.stderr)
         environment = json.loads(out.read_text())["environment"]
         self.assertIn("9.9.9-stub", environment["rustc"])
-        self.assertEqual(environment["compiler_overrides"]["RUSTC"], {"value": str(fake), "sha256": hashlib.sha256(fake.read_bytes()).hexdigest()})
+        self.assertEqual(environment["compiler_overrides"]["RUSTC"], {"value": str(fake), "resolved": str(fake), "sha256": hashlib.sha256(fake.read_bytes()).hexdigest()})
         self.assertEqual(environment["compiler_overrides"]["RUSTC_WRAPPER"]["sha256"], hashlib.sha256(wrapper.read_bytes()).hexdigest())
         self.assertIsNone(environment["compiler_overrides"]["RUSTC_WORKSPACE_WRAPPER"])
+
+    def test_relative_compiler_overrides_resolve_against_the_source_tree(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        wrapper = repo / "wrapper.sh"
+        wrapper.write_text("#!/bin/sh" + chr(10) + 'exec "$@"' + chr(10))
+        wrapper.chmod(0o755)
+        subprocess.run(["git", "-C", str(repo), "add", "wrapper.sh"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "wrapper"], check=True)
+        env["RUSTC_WRAPPER"] = "./wrapper.sh"
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300, cwd=tempfile.mkdtemp(prefix="topic028-cwd-"))
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["compiler_overrides"]["RUSTC_WRAPPER"], {"value": "./wrapper.sh", "resolved": str(wrapper), "sha256": hashlib.sha256(wrapper.read_bytes()).hexdigest()})
+        self.assertEqual(document["status"], "complete")
+        env["RUSTC_WRAPPER"] = "./no-such-wrapper"
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        document = json.loads(out.read_text())
+        self.assertIsNone(document["environment"]["compiler_overrides"]["RUSTC_WRAPPER"]["sha256"])
+        self.assertEqual(document["status"], "invalid: compiler identity unavailable")
+
+    def test_cargo_profile_overrides_are_recorded(self):
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        recorded = json.loads(out.read_text())["environment"]["cargo_profile"]
+        self.assertEqual(recorded, {"CARGO_PROFILE_RELEASE_LTO": "true", "CARGO_PROFILE_RELEASE_OPT_LEVEL": "0"})
 
     def test_runtime_overrides_inherited_by_children_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"GLIBC_TUNABLES": "glibc.malloc.arena_max=1", "RUST_MIN_STACK": "1048576", "UNRELATED_VAR": "x"})
