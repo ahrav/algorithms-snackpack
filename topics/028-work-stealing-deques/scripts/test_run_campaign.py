@@ -90,14 +90,15 @@ def fake_rustc(root):
     return path
 
 
-def stub_build(stub, executable, running_args="", compiler=None, env_prefix=""):
+def stub_build(stub, executable, running_args="", compiler=None, env_prefix="", ansi=False):
     """A stub build command: install the stub as the example, report it as Cargo would, and print the verbose
-    Running line Cargo prints, naming the compiler an override would select."""
+    Running line Cargo prints, naming the compiler an override would select; `ansi` colours it as `--color always` does."""
     compiler = compiler or '${RUSTC:-${CARGO_BUILD_RUSTC:-$FAKE_RUSTC}}'
     compiler = f"{env_prefix} {compiler}".strip()
     message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": executable})
-    running = "     Running \\`" + f"{compiler} --crate-name compare --edition=2024 examples/compare.rs {running_args} -C opt-level=3" + "\\`"
-    return f"mkdir -p \"$(dirname {executable})\" && cp {stub} {executable} && echo '{message}' && echo \"{running}\" >&2"
+    label = "\\033[1m\\033[32m     Running\\033[0m " if ansi else "     Running "
+    running = label + "\\`" + f"{compiler} --crate-name compare --edition=2024 examples/compare.rs {running_args} -C opt-level=3" + "\\`"
+    return f"mkdir -p \"$(dirname {executable})\" && cp {stub} {executable} && echo '{message}' && printf '%b\\n' \"{running}\" >&2"
 
 
 def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=False, extra_env=None, build=None, skip_build=False):
@@ -1147,6 +1148,73 @@ class RunCampaignTests(unittest.TestCase):
         self.assertTrue(document["build"]["target_is_builtin"])
         self.assertIsNone(document["build"]["target_spec_sha256"])
         self.assertEqual([c for c in document["build"]["compiler_chain"] if c["role"] == "target-linker"], [])
+        self.assertEqual(document["status"], "complete")
+
+    def test_measured_processes_run_in_the_source_tree_and_preloads_resolve_there(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        lib = repo / "liballoc.dylib"
+        lib.write_bytes(b"source library")
+        (repo / ".gitignore").write_text("/target/" + chr(10) + "/liballoc.dylib" + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", ".gitignore"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "lib"], check=True)
+        launch = pathlib.Path(tempfile.mkdtemp(prefix="topic028-launch-"))
+        (launch / "liballoc.dylib").write_bytes(b"launch library")
+        env["DYLD_INSERT_LIBRARIES"] = "./liballoc.dylib"
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300, cwd=launch)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["runtime_libraries"], {"./liballoc.dylib": hashlib.sha256(b"source library").hexdigest()})
+        self.assertEqual({r["cwd"] for r in document["rows"]}, {str(repo)})
+
+    def test_direct_linker_input_files_are_hashed(self):
+        obj = pathlib.Path(tempfile.mkdtemp(prefix="topic028-obj-")) / "hook.o"
+        obj.write_bytes(b"object bytes")
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTFLAGS": f"-Clink-arg={obj} -Clink-arg=-Wl,--gc-sections"})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["rustflags"]["external_inputs"], {str(obj): hashlib.sha256(b"object bytes").hexdigest()})
+        self.assertEqual(document["status"], "complete")
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTFLAGS": "-Clink-arg=/no/such/hook.o"})
+        self.assertEqual(json.loads(out.read_text())["status"], "invalid: source identity not reproducible")
+
+    def test_config_files_named_in_the_build_command_are_hashed(self):
+        config = pathlib.Path(tempfile.mkdtemp(prefix="topic028-cfg-")) / "build.toml"
+        config.write_text("[build]" + chr(10))
+        build = f"true --config {config} --config build.jobs=2 && " + stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        hashes = json.loads(out.read_text())["build"]["config_sha256"]
+        self.assertEqual(hashes, {str(config): hashlib.sha256(("[build]" + chr(10)).encode()).hexdigest()})
+
+    def test_the_compiler_probe_runs_through_the_wrapper_chain(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-wrapchain-"))
+        backend = root / "backend-rustc"
+        backend.write_text("#!/bin/sh" + chr(10) + "echo 'rustc 5.5.5-backend'" + chr(10) + "echo 'release: 5.5.5-backend'" + chr(10))
+        backend.chmod(0o755)
+        wrapper = root / "wrapper"
+        wrapper.write_text("#!/bin/sh" + chr(10) + "shift" + chr(10) + f'exec {backend} "$@"' + chr(10))
+        wrapper.chmod(0o755)
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", compiler=f"{wrapper} $FAKE_RUSTC")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        self.assertIn("5.5.5-backend", json.loads(out.read_text())["environment"]["rustc"])
+
+    def test_coloured_running_lines_are_parsed_and_redacted(self):
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", env_prefix="API_TOKEN=$STUB_SECRET", ansi=True)
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        env["STUB_SECRET"] = "hunter2ansi"
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        text = out.read_text()
+        self.assertNotIn("hunter2ansi", text)
+        document = json.loads(text)
+        self.assertEqual(document["build"]["compiler_invocations"], 1)
         self.assertEqual(document["status"], "complete")
 
     def test_cargo_profile_overrides_are_recorded(self):

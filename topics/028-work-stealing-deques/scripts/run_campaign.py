@@ -55,13 +55,17 @@ def candidates_for(workload):
     return [BASELINE, placement]
 
 
+ANSI_SEQUENCE = re.compile(r"\x1b\[[0-9;?]*[ -/]*[@-~]")
+
+
 def captured_text(output):
-    """Decode captured child output with replacement so invalid UTF-8 is retained in the row instead of aborting the campaign."""
+    """Decode captured child output with replacement so invalid UTF-8 is retained in the row instead of aborting the
+    campaign, and strip ANSI control sequences so coloured Cargo output parses and redacts like plain output."""
     if output is None:
         return ""
     if isinstance(output, bytes):
         output = output.decode("utf-8", errors="replace")
-    return output.strip()
+    return ANSI_SEQUENCE.sub("", output).strip()
 
 
 def schedule_for(repetition, candidates):
@@ -88,10 +92,11 @@ def start_row(binary, workload, candidate, label, arm, repetition=None):
     return row
 
 
-def run_row(row, workload, timeout):
-    """Execute the row's command and replace `running` with ok, failed or timeout."""
+def run_row(row, workload, timeout, cwd=None):
+    """Execute the row's command in the source tree and replace `running` with ok, failed or timeout."""
+    row["cwd"] = None if cwd is None else str(cwd)
     try:
-        process = subprocess.run(row["command"], capture_output=True, timeout=timeout)
+        process = subprocess.run(row["command"], capture_output=True, timeout=timeout, cwd=cwd)
     except subprocess.TimeoutExpired as expired:
         row.update({"status": "timeout", "timeout_s": timeout, "stdout": captured_text(expired.stdout), "stderr": captured_text(expired.stderr)})
         return row
@@ -276,6 +281,7 @@ def target_spec_sha256(source):
 
 
 EXTERNAL_INPUT_FLAGS = ("profile-use=", "profile-sample-use=", "link-arg=@", "link-args=@")
+LINKER_INPUT_SUFFIXES = (".o", ".a", ".so", ".dylib", ".obj", ".lib", ".rlib")
 
 
 def rustflags_external_inputs(source, extra_tokens=()):
@@ -300,6 +306,12 @@ def rustflags_external_inputs(source, extra_tokens=()):
                 if path:
                     resolved = (Path(source) / path).resolve()
                     inputs[str(resolved)] = sha256_of(resolved)
+        for prefix in ("link-arg=", "link-args="):
+            if body.startswith(prefix):
+                for argument in shlex.split(body[len(prefix):]) if prefix == "link-args=" else [body[len(prefix):]]:
+                    if argument and not argument.startswith(("-", "@")) and (os.sep in argument or argument.endswith(LINKER_INPUT_SUFFIXES)):
+                        resolved = (Path(source) / argument).resolve()
+                        inputs[str(resolved)] = sha256_of(resolved)
     return inputs
 
 
@@ -326,7 +338,8 @@ def identity(source, binary, pinned, out, toolchain=None, target=None, chain=Non
     compilers = [member["resolved"] for member in (chain or []) if member["role"] == "compiler"]
     cargos = [member["resolved"] for member in (chain or []) if member["role"] == "cargo"]
     linkers = [member["resolved"] for member in (chain or []) if member["role"] in ("linker", "target-linker")]
-    rustc = compilers[-1] if compilers else (os.environ.get("RUSTC") or os.environ.get("CARGO_BUILD_RUSTC") or "rustc")
+    through_wrappers = [member["resolved"] for member in (chain or []) if member["role"] in ("wrapper", "compiler")]
+    rustc = through_wrappers if compilers else [os.environ.get("RUSTC") or os.environ.get("CARGO_BUILD_RUSTC") or "rustc"]
     cargo = cargos[-1] if cargos else "cargo"
     return {
         "source": str(source),
@@ -350,7 +363,7 @@ def identity(source, binary, pinned, out, toolchain=None, target=None, chain=Non
         "binary_copy": None if pinned is None else str(pinned),
         "binary_sha256": None if pinned is None else sha256_of(pinned),
         "toolchain": toolchain,
-        "rustc": probe(toolchain_command(None if chain else toolchain, [rustc, "-Vv"]), cwd=source, env=probe_env),
+        "rustc": probe(toolchain_command(None if chain else toolchain, rustc + ["-Vv"]), cwd=source, env=probe_env),
         "cargo": probe(toolchain_command(None if cargos else toolchain, [cargo, "-V"]), cwd=source, env=probe_env),
         "linker": probe([linkers[-1], "--version"], cwd=source, env=probe_env) if linkers else None,
         "compiler_overrides": compiler_overrides(source),
@@ -524,12 +537,31 @@ def which_from(name, source, path=None):
     return None
 
 
+def build_command_config_files(command, source):
+    """Hashes of configuration files a build command passes to Cargo with `--config <path>`."""
+    try:
+        tokens = shlex.split(command)
+    except ValueError:
+        return {}
+    hashes = {}
+    for index, token in enumerate(tokens):
+        value = None
+        if token == "--config" and index + 1 < len(tokens):
+            value = tokens[index + 1]
+        elif token.startswith("--config="):
+            value = token[len("--config="):]
+        if value and "=" not in value:
+            resolved = (Path(source) / value).resolve()
+            hashes[str(resolved)] = sha256_of(resolved)
+    return hashes
+
+
 def build(source, command, timeout):
     """Run the build command in the source tree, in its own process group, and record its outcome.
 
     On timeout the whole group is killed so compiler descendants cannot outlive the runner.
     """
-    record = {"command": command, "cwd": str(source), "started_unix_s": time.time()}
+    record = {"command": command, "cwd": str(source), "started_unix_s": time.time(), "config_sha256": build_command_config_files(command, source)}
     try:
         process = subprocess.Popen(command, shell=True, cwd=source, stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
     except OSError as error:
@@ -735,14 +767,14 @@ def main():
             row = start_row(binary, workload, candidate, candidate, "warmup")
             document["warmups"].append(row)
             write_document(args.out, document)
-            run_row(row, workload, args.timeout)
+            run_row(row, workload, args.timeout, source)
             write_document(args.out, document)
         for repetition in range(args.repetitions):
             for candidate, label, arm in schedule_for(repetition, candidates):
                 row = start_row(binary, workload, candidate, label, arm, repetition)
                 document["rows"].append(row)
                 write_document(args.out, document)
-                run_row(row, workload, args.timeout)
+                run_row(row, workload, args.timeout, source)
                 write_document(args.out, document)
     document["environment"]["binary_sha256_final"] = None if pinned is None else sha256_of(pinned)
     document["summaries"] = summarize(document["rows"], document["warmups"], args.repetitions)
@@ -774,7 +806,9 @@ def main():
         and build_record.get("target_spec_sha256") is None and build_record.get("target_is_builtin") is not True
     ) or any(digest is None for digest in environment["rustflags"]["external_inputs"].values()) or any(
         digest is None for digest in (build_record.get("external_inputs") or {}).values()
-    ) or any(digest is None for digest in environment["runtime_libraries"].values()):
+    ) or any(digest is None for digest in environment["runtime_libraries"].values()) or any(
+        digest is None for digest in (build_record.get("config_sha256") or {}).values()
+    ):
         document["status"] = "invalid: source identity not reproducible"
     elif environment["binary_sha256_final"] != environment["binary_sha256"]:
         document["status"] = "invalid: binary changed during the campaign"
