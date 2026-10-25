@@ -11,4 +11,3 @@ workspace = true
 [[example]]
 name = "bench"
 path = "src/bench.rs"
-
