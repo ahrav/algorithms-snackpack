@@ -113,15 +113,19 @@ def run_row(row, workload, timeout):
     return row
 
 
-def probe(command, cwd=None):
+def probe(command, cwd=None, env=None):
     try:
-        return subprocess.run(command, cwd=cwd, text=True, capture_output=True, check=True, timeout=60).stdout.strip()
+        return subprocess.run(command, cwd=cwd, env=env, text=True, capture_output=True, check=True, timeout=60).stdout.strip()
     except (OSError, subprocess.SubprocessError):
         return None
 
 
 def sha256_of(path):
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest() if Path(path).is_file() else None
+    """SHA-256 of a regular file; None when the path is missing or cannot be read, so validation treats it as unavailable."""
+    try:
+        return hashlib.sha256(Path(path).read_bytes()).hexdigest() if Path(path).is_file() else None
+    except OSError:
+        return None
 
 
 CPU_IDENTITY_FIELDS = ("model name", "hardware", "cpu implementer", "cpu variant", "cpu part", "cpu revision")
@@ -220,7 +224,7 @@ def compiler_overrides(source):
         if os.sep in value:
             resolved = str((Path(source) / value).resolve())
         else:
-            resolved = shutil.which(value) or value
+            resolved = which_from(value, source) or value
         result[name] = {"value": value, "resolved": resolved, "sha256": sha256_of(resolved)}
     return result
 
@@ -259,8 +263,9 @@ def rustflags_identity(source):
     }
 
 
-def identity(source, binary, pinned, out, toolchain=None, target=None, chain=None):
+def identity(source, binary, pinned, out, toolchain=None, target=None, chain=None, invocation_env=None):
     status = worktree_status(source, out, target)
+    probe_env = dict(os.environ, **(invocation_env or {}))
     compilers = [member["resolved"] for member in (chain or []) if member["role"] == "compiler"]
     cargos = [member["resolved"] for member in (chain or []) if member["role"] == "cargo"]
     rustc = compilers[-1] if compilers else (os.environ.get("RUSTC") or os.environ.get("CARGO_BUILD_RUSTC") or "rustc")
@@ -287,8 +292,8 @@ def identity(source, binary, pinned, out, toolchain=None, target=None, chain=Non
         "binary_copy": None if pinned is None else str(pinned),
         "binary_sha256": None if pinned is None else sha256_of(pinned),
         "toolchain": toolchain,
-        "rustc": probe(toolchain_command(None if chain else toolchain, [rustc, "-Vv"]), cwd=source),
-        "cargo": probe(toolchain_command(None if cargos else toolchain, [cargo, "-V"]), cwd=source),
+        "rustc": probe(toolchain_command(None if chain else toolchain, [rustc, "-Vv"]), cwd=source, env=probe_env),
+        "cargo": probe(toolchain_command(None if cargos else toolchain, [cargo, "-V"]), cwd=source, env=probe_env),
         "compiler_overrides": compiler_overrides(source),
         "cargo_profile": cargo_profile(),
         "runtime_env": runtime_env(),
@@ -370,19 +375,40 @@ def compiler_invocations(stderr, source):
     return results
 
 
-def effective_target_spec(target, source, invocation_env=None):
-    """Hash of the custom target specification behind `target`: a `.json` path, or `<name>.json` found via the
+def target_spec_path(target, source, invocation_env=None):
+    """The custom target specification file behind `target`: a `.json` path, or `<name>.json` found via the
     RUST_TARGET_PATH the compiler saw (Cargo's invocation environment first, then the runner's)."""
     if not target:
         return None
     if target.endswith(".json"):
-        return sha256_of((Path(source) / target).resolve())
+        return (Path(source) / target).resolve()
     search = (invocation_env or {}).get("RUST_TARGET_PATH", os.environ.get("RUST_TARGET_PATH", ""))
     for directory in filter(None, search.split(os.pathsep)):
         candidate = (Path(source) / directory).resolve() / f"{target}.json"
         if candidate.is_file():
-            return sha256_of(candidate)
+            return candidate
     return None
+
+
+def effective_target_spec(target, source, invocation_env=None):
+    """Hash of the custom target specification behind `target`, or None when there is none or it cannot be read."""
+    path = target_spec_path(target, source, invocation_env)
+    return None if path is None else sha256_of(path)
+
+
+def target_spec_linker(target, source, invocation_env=None):
+    """The linker a custom target specification names in its `linker` field, resolved like a command-line tool."""
+    path = target_spec_path(target, source, invocation_env)
+    if path is None or not path.is_file():
+        return None
+    try:
+        linker = json.loads(path.read_text()).get("linker")
+    except (OSError, ValueError, AttributeError):
+        return None
+    if not linker:
+        return None
+    resolved = str((Path(source) / linker).resolve()) if os.sep in linker else (which_from(linker, source, (invocation_env or {}).get("PATH")) or linker)
+    return {"role": "target-linker", "path": linker, "resolved": resolved, "sha256": sha256_of(resolved)}
 
 
 def target_is_builtin(target, chain, source):
@@ -444,7 +470,11 @@ def build(source, command, timeout):
     errors = captured_text(stderr)
     executables = built_executables(text)
     invocations = compiler_invocations(errors, source)
+    record["raw_invocation_env"] = None
     chain, target, invocation_env, recorded_env = invocations[0] if len(invocations) == 1 else (None, None, None, None)
+    spec_linker = target_spec_linker(target, source, invocation_env)
+    if chain is not None and spec_linker is not None:
+        chain = chain + [spec_linker]
     record.update({
         "returncode": process.returncode, "stdout": redact_running_lines(text)[-4000:], "stderr": redact_running_lines(errors)[-4000:],
         "executable": str(executables[0]) if len(executables) == 1 else None,
@@ -454,6 +484,7 @@ def build(source, command, timeout):
         "target_spec_sha256": effective_target_spec(target, source, invocation_env),
         "target_is_builtin": target_is_builtin(target, chain, source),
     })
+    record["raw_invocation_env"] = invocation_env
     if process.returncode != 0:
         record["status"] = "failed"
     elif len(executables) > 1 or len(invocations) > 1:
@@ -556,9 +587,9 @@ def main():
     if args.repetitions < 4 or args.repetitions % 2:
         raise SystemExit("--repetitions must be even and at least four")
     source = args.source.resolve()
-    tracked = probe(["git", "ls-files", "--error-unmatch", "--", str(args.out.resolve())], cwd=source)
-    if tracked:
-        raise SystemExit(f"--out {args.out} names a file tracked in {source}; choose a generated path")
+    lexical_out = Path(os.path.abspath(args.out))
+    if lexical_out.is_symlink() or probe(["git", "ls-files", "--error-unmatch", "--", str(lexical_out)], cwd=source):
+        raise SystemExit(f"--out {args.out} is a symlink or names a file tracked in {source}; choose a generated path")
     target = target_directory(source, args.toolchain)
     if target is not None:
         try:
@@ -602,7 +633,7 @@ def main():
         "protocol_repetitions": args.repetitions == PROTOCOL_REPETITIONS,
         "timeout_s": args.timeout,
         "build": build_record,
-        "environment": identity(source, built, pinned, args.out, args.toolchain, target, build_record.get("compiler_chain")),
+        "environment": identity(source, built, pinned, args.out, args.toolchain, target, build_record.get("compiler_chain"), build_record.pop("raw_invocation_env", None)),
         "created_unix_s": time.time(),
         "warmups": [],
         "rows": [],

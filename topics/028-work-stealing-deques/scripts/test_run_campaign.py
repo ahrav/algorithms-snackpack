@@ -904,6 +904,80 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(runtime["MallocNanoZone"], "0")
         self.assertEqual(runtime["MallocStackLogging"], "1")
 
+    def test_bare_overrides_resolve_through_the_source_relative_path(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        (repo / "tools").mkdir()
+        wrapper = repo / "tools" / "my-wrapper"
+        wrapper.write_text("#!/bin/sh" + chr(10) + 'exec "$@"' + chr(10))
+        wrapper.chmod(0o755)
+        (repo / ".gitignore").write_text("/target/" + chr(10) + "/tools/" + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", ".gitignore"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "tools"], check=True)
+        env["RUSTC_WRAPPER"] = "my-wrapper"
+        env["PATH"] = "tools:" + env["PATH"]
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300, cwd=tempfile.mkdtemp(prefix="topic028-cwd-"))
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["compiler_overrides"]["RUSTC_WRAPPER"]["resolved"], str(wrapper))
+        self.assertEqual(document["status"], "complete")
+
+    def test_a_linker_named_by_the_target_specification_is_hashed(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-speclinker-"))
+        linker = root / "spec-ld"
+        linker.write_text("#!/bin/sh" + chr(10) + 'exec "$@"' + chr(10))
+        linker.chmod(0o755)
+        spec = root / "custom.json"
+        spec.write_text(json.dumps({"llvm-target": "aarch64-unknown-linux-gnu", "linker": str(linker)}) + chr(10))
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args=f"--target {spec}")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        chain = json.loads(out.read_text())["build"]["compiler_chain"]
+        entry = [c for c in chain if c["role"] == "target-linker"][0]
+        self.assertEqual(entry["resolved"], str(linker))
+        self.assertEqual(entry["sha256"], hashlib.sha256(linker.read_bytes()).hexdigest())
+
+    def test_an_output_path_that_is_a_tracked_symlink_is_refused(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        elsewhere = pathlib.Path(tempfile.mkdtemp(prefix="topic028-else-")) / "campaign.json"
+        link = repo / "results.json"
+        link.symlink_to(elsewhere)
+        subprocess.run(["git", "-C", str(repo), "add", "results.json"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "link"], check=True)
+        command = [(str(link) if c == str(out) else c) for c in command]
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertNotEqual(process.returncode, 0)
+        self.assertIn("tracked", process.stderr)
+        self.assertTrue(link.is_symlink())
+        self.assertFalse(elsewhere.exists())
+
+    def test_an_unreadable_identity_file_hashes_to_none(self):
+        sys.path.insert(0, str(RUNNER.parent))
+        import run_campaign
+        path = pathlib.Path(tempfile.mkdtemp(prefix="topic028-unreadable-")) / "tool"
+        path.write_text("#!/bin/sh" + chr(10))
+        path.chmod(0o111)
+        if os.access(path, os.R_OK):
+            self.skipTest("this account can read execute-only files")
+        self.assertIsNone(run_campaign.sha256_of(path))
+
+    def test_compiler_probes_run_with_the_invocation_environment(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-dispatch-"))
+        dispatcher = root / "dispatch-rustc"
+        dispatcher.write_text("#!/bin/sh" + chr(10) + 'echo "rustc 1.0.0-${STUB_FLAVOR:-plain}"' + chr(10) + 'echo "release: 1.0.0-${STUB_FLAVOR:-plain}"' + chr(10))
+        dispatcher.chmod(0o755)
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", compiler=f"STUB_FLAVOR=dispatch {dispatcher}")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        env.pop("STUB_FLAVOR", None)
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        self.assertIn("1.0.0-dispatch", json.loads(out.read_text())["environment"]["rustc"])
+
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})
         self.assertEqual(process.returncode, 0, process.stderr)

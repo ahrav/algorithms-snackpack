@@ -35,8 +35,10 @@ taken from the build directory, and including the Cargo executable Cargo
 names as `CARGO`, which the `cargo -V` probe then runs; hashes a
 custom target specification (a `.json` path, or a name found through the
 `RUST_TARGET_PATH` the compiler saw, including one set by Cargo `[env]`
-config) and asks the compiler whether a named target is builtin, requiring a
-specification otherwise; probes `rustc -Vv` on the compiler Cargo invoked;
+config) together with any linker that specification names, and asks the
+compiler whether a named target is builtin, requiring a specification
+otherwise; probes `rustc -Vv` and `cargo -V` on the executables Cargo
+invoked, under the environment Cargo passed them;
 hashes the built example and identifies the source tree it came from. The
 build runs in its own process group and a timed-out build is killed with its
 descendants.
@@ -57,9 +59,14 @@ only provenance variables (`CARGO*`, `PATH`, `LD_LIBRARY_PATH`,
 tunables) are recorded verbatim; any other variable, such as a credential
 from `[env]` config, is recorded as a hash and redacted from the retained
 build output. `--out` has to name a generated path: the runner refuses an
-output path that is a tracked file in `--source`, and refuses a Cargo target
+output path that is a symlink or a tracked file in `--source` (checked on
+the path as written, before symlink resolution), and refuses a Cargo target
 directory that contains tracked inputs, since either would hide source
-changes from the dirty check. The recorded runtime variables include the
+changes from the dirty check. An identity file that exists but cannot be
+read hashes to nothing and invalidates the campaign like a missing one.
+Compiler overrides given as bare names resolve through `PATH` from the
+build directory, like the tools in the compiler chain. The runner's own
+test suite (`scripts/test_run_campaign.py`) runs in CI. The recorded runtime variables include the
 macOS loader and allocator controls (`DYLD_*`, `Malloc*`).
 
 The environment also records Cargo's compiler overrides (`RUSTC`,
