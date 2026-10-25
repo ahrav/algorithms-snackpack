@@ -246,7 +246,7 @@ def target_spec_sha256(source):
 def rustflags_identity(source):
     """Record every Cargo flag source, plus hashes of the config files Cargo reads: `.cargo/config{,.toml}` in the
     build directory and each ancestor, then Cargo home."""
-    cargo_home = Path(os.environ.get("CARGO_HOME", Path.home() / ".cargo"))
+    cargo_home = (Path(source) / os.environ["CARGO_HOME"]).resolve() if os.environ.get("CARGO_HOME") else Path.home() / ".cargo"
     directories = [Path(source).resolve(), *Path(source).resolve().parents, cargo_home]
     candidates = [directory / ".cargo" / name for directory in directories[:-1] for name in ("config.toml", "config")]
     candidates += [cargo_home / "config.toml", cargo_home / "config"]

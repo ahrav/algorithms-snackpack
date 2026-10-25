@@ -790,6 +790,21 @@ class RunCampaignTests(unittest.TestCase):
         self.assertIn(str(repo / ".cargo" / "config.toml"), hashes)
         self.assertIn(str(repo.parent / ".cargo" / "config"), hashes)
 
+    def test_relative_cargo_home_resolves_against_the_source_tree(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        (repo / "chome").mkdir()
+        config = repo / "chome" / "config.toml"
+        config.write_text("[build]" + chr(10))
+        (repo / ".gitignore").write_text("/target/" + chr(10) + "/chome/" + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", ".gitignore"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "home"], check=True)
+        env["CARGO_HOME"] = "chome"
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300, cwd=tempfile.mkdtemp(prefix="topic028-cwd-"))
+        self.assertEqual(process.returncode, 0, process.stderr)
+        hashes = json.loads(out.read_text())["environment"]["rustflags"]["cargo_config_sha256"]
+        self.assertIn(str(config), hashes)
+
     def test_a_dirty_source_tree_withholds_selection(self):
         process, out, _ = run_campaign({}, dirty=True)
         self.assertEqual(process.returncode, 0, process.stderr)
