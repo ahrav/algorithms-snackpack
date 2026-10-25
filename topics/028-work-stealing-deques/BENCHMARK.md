@@ -66,7 +66,8 @@ output. An empty `RUSTC_WRAPPER` or `RUSTC_WORKSPACE_WRAPPER` is recorded as
 a disabled wrapper, as Cargo treats it. Files that compiler flags name as
 inputs (`-C profile-use`, `-C profile-sample-use`, bare `@path` response
 files, `@` response files and path-like objects or archives in link
-arguments, and the files those response files name, four levels deep) are
+arguments, the files those response files name, four levels deep, and the
+native libraries `-l` selects from explicit `-L` search directories) are
 hashed under
 `rustflags.external_inputs` for the environment flag sources and under
 `build.external_inputs` for the flags in Cargo's effective invocation
@@ -87,9 +88,11 @@ build command passes to Cargo with `--config <path>` are hashed under
 through the wrapper chain Cargo used, so a wrapper that substitutes a backend
 answers for that backend. A build command runs with the runner's own
 environment; one that visibly changes it (`env`, `export`, `unset`, a
-nested shell, `sudo`, a `NAME=value` prefix, matched by basename and through
-wrappers such as `command`, `nohup` or `timeout`) is refused so the identity
-probes observe the same environment the build did. A flag string the shell
+nested shell, `sudo`, a `NAME=value` prefix, matched by basename, through
+wrappers such as `command`, `nohup` or `timeout`, and after attached shell
+separators and redirections) is refused so the identity probes observe the
+same environment the build did. The artifact a build reports must come from
+a manifest inside `--source`; any other manifest is an artifact mismatch. A flag string the shell
 cannot parse is split on whitespace and recorded. The shared objects the loader resolves for the
 pinned binary from the source tree under the runner's environment
 (`LD_LIBRARY_PATH` included) are hashed under `environment.loaded_objects`
@@ -100,7 +103,8 @@ difference ends the campaign as `invalid: loaded objects changed during the
 campaign`. Beneath the target directory, only Cargo's own artifact layout
 (flat `deps` files, fingerprints, incremental sessions, build-script
 binaries and `out/` trees) is exempt from the input scan, so a source tree
-placed under `deps/` marks the tree dirty. Cargo's coloured output is stripped of ANSI sequences before the
+placed under `deps/` marks the tree dirty. Git status and listings are read
+NUL-delimited, so paths with spaces or unusual bytes are filtered verbatim. Cargo's coloured output is stripped of ANSI sequences before the
 `Running` line is parsed and redacted. `--out` is refused when either its
 lexical or its resolved path names a tracked file or a Cargo input. `CARGO_PROFILE_*` values are kept verbatim only for the known
 profile keys; other names are hashed. The document is written through a

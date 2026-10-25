@@ -93,12 +93,13 @@ def fake_rustc(root):
     return path
 
 
-def stub_build(stub, executable, running_args="", compiler=None, env_prefix="", ansi=False):
+def stub_build(stub, executable, running_args="", compiler=None, env_prefix="", ansi=False, manifest_path="__PWD__/topics/028-work-stealing-deques/Cargo.toml"):
     """A stub build command: install the stub as the example, report it as Cargo would, and print the verbose
     Running line Cargo prints, naming the compiler an override would select; `ansi` colours it as `--color always` does."""
     compiler = compiler or '${RUSTC:-${CARGO_BUILD_RUSTC:-$FAKE_RUSTC}}'
     compiler = f"{env_prefix} {compiler}".strip()
-    message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": executable})
+    message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": executable,
+                          "manifest_path": manifest_path}).replace("__PWD__", "'\"$PWD\"'")
     label = "\\033[1m\\033[32m     Running\\033[0m " if ansi else "     Running "
     running = label + "\\`" + f"{compiler} --crate-name compare --edition=2024 examples/compare.rs {running_args} -C opt-level=3" + "\\`"
     return f"mkdir -p \"$(dirname {executable})\" && cp {stub} {executable} && echo '{message}' && printf '%b\\n' \"{running}\" >&2"
@@ -679,7 +680,8 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(document["status"], "invalid: source identity not reproducible")
 
     def test_a_custom_build_without_a_compiler_chain_is_invalid(self):
-        message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": "target/release/examples/compare"})
+        message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": "target/release/examples/compare",
+                              "manifest_path": "__PWD__/topics/028-work-stealing-deques/Cargo.toml"}).replace("__PWD__", "'\"$PWD\"'")
         build = f"mkdir -p target/release/examples && cp \"$STUB_SOURCE\" target/release/examples/compare && echo '{message}'"
         command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
         env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
@@ -1363,6 +1365,57 @@ class RunCampaignTests(unittest.TestCase):
         self.assertIs(document["environment"]["worktree_dirty"], True)
         self.assertIn("!! target/release/deps/helper/src/lib.rs", document["environment"]["worktree_status"])
         self.assertEqual(document["status"], "invalid: source identity not reproducible")
+
+    def test_ignored_inputs_in_directories_with_spaces_are_reported(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        dep = repo / "ignored dir" / "src" / "lib.rs"
+        dep.parent.mkdir(parents=True)
+        dep.write_text("pub fn dep() {}" + chr(10))
+        (repo / ".gitignore").write_text("/target/" + chr(10) + "/ignored dir/" + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", ".gitignore"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "ignore"], check=True)
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["worktree_status"], ["!! ignored dir/src/lib.rs"])
+        self.assertEqual(document["status"], "invalid: source identity not reproducible")
+
+    def test_native_libraries_selected_through_search_paths_are_hashed(self):
+        outside = pathlib.Path(tempfile.mkdtemp(prefix="topic028-native-"))
+        archive = outside / "libhook.a"
+        archive.write_bytes(b"archive bytes")
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args=f"-L native={outside} -l static=hook -l m")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["external_inputs"], {str(archive): hashlib.sha256(b"archive bytes").hexdigest()})
+        self.assertEqual(document["status"], "complete")
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTFLAGS": f"-L {outside} -l hook"})
+        self.assertEqual(json.loads(out.read_text())["environment"]["rustflags"]["external_inputs"], {str(archive): hashlib.sha256(b"archive bytes").hexdigest()})
+
+    def test_environment_mutators_after_attached_separators_are_refused(self):
+        for build in ("true; env -u BACKEND cargo build", "true;env -u BACKEND cargo build", "true&&env -u BACKEND cargo build", "true|env -u BACKEND cargo build", "(env -u BACKEND cargo build)", "true; >/dev/null env -u BACKEND cargo build"):
+            with self.subTest(build=build):
+                process, out, _ = run_campaign({}, repetitions=4, build=build)
+                self.assertNotEqual(process.returncode, 0)
+                self.assertIn("environment", process.stderr)
+                self.assertFalse(out.exists())
+
+    def test_an_artifact_from_a_manifest_outside_the_source_tree_is_rejected(self):
+        outside = pathlib.Path(tempfile.mkdtemp(prefix="topic028-manifest-")) / "Cargo.toml"
+        outside.write_text("[package]" + chr(10))
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", manifest_path=str(outside))
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["status"], "artifact mismatch")
+        self.assertIn("manifest", document["build"]["reason"])
+        self.assertEqual(document["status"], "invalid: build artifact mismatch")
 
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})

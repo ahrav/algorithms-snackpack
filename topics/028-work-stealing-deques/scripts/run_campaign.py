@@ -164,9 +164,16 @@ def worktree_status(repository, out, target=None):
     The campaign output and the target directory are generated and are left out. Returns None when git
     is unavailable.
     """
-    status = probe(["git", "status", "--porcelain", "--untracked-files=all", "--ignored=matching"], cwd=repository)
+    status = probe(["git", "status", "--porcelain", "-z", "--untracked-files=all", "--ignored=matching"], cwd=repository)
     if status is None:
         return None
+    entries = []
+    records = iter(status.split("\0"))
+    for record in records:
+        if record:
+            entries.append(record)
+            if record[0] in "RC":
+                next(records, None)
     root = Path(repository).resolve()
     generated = []
     for path in (out, target):
@@ -184,21 +191,23 @@ def worktree_status(repository, out, target=None):
             r"(^|/)\.fingerprint/[^/]+/[^/]+$", path
         ) is not None or re.search(r"(^|/)incremental/[^/]+/[^/]+(/[^/]+)?$", path) is not None
 
+    def others(path, ignored):
+        flags = ["--others", "--exclude-standard"] + (["--ignored"] if ignored else [])
+        listing = probe(["git", "ls-files", "-z"] + flags + ["--", path], cwd=repository) or ""
+        return [inner for inner in listing.split("\0") if inner]
+
     lines = []
     target_relative = generated[1]
     if target_relative is not None:
-        listing = probe(["git", "ls-files", "--others", "--ignored", "--exclude-standard", "--", target_relative], cwd=repository) or ""
-        listing += "\n" + (probe(["git", "ls-files", "--others", "--exclude-standard", "--", target_relative], cwd=repository) or "")
-        for inner in sorted(set(filter(None, listing.splitlines()))):
+        for inner in sorted(set(others(target_relative, True) + others(target_relative, False))):
             if re.fullmatch(CARGO_INPUT_PATTERN, inner) and not is_cargo_output(inner):
                 lines.append(f"!! {inner}")
-    for line in status.splitlines():
+    for line in entries:
         path = line[3:]
         if is_generated(path):
             continue
         if line.startswith("!!") and path.endswith("/"):
-            listing = probe(["git", "ls-files", "--others", "--ignored", "--exclude-standard", "--", path], cwd=repository) or ""
-            lines.extend(f"!! {inner}" for inner in listing.splitlines() if re.fullmatch(CARGO_INPUT_PATTERN, inner) and not is_generated(inner))
+            lines.extend(f"!! {inner}" for inner in others(path, True) if re.fullmatch(CARGO_INPUT_PATTERN, inner) and not is_generated(inner))
             continue
         if line.startswith("!!") and not re.fullmatch(CARGO_INPUT_PATTERN, path):
             continue
@@ -347,8 +356,37 @@ def join_codegen_flags(tokens):
     return folded
 
 
+def native_library_inputs(flags, source, inputs):
+    """Hash the native libraries `-l` selects from the explicit `-L` search directories; a name found in none of them is
+    a system library the linker resolves from its defaults and, when dynamic, appears among the loaded objects."""
+    directories, names = [], []
+    tokens = list(flags)
+    for index, token in enumerate(tokens):
+        for option, bucket in (("-L", directories), ("-l", names)):
+            if token == option and index + 1 < len(tokens):
+                bucket.append(tokens[index + 1])
+            elif token.startswith(option) and len(token) > 2 and not token.startswith("--"):
+                bucket.append(token[2:])
+    search = []
+    for entry in directories:
+        kind, _, path = entry.rpartition("=")
+        if kind in ("dependency", "crate"):
+            continue
+        search.append((Path(source) / path).resolve())
+    for entry in names:
+        _, _, name = entry.rpartition("=")
+        name = name.split(":")[0]
+        if not name:
+            continue
+        for directory in search:
+            for candidate in sorted(directory.glob(f"lib{name}.*")) + [directory / f"{name}.lib", directory / f"{name}.dll"]:
+                if candidate.is_file():
+                    inputs[str(candidate)] = sha256_of(candidate)
+
+
 def flag_inputs(flags, source, inputs, depth):
     """Hash every file the compiler flags name as an input, following rustc `@file` response files to a bounded depth."""
+    native_library_inputs(flags, source, inputs)
     for token in join_codegen_flags(flags):
         body = token[2:] if token.startswith("-C") and not token.startswith("-C ") else token
         if token.startswith("@") and len(token) > 1:
@@ -375,7 +413,10 @@ def rustflags_external_inputs(source, extra_tokens=()):
         value = os.environ.get(name)
         if value:
             flags.extend(value.split("\x1f") if name == "CARGO_ENCODED_RUSTFLAGS" else split_flags(value))
-    flags.extend(token for token in join_codegen_flags(list(extra_tokens)) if token.startswith("-C"))
+    extra = list(extra_tokens)
+    for index, token in enumerate(extra):
+        if token.startswith(("-C", "-L", "-l")) and not token.startswith("--") and (len(token) > 2 or index + 1 < len(extra)):
+            flags.append(token if len(token) > 2 else token + extra[index + 1])
     inputs = {}
     flag_inputs(flags, source, inputs, RESPONSE_FILE_DEPTH)
     return inputs
@@ -598,12 +639,21 @@ def mutates_environment(command):
     shell or privilege-changing word (matched by basename, through wrappers such as `command` or `nohup`), or a
     `NAME=value` assignment in command position."""
     try:
-        tokens = shlex.split(command)
+        lexer = shlex.shlex(command, posix=True, punctuation_chars=True)
+        lexer.whitespace_split = True
+        tokens = list(lexer)
     except ValueError:
         return True
     command_position = True
+    skip_redirect_target = False
     for token in tokens:
-        if token in ("&&", "||", ";", "|", "(", ")", "{", "}"):
+        if skip_redirect_target:
+            skip_redirect_target = False
+            continue
+        if re.fullmatch(r"[0-9]*[<>]{1,2}&?|&>>?|[<>]&", token):
+            skip_redirect_target = True
+            continue
+        if re.fullmatch(r"[();<>|&]+", token) or token in ("{", "}"):
             command_position = True
             continue
         if not command_position:
@@ -618,7 +668,7 @@ def mutates_environment(command):
 
 
 def built_executables(stdout):
-    """Every path Cargo reports for the compare example in its JSON compiler-artifact messages."""
+    """Every (executable, manifest) pair Cargo reports for the compare example in its JSON compiler-artifact messages."""
     found = []
     for line in stdout.splitlines():
         try:
@@ -628,8 +678,20 @@ def built_executables(stdout):
         if isinstance(message, dict) and message.get("reason") == "compiler-artifact":
             target = message.get("target") or {}
             if target.get("name") == "compare" and "example" in (target.get("kind") or []) and message.get("executable"):
-                found.append(Path(message["executable"]))
+                found.append((Path(message["executable"]), message.get("manifest_path")))
     return found
+
+
+def manifest_outside(manifest, source):
+    """Why an artifact's manifest fails to bind it to the source tree; None when it is a file inside the tree."""
+    if not manifest:
+        return "build reported an artifact without a manifest path"
+    resolved = (Path(source) / manifest).resolve()
+    try:
+        resolved.relative_to(Path(source).resolve())
+    except ValueError:
+        return f"build reported an artifact from manifest {manifest}, outside {source}"
+    return None
 
 
 def which_from(name, source, path=None):
@@ -698,8 +760,9 @@ def build(source, command, timeout):
         chain = chain + [{"role": "linker", "inferred": True, "path": inferred, "resolved": resolved, "sha256": sha256_of(resolved)}]
     record.update({
         "returncode": process.returncode, "stdout": redact_running_lines(text)[-4000:], "stderr": redact_running_lines(errors)[-4000:],
-        "executable": str(executables[0]) if len(executables) == 1 else None,
-        "reported_executables": [str(path) for path in executables],
+        "executable": str(executables[0][0]) if len(executables) == 1 else None,
+        "manifest_path": executables[0][1] if len(executables) == 1 else None,
+        "reported_executables": [str(path) for path, _ in executables],
         "compiler_invocations": len(invocations),
         "compiler_chain": chain, "invocation_env": recorded_env, "target": target,
         "target_spec_sha256": None if builtin else effective_target_spec(target, source, invocation_env),
@@ -837,7 +900,11 @@ def main():
     else:
         build_record = build(source, args.build_command or default_build_command(args.toolchain), args.build_timeout)
         reported = source / build_record["executable"] if build_record.get("executable") else None
-        if args.binary is None and reported is not None:
+        unbound = manifest_outside(build_record.get("manifest_path"), source) if reported is not None and build_record["status"] == "ok" else None
+        if unbound is not None:
+            build_record["status"] = "artifact mismatch"
+            build_record["reason"] = unbound
+        elif args.binary is None and reported is not None:
             built = reported
         elif args.binary is None and build_record["status"] == "ok":
             build_record["status"] = "no artifact"
