@@ -172,7 +172,17 @@ def worktree_status(repository, out, target=None):
     def is_generated(path):
         return path in generated or any(g is not None and path.startswith(g + "/") for g in generated)
 
+    def is_cargo_output(path):
+        return re.search(r"(^|/)build/[^/]+/out/", path) is not None or "/.fingerprint/" in path or "/deps/" in path or "/incremental/" in path
+
     lines = []
+    target_relative = generated[1]
+    if target_relative is not None:
+        listing = probe(["git", "ls-files", "--others", "--ignored", "--exclude-standard", "--", target_relative], cwd=repository) or ""
+        listing += "\n" + (probe(["git", "ls-files", "--others", "--exclude-standard", "--", target_relative], cwd=repository) or "")
+        for inner in sorted(set(filter(None, listing.splitlines()))):
+            if re.fullmatch(CARGO_INPUT_PATTERN, inner) and not is_cargo_output(inner):
+                lines.append(f"!! {inner}")
     for line in status.splitlines():
         path = line[3:]
         if is_generated(path):
@@ -233,8 +243,22 @@ def compiler_overrides(source):
 
 
 def cargo_profile():
-    """Profile overrides Cargo reads from the environment, which change the generated release executable."""
-    return {name: value for name, value in sorted(os.environ.items()) if name.startswith("CARGO_PROFILE_")}
+    """Profile overrides Cargo reads from the environment, which change the generated release executable;
+    a name outside the known profile keys is kept only as a hash."""
+    return {name: redacted_value(name, value) for name, value in sorted(os.environ.items()) if name.startswith("CARGO_PROFILE_")}
+
+
+def runtime_libraries(source):
+    """Hashes of the libraries the loader variables inject into every measured process; None for an unreadable one."""
+    result = {}
+    for name in ("LD_PRELOAD", "DYLD_INSERT_LIBRARIES"):
+        value = os.environ.get(name)
+        if not value:
+            continue
+        for entry in re.split(r"[\s:]+", value.strip()):
+            if entry:
+                result[entry] = sha256_of((Path(source) / entry).resolve()) if os.sep in entry else sha256_of(entry)
+    return result
 
 
 def runtime_env():
@@ -251,7 +275,7 @@ def target_spec_sha256(source):
     return sha256_of((Path(source) / target).resolve())
 
 
-EXTERNAL_INPUT_FLAGS = ("profile-use=", "profile-sample-use=", "instrument-coverage=", "link-arg=@", "link-args=@")
+EXTERNAL_INPUT_FLAGS = ("profile-use=", "profile-sample-use=", "link-arg=@", "link-args=@")
 
 
 def rustflags_external_inputs(source, extra_tokens=()):
@@ -332,6 +356,7 @@ def identity(source, binary, pinned, out, toolchain=None, target=None, chain=Non
         "compiler_overrides": compiler_overrides(source),
         "cargo_profile": cargo_profile(),
         "runtime_env": runtime_env(),
+        "runtime_libraries": runtime_libraries(source),
         "rustflags": rustflags_identity(source),
     }
 
@@ -526,7 +551,8 @@ def build(source, command, timeout):
     invocations = compiler_invocations(errors, source)
     record["raw_invocation_env"] = None
     chain, target, invocation_env, recorded_env, invocation_tokens = invocations[0] if len(invocations) == 1 else (None, None, None, None, ())
-    spec_linker = target_spec_linker(target, source, invocation_env)
+    builtin = target_is_builtin(target, chain, source, invocation_env)
+    spec_linker = None if builtin else target_spec_linker(target, source, invocation_env)
     if chain is not None and spec_linker is not None:
         chain = chain + [spec_linker]
     if chain is not None and not any(member["role"] in ("linker", "target-linker") for member in chain):
@@ -539,8 +565,8 @@ def build(source, command, timeout):
         "reported_executables": [str(path) for path in executables],
         "compiler_invocations": len(invocations),
         "compiler_chain": chain, "invocation_env": recorded_env, "target": target,
-        "target_spec_sha256": effective_target_spec(target, source, invocation_env),
-        "target_is_builtin": target_is_builtin(target, chain, source, invocation_env),
+        "target_spec_sha256": None if builtin else effective_target_spec(target, source, invocation_env),
+        "target_is_builtin": builtin,
         "external_inputs": rustflags_external_inputs(source, invocation_tokens),
     })
     record["raw_invocation_env"] = invocation_env
@@ -625,9 +651,11 @@ def summarize(rows, warmups, repetitions):
 
 
 def write_document(out, document):
+    """Write atomically through a uniquely named scratch file beside the output, so no fixed sibling path is touched."""
     out.parent.mkdir(parents=True, exist_ok=True)
-    scratch = out.with_name(out.name + ".partial")
-    scratch.write_text(json.dumps(document, indent=2) + "\n", encoding="utf-8")
+    handle, scratch = tempfile.mkstemp(prefix=out.name + ".", suffix=".partial", dir=out.parent)
+    with os.fdopen(handle, "w", encoding="utf-8") as stream:
+        stream.write(json.dumps(document, indent=2) + "\n")
     os.replace(scratch, out)
 
 
@@ -746,7 +774,7 @@ def main():
         and build_record.get("target_spec_sha256") is None and build_record.get("target_is_builtin") is not True
     ) or any(digest is None for digest in environment["rustflags"]["external_inputs"].values()) or any(
         digest is None for digest in (build_record.get("external_inputs") or {}).values()
-    ):
+    ) or any(digest is None for digest in environment["runtime_libraries"].values()):
         document["status"] = "invalid: source identity not reproducible"
     elif environment["binary_sha256_final"] != environment["binary_sha256"]:
         document["status"] = "invalid: binary changed during the campaign"

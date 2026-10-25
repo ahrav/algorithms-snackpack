@@ -1066,6 +1066,89 @@ class RunCampaignTests(unittest.TestCase):
         self.assertTrue(document["build"]["target_is_builtin"])
         self.assertEqual(document["status"], "complete")
 
+    def test_coverage_modes_are_not_treated_as_files(self):
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTFLAGS": "-C instrument-coverage=all"})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["rustflags"]["external_inputs"], {})
+        self.assertEqual(document["status"], "complete")
+
+    def test_a_tracked_scratch_path_is_left_alone(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        (repo / "results").mkdir()
+        partial = repo / "results" / "campaign.json.partial"
+        partial.write_text("tracked scratch" + chr(10))
+        (repo / ".gitignore").write_text("/target/" + chr(10) + "/results/campaign.json" + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", ".gitignore", "results/campaign.json.partial"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "scratch"], check=True)
+        command = [(str(repo / "results" / "campaign.json") if c == str(out) else c) for c in command]
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        self.assertEqual(partial.read_text(), "tracked scratch" + chr(10))
+        self.assertEqual(json.loads((repo / "results" / "campaign.json").read_text())["status"], "complete")
+
+    def test_untracked_cargo_inputs_beneath_the_target_directory_are_dirty(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        target = repo / "build-out"
+        (repo / ".gitignore").write_text("/target/" + chr(10) + "/build-out/" + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", ".gitignore"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "target"], check=True)
+        (target / "release" / "build" / "pkg-abc" / "out").mkdir(parents=True)
+        (target / "release" / "build" / "pkg-abc" / "out" / "generated.rs").write_text("" + chr(10))
+        env["CARGO_TARGET_DIR"] = str(target)
+        env["STUB_SOURCE"] = str(repo.parent / "stub.py")
+        command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
+        command[command.index("--build-command") + 1] = stub_build("\"$STUB_SOURCE\"", str(target / "release/examples/compare"))
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        self.assertEqual(json.loads(out.read_text())["status"], "complete")
+        (target / "dep" / "src").mkdir(parents=True)
+        (target / "dep" / "src" / "lib.rs").write_text("" + chr(10))
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        document = json.loads(out.read_text())
+        self.assertIn("!! build-out/dep/src/lib.rs", document["environment"]["worktree_status"])
+        self.assertEqual(document["status"], "invalid: source identity not reproducible")
+
+    def test_unknown_profile_variables_are_hashed(self):
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_API_TOKEN": "hunter2profile", "CARGO_PROFILE_RELEASE_LTO": "fat"})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        text = out.read_text()
+        self.assertNotIn("hunter2profile", text)
+        recorded = json.loads(text)["environment"]["cargo_profile"]
+        self.assertEqual(recorded["CARGO_PROFILE_API_TOKEN"], {"sha256": hashlib.sha256(b"hunter2profile").hexdigest()})
+        self.assertEqual(recorded["CARGO_PROFILE_RELEASE_LTO"], "fat")
+
+    def test_injected_runtime_libraries_are_hashed(self):
+        lib = pathlib.Path(tempfile.mkdtemp(prefix="topic028-dylib-")) / "liballoc.dylib"
+        lib.write_bytes(b"not really a library")
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"DYLD_INSERT_LIBRARIES": str(lib)})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["runtime_libraries"], {str(lib): hashlib.sha256(b"not really a library").hexdigest()})
+        self.assertEqual(document["status"], "complete")
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"LD_PRELOAD": "/no/such/liballoc.so"})
+        document = json.loads(out.read_text())
+        self.assertIsNone(document["environment"]["runtime_libraries"]["/no/such/liballoc.so"])
+        self.assertEqual(document["status"], "invalid: source identity not reproducible")
+
+    def test_a_builtin_target_wins_over_a_colliding_specification(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-collide-"))
+        (root / "specs").mkdir()
+        (root / "specs" / "aarch64-unknown-linux-gnu.json").write_text(json.dumps({"linker": "/no/such/linker"}) + chr(10))
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args="--target aarch64-unknown-linux-gnu")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build, extra_env={"RUST_TARGET_PATH": str(root / "specs")})
+        command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertTrue(document["build"]["target_is_builtin"])
+        self.assertIsNone(document["build"]["target_spec_sha256"])
+        self.assertEqual([c for c in document["build"]["compiler_chain"] if c["role"] == "target-linker"], [])
+        self.assertEqual(document["status"], "complete")
+
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})
         self.assertEqual(process.returncode, 0, process.stderr)

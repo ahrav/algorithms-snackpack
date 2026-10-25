@@ -64,8 +64,8 @@ variable, including one with a provenance-like prefix such as
 `RUST_API_TOKEN`, is recorded as a hash and redacted from the retained build
 output. An empty `RUSTC_WRAPPER` or `RUSTC_WORKSPACE_WRAPPER` is recorded as
 a disabled wrapper, as Cargo treats it. Files that compiler flags name as
-inputs (`-C profile-use`, `-C profile-sample-use`, `-C instrument-coverage`,
-`@` response files in link arguments) are hashed under
+inputs (`-C profile-use`, `-C profile-sample-use`, `@` response files in
+link arguments) are hashed under
 `rustflags.external_inputs` for the environment flag sources and under
 `build.external_inputs` for the flags in Cargo's effective invocation
 (which includes flags from Cargo config), and a missing one invalidates the
@@ -73,7 +73,16 @@ campaign. The builtin-target probe runs under the same invocation
 environment as the compiler probe.
 When no linker is named on the command line or in the target specification,
 the inferred default (`cc`, or `link.exe` for MSVC targets) is resolved,
-hashed and probed with `--version` as `environment.linker`. `--out` has to name a generated path: the runner refuses an
+hashed and probed with `--version` as `environment.linker`. A named target
+the compiler lists as builtin is taken as builtin even when a same-named
+`.json` file is on the target path, as rustc does. Libraries injected by
+`LD_PRELOAD` or `DYLD_INSERT_LIBRARIES` are hashed under
+`environment.runtime_libraries`, and an unreadable one invalidates the
+campaign. `CARGO_PROFILE_*` values are kept verbatim only for the known
+profile keys; other names are hashed. The document is written through a
+uniquely named scratch file beside `--out`, so no fixed sibling path is
+touched, and the dirty check lists untracked or ignored Cargo inputs placed
+beneath the target directory (Cargo's own build-script outputs excepted). `--out` has to name a generated path: the runner refuses an
 output path that is a symlink, a tracked file in `--source` (checked on the
 path as written, before symlink resolution), or a path matching a Cargo
 input pattern such as `build.rs`, and refuses a Cargo target
