@@ -696,12 +696,37 @@ class RunCampaignTests(unittest.TestCase):
         binary.parent.mkdir(parents=True, exist_ok=True)
         binary.write_text(STUB)
         binary.chmod(0o755)
-        os.utime(binary, (1_000_000_000, 1_000_000_000))
         process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
         self.assertEqual(process.returncode, 0, process.stderr)
         document = json.loads(out.read_text())
         self.assertEqual(document["rows"], [])
         self.assertEqual(document["status"], "invalid: build artifact mismatch")
+        self.assertIn("unchanged", document["build"]["reason"])
+        rewriting = message_free + " && printf '\\n' >> target/release/examples/compare"
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=rewriting)
+        binary.parent.mkdir(parents=True, exist_ok=True)
+        binary.write_text(STUB)
+        binary.chmod(0o755)
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        self.assertEqual(json.loads(out.read_text())["status"], "complete")
+
+    def test_the_invoked_linker_joins_the_compiler_chain(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-linker-"))
+        linker = root / "my-ld"
+        linker.write_text("#!/bin/sh" + chr(10) + 'exec "$@"' + chr(10))
+        linker.chmod(0o755)
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args=f"-C linker={linker}")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        roles = [(c["role"], c["path"]) for c in document["build"]["compiler_chain"]]
+        self.assertEqual(roles[-1], ("linker", str(linker)))
+        self.assertEqual(document["build"]["compiler_chain"][-1]["sha256"], hashlib.sha256(linker.read_bytes()).hexdigest())
+        self.assertEqual(document["status"], "complete")
 
     def test_a_timed_out_build_that_exits_during_cleanup_is_still_recorded(self):
         from unittest import mock

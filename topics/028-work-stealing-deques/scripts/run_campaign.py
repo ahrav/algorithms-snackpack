@@ -261,7 +261,8 @@ def rustflags_identity(source):
 
 def identity(source, binary, pinned, out, toolchain=None, target=None, chain=None):
     status = worktree_status(source, out, target)
-    rustc = chain[-1]["resolved"] if chain else (os.environ.get("RUSTC") or os.environ.get("CARGO_BUILD_RUSTC") or "rustc")
+    compilers = [member["resolved"] for member in (chain or []) if member["role"] == "compiler"]
+    rustc = compilers[-1] if compilers else (os.environ.get("RUSTC") or os.environ.get("CARGO_BUILD_RUSTC") or "rustc")
     return {
         "source": str(source),
         "hostname": platform.node(),
@@ -316,10 +317,18 @@ def compiler_chain(stderr, source):
                 continue
             executables.append(token)
         target = tokens[tokens.index("--target") + 1] if "--target" in tokens and tokens.index("--target") + 1 < len(tokens) else None
+        linker = None
+        for index, token in enumerate(tokens):
+            if token.startswith("-Clinker="):
+                linker = token[len("-Clinker="):]
+            elif token == "-C" and index + 1 < len(tokens) and tokens[index + 1].startswith("linker="):
+                linker = tokens[index + 1][len("linker="):]
+        roles = ["wrapper"] * (len(executables) - 1) + ["compiler"] if executables else []
+        members = list(zip(roles, executables)) + ([("linker", linker)] if linker else [])
         chain = []
-        for path in executables:
+        for role, path in members:
             resolved = str((Path(source) / path).resolve()) if os.sep in path else (shutil.which(path) or path)
-            chain.append({"path": path, "resolved": resolved, "sha256": sha256_of(resolved)})
+            chain.append({"role": role, "path": path, "resolved": resolved, "sha256": sha256_of(resolved)})
         return chain, target
     return None, None
 
@@ -482,6 +491,7 @@ def main():
         built = args.binary if args.binary.is_absolute() else source / args.binary
     else:
         built = (target or source / "target") / "release" / "examples" / "compare"
+    before = sha256_of(built) if args.binary is not None else None
     if args.skip_build:
         build_record = {"status": "skipped", "command": None, "cwd": str(source), "executable": None}
     else:
@@ -495,9 +505,9 @@ def main():
             if reported is not None and reported.resolve() != built.resolve():
                 build_record["status"] = "artifact mismatch"
                 build_record["reason"] = f"build reported {reported}, --binary names {built}"
-            elif not built.is_file() or built.stat().st_mtime + 1.0 < build_record["started_unix_s"]:
+            elif reported is None and (not built.is_file() or sha256_of(built) == before):
                 build_record["status"] = "artifact mismatch"
-                build_record["reason"] = f"{built} was not produced by this build"
+                build_record["reason"] = f"{built} is unchanged by this build" if built.is_file() else f"{built} was not produced by this build"
     build_record["target_directory"] = None if target is None else str(target)
     staging = Path(tempfile.mkdtemp(prefix="topic028-campaign-"))
     pinned = pin_binary(built, staging) if build_record["status"] in ("ok", "skipped") else None

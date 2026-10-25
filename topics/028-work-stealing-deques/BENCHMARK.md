@@ -31,7 +31,11 @@ came from. The build runs in its own process group and a timed-out build is
 killed with its descendants. A build that exits successfully without
 reporting an artifact, with no explicit `--binary`, ends as `invalid: build
 reported no artifact` with no rows, so a stale executable at the default
-path is never measured. The environment also records Cargo's compiler
+path is never measured. An explicit `--binary` has to agree with the
+artifact the build reports, or, when the build reports none, be a file whose
+content changed during the build; otherwise the campaign ends as `invalid:
+build artifact mismatch` with no rows. The compiler chain read from the
+verbose invocation includes the linker named by `-C linker=`. The environment also records Cargo's compiler
 overrides (`RUSTC`, `RUSTC_WRAPPER`, `RUSTC_WORKSPACE_WRAPPER` and their
 `CARGO_BUILD_*` forms, each resolved against `--source` the way Cargo
 resolves them and recorded with the hash of the named executable; an
