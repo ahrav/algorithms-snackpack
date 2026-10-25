@@ -1035,6 +1035,37 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(document["environment"]["compiler_overrides"]["RUSTC_WRAPPER"], {"value": "", "disabled": True})
         self.assertEqual(document["status"], "complete")
 
+    def test_inputs_named_in_the_invocation_flags_are_hashed(self):
+        profile = pathlib.Path(tempfile.mkdtemp(prefix="topic028-cfgpgo-")) / "cfg.profdata"
+        profile.write_bytes(b"from cargo config")
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args=f"-C profile-use={profile}")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        env.pop("RUSTFLAGS", None)
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["external_inputs"], {str(profile): hashlib.sha256(b"from cargo config").hexdigest()})
+        profile.unlink()
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(json.loads(out.read_text())["status"], "invalid: source identity not reproducible")
+
+    def test_the_builtin_target_probe_uses_the_invocation_environment(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-targets-"))
+        dispatcher = root / "dispatch-rustc"
+        dispatcher.write_text("#!/bin/sh" + chr(10) + 'case "$1" in' + chr(10) + "  -Vv) echo 'rustc 1.0.0-stub'; echo 'release: 1.0.0-stub' ;;" + chr(10)
+                              + '  --print) if [ "$STUB_BACKEND" = "wide" ]; then echo mycpu-unknown-none; fi; echo aarch64-unknown-linux-gnu ;;' + chr(10) + "esac" + chr(10))
+        dispatcher.chmod(0o755)
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args="--target mycpu-unknown-none", compiler=f"STUB_BACKEND=wide {dispatcher}")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        env.pop("RUST_TARGET_PATH", None)
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertTrue(document["build"]["target_is_builtin"])
+        self.assertEqual(document["status"], "complete")
+
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})
         self.assertEqual(process.returncode, 0, process.stderr)

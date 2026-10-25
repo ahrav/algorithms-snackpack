@@ -261,7 +261,12 @@ def rustflags_external_inputs(source, extra_tokens=()):
         value = os.environ.get(name)
         if value:
             flags.extend(value.split("\x1f") if name == "CARGO_ENCODED_RUSTFLAGS" else shlex.split(value))
-    flags.extend(extra_tokens)
+    extra = list(extra_tokens)
+    for index, token in enumerate(extra):
+        if token == "-C" and index + 1 < len(extra):
+            flags.append("-C" + extra[index + 1])
+        elif token.startswith("-C"):
+            flags.append(token)
     inputs = {}
     for token in flags:
         body = token[2:] if token.startswith("-C") and not token.startswith("-C ") else token
@@ -419,7 +424,7 @@ def compiler_invocations(stderr, source):
             resolved = str((Path(source) / path).resolve()) if os.sep in path else (which_from(path, source, search_path) or path)
             chain.append({"role": role, "path": path, "resolved": resolved, "sha256": sha256_of(resolved)})
         recorded_env = {key: redacted_value(key, value) for key, value in invocation_env.items()}
-        results.append((chain, target, invocation_env, recorded_env))
+        results.append((chain, target, invocation_env, recorded_env, tokens))
     return results
 
 
@@ -459,12 +464,13 @@ def target_spec_linker(target, source, invocation_env=None):
     return {"role": "target-linker", "path": linker, "resolved": resolved, "sha256": sha256_of(resolved)}
 
 
-def target_is_builtin(target, chain, source):
-    """Whether `target` is one of the compiler's builtin targets; None when the compiler cannot be asked."""
+def target_is_builtin(target, chain, source, invocation_env=None):
+    """Whether `target` is one of the compiler's builtin targets, asked under the environment Cargo gave the
+    compiler; None when the compiler cannot be asked."""
     compilers = [member["resolved"] for member in (chain or []) if member["role"] == "compiler"]
     if not target or target.endswith(".json") or not compilers:
         return None
-    listing = probe([compilers[-1], "--print", "target-list"], cwd=source)
+    listing = probe([compilers[-1], "--print", "target-list"], cwd=source, env=dict(os.environ, **(invocation_env or {})))
     return None if listing is None else target in listing.split()
 
 
@@ -519,7 +525,7 @@ def build(source, command, timeout):
     executables = built_executables(text)
     invocations = compiler_invocations(errors, source)
     record["raw_invocation_env"] = None
-    chain, target, invocation_env, recorded_env = invocations[0] if len(invocations) == 1 else (None, None, None, None)
+    chain, target, invocation_env, recorded_env, invocation_tokens = invocations[0] if len(invocations) == 1 else (None, None, None, None, ())
     spec_linker = target_spec_linker(target, source, invocation_env)
     if chain is not None and spec_linker is not None:
         chain = chain + [spec_linker]
@@ -534,7 +540,8 @@ def build(source, command, timeout):
         "compiler_invocations": len(invocations),
         "compiler_chain": chain, "invocation_env": recorded_env, "target": target,
         "target_spec_sha256": effective_target_spec(target, source, invocation_env),
-        "target_is_builtin": target_is_builtin(target, chain, source),
+        "target_is_builtin": target_is_builtin(target, chain, source, invocation_env),
+        "external_inputs": rustflags_external_inputs(source, invocation_tokens),
     })
     record["raw_invocation_env"] = invocation_env
     if process.returncode != 0:
@@ -737,7 +744,9 @@ def main():
     ) or (
         build_record.get("target") and not build_record["target"].endswith(".json")
         and build_record.get("target_spec_sha256") is None and build_record.get("target_is_builtin") is not True
-    ) or any(digest is None for digest in environment["rustflags"]["external_inputs"].values()):
+    ) or any(digest is None for digest in environment["rustflags"]["external_inputs"].values()) or any(
+        digest is None for digest in (build_record.get("external_inputs") or {}).values()
+    ):
         document["status"] = "invalid: source identity not reproducible"
     elif environment["binary_sha256_final"] != environment["binary_sha256"]:
         document["status"] = "invalid: binary changed during the campaign"

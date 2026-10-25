@@ -66,7 +66,11 @@ output. An empty `RUSTC_WRAPPER` or `RUSTC_WORKSPACE_WRAPPER` is recorded as
 a disabled wrapper, as Cargo treats it. Files that compiler flags name as
 inputs (`-C profile-use`, `-C profile-sample-use`, `-C instrument-coverage`,
 `@` response files in link arguments) are hashed under
-`rustflags.external_inputs`, and a missing one invalidates the campaign.
+`rustflags.external_inputs` for the environment flag sources and under
+`build.external_inputs` for the flags in Cargo's effective invocation
+(which includes flags from Cargo config), and a missing one invalidates the
+campaign. The builtin-target probe runs under the same invocation
+environment as the compiler probe.
 When no linker is named on the command line or in the target specification,
 the inferred default (`cc`, or `link.exe` for MSVC targets) is resolved,
 hashed and probed with `--version` as `environment.linker`. `--out` has to name a generated path: the runner refuses an
