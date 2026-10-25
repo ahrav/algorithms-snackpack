@@ -120,7 +120,7 @@ def run_row(row, workload, timeout, cwd=None):
 
 def probe(command, cwd=None, env=None):
     try:
-        return subprocess.run(command, cwd=cwd, env=env, text=True, capture_output=True, check=True, timeout=60).stdout.strip()
+        return subprocess.run(command, cwd=cwd, env=env, text=True, errors="surrogateescape", capture_output=True, check=True, timeout=60).stdout.strip()
     except (OSError, subprocess.SubprocessError):
         return None
 
@@ -185,11 +185,9 @@ def worktree_status(repository, out, target=None):
         return path in generated or any(g is not None and path.startswith(g + "/") for g in generated)
 
     def is_cargo_output(path):
-        """Cargo's own artifact layout: build-script output trees, build-script binaries, flat `deps` files,
-        fingerprints and incremental sessions. A deeper tree under `deps` is somebody's source."""
-        return re.search(r"(^|/)build/[^/]+/(out/|[^/]+$)", path) is not None or re.search(r"(^|/)deps/[^/]+$", path) is not None or re.search(
-            r"(^|/)\.fingerprint/[^/]+/[^/]+$", path
-        ) is not None or re.search(r"(^|/)incremental/[^/]+/[^/]+(/[^/]+)?$", path) is not None
+        """Cargo's build-script output trees, the one place Cargo itself writes files with Cargo input names; a
+        Cargo input anywhere else beneath the target directory is somebody's source."""
+        return re.search(r"(^|/)build/[^/]+/out/", path) is not None
 
     def others(path, ignored):
         flags = ["--others", "--exclude-standard"] + (["--ignored"] if ignored else [])
@@ -269,7 +267,7 @@ def cargo_profile():
 def runtime_libraries(source):
     """Hashes of the libraries the loader variables inject into every measured process; None for an unreadable one."""
     result = {}
-    for name in ("LD_PRELOAD", "DYLD_INSERT_LIBRARIES"):
+    for name in ("LD_PRELOAD", "LD_AUDIT", "DYLD_INSERT_LIBRARIES"):
         value = os.environ.get(name)
         if not value:
             continue
@@ -283,19 +281,47 @@ LOADER_SEARCH_VARIABLES = ("LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH", "DYLD_FALLBAC
 
 
 def loaded_objects(binary, cwd, env):
-    """Hashes of the shared objects the dynamic loader resolves for `binary` under `env` from `cwd`, keyed by the
-    resolved path `ldd` reports; {} for a static or non-ELF binary and None when the loader cannot be asked."""
+    """Hashes of the shared objects the dynamic loader resolves for `binary` and for every preloaded or audit
+    library under `env` from `cwd`, keyed by the resolved path `ldd` reports; {} for static or non-ELF subjects and
+    None when the loader cannot be asked."""
     if shutil.which("ldd") is None:
         return None
-    listing = probe(["ldd", "--", str(binary)], cwd=cwd, env=env)
-    if listing is None:
-        return {}
     result = {}
-    for line in listing.splitlines():
-        match = re.search(r"(?:=>\s*)?(/\S+)\s+\(0x[0-9a-fA-F]+\)\s*$", line)
-        if match:
-            result[match.group(1)] = sha256_of(match.group(1))
+    subjects = [Path(binary)]
+    for entry in runtime_libraries(cwd):
+        candidate = (Path(cwd) / entry).resolve() if os.sep in entry else Path(entry)
+        if candidate.is_file():
+            subjects.append(candidate)
+    for subject in subjects:
+        listing = probe(["ldd", "--", str(subject)], cwd=cwd, env=env)
+        for line in (listing or "").splitlines():
+            match = re.search(r"(?:=>\s*)?(/\S+)\s+\(0x[0-9a-fA-F]+\)\s*$", line)
+            if match:
+                result[match.group(1)] = sha256_of(match.group(1))
     return result
+
+
+def external_symlinks(repository):
+    """Tracked symlinks whose resolved target is a directory or lies outside the repository: Cargo follows them to
+    files the commit and the status check never see. Maps the tracked path to its resolved target."""
+    listing = probe(["git", "ls-files", "-z", "-s"], cwd=repository)
+    if listing is None:
+        return None
+    root = Path(repository).resolve()
+    found = {}
+    for record in listing.split("\0"):
+        if not record.startswith("120000 "):
+            continue
+        path = record.split("\t", 1)[1]
+        resolved = (root / path).resolve()
+        try:
+            resolved.relative_to(root)
+            inside = True
+        except ValueError:
+            inside = False
+        if not inside or resolved.is_dir():
+            found[path] = str(resolved)
+    return found
 
 
 def runtime_env():
@@ -327,15 +353,48 @@ def split_flags(value):
 RESPONSE_FILE_DEPTH = 4
 
 
+LINKER_FILE_OPTIONS = (
+    "-T", "-dT", "--script", "--default-script", "--version-script", "--dynamic-list", "--retain-symbols-file",
+    "--just-symbols", "--export-dynamic-symbol-list", "--symbol-ordering-file", "-specs", "--specs",
+)
+
+
 def linker_inputs(arguments, source, inputs, depth):
-    """Hash the path-like inputs among linker arguments, following `@file` response files to a bounded depth."""
+    """Hash the files linker arguments name: bare paths, `@file` response files (followed to a bounded depth), and
+    the operands of file-taking switches such as `-T`, `--script=` or `--version-script=`, including those packed
+    into a `-Wl,a,b` driver argument."""
+    expanded = []
     for argument in arguments:
+        if argument.startswith("-Wl,"):
+            expanded.extend(part for part in argument[4:].split(",") if part)
+        elif argument != "-Xlinker":
+            expanded.append(argument)
+    pending_file = False
+    for argument in expanded:
+        if pending_file:
+            pending_file = False
+            resolved = (Path(source) / argument).resolve()
+            inputs[str(resolved)] = sha256_of(resolved)
+            continue
         if argument.startswith("@") and len(argument) > 1:
             resolved = (Path(source) / argument[1:]).resolve()
             inputs[str(resolved)] = sha256_of(resolved)
             if inputs[str(resolved)] is not None and depth > 0:
                 linker_inputs(split_flags(resolved.read_text(errors="replace")), source, inputs, depth - 1)
-        elif argument and not argument.startswith("-") and (os.sep in argument or argument.endswith(LINKER_INPUT_SUFFIXES)):
+        elif argument in LINKER_FILE_OPTIONS:
+            pending_file = True
+        elif argument.startswith("-"):
+            for option in LINKER_FILE_OPTIONS:
+                operand = None
+                if argument.startswith(option + "="):
+                    operand = argument[len(option) + 1:]
+                elif option in ("-T", "-dT") and argument.startswith(option) and len(argument) > len(option):
+                    operand = argument[len(option):]
+                if operand:
+                    resolved = (Path(source) / operand).resolve()
+                    inputs[str(resolved)] = sha256_of(resolved)
+                    break
+        elif argument and (os.sep in argument or argument.endswith(LINKER_INPUT_SUFFIXES)):
             resolved = (Path(source) / argument).resolve()
             inputs[str(resolved)] = sha256_of(resolved)
 
@@ -374,12 +433,14 @@ def native_library_inputs(flags, source, inputs):
             continue
         search.append((Path(source) / path).resolve())
     for entry in names:
-        _, _, name = entry.rpartition("=")
+        spec, _, name = entry.rpartition("=")
         name = name.split(":")[0]
         if not name:
             continue
+        verbatim = "+verbatim" in spec.partition(":")[2]
         for directory in search:
-            for candidate in sorted(directory.glob(f"lib{name}.*")) + [directory / f"{name}.lib", directory / f"{name}.dll"]:
+            candidates = [directory / name] if verbatim else sorted(directory.glob(f"lib{name}.*")) + [directory / f"{name}.lib", directory / f"{name}.dll"]
+            for candidate in candidates:
                 if candidate.is_file():
                     inputs[str(candidate)] = sha256_of(candidate)
 
@@ -462,6 +523,7 @@ def identity(source, binary, pinned, out, toolchain=None, target=None, chain=Non
         "worktree_dirty": None if status is None else bool(status),
         "worktree_status": status,
         "source_sha256": {name: sha256_of(Path(source) / name) for name in SOURCE_FILES},
+        "external_symlinks": external_symlinks(source),
         "runner": str(Path(__file__).resolve()),
         "runner_sha256": sha256_of(Path(__file__).resolve()),
         "runner_matches_source": sha256_of(Path(__file__).resolve()) == sha256_of(Path(source) / "topics/028-work-stealing-deques/scripts/run_campaign.py"),
@@ -636,8 +698,8 @@ COMMAND_WRAPPERS = {"command", "builtin", "exec", "nohup", "time", "nice", "ioni
 
 def mutates_environment(command):
     """Whether a build command visibly changes the environment its build runs in: an `env`, `export`, `unset`, nested
-    shell or privilege-changing word (matched by basename, through wrappers such as `command` or `nohup`), or a
-    `NAME=value` assignment in command position."""
+    shell or privilege-changing word (matched by basename), or a `NAME=value` assignment, in command position; once a
+    wrapper such as `command`, `nohup` or `timeout` opens a segment, every word of that segment is examined."""
     try:
         lexer = shlex.shlex(command, posix=True, punctuation_chars=True)
         lexer.whitespace_split = True
@@ -645,6 +707,7 @@ def mutates_environment(command):
     except ValueError:
         return True
     command_position = True
+    wrapped = False
     skip_redirect_target = False
     for token in tokens:
         if skip_redirect_target:
@@ -654,14 +717,17 @@ def mutates_environment(command):
             skip_redirect_target = True
             continue
         if re.fullmatch(r"[();<>|&]+", token) or token in ("{", "}"):
-            command_position = True
+            command_position, wrapped = True, False
             continue
-        if not command_position:
+        if not command_position and not wrapped:
             continue
         word = os.path.basename(token)
         if word in ENVIRONMENT_MUTATORS or re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*=.*", token):
             return True
-        if word in COMMAND_WRAPPERS or token.startswith("-") or re.fullmatch(r"[0-9][0-9.,smhd-]*", token):
+        if word in COMMAND_WRAPPERS:
+            wrapped = True
+            continue
+        if token.startswith("-") or re.fullmatch(r"[0-9][0-9.,smhd-]*", token):
             continue
         command_position = False
     return False
@@ -974,7 +1040,7 @@ def main():
         member["sha256"] is None for member in (build_record.get("compiler_chain") or [])
     ):
         document["status"] = "invalid: compiler identity unavailable"
-    elif environment["source_commit"] is None or environment["worktree_dirty"] is not False or not all(environment["source_sha256"].values()) or (
+    elif environment["source_commit"] is None or environment["worktree_dirty"] is not False or not all(environment["source_sha256"].values()) or environment["external_symlinks"] != {} or (
         (environment["rustflags"]["CARGO_BUILD_TARGET"] or "").endswith(".json") and environment["rustflags"]["target_spec_sha256"] is None
     ) or (
         (build_record.get("target") or "").endswith(".json") and build_record.get("target_spec_sha256") is None

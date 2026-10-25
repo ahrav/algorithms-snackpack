@@ -1417,6 +1417,91 @@ class RunCampaignTests(unittest.TestCase):
         self.assertIn("manifest", document["build"]["reason"])
         self.assertEqual(document["status"], "invalid: build artifact mismatch")
 
+    def test_cargo_inputs_directly_under_deps_are_dirty(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        deps = repo / "target/release/deps"
+        deps.mkdir(parents=True)
+        (deps / "Cargo.toml").write_text("[package]" + chr(10))
+        (deps / "compare.rs").write_text("fn main() {}" + chr(10))
+        (deps / "libhelper-abc.rlib").write_bytes(b"rlib")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(sorted(document["environment"]["worktree_status"]), ["!! target/release/deps/Cargo.toml", "!! target/release/deps/compare.rs"])
+        self.assertEqual(document["status"], "invalid: source identity not reproducible")
+
+    def test_verbatim_native_library_names_are_resolved_exactly(self):
+        outside = pathlib.Path(tempfile.mkdtemp(prefix="topic028-verbatim-"))
+        archive = outside / "hook.a"
+        archive.write_bytes(b"verbatim archive")
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTFLAGS": f"-L native={outside} -l static:+verbatim=hook.a"})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        self.assertEqual(json.loads(out.read_text())["environment"]["rustflags"]["external_inputs"], {str(archive): hashlib.sha256(b"verbatim archive").hexdigest()})
+
+    def test_a_tracked_symlink_to_an_external_crate_invalidates_the_source(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        external = pathlib.Path(tempfile.mkdtemp(prefix="topic028-external-"))
+        (external / "src").mkdir()
+        (external / "src" / "lib.rs").write_text("pub fn dep() {}" + chr(10))
+        (repo / "vendor").mkdir()
+        (repo / "vendor" / "dep").symlink_to(external)
+        subprocess.run(["git", "-C", str(repo), "add", "vendor"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "link"], check=True)
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["worktree_dirty"], False)
+        self.assertEqual(document["environment"]["external_symlinks"], {"vendor/dep": str(external.resolve())})
+        self.assertEqual(document["status"], "invalid: source identity not reproducible")
+
+    def test_undecodable_filenames_are_recorded(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        with open(os.path.join(os.fsencode(str(repo)), b"ignored\xff.rs"), "wb") as odd:
+            odd.write(b"fn main() {}")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertIs(document["environment"]["worktree_dirty"], True)
+        self.assertTrue(any(line.startswith("?? ignored") and line.endswith(".rs") for line in document["environment"]["worktree_status"]), document["environment"]["worktree_status"])
+        self.assertEqual(document["status"], "invalid: source identity not reproducible")
+
+    def test_wrapper_option_arguments_do_not_hide_mutators(self):
+        for build in ("timeout --signal TERM 60 env -u BACKEND cargo build", "nice -n 10 env -u BACKEND cargo build", "taskset -c 0-3 sudo cargo build", "xargs -0 -I {} env -u BACKEND cargo build"):
+            with self.subTest(build=build):
+                process, out, _ = run_campaign({}, repetitions=4, build=build)
+                self.assertNotEqual(process.returncode, 0)
+                self.assertIn("environment", process.stderr)
+                self.assertFalse(out.exists())
+
+    def test_files_embedded_in_linker_options_are_hashed(self):
+        outside = pathlib.Path(tempfile.mkdtemp(prefix="topic028-ldopts-"))
+        layout, version, other = outside / "layout.ld", outside / "v.map", outside / "other.ld"
+        for path, content in ((layout, b"SECTIONS {}"), (version, b"V1 { global: *; };"), (other, b"ENTRY(_start)")):
+            path.write_bytes(content)
+        flags = f"-C link-arg=-T{layout} -C link-arg=-Wl,--version-script={version} -C link-arg=-Wl,-T,{other} -C link-arg=-Wl,--gc-sections"
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTFLAGS": flags})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        inputs = json.loads(out.read_text())["environment"]["rustflags"]["external_inputs"]
+        self.assertEqual(inputs, {str(path): hashlib.sha256(path.read_bytes()).hexdigest() for path in (layout, version, other)})
+
+    def test_audit_modules_are_hashed(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        audit = repo / "libaudit.so"
+        audit.write_bytes(b"audit module")
+        (repo / ".gitignore").write_text("/target/" + chr(10) + "/libaudit.so" + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", ".gitignore"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "audit"], check=True)
+        env["LD_AUDIT"] = "./libaudit.so"
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300, cwd=repo)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["runtime_libraries"]["./libaudit.so"], hashlib.sha256(b"audit module").hexdigest())
+        self.assertEqual(document["status"], "complete")
+
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})
         self.assertEqual(process.returncode, 0, process.stderr)
