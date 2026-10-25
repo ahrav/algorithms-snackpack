@@ -42,12 +42,15 @@ visited node toward its grandparent during traversal. Forest find functions
 have `inline(never)` for generated-code inspection; selection applies to this
 call policy and these implementations.
 
-Let N be items, U successful merges, Q queries, M all operations and w bytes per
-index. Eager labels cost O(N + U*N + Q). With N=8,U=7,Q=3, a schematic count is
-8+7*8+3=67. A balanced forest has maximum depth floor(log2 N): three for N=8.
-Each depth increase at least doubles the class size. Counting two root searches
-per operation gives a schematic bound 8+2*(7+3)*3=68, excluding bookkeeping.
-These counts describe growth, rather than CPU instruction counts.
+Let N be items, A merge attempts, U successful merges, Q queries, M=A+Q all
+operations and w bytes per index. Eager labels cost O(N + U*N + M): every
+attempt checks labels, while successful merges scan N labels. With N=8,A=7,
+U=7,Q=3,M=10, a schematic count is 8+7*8+10=74. Duplicate attempts still cost
+work even when U stays fixed. A balanced forest costs O(N + M*log N), with
+maximum depth floor(log2 N): three for N=8. Each depth increase at least doubles
+the class size. Counting two root searches per operation gives a schematic
+bound 8+2*(7+3)*3=68, excluding bookkeeping. These counts describe growth,
+rather than CPU instruction counts.
 
 Balancing with compression gives O(N + M*alpha(N)) amortized work, where alpha
 is the inverse Ackermann function. Here the expression is O(8+10*alpha(8)).
