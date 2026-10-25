@@ -524,6 +524,47 @@ class RunCampaignTests(unittest.TestCase):
         self.assertIsNone(document["environment"]["compiler_overrides"]["RUSTC_WRAPPER"]["sha256"])
         self.assertEqual(document["status"], "invalid: compiler identity unavailable")
 
+    def test_configuration_form_compiler_overrides_are_recorded_and_validated(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-rustc-"))
+        fake = root / "rustc-stub"
+        fake.write_text("#!/bin/sh" + chr(10) + "echo 'rustc 8.8.8-stub'" + chr(10) + "echo 'release: 8.8.8-stub'" + chr(10))
+        fake.chmod(0o755)
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_BUILD_RUSTC": str(fake)})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        environment = json.loads(out.read_text())["environment"]
+        self.assertIn("8.8.8-stub", environment["rustc"])
+        self.assertEqual(environment["compiler_overrides"]["CARGO_BUILD_RUSTC"]["sha256"], hashlib.sha256(fake.read_bytes()).hexdigest())
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_BUILD_RUSTC_WRAPPER": "/no/such/wrapper"})
+        document = json.loads(out.read_text())
+        self.assertEqual(document["status"], "invalid: compiler identity unavailable")
+
+    def test_a_custom_target_specification_is_hashed(self):
+        spec = pathlib.Path(tempfile.mkdtemp(prefix="topic028-target-")) / "custom.json"
+        spec.write_text('{"llvm-target": "aarch64-unknown-linux-gnu"}' + chr(10))
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_BUILD_TARGET": str(spec)})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        recorded = json.loads(out.read_text())["environment"]["rustflags"]
+        self.assertEqual(recorded["CARGO_BUILD_TARGET"], str(spec))
+        self.assertEqual(recorded["target_spec_sha256"], hashlib.sha256(spec.read_bytes()).hexdigest())
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_BUILD_TARGET": "/no/such/target.json"})
+        self.assertEqual(json.loads(out.read_text())["status"], "invalid: source identity not reproducible")
+
+    def test_an_ignored_cargo_input_makes_the_source_dirty(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        (repo / ".gitignore").write_text("/target/" + chr(10) + "build.rs" + chr(10) + "notes.txt" + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", ".gitignore"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "ignore"], check=True)
+        (repo / "topics/028-work-stealing-deques/notes.txt").write_text("ignored and harmless" + chr(10))
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        self.assertEqual(json.loads(out.read_text())["status"], "complete")
+        (repo / "topics/028-work-stealing-deques/build.rs").write_text("fn main() {}" + chr(10))
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["worktree_status"], ["!! topics/028-work-stealing-deques/build.rs"])
+        self.assertEqual(document["status"], "invalid: source identity not reproducible")
+
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})
         self.assertEqual(process.returncode, 0, process.stderr)

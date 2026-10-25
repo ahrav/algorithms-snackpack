@@ -134,7 +134,8 @@ schedule follows the four-repetition slot cycle in `BENCHMARK.md`, with
 every label in every slot once per cycle; the built example is taken from
 Cargo's `compiler-artifact` message and a build that reports none is
 invalid; a timed-out build leaves no descendant processes; compiler probes
-honour the source checkout's toolchain file; compiler overrides,
+honour the source checkout's toolchain file; compiler overrides in both
+environment forms, custom target specifications, ignored Cargo inputs,
 target-specific Cargo rustflags, inherited runtime variables and
 receipt-comparable host fields are recorded; a process that
 emits invalid UTF-8 is a `failed` row and the campaign continues; replacing

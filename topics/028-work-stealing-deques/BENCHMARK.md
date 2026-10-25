@@ -32,13 +32,19 @@ killed with its descendants. A build that exits successfully without
 reporting an artifact, with no explicit `--binary`, ends as `invalid: build
 reported no artifact` with no rows, so a stale executable at the default
 path is never measured. The environment also records Cargo's compiler
-overrides (`RUSTC`, `RUSTC_WRAPPER`, `RUSTC_WORKSPACE_WRAPPER`, each resolved
-against `--source` the way Cargo resolves them and recorded with the hash of
-the named executable; an override that cannot be hashed invalidates the
-campaign, and the `rustc` probe uses `RUSTC` when set), every
-`CARGO_PROFILE_*` override, and the loader, allocator and Rust runtime
-variables (`LD_*`, `GLIBC_*`, `MALLOC_*`, `RUST_*` and allocator tunables)
-that every measured child inherits. `--skip-build`
+overrides (`RUSTC`, `RUSTC_WRAPPER`, `RUSTC_WORKSPACE_WRAPPER` and their
+`CARGO_BUILD_*` forms, each resolved against `--source` the way Cargo
+resolves them and recorded with the hash of the named executable; an
+override that cannot be hashed invalidates the campaign, and the `rustc`
+probe uses the override when set), every `CARGO_PROFILE_*` override, the
+hash of a custom target specification named by `CARGO_BUILD_TARGET` (an
+unreadable specification invalidates the campaign), and the loader,
+allocator and Rust runtime variables (`LD_*`, `GLIBC_*`, `MALLOC_*`, `RUST_*`
+and allocator tunables) that every measured child inherits. The source
+check lists ignored files that match Cargo input patterns (`*.rs`,
+`Cargo.toml`, `Cargo.lock`, `.cargo/config*`, `rust-toolchain*`) alongside
+tracked changes and untracked files, so an ignored `build.rs` also marks the
+tree dirty. `--skip-build`
 measures an existing binary and yields an `invalid` document with no
 selection, since that binary's provenance is unverified.
 

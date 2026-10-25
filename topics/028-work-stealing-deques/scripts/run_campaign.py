@@ -146,21 +146,33 @@ def cpu_model(cpuinfo=Path("/proc/cpuinfo")):
     return ", ".join(f"{key} {value}" for key, value in fields.items()) or platform.processor() or None
 
 
-def worktree_status(repository, out):
-    """Return porcelain status lines for tracked changes and untracked files, except the campaign output itself.
+def worktree_status(repository, out, target=None):
+    """Return porcelain status lines for tracked changes, untracked files and ignored Cargo inputs.
 
-    Untracked files count because Cargo reads inputs such as `build.rs` or `.cargo/config.toml`
-    without them being committed. Ignored paths (`target/`) are excluded by `.gitignore`.
-    Returns None when git is unavailable.
+    Untracked files count because Cargo reads inputs such as `build.rs` or `.cargo/config.toml` without
+    them being committed, and an ignored file matching a Cargo input pattern counts for the same reason.
+    The campaign output and the target directory are generated and are left out. Returns None when git
+    is unavailable.
     """
-    status = probe(["git", "status", "--porcelain", "--untracked-files=all"], cwd=repository)
+    status = probe(["git", "status", "--porcelain", "--untracked-files=all", "--ignored=matching"], cwd=repository)
     if status is None:
         return None
-    try:
-        relative = str(Path(out).resolve().relative_to(Path(repository).resolve()))
-    except ValueError:
-        relative = None
-    return [line for line in status.splitlines() if line[3:] != relative]
+    root = Path(repository).resolve()
+    generated = []
+    for path in (out, target):
+        try:
+            generated.append(str(Path(path).resolve().relative_to(root)) if path is not None else None)
+        except ValueError:
+            generated.append(None)
+    lines = []
+    for line in status.splitlines():
+        path = line[3:]
+        if path in generated or any(g is not None and path.startswith(g + "/") for g in generated):
+            continue
+        if line.startswith("!!") and not re.fullmatch(CARGO_INPUT_PATTERN, path.rstrip("/")) and not path.endswith(".cargo/"):
+            continue
+        lines.append(line)
+    return lines
 
 
 def toolchain_command(toolchain, command):
@@ -181,7 +193,8 @@ def pin_binary(binary, staging):
 
 
 RUSTFLAGS_SOURCES = ("CARGO_ENCODED_RUSTFLAGS", "CARGO_BUILD_RUSTFLAGS", "RUSTFLAGS")
-COMPILER_OVERRIDES = ("RUSTC", "RUSTC_WRAPPER", "RUSTC_WORKSPACE_WRAPPER")
+COMPILER_OVERRIDES = ("RUSTC", "CARGO_BUILD_RUSTC", "RUSTC_WRAPPER", "CARGO_BUILD_RUSTC_WRAPPER", "RUSTC_WORKSPACE_WRAPPER", "CARGO_BUILD_RUSTC_WORKSPACE_WRAPPER")
+CARGO_INPUT_PATTERN = r".*(\.rs|Cargo\.toml|Cargo\.lock|\.cargo/config(\.toml)?|rust-toolchain(\.toml)?)$"
 RUNTIME_ENV_PATTERN = r"(LD_|GLIBC_|MALLOC_|RUST_|RUSTUP_|OMP_|GOMP_|TCMALLOC_|JEMALLOC_|MIMALLOC_|MALLOC)[A-Z0-9_]*"
 
 
@@ -214,6 +227,14 @@ def runtime_env():
     return {name: value for name, value in sorted(os.environ.items()) if re.fullmatch(RUNTIME_ENV_PATTERN, name)}
 
 
+def target_spec_sha256(source):
+    """Hash of a custom target specification named by CARGO_BUILD_TARGET; None for a builtin triple or an unreadable file."""
+    target = os.environ.get("CARGO_BUILD_TARGET")
+    if not target or not target.endswith(".json"):
+        return None
+    return sha256_of((Path(source) / target).resolve())
+
+
 def rustflags_identity(source):
     """Record every Cargo flag source, plus hashes of the config files Cargo reads: `.cargo/config{,.toml}` in the
     build directory and each ancestor, then Cargo home."""
@@ -225,12 +246,13 @@ def rustflags_identity(source):
         **{name: os.environ.get(name) for name in RUSTFLAGS_SOURCES},
         "target_specific": {name: value for name, value in os.environ.items() if re.fullmatch(r"CARGO_TARGET_[A-Z0-9_]+_RUSTFLAGS", name)},
         "CARGO_BUILD_TARGET": os.environ.get("CARGO_BUILD_TARGET"),
+        "target_spec_sha256": target_spec_sha256(source),
         "cargo_config_sha256": {str(path): sha256_of(path) for path in candidates if path.is_file()},
     }
 
 
-def identity(source, binary, pinned, out, toolchain=None):
-    status = worktree_status(source, out)
+def identity(source, binary, pinned, out, toolchain=None, target=None):
+    status = worktree_status(source, out, target)
     return {
         "source": str(source),
         "hostname": platform.node(),
@@ -253,7 +275,7 @@ def identity(source, binary, pinned, out, toolchain=None):
         "binary_copy": None if pinned is None else str(pinned),
         "binary_sha256": None if pinned is None else sha256_of(pinned),
         "toolchain": toolchain,
-        "rustc": probe(toolchain_command(toolchain, [os.environ.get("RUSTC", "rustc"), "-Vv"]), cwd=source),
+        "rustc": probe(toolchain_command(toolchain, [os.environ.get("RUSTC") or os.environ.get("CARGO_BUILD_RUSTC") or "rustc", "-Vv"]), cwd=source),
         "cargo": probe(toolchain_command(toolchain, ["cargo", "-V"]), cwd=source),
         "compiler_overrides": compiler_overrides(source),
         "cargo_profile": cargo_profile(),
@@ -425,7 +447,7 @@ def main():
         "protocol_repetitions": args.repetitions == PROTOCOL_REPETITIONS,
         "timeout_s": args.timeout,
         "build": build_record,
-        "environment": identity(source, built, pinned, args.out, args.toolchain),
+        "environment": identity(source, built, pinned, args.out, args.toolchain, target),
         "created_unix_s": time.time(),
         "warmups": [],
         "rows": [],
@@ -462,7 +484,9 @@ def main():
         override is not None and override["sha256"] is None for override in environment["compiler_overrides"].values()
     ):
         document["status"] = "invalid: compiler identity unavailable"
-    elif environment["source_commit"] is None or environment["worktree_dirty"] is not False or not all(environment["source_sha256"].values()):
+    elif environment["source_commit"] is None or environment["worktree_dirty"] is not False or not all(environment["source_sha256"].values()) or (
+        (environment["rustflags"]["CARGO_BUILD_TARGET"] or "").endswith(".json") and environment["rustflags"]["target_spec_sha256"] is None
+    ):
         document["status"] = "invalid: source identity not reproducible"
     elif environment["binary_sha256_final"] != environment["binary_sha256"]:
         document["status"] = "invalid: binary changed during the campaign"

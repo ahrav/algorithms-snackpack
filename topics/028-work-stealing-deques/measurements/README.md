@@ -76,7 +76,9 @@ python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
 `cargo` probes through `rustup run`, so `environment.rustc` reports the
 compiler that built the binary. The run is a replay when these fields match
 the host's entry in `EVIDENCE_RECEIPT.json`: `environment.binary_sha256`
-against `binary_sha256`; `environment.rustc` against `environment.rustc`;
+against `binary_sha256`; `environment.rustc` against `environment.rustc`
+after trimming surrounding whitespace on both sides (the receipt values end
+with a newline and the runner strips its probe output);
 `environment.hostname` against `environment.hostname`; `environment.uname_a`
 against `environment.uname` (both are `uname -a` strings);
 `environment.cpu_model` against the identity fields of the first processor
