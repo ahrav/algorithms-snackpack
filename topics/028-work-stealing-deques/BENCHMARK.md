@@ -139,15 +139,21 @@ reproducible (no commit, a dirty or untracked path, or a frozen input that
 could not be hashed); an `invalid` document carries no selection and keeps
 every row and ratio. Child output is decoded with
 replacement so a process that emits invalid UTF-8 is retained as a `failed`
-row. It records the identity of each run
-in `environment`: source commit
-and worktree dirtiness, SHA-256 of the frozen topic and workspace inputs,
-SHA-256 of the measured binary, `rustc -Vv`, `cargo -V`, every Cargo flag
-source (`CARGO_ENCODED_RUSTFLAGS`, `CARGO_BUILD_RUSTFLAGS`, `RUSTFLAGS`, and
-hashes of the `.cargo/config` files Cargo reads from the source directory,
-its ancestors and Cargo home), host name, uname, CPU model, available CPUs
-and the sorted CPU affinity set. The runner performs the build itself, so the
-recorded flag sources are the ones the build saw. Each host verifies the source
+row. It records the identity of each run in `environment`: source commit,
+worktree status and dirtiness, SHA-256 of the frozen topic and workspace
+inputs, SHA-256 of the measured binary, `rustc -Vv` from the compiler Cargo
+invoked, `cargo -V`, every Cargo flag source (`CARGO_ENCODED_RUSTFLAGS`,
+`CARGO_BUILD_RUSTFLAGS`, `RUSTFLAGS`, `CARGO_TARGET_<triple>_RUSTFLAGS`,
+`CARGO_BUILD_TARGET`, and hashes of the `.cargo/config` files Cargo reads
+from the source directory, its ancestors and Cargo home, with a relative
+`CARGO_HOME` resolved against the source directory as Cargo resolves it),
+host name, `uname -a`, CPU model and the first cpuinfo block, available CPUs
+and the sorted CPU affinity set, plus the hash of the runner script itself
+and whether it matches the copy in `--source`. The compiler probes run
+inside `--source`, so a `rust-toolchain.toml` there selects the same
+toolchain for the probes as for the build. The runner performs the build
+itself, so the recorded flag sources are the ones the build saw. Each host
+verifies the source
 hashes before building the unchanged topic with the same edition, minimum Rust
 version and lints. Run the exact committed source on both declared hosts.
 Toolchain and host differences prevent an ISA-only interpretation.
