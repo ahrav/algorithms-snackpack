@@ -75,6 +75,15 @@ def clean_repository(root):
     return repo
 
 
+def stub_build(stub, executable, running_args="", compiler=None):
+    """A stub build command: install the stub as the example, report it as Cargo would, and print the verbose
+    Running line Cargo prints, naming the compiler an override would select."""
+    compiler = compiler or '${RUSTC:-${CARGO_BUILD_RUSTC:-' + sys.executable + '}}'
+    message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": executable})
+    running = "     Running \\`" + f"{compiler} --crate-name compare --edition=2024 examples/compare.rs {running_args} -C opt-level=3" + "\\`"
+    return f"mkdir -p \"$(dirname {executable})\" && cp {stub} {executable} && echo '{message}' && echo \"{running}\" >&2"
+
+
 def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=False, extra_env=None, build=None, skip_build=False):
     """Prepare a scratch repository whose stub build command installs the planned stub as the built example.
 
@@ -90,7 +99,7 @@ def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=Fals
     stub.chmod(0o755)
     binary = repo / "target/release/examples/compare"
     if build is None:
-        build = f"mkdir -p target/release/examples && cp {stub} {binary}"
+        build = stub_build(stub, "target/release/examples/compare")
     (root / "plan.json").write_text(json.dumps(plan))
     log = root / "stub.log"
     out = root / "campaign.json"
@@ -247,19 +256,21 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(clean["selected"], "global_fifo")
 
     def test_toolchain_flag_routes_the_compiler_probes(self):
-        process, out, _ = run_campaign({}, repetitions=4, toolchain="topic028-no-such-toolchain")
+        process, out, _ = run_campaign({}, repetitions=4, toolchain="topic028-no-such-toolchain", build="rustup run topic028-no-such-toolchain true")
         self.assertEqual(process.returncode, 0, process.stderr)
         document = json.loads(out.read_text())
         environment = document["environment"]
         self.assertEqual(environment["toolchain"], "topic028-no-such-toolchain")
         self.assertIsNone(environment["rustc"])
         self.assertIsNone(environment["cargo"])
-        self.assertEqual(document["status"], "invalid: compiler identity unavailable")
+        self.assertEqual(document["build"]["status"], "failed")
+        self.assertEqual(document["status"], "invalid: build failed")
         self.assertTrue(all(s["selected"] == "unresolved" for s in document["summaries"]))
         process, out, _ = run_campaign({}, repetitions=4)
-        environment = json.loads(out.read_text())["environment"]
-        self.assertIsNone(environment["toolchain"])
-        self.assertIn("release:", environment["rustc"] or "release:")
+        document = json.loads(out.read_text())
+        self.assertIsNone(document["environment"]["toolchain"])
+        self.assertEqual(pathlib.Path(document["build"]["compiler_chain"][-1]["resolved"]).resolve(), pathlib.Path(sys.executable).resolve())
+        self.assertIn("Python", document["environment"]["rustc"])
 
     def test_compiler_probes_honour_the_source_checkouts_toolchain_file(self):
         command, env, out, binary, _ = start_campaign({}, repetitions=4)
@@ -267,11 +278,13 @@ class RunCampaignTests(unittest.TestCase):
         (repo / "rust-toolchain.toml").write_text('[toolchain]' + chr(10) + 'channel = "topic028-no-such-toolchain"' + chr(10))
         subprocess.run(["git", "-C", str(repo), "add", "rust-toolchain.toml"], check=True)
         subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "toolchain"], check=True)
+        command = [("rustc -Vv >/dev/null && " + c) if c.startswith("mkdir -p") else c for c in command]
         process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
         self.assertEqual(process.returncode, 0, process.stderr)
         document = json.loads(out.read_text())
         self.assertIsNone(document["environment"]["rustc"])
-        self.assertEqual(document["status"], "invalid: compiler identity unavailable")
+        self.assertEqual(document["build"]["status"], "failed")
+        self.assertEqual(document["status"], "invalid: build failed")
 
     def test_only_the_eight_repetition_protocol_can_select(self):
         process, out, _ = run_campaign({}, repetitions=4)
@@ -448,8 +461,7 @@ class RunCampaignTests(unittest.TestCase):
         root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-target-"))
         alt = root / "alt-target"
         produced = alt / "release" / "examples" / "compare"
-        message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": str(produced)})
-        build = f"mkdir -p {produced.parent} && cp \"$STUB_SOURCE\" {produced} && echo '{message}'"
+        build = stub_build("\"$STUB_SOURCE\"", str(produced))
         command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build, extra_env={"CARGO_TARGET_DIR": str(alt)})
         command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
         env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
@@ -464,8 +476,7 @@ class RunCampaignTests(unittest.TestCase):
     def test_the_built_binary_follows_cargos_compiler_artifact_message(self):
         root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-triple-"))
         produced = root / "alt" / "aarch64-unknown-linux-gnu" / "release" / "examples" / "compare"
-        message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": str(produced)})
-        build = f"mkdir -p {produced.parent} && cp \"$STUB_SOURCE\" {produced} && echo '{message}'"
+        build = stub_build("\"$STUB_SOURCE\"", str(produced), running_args="--target aarch64-unknown-linux-gnu")
         command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build, extra_env={"CARGO_BUILD_TARGET": "aarch64-unknown-linux-gnu"})
         command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
         env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
@@ -477,7 +488,8 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(document["status"], "complete")
 
     def test_a_build_that_reports_no_artifact_is_invalid_without_an_explicit_binary(self):
-        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build="mkdir -p target/release/examples && cp \"$STUB_SOURCE\" target/release/examples/compare")
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
         command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
         process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
         self.assertEqual(process.returncode, 0, process.stderr)
@@ -575,9 +587,7 @@ class RunCampaignTests(unittest.TestCase):
         fake.chmod(0o755)
         spec = root / "custom.json"
         spec.write_text('{"llvm-target": "aarch64-unknown-linux-gnu"}' + chr(10))
-        running = f"     Running `CARGO=/x/cargo CARGO_PKG_NAME=compare {wrapper} {fake} --crate-name compare --edition=2024 examples/compare.rs --target {spec} -C opt-level=3`"
-        message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": "target/release/examples/compare"})
-        build = f"mkdir -p target/release/examples && cp \"$STUB_SOURCE\" target/release/examples/compare && echo '{running}' >&2 && echo '{message}'"
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args=f"--target {spec}", compiler=f"CARGO=/x/cargo CARGO_PKG_NAME=compare {wrapper} {fake}")
         command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
         command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
         env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
@@ -597,9 +607,7 @@ class RunCampaignTests(unittest.TestCase):
         (root / "specs").mkdir()
         spec = root / "specs" / "mycpu-unknown-none.json"
         spec.write_text('{"llvm-target": "aarch64-unknown-none"}' + chr(10))
-        running = "     Running `/usr/bin/rustc --crate-name compare --target mycpu-unknown-none -C opt-level=3`"
-        message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": "target/release/examples/compare"})
-        build = f"mkdir -p target/release/examples && cp \"$STUB_SOURCE\" target/release/examples/compare && echo '{running}' >&2 && echo '{message}'"
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args="--target mycpu-unknown-none")
         command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build, extra_env={"RUST_TARGET_PATH": str(root / "specs")})
         command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
         env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
@@ -627,6 +635,34 @@ class RunCampaignTests(unittest.TestCase):
         document = json.loads(out.read_text())
         self.assertEqual(sorted(document["environment"]["worktree_status"]), ["!! vendor/dep/Cargo.toml", "!! vendor/dep/src/lib.rs"])
         self.assertEqual(document["status"], "invalid: source identity not reproducible")
+
+    def test_a_custom_build_without_a_compiler_chain_is_invalid(self):
+        message = json.dumps({"reason": "compiler-artifact", "target": {"name": "compare", "kind": ["example"]}, "executable": "target/release/examples/compare"})
+        build = f"mkdir -p target/release/examples && cp \"$STUB_SOURCE\" target/release/examples/compare && echo '{message}'"
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertIsNone(document["build"]["compiler_chain"])
+        self.assertEqual(document["status"], "invalid: compiler identity unavailable")
+        self.assertTrue(all(s["selected"] == "unresolved" for s in document["summaries"]))
+
+    def test_relative_rust_target_path_resolves_against_the_source_tree(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args="--target mycpu-unknown-none"))
+        repo = binary.parents[3]
+        (repo / "specs").mkdir()
+        spec = repo / "specs" / "mycpu-unknown-none.json"
+        spec.write_text('{"llvm-target": "aarch64-unknown-none"}' + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", "specs"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "specs"], check=True)
+        env["STUB_SOURCE"] = str(repo.parent / "stub.py")
+        env["RUST_TARGET_PATH"] = "specs"
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300, cwd=tempfile.mkdtemp(prefix="topic028-cwd-"))
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["target_spec_sha256"], hashlib.sha256(spec.read_bytes()).hexdigest())
+        self.assertEqual(document["status"], "complete")
 
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})

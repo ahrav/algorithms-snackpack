@@ -331,7 +331,7 @@ def effective_target_spec(target, source):
     if target.endswith(".json"):
         return sha256_of((Path(source) / target).resolve())
     for directory in filter(None, os.environ.get("RUST_TARGET_PATH", "").split(os.pathsep)):
-        candidate = Path(directory) / f"{target}.json"
+        candidate = (Path(source) / directory).resolve() / f"{target}.json"
         if candidate.is_file():
             return sha256_of(candidate)
     return None
@@ -536,7 +536,7 @@ def main():
         document["status"] = "invalid: binary provenance unverified"
     elif environment["rustc"] is None or environment["cargo"] is None or any(
         override is not None and override["sha256"] is None for override in environment["compiler_overrides"].values()
-    ) or (args.build_command is None and not args.skip_build and not build_record.get("compiler_chain")) or any(
+    ) or (not args.skip_build and not build_record.get("compiler_chain")) or any(
         member["sha256"] is None for member in (build_record.get("compiler_chain") or [])
     ):
         document["status"] = "invalid: compiler identity unavailable"
