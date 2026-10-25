@@ -1,0 +1,690 @@
+{
+  "arm": {
+    "tiny": {
+      "fastest_median": "labels",
+      "selected": "labels",
+      "candidates": {
+        "labels": {
+          "median_ns": 709.0,
+          "min_ns": 560,
+          "max_ns": 899,
+          "samples": 8,
+          "median_setup_ns": 204.0,
+          "median_teardown_ns": 84.5
+        },
+        "size": {
+          "median_ns": 2131.0,
+          "min_ns": 1975,
+          "max_ns": 2920,
+          "samples": 8,
+          "median_setup_ns": 280.5,
+          "median_teardown_ns": 99.0
+        },
+        "full": {
+          "median_ns": 1945.0,
+          "min_ns": 1824,
+          "max_ns": 2206,
+          "samples": 8,
+          "median_setup_ns": 282.0,
+          "median_teardown_ns": 82.5
+        },
+        "half": {
+          "median_ns": 1947.0,
+          "min_ns": 1688,
+          "max_ns": 2662,
+          "samples": 8,
+          "median_setup_ns": 300.5,
+          "median_teardown_ns": 101.5
+        }
+      }
+    },
+    "small": {
+      "fastest_median": "half",
+      "selected": "half",
+      "candidates": {
+        "labels": {
+          "median_ns": 45101.0,
+          "min_ns": 44213,
+          "max_ns": 45625,
+          "samples": 8,
+          "median_setup_ns": 324.0,
+          "median_teardown_ns": 99.0
+        },
+        "size": {
+          "median_ns": 33600.0,
+          "min_ns": 32685,
+          "max_ns": 35863,
+          "samples": 8,
+          "median_setup_ns": 542.0,
+          "median_teardown_ns": 129.0
+        },
+        "full": {
+          "median_ns": 23389.0,
+          "min_ns": 22288,
+          "max_ns": 27355,
+          "samples": 8,
+          "median_setup_ns": 521.5,
+          "median_teardown_ns": 143.5
+        },
+        "half": {
+          "median_ns": 17105.0,
+          "min_ns": 16846,
+          "max_ns": 21905,
+          "samples": 8,
+          "median_setup_ns": 543.5,
+          "median_teardown_ns": 146.5
+        }
+      }
+    },
+    "mixed": {
+      "fastest_median": "size",
+      "selected": "unresolved",
+      "candidates": {
+        "labels": {
+          "median_ns": 4202969.5,
+          "min_ns": 4194588,
+          "max_ns": 4254216,
+          "samples": 8,
+          "median_setup_ns": 1306.5,
+          "median_teardown_ns": 153.5
+        },
+        "size": {
+          "median_ns": 88272.5,
+          "min_ns": 87561,
+          "max_ns": 92742,
+          "samples": 8,
+          "median_setup_ns": 1860.0,
+          "median_teardown_ns": 177.5
+        },
+        "full": {
+          "median_ns": 96054.0,
+          "min_ns": 95406,
+          "max_ns": 98196,
+          "samples": 8,
+          "median_setup_ns": 1882.5,
+          "median_teardown_ns": 195.0
+        },
+        "half": {
+          "median_ns": 89855.5,
+          "min_ns": 87956,
+          "max_ns": 98004,
+          "samples": 8,
+          "median_setup_ns": 1858.5,
+          "median_teardown_ns": 181.0
+        }
+      }
+    },
+    "reads": {
+      "fastest_median": "size",
+      "selected": "size",
+      "candidates": {
+        "labels": {
+          "median_ns": 628735.0,
+          "min_ns": 628443,
+          "max_ns": 638475,
+          "samples": 8,
+          "median_setup_ns": 1285.0,
+          "median_teardown_ns": 121.0
+        },
+        "size": {
+          "median_ns": 30023.5,
+          "min_ns": 29833,
+          "max_ns": 31945,
+          "samples": 8,
+          "median_setup_ns": 1886.5,
+          "median_teardown_ns": 192.0
+        },
+        "full": {
+          "median_ns": 39678.5,
+          "min_ns": 39307,
+          "max_ns": 44223,
+          "samples": 8,
+          "median_setup_ns": 1833.5,
+          "median_teardown_ns": 207.5
+        },
+        "half": {
+          "median_ns": 37088.5,
+          "min_ns": 36751,
+          "max_ns": 42154,
+          "samples": 8,
+          "median_setup_ns": 1886.0,
+          "median_teardown_ns": 183.0
+        }
+      }
+    },
+    "unions": {
+      "fastest_median": "half",
+      "selected": "half",
+      "candidates": {
+        "labels": {
+          "median_ns": 5797661.5,
+          "min_ns": 5752884,
+          "max_ns": 5837259,
+          "samples": 8,
+          "median_setup_ns": 1327.0,
+          "median_teardown_ns": 179.0
+        },
+        "size": {
+          "median_ns": 122829.0,
+          "min_ns": 121754,
+          "max_ns": 128237,
+          "samples": 8,
+          "median_setup_ns": 1891.5,
+          "median_teardown_ns": 198.0
+        },
+        "full": {
+          "median_ns": 119943.0,
+          "min_ns": 119174,
+          "max_ns": 120888,
+          "samples": 8,
+          "median_setup_ns": 1857.5,
+          "median_teardown_ns": 178.5
+        },
+        "half": {
+          "median_ns": 100479.0,
+          "min_ns": 99855,
+          "max_ns": 101386,
+          "samples": 8,
+          "median_setup_ns": 1840.5,
+          "median_teardown_ns": 190.5
+        }
+      }
+    },
+    "local": {
+      "fastest_median": "half",
+      "selected": "half",
+      "candidates": {
+        "labels": {
+          "median_ns": 113458.5,
+          "min_ns": 113015,
+          "max_ns": 113978,
+          "samples": 8,
+          "median_setup_ns": 1335.0,
+          "median_teardown_ns": 147.0
+        },
+        "size": {
+          "median_ns": 148057.5,
+          "min_ns": 145788,
+          "max_ns": 153977,
+          "samples": 8,
+          "median_setup_ns": 1877.0,
+          "median_teardown_ns": 186.5
+        },
+        "full": {
+          "median_ns": 49844.5,
+          "min_ns": 48629,
+          "max_ns": 51204,
+          "samples": 8,
+          "median_setup_ns": 1836.0,
+          "median_teardown_ns": 150.5
+        },
+        "half": {
+          "median_ns": 42920.0,
+          "min_ns": 42221,
+          "max_ns": 45313,
+          "samples": 8,
+          "median_setup_ns": 1861.0,
+          "median_teardown_ns": 192.0
+        }
+      }
+    },
+    "duplicates": {
+      "fastest_median": "labels",
+      "selected": "labels",
+      "candidates": {
+        "labels": {
+          "median_ns": 21947.0,
+          "min_ns": 21268,
+          "max_ns": 22209,
+          "samples": 8,
+          "median_setup_ns": 1286.5,
+          "median_teardown_ns": 153.0
+        },
+        "size": {
+          "median_ns": 29110.5,
+          "min_ns": 28934,
+          "max_ns": 40801,
+          "samples": 8,
+          "median_setup_ns": 1867.5,
+          "median_teardown_ns": 175.0
+        },
+        "full": {
+          "median_ns": 56511.0,
+          "min_ns": 52063,
+          "max_ns": 57824,
+          "samples": 8,
+          "median_setup_ns": 1850.0,
+          "median_teardown_ns": 170.0
+        },
+        "half": {
+          "median_ns": 48594.0,
+          "min_ns": 48101,
+          "max_ns": 53211,
+          "samples": 8,
+          "median_setup_ns": 1876.0,
+          "median_teardown_ns": 169.5
+        }
+      }
+    },
+    "first": {
+      "fastest_median": "labels",
+      "selected": "labels",
+      "candidates": {
+        "labels": {
+          "median_ns": 12759.5,
+          "min_ns": 11822,
+          "max_ns": 13385,
+          "samples": 8,
+          "median_setup_ns": 6584801.0,
+          "median_teardown_ns": 118.5
+        },
+        "size": {
+          "median_ns": 92382.0,
+          "min_ns": 90983,
+          "max_ns": 95728,
+          "samples": 8,
+          "median_setup_ns": 23171.0,
+          "median_teardown_ns": 186.0
+        },
+        "full": {
+          "median_ns": 46517.0,
+          "min_ns": 45306,
+          "max_ns": 49941,
+          "samples": 8,
+          "median_setup_ns": 26198.5,
+          "median_teardown_ns": 193.0
+        },
+        "half": {
+          "median_ns": 38601.0,
+          "min_ns": 38128,
+          "max_ns": 39448,
+          "samples": 8,
+          "median_setup_ns": 25764.5,
+          "median_teardown_ns": 179.0
+        }
+      }
+    },
+    "repeat": {
+      "fastest_median": "labels",
+      "selected": "labels",
+      "candidates": {
+        "labels": {
+          "median_ns": 10663.5,
+          "min_ns": 10341,
+          "max_ns": 13630,
+          "samples": 8,
+          "median_setup_ns": 6592117.0,
+          "median_teardown_ns": 105.5
+        },
+        "size": {
+          "median_ns": 84078.0,
+          "min_ns": 82565,
+          "max_ns": 93141,
+          "samples": 8,
+          "median_setup_ns": 116104.5,
+          "median_teardown_ns": 178.5
+        },
+        "full": {
+          "median_ns": 36525.0,
+          "min_ns": 35897,
+          "max_ns": 38153,
+          "samples": 8,
+          "median_setup_ns": 75235.0,
+          "median_teardown_ns": 157.5
+        },
+        "half": {
+          "median_ns": 32622.5,
+          "min_ns": 32214,
+          "max_ns": 34135,
+          "samples": 8,
+          "median_setup_ns": 66615.5,
+          "median_teardown_ns": 166.0
+        }
+      }
+    }
+  },
+  "x86": {
+    "tiny": {
+      "fastest_median": "labels",
+      "selected": "labels",
+      "candidates": {
+        "labels": {
+          "median_ns": 773.0,
+          "min_ns": 729,
+          "max_ns": 805,
+          "samples": 8,
+          "median_setup_ns": 302.0,
+          "median_teardown_ns": 106.0
+        },
+        "size": {
+          "median_ns": 2408.5,
+          "min_ns": 2262,
+          "max_ns": 2709,
+          "samples": 8,
+          "median_setup_ns": 350.5,
+          "median_teardown_ns": 132.0
+        },
+        "full": {
+          "median_ns": 2304.0,
+          "min_ns": 2130,
+          "max_ns": 2693,
+          "samples": 8,
+          "median_setup_ns": 367.0,
+          "median_teardown_ns": 137.5
+        },
+        "half": {
+          "median_ns": 2195.0,
+          "min_ns": 2048,
+          "max_ns": 2336,
+          "samples": 8,
+          "median_setup_ns": 366.0,
+          "median_teardown_ns": 159.5
+        }
+      }
+    },
+    "small": {
+      "fastest_median": "half",
+      "selected": "half",
+      "candidates": {
+        "labels": {
+          "median_ns": 30122.0,
+          "min_ns": 29783,
+          "max_ns": 30501,
+          "samples": 8,
+          "median_setup_ns": 435.5,
+          "median_teardown_ns": 156.5
+        },
+        "size": {
+          "median_ns": 36143.0,
+          "min_ns": 35650,
+          "max_ns": 36393,
+          "samples": 8,
+          "median_setup_ns": 716.5,
+          "median_teardown_ns": 200.5
+        },
+        "full": {
+          "median_ns": 24931.0,
+          "min_ns": 24438,
+          "max_ns": 25888,
+          "samples": 8,
+          "median_setup_ns": 682.5,
+          "median_teardown_ns": 205.0
+        },
+        "half": {
+          "median_ns": 20678.5,
+          "min_ns": 20367,
+          "max_ns": 21066,
+          "samples": 8,
+          "median_setup_ns": 668.5,
+          "median_teardown_ns": 208.0
+        }
+      }
+    },
+    "mixed": {
+      "fastest_median": "size",
+      "selected": "size",
+      "candidates": {
+        "labels": {
+          "median_ns": 2178326.0,
+          "min_ns": 2167298,
+          "max_ns": 2196260,
+          "samples": 8,
+          "median_setup_ns": 941.0,
+          "median_teardown_ns": 223.0
+        },
+        "size": {
+          "median_ns": 99919.5,
+          "min_ns": 99201,
+          "max_ns": 100698,
+          "samples": 8,
+          "median_setup_ns": 1831.5,
+          "median_teardown_ns": 245.5
+        },
+        "full": {
+          "median_ns": 114329.0,
+          "min_ns": 113695,
+          "max_ns": 117470,
+          "samples": 8,
+          "median_setup_ns": 1825.5,
+          "median_teardown_ns": 249.5
+        },
+        "half": {
+          "median_ns": 104149.5,
+          "min_ns": 103337,
+          "max_ns": 113773,
+          "samples": 8,
+          "median_setup_ns": 1873.5,
+          "median_teardown_ns": 256.0
+        }
+      }
+    },
+    "reads": {
+      "fastest_median": "size",
+      "selected": "size",
+      "candidates": {
+        "labels": {
+          "median_ns": 327581.0,
+          "min_ns": 327160,
+          "max_ns": 336499,
+          "samples": 8,
+          "median_setup_ns": 936.0,
+          "median_teardown_ns": 181.5
+        },
+        "size": {
+          "median_ns": 35703.5,
+          "min_ns": 35464,
+          "max_ns": 35906,
+          "samples": 8,
+          "median_setup_ns": 1807.0,
+          "median_teardown_ns": 232.5
+        },
+        "full": {
+          "median_ns": 44080.0,
+          "min_ns": 43433,
+          "max_ns": 45543,
+          "samples": 8,
+          "median_setup_ns": 1829.5,
+          "median_teardown_ns": 237.0
+        },
+        "half": {
+          "median_ns": 48260.5,
+          "min_ns": 47270,
+          "max_ns": 49204,
+          "samples": 8,
+          "median_setup_ns": 1829.5,
+          "median_teardown_ns": 231.0
+        }
+      }
+    },
+    "unions": {
+      "fastest_median": "half",
+      "selected": "half",
+      "candidates": {
+        "labels": {
+          "median_ns": 3000207.0,
+          "min_ns": 2987436,
+          "max_ns": 3017485,
+          "samples": 8,
+          "median_setup_ns": 1027.5,
+          "median_teardown_ns": 223.5
+        },
+        "size": {
+          "median_ns": 131532.0,
+          "min_ns": 130059,
+          "max_ns": 151694,
+          "samples": 8,
+          "median_setup_ns": 1846.0,
+          "median_teardown_ns": 240.5
+        },
+        "full": {
+          "median_ns": 132501.5,
+          "min_ns": 131389,
+          "max_ns": 142920,
+          "samples": 8,
+          "median_setup_ns": 1908.0,
+          "median_teardown_ns": 240.5
+        },
+        "half": {
+          "median_ns": 110829.5,
+          "min_ns": 110649,
+          "max_ns": 112108,
+          "samples": 8,
+          "median_setup_ns": 1814.0,
+          "median_teardown_ns": 243.5
+        }
+      }
+    },
+    "local": {
+      "fastest_median": "full",
+      "selected": "unresolved",
+      "candidates": {
+        "labels": {
+          "median_ns": 63278.0,
+          "min_ns": 63068,
+          "max_ns": 63660,
+          "samples": 8,
+          "median_setup_ns": 947.5,
+          "median_teardown_ns": 201.5
+        },
+        "size": {
+          "median_ns": 159701.0,
+          "min_ns": 159014,
+          "max_ns": 161100,
+          "samples": 8,
+          "median_setup_ns": 1832.0,
+          "median_teardown_ns": 260.0
+        },
+        "full": {
+          "median_ns": 49846.5,
+          "min_ns": 48881,
+          "max_ns": 56270,
+          "samples": 8,
+          "median_setup_ns": 1811.5,
+          "median_teardown_ns": 266.0
+        },
+        "half": {
+          "median_ns": 55183.5,
+          "min_ns": 54831,
+          "max_ns": 73925,
+          "samples": 8,
+          "median_setup_ns": 1834.5,
+          "median_teardown_ns": 253.0
+        }
+      }
+    },
+    "duplicates": {
+      "fastest_median": "labels",
+      "selected": "labels",
+      "candidates": {
+        "labels": {
+          "median_ns": 14661.0,
+          "min_ns": 14610,
+          "max_ns": 14766,
+          "samples": 8,
+          "median_setup_ns": 1010.5,
+          "median_teardown_ns": 204.0
+        },
+        "size": {
+          "median_ns": 39656.5,
+          "min_ns": 33999,
+          "max_ns": 42374,
+          "samples": 8,
+          "median_setup_ns": 1779.0,
+          "median_teardown_ns": 264.0
+        },
+        "full": {
+          "median_ns": 33302.0,
+          "min_ns": 33144,
+          "max_ns": 35973,
+          "samples": 8,
+          "median_setup_ns": 1777.0,
+          "median_teardown_ns": 268.0
+        },
+        "half": {
+          "median_ns": 46491.0,
+          "min_ns": 43930,
+          "max_ns": 50335,
+          "samples": 8,
+          "median_setup_ns": 1773.0,
+          "median_teardown_ns": 266.0
+        }
+      }
+    },
+    "first": {
+      "fastest_median": "labels",
+      "selected": "labels",
+      "candidates": {
+        "labels": {
+          "median_ns": 17432.0,
+          "min_ns": 11493,
+          "max_ns": 36337,
+          "samples": 8,
+          "median_setup_ns": 3383303.5,
+          "median_teardown_ns": 164.5
+        },
+        "size": {
+          "median_ns": 85894.0,
+          "min_ns": 84015,
+          "max_ns": 88385,
+          "samples": 8,
+          "median_setup_ns": 20205.0,
+          "median_teardown_ns": 256.0
+        },
+        "full": {
+          "median_ns": 44160.0,
+          "min_ns": 43073,
+          "max_ns": 56199,
+          "samples": 8,
+          "median_setup_ns": 24198.5,
+          "median_teardown_ns": 246.5
+        },
+        "half": {
+          "median_ns": 46765.0,
+          "min_ns": 45245,
+          "max_ns": 51208,
+          "samples": 8,
+          "median_setup_ns": 22685.5,
+          "median_teardown_ns": 242.5
+        }
+      }
+    },
+    "repeat": {
+      "fastest_median": "labels",
+      "selected": "labels",
+      "candidates": {
+        "labels": {
+          "median_ns": 10384.0,
+          "min_ns": 10360,
+          "max_ns": 10474,
+          "samples": 8,
+          "median_setup_ns": 3398464.5,
+          "median_teardown_ns": 164.5
+        },
+        "size": {
+          "median_ns": 79739.0,
+          "min_ns": 78992,
+          "max_ns": 79869,
+          "samples": 8,
+          "median_setup_ns": 107123.5,
+          "median_teardown_ns": 243.5
+        },
+        "full": {
+          "median_ns": 35240.0,
+          "min_ns": 31001,
+          "max_ns": 48100,
+          "samples": 8,
+          "median_setup_ns": 68555.0,
+          "median_teardown_ns": 242.0
+        },
+        "half": {
+          "median_ns": 38921.5,
+          "min_ns": 36579,
+          "max_ns": 43497,
+          "samples": 8,
+          "median_setup_ns": 69579.0,
+          "median_teardown_ns": 246.5
+        }
+      }
+    }
+  }
+}
