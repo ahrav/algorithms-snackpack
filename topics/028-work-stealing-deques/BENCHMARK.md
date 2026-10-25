@@ -30,7 +30,9 @@ from Cargo's `compiler-artifact` message (so a configured target triple or
 redirected target directory is honoured); reads the wrapper, compiler and
 linker executables, the `--target` and the environment Cargo passed from the
 verbose `Running` line and hashes each executable, resolving bare names
-through `PATH` with relative entries taken from the build directory; hashes a
+through the `PATH` of that invocation (or the runner's) with relative entries
+taken from the build directory, and including the Cargo executable Cargo
+names as `CARGO`, which the `cargo -V` probe then runs; hashes a
 custom target specification (a `.json` path, or a name found through the
 `RUST_TARGET_PATH` the compiler saw, including one set by Cargo `[env]`
 config) and asks the compiler whether a named target is builtin, requiring a
@@ -48,7 +50,14 @@ whose content did not change during the build (`invalid: build artifact
 mismatch`); and any build, including one run through `--build-command`,
 whose compiler chain cannot be read or hashed (`invalid: compiler identity
 unavailable`), so a custom build command has to print Cargo's verbose
-`Running` line for the example.
+`Running` line for the example; a compiler or Cargo probe that prints
+nothing counts as unavailable. Of the environment Cargo passes to rustc,
+only provenance variables (`CARGO*`, `PATH`, `LD_LIBRARY_PATH`,
+`RUST_TARGET_PATH`, `RUSTC*`, `RUSTFLAGS`, `RUST_*`, loader and allocator
+tunables) are recorded verbatim; any other variable, such as a credential
+from `[env]` config, is recorded as a hash and redacted from the retained
+build output. `--out` has to name a generated path: the runner refuses an
+output path that is a tracked file in `--source`.
 
 The environment also records Cargo's compiler overrides (`RUSTC`,
 `RUSTC_WRAPPER`, `RUSTC_WORKSPACE_WRAPPER` and their `CARGO_BUILD_*` forms,

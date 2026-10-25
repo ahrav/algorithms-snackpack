@@ -615,14 +615,14 @@ class RunCampaignTests(unittest.TestCase):
         fake.chmod(0o755)
         spec = root / "custom.json"
         spec.write_text('{"llvm-target": "aarch64-unknown-linux-gnu"}' + chr(10))
-        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args=f"--target {spec}", compiler=f"CARGO=/x/cargo CARGO_PKG_NAME=compare {wrapper} {fake}")
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args=f"--target {spec}", compiler=f"CARGO_PKG_NAME=compare {wrapper} {fake}")
         command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
         command = [c for c in command if c != "--binary" and c != "target/release/examples/compare"]
         env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
         process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
         self.assertEqual(process.returncode, 0, process.stderr)
         document = json.loads(out.read_text())
-        chain = document["build"]["compiler_chain"]
+        chain = [c for c in document["build"]["compiler_chain"] if c["role"] != "cargo"]
         self.assertEqual([c["path"] for c in chain], [str(wrapper), str(fake)])
         self.assertEqual(chain[1]["sha256"], hashlib.sha256(fake.read_bytes()).hexdigest())
         self.assertIn("7.7.7-chain", document["environment"]["rustc"])
@@ -816,6 +816,76 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(document["build"]["status"], "ambiguous")
         self.assertEqual(document["rows"], [])
         self.assertEqual(document["status"], "invalid: build artifact ambiguous")
+
+    def test_tools_resolve_through_the_invocation_path(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-cfgpath-"))
+        (root / "bin").mkdir()
+        tool = root / "bin" / "my-ld"
+        tool.write_text("#!/bin/sh" + chr(10) + "exec configured-ld" + chr(10))
+        tool.chmod(0o755)
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", running_args="-C linker=my-ld", env_prefix=f"PATH={root / 'bin'}:/usr/bin")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        linker = json.loads(out.read_text())["build"]["compiler_chain"][-1]
+        self.assertEqual(linker["resolved"], str(tool))
+        self.assertEqual(linker["sha256"], hashlib.sha256(tool.read_bytes()).hexdigest())
+
+    def test_an_output_path_that_is_a_tracked_file_is_refused(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        command = [(str(repo / "Cargo.toml") if c == str(out) else c) for c in command]
+        before = (repo / "Cargo.toml").read_text()
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertNotEqual(process.returncode, 0)
+        self.assertIn("tracked", process.stderr)
+        self.assertEqual((repo / "Cargo.toml").read_text(), before)
+
+    def test_invocation_environment_values_are_redacted(self):
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", env_prefix="CARGO_PKG_NAME=compare API_TOKEN=$STUB_SECRET RUST_TARGET_PATH=/specs")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        env["STUB_SECRET"] = "hunter2secret"
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        text = out.read_text()
+        self.assertNotIn("hunter2secret", text)
+        document = json.loads(text)
+        recorded = document["build"]["invocation_env"]
+        self.assertEqual(recorded["CARGO_PKG_NAME"], "compare")
+        self.assertEqual(recorded["RUST_TARGET_PATH"], "/specs")
+        self.assertEqual(recorded["API_TOKEN"], {"sha256": hashlib.sha256(b"hunter2secret").hexdigest()})
+        self.assertIn("API_TOKEN=<redacted>", document["build"]["stderr"])
+
+    def test_the_cargo_that_performed_the_build_is_probed(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-cargo-"))
+        fake_cargo = root / "cargo"
+        fake_cargo.write_text("#!/bin/sh" + chr(10) + "echo 'cargo 9.9.9-chain (deadbeef 2026-01-01)'" + chr(10))
+        fake_cargo.chmod(0o755)
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", env_prefix=f"CARGO={fake_cargo}")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertIn("9.9.9-chain", document["environment"]["cargo"])
+        cargo = [c for c in document["build"]["compiler_chain"] if c["role"] == "cargo"]
+        self.assertEqual(cargo[0]["sha256"], hashlib.sha256(fake_cargo.read_bytes()).hexdigest())
+
+    def test_a_blank_identity_probe_withholds_selection(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-silent-"))
+        silent = root / "silent-rustc"
+        silent.write_text("#!/bin/sh" + chr(10) + "exit 0" + chr(10))
+        silent.chmod(0o755)
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", compiler=str(silent))
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build)
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["rustc"], "")
+        self.assertEqual(document["status"], "invalid: compiler identity unavailable")
 
     def test_cargo_profile_overrides_are_recorded(self):
         process, out, _ = run_campaign({}, repetitions=4, extra_env={"CARGO_PROFILE_RELEASE_OPT_LEVEL": "0", "CARGO_PROFILE_RELEASE_LTO": "true"})

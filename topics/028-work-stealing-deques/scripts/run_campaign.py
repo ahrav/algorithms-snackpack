@@ -262,7 +262,9 @@ def rustflags_identity(source):
 def identity(source, binary, pinned, out, toolchain=None, target=None, chain=None):
     status = worktree_status(source, out, target)
     compilers = [member["resolved"] for member in (chain or []) if member["role"] == "compiler"]
+    cargos = [member["resolved"] for member in (chain or []) if member["role"] == "cargo"]
     rustc = compilers[-1] if compilers else (os.environ.get("RUSTC") or os.environ.get("CARGO_BUILD_RUSTC") or "rustc")
+    cargo = cargos[-1] if cargos else "cargo"
     return {
         "source": str(source),
         "hostname": platform.node(),
@@ -286,7 +288,7 @@ def identity(source, binary, pinned, out, toolchain=None, target=None, chain=Non
         "binary_sha256": None if pinned is None else sha256_of(pinned),
         "toolchain": toolchain,
         "rustc": probe(toolchain_command(None if chain else toolchain, [rustc, "-Vv"]), cwd=source),
-        "cargo": probe(toolchain_command(toolchain, ["cargo", "-V"]), cwd=source),
+        "cargo": probe(toolchain_command(None if cargos else toolchain, [cargo, "-V"]), cwd=source),
         "compiler_overrides": compiler_overrides(source),
         "cargo_profile": cargo_profile(),
         "runtime_env": runtime_env(),
@@ -299,6 +301,34 @@ def default_build_command(toolchain):
     plus = f" +{toolchain}" if toolchain else ""
     return (f"cargo{plus} clean --release -p topic028-work-stealing-deques && "
             f"cargo{plus} build --release -p topic028-work-stealing-deques --example compare -vv --message-format=json-render-diagnostics")
+
+
+PROVENANCE_ENV = re.compile(r"(CARGO|CARGO_PKG_[A-Z_]+|CARGO_CRATE_NAME|CARGO_BIN_NAME|CARGO_MANIFEST_DIR|CARGO_MANIFEST_PATH|"
+                            r"CARGO_PRIMARY_PACKAGE|CARGO_SBOM_PATH|CARGO_TARGET_TMPDIR|PATH|LD_LIBRARY_PATH|DYLD_[A-Z_]+|RUST_TARGET_PATH|"
+                            r"RUSTC|RUSTC_WRAPPER|RUSTC_WORKSPACE_WRAPPER|RUSTFLAGS|CARGO_ENCODED_RUSTFLAGS|CARGO_BUILD_[A-Z_]+|"
+                            r"CARGO_PROFILE_[A-Z_]+|CARGO_TARGET_[A-Z0-9_]+|RUST_[A-Z_]+|RUSTUP_[A-Z_]+|LD_[A-Z_]+|GLIBC_[A-Z_]+|MALLOC_[A-Z_]+)")
+
+
+def redacted_value(key, value):
+    """Keep provenance variables verbatim; anything else (an `[env]` credential, for example) is kept only as a hash."""
+    if PROVENANCE_ENV.fullmatch(key):
+        return value
+    return {"sha256": hashlib.sha256(value.encode()).hexdigest()}
+
+
+def redact_running_lines(text):
+    """Replace the values of non-provenance environment prefixes in Cargo's verbose `Running` lines."""
+    def redact(match):
+        tokens = shlex.split(match.group(1))
+        out = []
+        for token in tokens:
+            key, sep, value = token.partition("=")
+            if sep and not token.startswith(("/", ".")) and re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", key) and not PROVENANCE_ENV.fullmatch(key):
+                out.append(f"{key}=<redacted>")
+            else:
+                out.append(shlex.quote(token) if " " in token else token)
+        return "Running `" + " ".join(out) + "`"
+    return re.sub(r"Running `(.+)`", redact, text)
 
 
 def compiler_invocations(stderr, source):
@@ -329,10 +359,14 @@ def compiler_invocations(stderr, source):
         roles = ["wrapper"] * (len(executables) - 1) + ["compiler"] if executables else []
         members = list(zip(roles, executables)) + ([("linker", linker)] if linker else [])
         chain = []
+        if invocation_env.get("CARGO"):
+            members.append(("cargo", invocation_env["CARGO"]))
+        search_path = invocation_env.get("PATH")
         for role, path in members:
-            resolved = str((Path(source) / path).resolve()) if os.sep in path else (which_from(path, source) or path)
+            resolved = str((Path(source) / path).resolve()) if os.sep in path else (which_from(path, source, search_path) or path)
             chain.append({"role": role, "path": path, "resolved": resolved, "sha256": sha256_of(resolved)})
-        results.append((chain, target, invocation_env))
+        recorded_env = {key: redacted_value(key, value) for key, value in invocation_env.items()}
+        results.append((chain, target, invocation_env, recorded_env))
     return results
 
 
@@ -375,9 +409,10 @@ def built_executables(stdout):
     return found
 
 
-def which_from(name, source):
-    """Locate a bare tool name on PATH, resolving relative PATH entries against the build directory as the build does."""
-    for entry in os.environ.get("PATH", "").split(os.pathsep):
+def which_from(name, source, path=None):
+    """Locate a bare tool name on the given PATH (default: the runner's), resolving relative entries against the
+    build directory as the build does."""
+    for entry in (os.environ.get("PATH", "") if path is None else path).split(os.pathsep):
         candidate = (Path(source) / (entry or ".")).resolve() / name
         if candidate.is_file() and os.access(candidate, os.X_OK):
             return str(candidate)
@@ -409,13 +444,13 @@ def build(source, command, timeout):
     errors = captured_text(stderr)
     executables = built_executables(text)
     invocations = compiler_invocations(errors, source)
-    chain, target, invocation_env = invocations[0] if len(invocations) == 1 else (None, None, None)
+    chain, target, invocation_env, recorded_env = invocations[0] if len(invocations) == 1 else (None, None, None, None)
     record.update({
-        "returncode": process.returncode, "stdout": text[-4000:], "stderr": errors[-4000:],
+        "returncode": process.returncode, "stdout": redact_running_lines(text)[-4000:], "stderr": redact_running_lines(errors)[-4000:],
         "executable": str(executables[0]) if len(executables) == 1 else None,
         "reported_executables": [str(path) for path in executables],
         "compiler_invocations": len(invocations),
-        "compiler_chain": chain, "invocation_env": invocation_env, "target": target,
+        "compiler_chain": chain, "invocation_env": recorded_env, "target": target,
         "target_spec_sha256": effective_target_spec(target, source, invocation_env),
         "target_is_builtin": target_is_builtin(target, chain, source),
     })
@@ -521,6 +556,9 @@ def main():
     if args.repetitions < 4 or args.repetitions % 2:
         raise SystemExit("--repetitions must be even and at least four")
     source = args.source.resolve()
+    tracked = probe(["git", "ls-files", "--error-unmatch", "--", str(args.out.resolve())], cwd=source)
+    if tracked:
+        raise SystemExit(f"--out {args.out} names a file tracked in {source}; choose a generated path")
     target = target_directory(source, args.toolchain)
     if args.binary is not None:
         built = args.binary if args.binary.is_absolute() else source / args.binary
@@ -594,7 +632,7 @@ def main():
         document["status"] = "invalid: binary could not be pinned"
     elif build_record["status"] == "skipped":
         document["status"] = "invalid: binary provenance unverified"
-    elif environment["rustc"] is None or environment["cargo"] is None or any(
+    elif not environment["rustc"] or not environment["cargo"] or any(
         override is not None and override["sha256"] is None for override in environment["compiler_overrides"].values()
     ) or (not args.skip_build and not build_record.get("compiler_chain")) or any(
         member["sha256"] is None for member in (build_record.get("compiler_chain") or [])
