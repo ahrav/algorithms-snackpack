@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 import pathlib
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -61,7 +62,12 @@ def clean_repository(root):
     for name in SOURCE_FILES:
         path = repo / name
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(RUNNER.read_text() if name.endswith("run_campaign.py") else name + chr(10))
+        if name.endswith("run_campaign.py"):
+            path.write_text(RUNNER.read_text())
+        elif name == "Cargo.toml":
+            path.write_text("[workspace]" + chr(10) + "members = []" + chr(10) + "resolver = \"2\"" + chr(10))
+        else:
+            path.write_text(name + chr(10))
     (repo / ".gitignore").write_text("/target/" + chr(10))
     subprocess.run(["git", "init", "-q", repo], check=True)
     subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
@@ -197,7 +203,7 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(summaries["medium_balanced"]["selected"], "locked_steal_balanced")
 
     def test_failed_and_timed_out_processes_are_retained_and_the_campaign_continues(self):
-        process, out, _ = run_campaign({"global_fifo#1": {"fail": True}, "locked_steal_balanced#3": {"hang": True}}, timeout=1)
+        process, out, _ = run_campaign({"global_fifo#2": {"fail": True}, "locked_steal_balanced#3": {"hang": True}}, timeout=1)
         self.assertEqual(process.returncode, 0, process.stderr)
         document = json.loads(out.read_text())
         self.assertEqual(sorted(r["status"] for r in document["rows"] if r["status"] != "ok"), ["failed", "timeout"])
@@ -217,7 +223,7 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(document["status"], "complete")
 
     def test_zero_or_mismatched_output_is_a_failed_row_and_never_divides(self):
-        process, out, _ = run_campaign({"global_fifo#1": {"elapsed_ns": 0}, "locked_steal_balanced#2": {"echo_candidate": "global_fifo"}})
+        process, out, _ = run_campaign({"global_fifo#2": {"elapsed_ns": 0}, "locked_steal_balanced#2": {"echo_candidate": "global_fifo"}})
         self.assertEqual(process.returncode, 0, process.stderr)
         document = json.loads(out.read_text())
         failed = {r["reason"][:20]: r for r in document["rows"] if r["status"] == "failed"}
@@ -228,7 +234,7 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(affected["selected"], "unresolved")
 
     def test_a_one_sided_aa_control_withholds_selection(self):
-        plan = {f"global_fifo#{occurrence}": {"elapsed_ns": 900} for occurrence in [2, 5, 8, 11, 14, 17, 20, 23]}
+        plan = {f"global_fifo#{occurrence}": {"elapsed_ns": 900} for occurrence in [1, 5, 7, 11, 13, 17, 19, 23]}
         process, out, _ = run_campaign(plan)
         self.assertEqual(process.returncode, 0, process.stderr)
         summaries = summaries_by_name(json.loads(out.read_text()))
@@ -255,6 +261,18 @@ class RunCampaignTests(unittest.TestCase):
         self.assertIsNone(environment["toolchain"])
         self.assertIn("release:", environment["rustc"] or "release:")
 
+    def test_compiler_probes_honour_the_source_checkouts_toolchain_file(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        (repo / "rust-toolchain.toml").write_text('[toolchain]' + chr(10) + 'channel = "topic028-no-such-toolchain"' + chr(10))
+        subprocess.run(["git", "-C", str(repo), "add", "rust-toolchain.toml"], check=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "toolchain"], check=True)
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertIsNone(document["environment"]["rustc"])
+        self.assertEqual(document["status"], "invalid: compiler identity unavailable")
+
     def test_only_the_eight_repetition_protocol_can_select(self):
         process, out, _ = run_campaign({}, repetitions=4)
         self.assertEqual(process.returncode, 0, process.stderr)
@@ -266,7 +284,7 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(summaries_by_name(document)["medium_balanced"]["lowest_median"], "locked_steal_balanced")
 
     def test_an_incomplete_control_pair_invalidates_the_cell(self):
-        process, out, _ = run_campaign({"global_fifo#2": {"fail": True}})
+        process, out, _ = run_campaign({"global_fifo#1": {"fail": True}})
         self.assertEqual(process.returncode, 0, process.stderr)
         document = json.loads(out.read_text())
         failed = [r for r in document["rows"] if r["status"] == "failed"]
@@ -289,11 +307,11 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(summaries_by_name(document)["tiny_skewed"]["selected"], "global_fifo")
 
     def test_observations_are_checkpointed_before_the_campaign_completes(self):
-        out = run_campaign_killed_after({"locked_steal_balanced#2": {"hang": True}}, invocations=9)
+        out = run_campaign_killed_after({"locked_steal_balanced#2": {"hang": True}}, invocations=8)
         partial = json.loads(out.read_text())
         self.assertEqual(partial["status"], "running")
         self.assertEqual(len(partial["warmups"]), 2)
-        self.assertEqual([r["status"] for r in partial["rows"]], ["ok"] * 6 + ["running"])
+        self.assertEqual([r["status"] for r in partial["rows"]], ["ok"] * 5 + ["running"])
         started = partial["rows"][-1]
         self.assertEqual((started["candidate"], started["arm"], started["repetition"]), ("locked_steal_balanced", "treatment", 1))
         self.assertIn("command", started)
@@ -339,8 +357,8 @@ class RunCampaignTests(unittest.TestCase):
         by_repetition = {}
         for row in rows:
             by_repetition.setdefault(row["repetition"], []).append((row["arm"], row["label"]))
-        self.assertEqual(by_repetition[0], [("treatment", "global_fifo"), ("treatment", "locked_steal_balanced"), ("control", "A"), ("control", "B")])
-        self.assertEqual(by_repetition[1], [("control", "B"), ("control", "A"), ("treatment", "locked_steal_balanced"), ("treatment", "global_fifo")])
+        self.assertEqual(by_repetition[0], [("control", "A"), ("treatment", "global_fifo"), ("control", "B"), ("treatment", "locked_steal_balanced")])
+        self.assertEqual(by_repetition[1], [("control", "B"), ("treatment", "locked_steal_balanced"), ("control", "A"), ("treatment", "global_fifo")])
         self.assertEqual(by_repetition[2], by_repetition[0])
         self.assertEqual(by_repetition[3], by_repetition[1])
 
@@ -383,6 +401,23 @@ class RunCampaignTests(unittest.TestCase):
         self.assertEqual(recorded["CARGO_BUILD_RUSTFLAGS"], "-C opt-level=2")
         self.assertIn("cargo_config_sha256", recorded)
 
+    def test_target_specific_cargo_rustflags_are_recorded(self):
+        extra = {"CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_RUSTFLAGS": "-C target-cpu=neoverse-v1", "CARGO_BUILD_TARGET": "aarch64-unknown-linux-gnu"}
+        process, out, _ = run_campaign({}, repetitions=4, extra_env=extra)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        recorded = json.loads(out.read_text())["environment"]["rustflags"]
+        self.assertEqual(recorded["target_specific"], {"CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_RUSTFLAGS": "-C target-cpu=neoverse-v1"})
+        self.assertEqual(recorded["CARGO_BUILD_TARGET"], "aarch64-unknown-linux-gnu")
+
+    def test_host_identity_is_recorded_in_receipt_comparable_form(self):
+        process, out, _ = run_campaign({}, repetitions=4)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        environment = json.loads(out.read_text())["environment"]
+        self.assertEqual(environment["uname_a"], subprocess.run(["uname", "-a"], text=True, capture_output=True, check=True).stdout.strip())
+        self.assertIn("cpu_identification", environment)
+        self.assertEqual(environment["runner_sha256"], hashlib.sha256(RUNNER.read_bytes()).hexdigest())
+        self.assertTrue(environment["runner_matches_source"])
+
     def test_the_runner_builds_the_binary_and_records_the_build(self):
         process, out, binary = run_campaign({}, repetitions=4)
         self.assertEqual(process.returncode, 0, process.stderr)
@@ -403,6 +438,35 @@ class RunCampaignTests(unittest.TestCase):
         self.assertIn("compiler exploded", document["build"]["stderr"])
         self.assertEqual(document["rows"], [])
         self.assertEqual(document["status"], "invalid: build failed")
+
+    def test_the_built_binary_is_resolved_from_cargos_target_directory(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-target-"))
+        alt = root / "alt-target"
+        build = "mkdir -p \"$CARGO_TARGET_DIR/release/examples\" && cp \"$STUB_SOURCE\" \"$CARGO_TARGET_DIR/release/examples/compare\""
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build, extra_env={"CARGO_TARGET_DIR": str(alt)})
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["target_directory"], str(alt))
+        self.assertEqual(document["environment"]["binary"], str(alt / "release/examples/compare"))
+        self.assertEqual(document["build"]["status"], "ok")
+        self.assertEqual(document["status"], "complete")
+
+    def test_a_timed_out_build_takes_its_descendants_with_it(self):
+        marker = "topic028-build-marker-" + os.urandom(6).hex()
+        sleeper = pathlib.Path(tempfile.mkdtemp(prefix="topic028-sleeper-")) / marker
+        shutil.copy(shutil.which("sleep") or "/bin/sleep", sleeper)
+        command, env, out, _, _ = start_campaign({}, repetitions=4, build=f"{sleeper} 300 & {sleeper} 300")
+        command += ["--build-timeout", "1"]
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["build"]["status"], "timeout")
+        self.assertEqual(document["status"], "invalid: build failed")
+        time.sleep(0.5)
+        survivors = subprocess.run(["pgrep", "-f", marker], text=True, capture_output=True).stdout.split()
+        self.assertEqual(survivors, [])
 
     def test_a_prebuilt_binary_has_unverified_provenance(self):
         process, out, _ = run_campaign({}, repetitions=4, skip_build=True)

@@ -16,7 +16,9 @@ import hashlib
 import json
 import os
 import platform
+import re
 import shutil
+import signal
 import statistics
 import subprocess
 import tempfile
@@ -36,7 +38,6 @@ BOUNDARY = 1.03
 PROTOCOL_REPETITIONS = 8
 TOPIC = Path(__file__).resolve().parent.parent
 REPOSITORY = TOPIC.parent.parent
-BUILT_BINARY = Path("target/release/examples/compare")
 SOURCE_FILES = [
     "Cargo.lock",
     "Cargo.toml",
@@ -113,6 +114,11 @@ def sha256_of(path):
 CPU_IDENTITY_FIELDS = ("model name", "hardware", "cpu implementer", "cpu variant", "cpu part", "cpu revision")
 
 
+def cpu_identification(cpuinfo=Path("/proc/cpuinfo")):
+    """The first processor block of cpuinfo, in the form the evidence receipt stores."""
+    return cpuinfo.read_text(errors="replace").split("\n\n", 1)[0] if cpuinfo.is_file() else None
+
+
 def cpu_model(cpuinfo=Path("/proc/cpuinfo")):
     """Identify the CPU from the first processor block: the model name on x86, implementer/variant/part/revision on Arm."""
     if not cpuinfo.is_file():
@@ -174,6 +180,8 @@ def rustflags_identity(source):
     candidates += [cargo_home / "config.toml", cargo_home / "config"]
     return {
         **{name: os.environ.get(name) for name in RUSTFLAGS_SOURCES},
+        "target_specific": {name: value for name, value in os.environ.items() if re.fullmatch(r"CARGO_TARGET_[A-Z0-9_]+_RUSTFLAGS", name)},
+        "CARGO_BUILD_TARGET": os.environ.get("CARGO_BUILD_TARGET"),
         "cargo_config_sha256": {str(path): sha256_of(path) for path in candidates if path.is_file()},
     }
 
@@ -185,20 +193,25 @@ def identity(source, binary, pinned, out, toolchain=None):
         "hostname": platform.node(),
         "platform": platform.platform(),
         "uname": list(platform.uname()),
+        "uname_a": probe(["uname", "-a"]),
         "python": platform.python_version(),
         "cpu_model": cpu_model(),
+        "cpu_identification": cpu_identification(),
         "available_cpus": len(os.sched_getaffinity(0)) if hasattr(os, "sched_getaffinity") else os.cpu_count(),
         "affinity": sorted(os.sched_getaffinity(0)) if hasattr(os, "sched_getaffinity") else None,
         "source_commit": probe(["git", "rev-parse", "HEAD"], cwd=source),
         "worktree_dirty": None if status is None else bool(status),
         "worktree_status": status,
         "source_sha256": {name: sha256_of(Path(source) / name) for name in SOURCE_FILES},
+        "runner": str(Path(__file__).resolve()),
+        "runner_sha256": sha256_of(Path(__file__).resolve()),
+        "runner_matches_source": sha256_of(Path(__file__).resolve()) == sha256_of(Path(source) / "topics/028-work-stealing-deques/scripts/run_campaign.py"),
         "binary": str(binary),
         "binary_copy": None if pinned is None else str(pinned),
         "binary_sha256": None if pinned is None else sha256_of(pinned),
         "toolchain": toolchain,
-        "rustc": probe(toolchain_command(toolchain, ["rustc", "-Vv"])),
-        "cargo": probe(toolchain_command(toolchain, ["cargo", "-V"])),
+        "rustc": probe(toolchain_command(toolchain, ["rustc", "-Vv"]), cwd=source),
+        "cargo": probe(toolchain_command(toolchain, ["cargo", "-V"]), cwd=source),
         "rustflags": rustflags_identity(source),
     }
 
@@ -209,19 +222,35 @@ def default_build_command(toolchain):
 
 
 def build(source, command, timeout):
-    """Run the build command in the source tree and record its outcome; the runner owns the artifact's provenance."""
+    """Run the build command in the source tree, in its own process group, and record its outcome.
+
+    On timeout the whole group is killed so compiler descendants cannot outlive the runner.
+    """
     record = {"command": command, "cwd": str(source), "started_unix_s": time.time()}
     try:
-        process = subprocess.run(command, shell=True, cwd=source, capture_output=True, timeout=timeout)
-    except subprocess.TimeoutExpired as expired:
-        record.update({"status": "timeout", "timeout_s": timeout, "stdout": captured_text(expired.stdout), "stderr": captured_text(expired.stderr)})
-        return record
+        process = subprocess.Popen(command, shell=True, cwd=source, stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
     except OSError as error:
         record.update({"status": "failed", "reason": f"launch failed: {error}"})
         return record
-    record.update({"returncode": process.returncode, "stdout": captured_text(process.stdout)[-4000:], "stderr": captured_text(process.stderr)[-4000:]})
+    try:
+        stdout, stderr = process.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        os.killpg(process.pid, signal.SIGKILL)
+        stdout, stderr = process.communicate()
+        record.update({"status": "timeout", "timeout_s": timeout, "stdout": captured_text(stdout)[-4000:], "stderr": captured_text(stderr)[-4000:]})
+        return record
+    record.update({"returncode": process.returncode, "stdout": captured_text(stdout)[-4000:], "stderr": captured_text(stderr)[-4000:]})
     record["status"] = "ok" if process.returncode == 0 else "failed"
     return record
+
+
+def target_directory(source, toolchain):
+    """Cargo's effective target directory for the source tree, honouring CARGO_TARGET_DIR and build.target-dir."""
+    metadata = probe(toolchain_command(toolchain, ["cargo", "metadata", "--no-deps", "--format-version", "1"]), cwd=source)
+    try:
+        return Path(json.loads(metadata)["target_directory"]) if metadata else None
+    except (ValueError, KeyError, TypeError):
+        return None
 
 
 def paired_ratios(rows, numerator, denominator, repetitions):
@@ -295,7 +324,7 @@ def write_document(out, document):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", type=Path, default=REPOSITORY, help="checkout to build and identify (default: this runner's repository)")
-    parser.add_argument("--binary", type=Path, default=BUILT_BINARY, help="built example, relative to --source")
+    parser.add_argument("--binary", type=Path, help="built example (default: <cargo target directory>/release/examples/compare)")
     parser.add_argument("--build-command", help="shell command run in --source that produces --binary (default: the release cargo build)")
     parser.add_argument("--build-timeout", type=float, default=1800.0, help="seconds allowed for the build")
     parser.add_argument("--skip-build", action="store_true", help="use the existing --binary; its provenance is then unverified and no selection is emitted")
@@ -307,11 +336,16 @@ def main():
     if args.repetitions < 4 or args.repetitions % 2:
         raise SystemExit("--repetitions must be even and at least four")
     source = args.source.resolve()
-    built = args.binary if args.binary.is_absolute() else source / args.binary
+    target = target_directory(source, args.toolchain)
+    if args.binary is not None:
+        built = args.binary if args.binary.is_absolute() else source / args.binary
+    else:
+        built = (target or source / "target") / "release" / "examples" / "compare"
     if args.skip_build:
         build_record = {"status": "skipped", "command": None, "cwd": str(source)}
     else:
         build_record = build(source, args.build_command or default_build_command(args.toolchain), args.build_timeout)
+    build_record["target_directory"] = None if target is None else str(target)
     staging = Path(tempfile.mkdtemp(prefix="topic028-campaign-"))
     pinned = pin_binary(built, staging) if build_record["status"] in ("ok", "skipped") else None
     binary = built if pinned is None else pinned
@@ -320,7 +354,7 @@ def main():
         "boundary": "scheduler lifecycle: queues, threads, task work, counters, joins and equality; sequential oracle before timer",
         "selection_rule": "lowest median is descriptive; select only when every paired steal/global ratio passes the same 3 percent boundary; otherwise unresolved",
         "control": "identical global_fifo artifact labelled A and B once each per repetition with alternating order",
-        "order": "the treatment pair and the control pair alternate first position by repetition parity; order within each pair rotates once per repetition",
+        "order": "each repetition runs control, treatment, control, treatment; order within each pair rotates once per repetition, so every treatment follows a control run of the global_fifo artifact",
         "repetitions": args.repetitions,
         "protocol_repetitions": args.repetitions == PROTOCOL_REPETITIONS,
         "timeout_s": args.timeout,
@@ -344,7 +378,7 @@ def main():
             rotated = candidates[repetition % 2:] + candidates[:repetition % 2]
             treatments = [(candidate, candidate, "treatment") for candidate in rotated]
             controls = [(BASELINE, label, "control") for label in (CONTROL_LABELS if repetition % 2 == 0 else CONTROL_LABELS[::-1])]
-            schedule = treatments + controls if repetition % 2 == 0 else controls + treatments
+            schedule = [controls[0], treatments[0], controls[1], treatments[1]]
             for candidate, label, arm in schedule:
                 row = start_row(binary, workload, candidate, label, arm, repetition)
                 document["rows"].append(row)
