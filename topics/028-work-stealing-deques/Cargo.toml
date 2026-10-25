@@ -1,0 +1,13 @@
+[package]
+name = "topic028-work-stealing-deques"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[[example]]
+name = "compare"
+path = "examples/compare.rs"

@@ -113,3 +113,7 @@ version = "0.1.0"
 [[package]]
 name = "topic027-ring-buffers-and-bounded-queues"
 version = "0.1.0"
+
+[[package]]
+name = "topic028-work-stealing-deques"
+version = "0.1.0"

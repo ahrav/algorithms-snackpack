@@ -1,0 +1,416 @@
+{
+  "source_commit": "200b157100cb9aa25c4622a545daaab9c329a627",
+  "rows": [
+    {
+      "host": "arm",
+      "workload": {
+        "name": "tiny_balanced",
+        "workers": 2,
+        "tasks": 256,
+        "leaf_work": 0
+      },
+      "candidates": {
+        "global_fifo": {
+          "median_ns": 134821.5,
+          "min_ns": 123773,
+          "max_ns": 155339,
+          "samples": 8
+        },
+        "locked_steal_balanced": {
+          "median_ns": 140529.5,
+          "min_ns": 129422,
+          "max_ns": 157371,
+          "samples": 8
+        }
+      },
+      "lowest_median": "global_fifo",
+      "paired_ratios": [
+        1.114225161966679,
+        1.1830447674371631,
+        1.0442961993832174,
+        1.0284398597320368,
+        1.0351524070800706,
+        0.9624673486363039,
+        1.0913686926128325,
+        0.8608977784072255
+      ],
+      "ratio_range": [
+        0.8608977784072255,
+        1.1830447674371631
+      ],
+      "selected": "unresolved",
+      "rule_outcome": "unresolved",
+      "aa_null_check": "missing"
+    },
+    {
+      "host": "arm",
+      "workload": {
+        "name": "tiny_skewed",
+        "workers": 2,
+        "tasks": 256,
+        "leaf_work": 0
+      },
+      "candidates": {
+        "global_fifo": {
+          "median_ns": 132625.0,
+          "min_ns": 120706,
+          "max_ns": 141649,
+          "samples": 8
+        },
+        "locked_steal_skewed": {
+          "median_ns": 133795.0,
+          "min_ns": 129967,
+          "max_ns": 142281,
+          "samples": 8
+        }
+      },
+      "lowest_median": "global_fifo",
+      "paired_ratios": [
+        1.0942175759555701,
+        0.977625263404355,
+        1.0890842211654765,
+        0.9918882151178777,
+        0.9315228531905592,
+        0.9368438887673051,
+        1.1263269555029567,
+        1.0504285336527244
+      ],
+      "ratio_range": [
+        0.9315228531905592,
+        1.1263269555029567
+      ],
+      "selected": "unresolved",
+      "rule_outcome": "unresolved",
+      "aa_null_check": "missing"
+    },
+    {
+      "host": "arm",
+      "workload": {
+        "name": "medium_balanced",
+        "workers": 4,
+        "tasks": 16384,
+        "leaf_work": 8
+      },
+      "candidates": {
+        "global_fifo": {
+          "median_ns": 2575575.5,
+          "min_ns": 2145165,
+          "max_ns": 2692646,
+          "samples": 8
+        },
+        "locked_steal_balanced": {
+          "median_ns": 1685664.5,
+          "min_ns": 1627761,
+          "max_ns": 1765101,
+          "samples": 8
+        }
+      },
+      "lowest_median": "locked_steal_balanced",
+      "paired_ratios": [
+        0.6295846915742392,
+        0.668225788768567,
+        0.6618860889414678,
+        0.6649294073893105,
+        0.7758564026543413,
+        0.6250946126023225,
+        0.7339611634094932,
+        0.6131051018217768
+      ],
+      "ratio_range": [
+        0.6131051018217768,
+        0.7758564026543413
+      ],
+      "selected": "unresolved",
+      "rule_outcome": "locked_steal_balanced",
+      "aa_null_check": "missing"
+    },
+    {
+      "host": "arm",
+      "workload": {
+        "name": "medium_skewed",
+        "workers": 4,
+        "tasks": 16384,
+        "leaf_work": 8
+      },
+      "candidates": {
+        "global_fifo": {
+          "median_ns": 2608695.0,
+          "min_ns": 2462817,
+          "max_ns": 2769190,
+          "samples": 8
+        },
+        "locked_steal_skewed": {
+          "median_ns": 3284731.5,
+          "min_ns": 2752066,
+          "max_ns": 3457002,
+          "samples": 8
+        }
+      },
+      "lowest_median": "global_fifo",
+      "paired_ratios": [
+        1.2391300944178363,
+        1.2170794618312375,
+        1.3626691775461384,
+        1.1892120078434487,
+        1.231981340025615,
+        1.3819810088655409,
+        1.1174464038537983,
+        1.1264884989817354
+      ],
+      "ratio_range": [
+        1.1174464038537983,
+        1.3819810088655409
+      ],
+      "selected": "unresolved",
+      "rule_outcome": "global_fifo",
+      "aa_null_check": "missing"
+    },
+    {
+      "host": "arm",
+      "workload": {
+        "name": "coarse_skewed",
+        "workers": 4,
+        "tasks": 4096,
+        "leaf_work": 512
+      },
+      "candidates": {
+        "global_fifo": {
+          "median_ns": 1028185.5,
+          "min_ns": 981060,
+          "max_ns": 1081002,
+          "samples": 8
+        },
+        "locked_steal_skewed": {
+          "median_ns": 1226745.5,
+          "min_ns": 1201693,
+          "max_ns": 1359304,
+          "samples": 8
+        }
+      },
+      "lowest_median": "global_fifo",
+      "paired_ratios": [
+        1.1143971201865983,
+        1.1813717324105708,
+        1.2457454920019877,
+        1.1438733242958277,
+        1.2917436242431655,
+        1.171560464844207,
+        1.1586759321444364,
+        1.3198561396967436
+      ],
+      "ratio_range": [
+        1.1143971201865983,
+        1.3198561396967436
+      ],
+      "selected": "unresolved",
+      "rule_outcome": "global_fifo",
+      "aa_null_check": "missing"
+    },
+    {
+      "host": "x86",
+      "workload": {
+        "name": "tiny_balanced",
+        "workers": 2,
+        "tasks": 256,
+        "leaf_work": 0
+      },
+      "candidates": {
+        "global_fifo": {
+          "median_ns": 143403.5,
+          "min_ns": 126548,
+          "max_ns": 151554,
+          "samples": 8
+        },
+        "locked_steal_balanced": {
+          "median_ns": 146865.5,
+          "min_ns": 116322,
+          "max_ns": 193435,
+          "samples": 8
+        }
+      },
+      "lowest_median": "global_fifo",
+      "paired_ratios": [
+        1.2469047570429965,
+        1.0861246814321497,
+        0.8329238837899385,
+        0.9191927173878687,
+        1.3590790287223877,
+        1.05699935120319,
+        0.9169075049157396,
+        1.125942178448079
+      ],
+      "ratio_range": [
+        0.8329238837899385,
+        1.3590790287223877
+      ],
+      "selected": "unresolved",
+      "rule_outcome": "unresolved",
+      "aa_null_check": "missing"
+    },
+    {
+      "host": "x86",
+      "workload": {
+        "name": "tiny_skewed",
+        "workers": 2,
+        "tasks": 256,
+        "leaf_work": 0
+      },
+      "candidates": {
+        "global_fifo": {
+          "median_ns": 119846.0,
+          "min_ns": 109003,
+          "max_ns": 184268,
+          "samples": 8
+        },
+        "locked_steal_skewed": {
+          "median_ns": 129773.0,
+          "min_ns": 108919,
+          "max_ns": 199130,
+          "samples": 8
+        }
+      },
+      "lowest_median": "global_fifo",
+      "paired_ratios": [
+        1.3477885929745053,
+        1.4495887020455704,
+        1.073748792616177,
+        1.0194842642939528,
+        0.6012004254672542,
+        0.973734321499772,
+        1.326754682534316,
+        0.8394488607563638
+      ],
+      "ratio_range": [
+        0.6012004254672542,
+        1.4495887020455704
+      ],
+      "selected": "unresolved",
+      "rule_outcome": "unresolved",
+      "aa_null_check": "missing"
+    },
+    {
+      "host": "x86",
+      "workload": {
+        "name": "medium_balanced",
+        "workers": 4,
+        "tasks": 16384,
+        "leaf_work": 8
+      },
+      "candidates": {
+        "global_fifo": {
+          "median_ns": 5070350.0,
+          "min_ns": 4022070,
+          "max_ns": 6078882,
+          "samples": 8
+        },
+        "locked_steal_balanced": {
+          "median_ns": 2716511.0,
+          "min_ns": 1769228,
+          "max_ns": 3486822,
+          "samples": 8
+        }
+      },
+      "lowest_median": "locked_steal_balanced",
+      "paired_ratios": [
+        0.5266400904560246,
+        0.5722134884923253,
+        0.3839558303308059,
+        0.7273904978383696,
+        0.6482793685838387,
+        0.3847586488861052,
+        0.37815762640643413,
+        0.4648218208545585
+      ],
+      "ratio_range": [
+        0.37815762640643413,
+        0.7273904978383696
+      ],
+      "selected": "unresolved",
+      "rule_outcome": "locked_steal_balanced",
+      "aa_null_check": "missing"
+    },
+    {
+      "host": "x86",
+      "workload": {
+        "name": "medium_skewed",
+        "workers": 4,
+        "tasks": 16384,
+        "leaf_work": 8
+      },
+      "candidates": {
+        "global_fifo": {
+          "median_ns": 5080443.5,
+          "min_ns": 3725726,
+          "max_ns": 5867035,
+          "samples": 8
+        },
+        "locked_steal_skewed": {
+          "median_ns": 5357240.5,
+          "min_ns": 4596361,
+          "max_ns": 6841520,
+          "samples": 8
+        }
+      },
+      "lowest_median": "global_fifo",
+      "paired_ratios": [
+        0.9817610111124433,
+        1.031822450037549,
+        1.0359903946637559,
+        1.3927937714420193,
+        0.8843584364170057,
+        1.610131823972026,
+        0.965009412761301,
+        1.2529023423380776
+      ],
+      "ratio_range": [
+        0.8843584364170057,
+        1.610131823972026
+      ],
+      "selected": "unresolved",
+      "rule_outcome": "unresolved",
+      "aa_null_check": "missing"
+    },
+    {
+      "host": "x86",
+      "workload": {
+        "name": "coarse_skewed",
+        "workers": 4,
+        "tasks": 4096,
+        "leaf_work": 512
+      },
+      "candidates": {
+        "global_fifo": {
+          "median_ns": 2368871.0,
+          "min_ns": 1840257,
+          "max_ns": 2639322,
+          "samples": 8
+        },
+        "locked_steal_skewed": {
+          "median_ns": 1687071.5,
+          "min_ns": 1566359,
+          "max_ns": 1864734,
+          "samples": 8
+        }
+      },
+      "lowest_median": "locked_steal_skewed",
+      "paired_ratios": [
+        0.6204133728170881,
+        0.6403408702963665,
+        0.6754106404969814,
+        0.7502659573368461,
+        0.7909330172620683,
+        1.013300859608196,
+        0.6014400668050356,
+        0.7641732290523628
+      ],
+      "ratio_range": [
+        0.6014400668050356,
+        1.013300859608196
+      ],
+      "selected": "unresolved",
+      "rule_outcome": "unresolved",
+      "aa_null_check": "missing"
+    }
+  ],
+  "selection_note": "The campaign at source_commit ran without the identical-artifact A/A control the frozen protocol requires; rule_outcome is the paired 3 percent rule's result on these rows and selected is unresolved until a controlled rerun passes its null check."
+}

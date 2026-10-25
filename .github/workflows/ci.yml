@@ -24,3 +24,4 @@ jobs:
       - run: cargo doc --workspace --no-deps
         env:
           RUSTDOCFLAGS: -D warnings
+      - run: python3 topics/028-work-stealing-deques/scripts/test_run_campaign.py
