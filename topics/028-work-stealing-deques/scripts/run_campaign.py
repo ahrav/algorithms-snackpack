@@ -266,6 +266,25 @@ def runtime_libraries(source):
     return result
 
 
+LOADER_SEARCH_VARIABLES = ("LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH", "DYLD_FALLBACK_LIBRARY_PATH")
+
+
+def loaded_objects(binary, cwd, env):
+    """Hashes of the shared objects the dynamic loader resolves for `binary` under `env` from `cwd`, keyed by the
+    resolved path `ldd` reports; {} for a static or non-ELF binary and None when the loader cannot be asked."""
+    if shutil.which("ldd") is None:
+        return None
+    listing = probe(["ldd", "--", str(binary)], cwd=cwd, env=env)
+    if listing is None:
+        return {}
+    result = {}
+    for line in listing.splitlines():
+        match = re.search(r"(?:=>\s*)?(/\S+)\s+\(0x[0-9a-fA-F]+\)\s*$", line)
+        if match:
+            result[match.group(1)] = sha256_of(match.group(1))
+    return result
+
+
 def runtime_env():
     """Environment variables inherited by every measured child that can change allocator, loader or thread behaviour;
     a name outside the known knobs is kept only as a hash."""
@@ -300,6 +319,9 @@ def rustflags_external_inputs(source, extra_tokens=()):
     inputs = {}
     for token in flags:
         body = token[2:] if token.startswith("-C") and not token.startswith("-C ") else token
+        if token.startswith("@") and len(token) > 1:
+            resolved = (Path(source) / token[1:]).resolve()
+            inputs[str(resolved)] = sha256_of(resolved)
         for prefix in EXTERNAL_INPUT_FLAGS:
             if body.startswith(prefix):
                 path = body[len(prefix):]
@@ -338,8 +360,7 @@ def identity(source, binary, pinned, out, toolchain=None, target=None, chain=Non
     compilers = [member["resolved"] for member in (chain or []) if member["role"] == "compiler"]
     cargos = [member["resolved"] for member in (chain or []) if member["role"] == "cargo"]
     linkers = [member["resolved"] for member in (chain or []) if member["role"] in ("linker", "target-linker")]
-    through_wrappers = [member["resolved"] for member in (chain or []) if member["role"] in ("wrapper", "compiler")]
-    rustc = through_wrappers if compilers else [os.environ.get("RUSTC") or os.environ.get("CARGO_BUILD_RUSTC") or "rustc"]
+    rustc = compiler_command(chain) or [os.environ.get("RUSTC") or os.environ.get("CARGO_BUILD_RUSTC") or "rustc"]
     cargo = cargos[-1] if cargos else "cargo"
     return {
         "source": str(source),
@@ -370,6 +391,7 @@ def identity(source, binary, pinned, out, toolchain=None, target=None, chain=Non
         "cargo_profile": cargo_profile(),
         "runtime_env": runtime_env(),
         "runtime_libraries": runtime_libraries(source),
+        "loaded_objects": loaded_objects(binary if pinned is None else pinned, source, dict(os.environ)),
         "rustflags": rustflags_identity(source),
     }
 
@@ -502,14 +524,45 @@ def target_spec_linker(target, source, invocation_env=None):
     return {"role": "target-linker", "path": linker, "resolved": resolved, "sha256": sha256_of(resolved)}
 
 
-def target_is_builtin(target, chain, source, invocation_env=None):
-    """Whether `target` is one of the compiler's builtin targets, asked under the environment Cargo gave the
-    compiler; None when the compiler cannot be asked."""
-    compilers = [member["resolved"] for member in (chain or []) if member["role"] == "compiler"]
-    if not target or target.endswith(".json") or not compilers:
+def compiler_command(chain):
+    """The compiler invocation Cargo used: every wrapper in order followed by the compiler; None without a compiler."""
+    if not any(member["role"] == "compiler" for member in (chain or [])):
         return None
-    listing = probe([compilers[-1], "--print", "target-list"], cwd=source, env=dict(os.environ, **(invocation_env or {})))
+    return [member["resolved"] for member in chain if member["role"] in ("wrapper", "compiler")]
+
+
+def target_is_builtin(target, chain, source, invocation_env=None):
+    """Whether `target` is one of the builtin targets of the compiler Cargo used, asked through its wrapper chain
+    under the environment Cargo gave it; None when the compiler cannot be asked."""
+    command = compiler_command(chain)
+    if not target or target.endswith(".json") or command is None:
+        return None
+    listing = probe(command + ["--print", "target-list"], cwd=source, env=dict(os.environ, **(invocation_env or {})))
     return None if listing is None else target in listing.split()
+
+
+ENVIRONMENT_MUTATORS = {"env", "export", "unset", "setenv", "unsetenv", "declare", "source", ".", "exec"}
+
+
+def mutates_environment(command):
+    """Whether a build command visibly changes the environment its build runs in: an `env`, `export`, `unset` or
+    similar word, or a `NAME=value` assignment in command position."""
+    try:
+        tokens = shlex.split(command)
+    except ValueError:
+        return True
+    command_position = True
+    for token in tokens:
+        if token in ("&&", "||", ";", "|", "(", ")", "{", "}"):
+            command_position = True
+            continue
+        if command_position:
+            if token in ENVIRONMENT_MUTATORS or re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*=.*", token):
+                return True
+            command_position = False
+        elif re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*=.*", token) is None and token.endswith(";"):
+            command_position = True
+    return False
 
 
 def built_executables(stdout):
@@ -707,10 +760,13 @@ def main():
         raise SystemExit("--repetitions must be even and at least four")
     source = args.source.resolve()
     lexical_out = Path(os.path.abspath(args.out))
-    if lexical_out.is_symlink() or probe(["git", "ls-files", "--error-unmatch", "--", str(lexical_out)], cwd=source):
-        raise SystemExit(f"--out {args.out} is a symlink or names a file tracked in {source}; choose a generated path")
-    if re.fullmatch(CARGO_INPUT_PATTERN, str(lexical_out)):
-        raise SystemExit(f"--out {args.out} matches a Cargo input pattern; choose a generated path")
+    for candidate in {lexical_out, lexical_out.resolve()}:
+        if lexical_out.is_symlink() or probe(["git", "ls-files", "--error-unmatch", "--", str(candidate)], cwd=source):
+            raise SystemExit(f"--out {args.out} is a symlink or names a file tracked in {source}; choose a generated path")
+        if re.fullmatch(CARGO_INPUT_PATTERN, str(candidate)):
+            raise SystemExit(f"--out {args.out} matches a Cargo input pattern; choose a generated path")
+    if args.build_command is not None and mutates_environment(args.build_command):
+        raise SystemExit("--build-command changes the environment its build runs in; set variables in the runner's environment so the identity probes see them")
     target = target_directory(source, args.toolchain)
     if target is not None:
         try:
@@ -808,7 +864,9 @@ def main():
         digest is None for digest in (build_record.get("external_inputs") or {}).values()
     ) or any(digest is None for digest in environment["runtime_libraries"].values()) or any(
         digest is None for digest in (build_record.get("config_sha256") or {}).values()
-    ):
+    ) or (
+        environment["loaded_objects"] is None and any(os.environ.get(var) for var in LOADER_SEARCH_VARIABLES)
+    ) or any(digest is None for digest in (environment["loaded_objects"] or {}).values()):
         document["status"] = "invalid: source identity not reproducible"
     elif environment["binary_sha256_final"] != environment["binary_sha256"]:
         document["status"] = "invalid: binary changed during the campaign"

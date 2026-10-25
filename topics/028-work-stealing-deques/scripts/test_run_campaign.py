@@ -101,6 +101,16 @@ def stub_build(stub, executable, running_args="", compiler=None, env_prefix="", 
     return f"mkdir -p \"$(dirname {executable})\" && cp {stub} {executable} && echo '{message}' && printf '%b\\n' \"{running}\" >&2"
 
 
+def run_campaign_module():
+    """Import the runner under test as a module."""
+    import importlib
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+    try:
+        return importlib.import_module("run_campaign")
+    finally:
+        sys.path.pop(0)
+
+
 def start_campaign(plan, timeout=None, repetitions=8, toolchain=None, dirty=False, extra_env=None, build=None, skip_build=False):
     """Prepare a scratch repository whose stub build command installs the planned stub as the built example.
 
@@ -1215,6 +1225,76 @@ class RunCampaignTests(unittest.TestCase):
         self.assertNotIn("hunter2ansi", text)
         document = json.loads(text)
         self.assertEqual(document["build"]["compiler_invocations"], 1)
+        self.assertEqual(document["status"], "complete")
+
+    def test_an_output_reaching_a_tracked_file_through_a_symlinked_directory_is_refused(self):
+        command, env, out, binary, _ = start_campaign({}, repetitions=4)
+        repo = binary.parents[3]
+        alias = repo.parent / "alias"
+        alias.symlink_to(repo)
+        tracked = repo / "Cargo.toml"
+        before = tracked.read_bytes()
+        command[command.index("--out") + 1] = str(alias / "Cargo.toml")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertNotEqual(process.returncode, 0)
+        self.assertIn("tracked", process.stderr)
+        self.assertEqual(tracked.read_bytes(), before)
+
+    def test_bare_response_files_in_rustflags_are_hashed(self):
+        response = pathlib.Path(tempfile.mkdtemp(prefix="topic028-rsp-")) / "args.rsp"
+        response.write_text("-C opt-level=3" + chr(10))
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTFLAGS": f"@{response}"})
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["rustflags"]["external_inputs"], {str(response): hashlib.sha256(("-C opt-level=3" + chr(10)).encode()).hexdigest()})
+        process, out, _ = run_campaign({}, repetitions=4, extra_env={"RUSTFLAGS": "@/no/such/args.rsp"})
+        self.assertEqual(json.loads(out.read_text())["status"], "invalid: source identity not reproducible")
+
+    def test_the_target_list_probe_runs_through_the_wrapper_chain(self):
+        root = pathlib.Path(tempfile.mkdtemp(prefix="topic028-wraptargets-"))
+        backend = root / "backend-rustc"
+        backend.write_text("#!/bin/sh" + chr(10) + 'case "$*" in *target-list*) echo other-unknown-none;; *) echo "rustc 5.5.5-backend"; echo "release: 5.5.5-backend";; esac' + chr(10))
+        backend.chmod(0o755)
+        wrapper = root / "wrapper"
+        wrapper.write_text("#!/bin/sh" + chr(10) + "shift" + chr(10) + f'exec {backend} "$@"' + chr(10))
+        wrapper.chmod(0o755)
+        spec = root / "aarch64-unknown-linux-gnu.json"
+        spec.write_text(json.dumps({"llvm-target": "aarch64-unknown-linux-gnu", "linker": "cc"}))
+        build = stub_build("\"$STUB_SOURCE\"", "target/release/examples/compare", compiler=f"{wrapper} $FAKE_RUSTC", running_args="--target aarch64-unknown-linux-gnu")
+        command, env, out, binary, _ = start_campaign({}, repetitions=4, build=build, extra_env={"RUST_TARGET_PATH": str(root)})
+        env["STUB_SOURCE"] = str(binary.parents[3].parent / "stub.py")
+        process = subprocess.run(command, env=env, text=True, capture_output=True, timeout=300)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        record = json.loads(out.read_text())["build"]
+        self.assertIs(record["target_is_builtin"], False)
+        self.assertEqual(record["target_spec_sha256"], hashlib.sha256(spec.read_bytes()).hexdigest())
+
+    def test_environment_mutating_build_commands_are_refused(self):
+        for build in ("env -u BACKEND cargo build --release", "BACKEND=A cargo build --release", "unset BACKEND; cargo build --release", "export BACKEND=A && cargo build"):
+            with self.subTest(build=build):
+                process, out, _ = run_campaign({}, repetitions=4, build=build)
+                self.assertNotEqual(process.returncode, 0)
+                self.assertIn("environment", process.stderr)
+                self.assertFalse(out.exists())
+
+    def test_loaded_shared_objects_are_hashed_where_the_loader_finds_them(self):
+        module = pathlib.Path(tempfile.mkdtemp(prefix="topic028-loaded-"))
+        found = shutil.which("sh")
+        assert found is not None
+        shell = pathlib.Path(found).resolve()
+        objects = run_campaign_module().loaded_objects(shell, cwd=module, env=dict(os.environ))
+        self.assertTrue(objects)
+        libc = next(path for path in objects if "/libc." in path)
+        self.assertEqual(objects[libc], hashlib.sha256(pathlib.Path(libc).read_bytes()).hexdigest())
+        shutil.copy2(libc, module / pathlib.Path(libc).name)
+        redirected = run_campaign_module().loaded_objects(shell, cwd=module, env=dict(os.environ, LD_LIBRARY_PATH=str(module)))
+        self.assertIn(str(module / pathlib.Path(libc).name), redirected)
+
+    def test_the_campaign_records_loaded_objects_of_the_measured_binary(self):
+        process, out, _ = run_campaign({}, repetitions=4)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        document = json.loads(out.read_text())
+        self.assertEqual(document["environment"]["loaded_objects"], {})
         self.assertEqual(document["status"], "complete")
 
     def test_cargo_profile_overrides_are_recorded(self):

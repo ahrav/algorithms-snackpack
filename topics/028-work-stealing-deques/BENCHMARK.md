@@ -64,8 +64,9 @@ variable, including one with a provenance-like prefix such as
 `RUST_API_TOKEN`, is recorded as a hash and redacted from the retained build
 output. An empty `RUSTC_WRAPPER` or `RUSTC_WORKSPACE_WRAPPER` is recorded as
 a disabled wrapper, as Cargo treats it. Files that compiler flags name as
-inputs (`-C profile-use`, `-C profile-sample-use`, `@` response files and
-path-like objects or archives in link arguments) are hashed under
+inputs (`-C profile-use`, `-C profile-sample-use`, bare `@path` response
+files, `@` response files and path-like objects or archives in link
+arguments) are hashed under
 `rustflags.external_inputs` for the environment flag sources and under
 `build.external_inputs` for the flags in Cargo's effective invocation
 (which includes flags from Cargo config), and a missing one invalidates the
@@ -81,10 +82,18 @@ the compiler lists as builtin is taken as builtin even when a same-named
 the working directory of every measured process (recorded per row as
 `cwd`); an unreadable one invalidates the campaign. Configuration files a
 build command passes to Cargo with `--config <path>` are hashed under
-`build.config_sha256`. The `rustc -Vv` probe runs through the wrapper chain
-Cargo used, so a wrapper that substitutes a backend answers for that
-backend. Cargo's coloured output is stripped of ANSI sequences before the
-`Running` line is parsed and redacted. `CARGO_PROFILE_*` values are kept verbatim only for the known
+`build.config_sha256`. The `rustc -Vv` and `--print target-list` probes run
+through the wrapper chain Cargo used, so a wrapper that substitutes a backend
+answers for that backend. A build command runs with the runner's own
+environment; one that visibly changes it (`env`, `export`, `unset`, a
+`NAME=value` prefix) is refused so the identity probes observe the same
+environment the build did. The shared objects the loader resolves for the
+pinned binary from the source tree under the runner's environment
+(`LD_LIBRARY_PATH` included) are hashed under `environment.loaded_objects`
+via `ldd`; without `ldd`, a set loader search variable invalidates the
+campaign. Cargo's coloured output is stripped of ANSI sequences before the
+`Running` line is parsed and redacted. `--out` is refused when either its
+lexical or its resolved path names a tracked file or a Cargo input. `CARGO_PROFILE_*` values are kept verbatim only for the known
 profile keys; other names are hashed. The document is written through a
 uniquely named scratch file beside `--out`, so no fixed sibling path is
 touched, and the dirty check lists untracked or ignored Cargo inputs placed
