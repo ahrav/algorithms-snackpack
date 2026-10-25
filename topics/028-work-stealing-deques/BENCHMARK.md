@@ -21,36 +21,53 @@ python3 topics/028-work-stealing-deques/scripts/run_campaign.py \
   --repetitions 8 --out campaign.json
 ```
 
-It runs `cargo build --release -p topic028-work-stealing-deques --example
-compare --message-format=json-render-diagnostics` in `--source` (default:
-this repository; `--toolchain` adds `+<toolchain>`), records the build
-command, exit code and output, takes the example's path from Cargo's
-`compiler-artifact` message (so a configured target triple or redirected
-target directory is honoured), hashes it and identifies the source tree it
-came from. The build runs in its own process group and a timed-out build is
-killed with its descendants. A build that exits successfully without
-reporting an artifact, with no explicit `--binary`, ends as `invalid: build
-reported no artifact` with no rows, so a stale executable at the default
-path is never measured. An explicit `--binary` has to agree with the
-artifact the build reports, or, when the build reports none, be a file whose
-content changed during the build; otherwise the campaign ends as `invalid:
-build artifact mismatch` with no rows. The compiler chain read from the
-verbose invocation includes the linker named by `-C linker=`. The environment also records Cargo's compiler
-overrides (`RUSTC`, `RUSTC_WRAPPER`, `RUSTC_WORKSPACE_WRAPPER` and their
-`CARGO_BUILD_*` forms, each resolved against `--source` the way Cargo
-resolves them and recorded with the hash of the named executable; an
-override that cannot be hashed invalidates the campaign, and the `rustc`
-probe uses the override when set), every `CARGO_PROFILE_*` override, the
-hash of a custom target specification named by `CARGO_BUILD_TARGET` (an
-unreadable specification invalidates the campaign), and the loader,
-allocator and Rust runtime variables (`LD_*`, `GLIBC_*`, `MALLOC_*`, `RUST_*`
-and allocator tunables) that every measured child inherits. The source
+It runs `cargo clean --release -p topic028-work-stealing-deques` and then
+`cargo build --release -p topic028-work-stealing-deques --example compare -vv
+--message-format=json-render-diagnostics` in `--source` (default: this
+repository; `--toolchain` adds `+<toolchain>`), and records the build
+command, exit code and output. From that build it takes the example's path
+from Cargo's `compiler-artifact` message (so a configured target triple or
+redirected target directory is honoured); reads the wrapper, compiler and
+linker executables, the `--target` and the environment Cargo passed from the
+verbose `Running` line and hashes each executable, resolving bare names
+through `PATH` with relative entries taken from the build directory; hashes a
+custom target specification (a `.json` path, or a name found through the
+`RUST_TARGET_PATH` the compiler saw, including one set by Cargo `[env]`
+config) and asks the compiler whether a named target is builtin, requiring a
+specification otherwise; probes `rustc -Vv` on the compiler Cargo invoked;
+hashes the built example and identifies the source tree it came from. The
+build runs in its own process group and a timed-out build is killed with its
+descendants.
+
+Each of these ends the campaign as `invalid` with no rows: a build that
+exits successfully without reporting an artifact (`invalid: build reported
+no artifact`); more than one reported artifact or compiler invocation for
+the example (`invalid: build artifact ambiguous`); an explicit `--binary`
+that differs from the reported artifact, or, when the build reports none,
+whose content did not change during the build (`invalid: build artifact
+mismatch`); and any build, including one run through `--build-command`,
+whose compiler chain cannot be read or hashed (`invalid: compiler identity
+unavailable`), so a custom build command has to print Cargo's verbose
+`Running` line for the example.
+
+The environment also records Cargo's compiler overrides (`RUSTC`,
+`RUSTC_WRAPPER`, `RUSTC_WORKSPACE_WRAPPER` and their `CARGO_BUILD_*` forms,
+each resolved against `--source` the way Cargo resolves them and recorded
+with the hash of the named executable; an override that cannot be hashed
+invalidates the campaign, and the `rustc` probe uses the override when set),
+every `CARGO_PROFILE_*` override, the hash of a custom target specification
+named by `CARGO_BUILD_TARGET` (an unreadable specification invalidates the
+campaign), and the loader, allocator and Rust runtime variables (`LD_*`,
+`GLIBC_*`, `MALLOC_*`, `RUST_*` and allocator tunables) that every measured
+child inherits. Relative `RUST_TARGET_PATH` entries resolve against
+`--source`, as rustc resolves them from the build directory. The source
 check lists ignored files that match Cargo input patterns (`*.rs`,
 `Cargo.toml`, `Cargo.lock`, `.cargo/config*`, `rust-toolchain*`) alongside
-tracked changes and untracked files, so an ignored `build.rs` also marks the
-tree dirty. `--skip-build`
-measures an existing binary and yields an `invalid` document with no
-selection, since that binary's provenance is unverified.
+tracked changes and untracked files, and lists the files inside ignored
+directories (such as a vendored path dependency) that match those patterns,
+so an ignored `build.rs` or `vendor/dep/src/lib.rs` also marks the tree
+dirty. `--skip-build` measures an existing binary and yields an `invalid`
+document with no selection, since that binary's provenance is unverified.
 
 ## Protocol
 
