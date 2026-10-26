@@ -121,3 +121,7 @@ version = "0.1.0"
 [[package]]
 name = "topic029-union-find"
 version = "0.1.0"
+
+[[package]]
+name = "topic030-traversal"
+version = "0.1.0"
