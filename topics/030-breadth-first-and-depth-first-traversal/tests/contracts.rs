@@ -104,17 +104,26 @@ fn empty_invalid_duplicates_and_running_example() {
 #[test]
 fn seeded_graphs() {
     let mut seed = 42_u64;
+    let mut cyclic_seen = [false; 2];
     for n in 1..=80 {
         let mut adj = vec![vec![]; n];
-        for row in &mut adj {
+        let mut dag = vec![vec![]; n];
+        for u in 0..n {
             for _ in 0..5 {
                 seed = seed.wrapping_mul(6_364_136_223_846_793_005).wrapping_add(1);
-                let v = usize::try_from(seed >> 32).unwrap() % n;
-                row.push(v);
+                let r = usize::try_from(seed >> 32).unwrap();
+                adj[u].push(r % n);
+                if u + 1 < n {
+                    dag[u].push(u + 1 + r % (n - u - 1));
+                }
             }
         }
-        check(&Graph::new(adj).unwrap(), &[0, n - 1]);
+        for g in [Graph::new(adj).unwrap(), Graph::new(dag).unwrap()] {
+            cyclic_seen[usize::from(dfs_frames(&g, &[0, n - 1]).cyclic)] = true;
+            check(&g, &[0, n - 1]);
+        }
     }
+    assert_eq!(cyclic_seen, [true, true]);
 }
 #[test]
 fn deep_path_and_cross_edge_are_distinct_from_back_edge() {

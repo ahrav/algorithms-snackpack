@@ -16,7 +16,7 @@ def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--out',required=True);ap.add_argument('--focused',action='store_true');args=ap.parse_args()
     out=pathlib.Path(args.out);out.mkdir(parents=True,exist_ok=False)
-    env={'hostname':platform.node(),'architecture':platform.machine(),'uname':list(platform.uname()),'compiler':command(['rustc','-vV']),'target_cfg':command(['rustc','--print','cfg','-C','target-cpu=native']),'flags':FLAGS,'available_cpus':sorted(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else os.cpu_count(),'lscpu':command(['lscpu']) if platform.system()=='Linux' else 'unavailable','sources':{p:sha(ROOT/p) for p in ['src/lib.rs','tests/contracts.rs','benches/traversal.rs','run.py']},'started_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'mode':'focused' if args.focused else 'committed'}
+    env={'hostname':platform.node(),'architecture':platform.machine(),'uname':list(platform.uname()),'compiler':command(['rustc','-vV']),'target_cfg':command(['rustc',*FLAGS,'--print','cfg']),'flags':FLAGS,'available_cpus':sorted(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else os.cpu_count(),'lscpu':command(['lscpu']) if platform.system()=='Linux' else 'unavailable','sources':{p:sha(ROOT/p) for p in ['src/lib.rs','tests/contracts.rs','benches/traversal.rs','run.py']},'started_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'mode':'focused' if args.focused else 'committed'}
     (out/'environment.json').write_text(json.dumps(env,indent=2)+'\n')
     command(['rustc',*FLAGS,'--test',str(ROOT/'tests/contracts.rs'),'-o',str(out/'contracts')])
     (out/'tests.txt').write_text(command([str(out/'contracts')]))
@@ -44,7 +44,7 @@ def main():
                         stream.write(json.dumps(row)+'\n');stream.flush()
     rows=[json.loads(x) for x in (out/'samples.jsonl').read_text().splitlines()]
     for case in cases:
-        observed=[r for r in rows if r['case']==case and not r['phase'].startswith('aa_')]
+        observed=[r for r in rows if r['case']==case]
         assert len({(r['n'],r['edges'],r['reached'],r['signature']) for r in observed})==1
         for a in CANDIDATES:
             for b in CANDIDATES:
@@ -52,6 +52,10 @@ def main():
                 measured=[r for r in observed if r['phase']=='measure']
                 before=sum(next(r['position'] for r in measured if r['block']==i and r['candidate']==a)<next(r['position'] for r in measured if r['block']==i and r['candidate']==b) for i in range(2 if args.focused else 6))
                 assert before==(1 if args.focused else 3)
+    if not args.focused:
+        aa=[r for r in rows if r['phase']=='aa_measure']
+        assert len(aa)==12 and {r['candidate'] for r in aa}=={'deque_a','deque_b'}
+        assert sum(next(r['position'] for r in aa if r['block']==i and r['candidate']=='deque_a')<next(r['position'] for r in aa if r['block']==i and r['candidate']=='deque_b') for i in range(6))==3
     manifest={p.name:sha(p) for p in out.iterdir() if p.is_file()}
     (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     print(json.dumps({'out':str(out),'host':env['hostname'],'architecture':env['architecture'],'rows':len(rows),'source_sha256':env['sources'],'verified_order':True}))

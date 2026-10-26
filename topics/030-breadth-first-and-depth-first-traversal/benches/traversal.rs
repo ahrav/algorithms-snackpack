@@ -67,7 +67,7 @@ fn workload(name: &str) -> (Graph, usize) {
     (Graph::new(adj).unwrap(), reps)
 }
 fn main() {
-    let mut args: Vec<String> = std::env::args().collect();
+    let mut args: Vec<String> = std::env::args().filter(|a| a != "--bench").collect();
     if args.len() == 1 {
         args.extend(["tiny".to_owned(), "deque".to_owned()]);
     }
@@ -103,6 +103,7 @@ fn main() {
     if is_dfs {
         let got = dfs();
         assert_eq!(got, dfs_frames(black_box(&g), black_box(&[0])));
+        assert_eq!(got, dfs_events(black_box(&g), black_box(&[0])));
         let mut reached = vec![false; g.len()];
         for &v in &got.preorder {
             assert!(!reached[v]);

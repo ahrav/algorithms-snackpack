@@ -1,6 +1,10 @@
 # Measured traversal selection
 
 Frozen executable source: `d2676bd5975d82856d4188982a3b75a3ab085c8f`.
+Later commits on this branch change only the benchmark argument filter, the
+pre-timing DFS cross-check, the `seeded_graphs` test, the runner's `cfg` probe
+and its A/A integrity checks; every timed function, the timed loop and the
+workload generator are the frozen commit's. The results below are that commit's.
 Source/runner transfers were SHA-256 checked against that Git commit. Both hosts
 passed all four contract-test groups. Every measured BFS vector matched the
 independent heap oracle. DFS candidate orders and cycle flags matched, and
