@@ -24,12 +24,24 @@ Concrete tests to add: extend only when adding a promised new boundary.
 
 # Invariant audit
 
-| Test / claim | Plausible violation | Exact observation and independent oracle | Small discriminating input |
-|---|---|---|---|
-| exhaustive_three_vertices | Wrong queue/layer distance, early finish, wrong active color | Each full distance vector equals heap oracle; full DFS struct equals recursion; no sorting erases event order | Diamond and 2-cycle in exhaustive set |
-| empty_invalid_duplicates_and_running_example | Invalid endpoints accepted; duplicate source reset; cycle or unreachable state wrong | Constructor error and exact example vectors/cycle flag; independent recursion/heap for duplicates | Empty graph, invalid endpoint, duplicate self/neighbor edges |
-| seeded_graphs | Neighbor-order reversal, stale root state, cross-edge misclassification | Exact full outputs versus heap and recursion after each complete traversal | Seed42, n1..80, two roots |
-| deep_path_and_cross_edge_are_distinct_from_back_edge | Recursive process-stack dependence; a finished neighbor treated as a cycle | 50,000 entries and exact reverse endpoint; both iterative outputs equal; independent bounded diamond recursion | Four-vertex diamond has no directed cycle |
+`exhaustive_three_vertices`: Reject wrong queue/layer distances, early finish,
+and wrong active colors. Compare every full distance vector to the heap oracle
+and the ordered DFS struct to recursion. The exhaustive domain includes the
+small diamond and two-cycle. Preserve event order in the comparator.
+
+`empty_invalid_duplicates_and_running_example`: Reject accepted bad endpoints,
+duplicate source resets, wrong cycle flags and wrong unreachable state. Check
+the constructor error and exact example vectors. Use independent recursion
+and heap comparisons for empty graphs, duplicates and self loops.
+
+`seeded_graphs`: Reject neighbor-order reversal, stale root state and cross-edge
+misclassification. Compare full outputs to the heap and recursive oracles for
+seed42,n1..80,five outgoing edges per vertex and two roots.
+
+`deep_path_and_cross_edge_are_distinct_from_back_edge`: Reject process-stack
+recursion and treating any seen neighbor as a directed cycle. Observe50,000
+entries and the expected reverse endpoint; compare both iterative outputs.
+The independent four-vertex diamond recursion establishes the cycle boundary.
 
 Mutation backstop: the exhaustive directed set includes self loops, cycles,
 shared children, disconnected roots and convergent paths. Replacing active-only
