@@ -79,10 +79,11 @@ controls, excluded from timing selection. Different host compilers prevent an
 architecture-only causal comparison.
 
 Linked binaries, symbols and complete disassembly are in the raw archives.
-The frame implementation has a retained symbol on both targets; other paths
-are inlined into the dispatcher. This confirms generated code presence.
-Cache, branch and allocation explanations remain hypotheses: no candidate-only
-hardware-counter experiment was run.
+Both symbol tables contain a separately named dfs_frames function. The other
+candidates have no separately named symbols in those listings. Full disassembly
+is retained. These observations do not identify the runtime cause of a timing
+difference. Cache, branch and allocation explanations remain hypotheses; no
+candidate-only hardware-counter experiment was run.
 
 ## Replay and retention
 
