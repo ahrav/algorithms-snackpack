@@ -21,7 +21,7 @@ Compare complete vectors, including unreachable positions, before timing.
 - Check maximum-u32 path sums, duplicate decreases, disconnected vertices,
   zero cycles, weight-64 Dial admission and radix bit boundaries.
 - Inspect stale removal in the running example: two records must be rejected.
-  The example binary asserts the same count and the edge count of five.
+  The example binary asserts the same count; contract tests check five edges.
 - Bound indexed queue records by vertex count and require zero stale entries.
 - Test indexed position maps after swaps/decreases; a stale position maps a
   later decrease to the wrong vertex and fails exact extraction checks.
