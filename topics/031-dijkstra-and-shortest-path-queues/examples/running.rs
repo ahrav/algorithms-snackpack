@@ -8,6 +8,7 @@ fn main() {
     .unwrap();
     let run = shortest_paths(&g, 0, Queue::Lazy).unwrap();
     assert_eq!(run.distances, vec![0, 2, 1, 3, INF]);
+    assert_eq!(run.stats.stale, 2);
     println!(
         "distances: [0, 2, 1, 3, unreachable]; stale pops: {}",
         run.stats.stale

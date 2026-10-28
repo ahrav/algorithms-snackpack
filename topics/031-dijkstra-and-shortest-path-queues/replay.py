@@ -3,10 +3,15 @@
 import subprocess,json,pathlib,hashlib,platform,os,sys,time
 root=pathlib.Path(__file__).resolve().parent
 out=pathlib.Path(sys.argv[1]).resolve();out.mkdir(parents=True,exist_ok=False)
-def cmd(args):
+def cmd(args,merge=True):
  r=subprocess.run(args,text=True,capture_output=True,check=True,cwd=root)
- return r.stdout+r.stderr
+ return r.stdout+r.stderr if merge else r.stdout
 def digest(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def parse(text,where):
+ try:
+  return json.loads(text)
+ except json.JSONDecodeError as e:
+  raise SystemExit(f'malformed JSON from {where}: {e}') from e
 files=['src/lib.rs','tests/contracts.rs','examples/running.rs','benches/queues.rs','replay.py']
 identity={p:digest(root/p) for p in files}
 (out/'source-hashes.json').write_text(json.dumps(identity,indent=2))
@@ -34,11 +39,21 @@ with (out/'processes.jsonl').open('w') as stream:
    order=candidates if block%2==0 else list(reversed(candidates))
    for position,candidate in enumerate(order):
     start=time.monotonic_ns()
-    row=json.loads(cmd([str(out/'queues'),workload,candidate]))
+    row=parse(cmd([str(out/'queues'),workload,candidate],merge=False),f'{workload}/{candidate}')
     row.update(block=block,position=position,process_wall_ns=time.monotonic_ns()-start)
     stream.write(json.dumps(row)+'\n');stream.flush()
   print(workload,flush=True)
 assert identity=={p:digest(root/p) for p in files},'source changed'
+rows=[parse(x,'processes.jsonl') for x in (out/'processes.jsonl').read_text().splitlines()]
+for workload in workloads:
+ observed=[r for r in rows if r['workload']==workload]
+ assert len({(r['n'],r['edges'],r['checksum']) for r in observed})==1,workload
+ measured=[r for r in observed if r['block']>=0]
+ names={r['candidate'] for r in measured}
+ for a in names:
+  for b in names-{a}:
+   before=sum(next(r['position'] for r in measured if r['block']==i and r['candidate']==a)<next(r['position'] for r in measured if r['block']==i and r['candidate']==b) for i in range(6))
+   assert before==3,(workload,a,b)
 manifest={str(p.relative_to(out)):digest(p) for p in out.rglob('*') if p.is_file()}
 (out/'manifest.json').write_text(json.dumps(manifest,indent=2))
 print('COMPLETE',len(manifest),flush=True)

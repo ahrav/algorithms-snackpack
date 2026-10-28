@@ -1,6 +1,10 @@
 # Exact-source results
 
 Frozen executable source: `a278f9fec500c7ac3517644feeba37d5032d5d09`. Five executable/runner file hashes match on both hosts.
+Later commits on this branch change only the benchmark's argument filter, the
+example's assertions, the contract tests and the runner's JSON parsing and
+integrity checks; `src/lib.rs`, every timed function, the timed loop and the
+workload generator are the frozen commit's. The results below are that commit's.
 
 Each host produced 306 measured processes and 51 warmups. Every process passed the independent oracle. Six blocks have 3:3 pair ordering. Seven test groups passed on each host, including direct radix and position-map tests.
 

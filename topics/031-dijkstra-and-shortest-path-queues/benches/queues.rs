@@ -55,7 +55,7 @@ fn workload(name: &str) -> (Graph, usize) {
     (Graph::new(n, &edges).unwrap(), reps)
 }
 fn main() {
-    let a: Vec<String> = std::env::args().collect();
+    let a: Vec<String> = std::env::args().filter(|arg| arg != "--bench").collect();
     let name = a.get(1).map_or("tiny", String::as_str);
     let candidate = a.get(2).map_or("lazy", String::as_str);
     let queue = match candidate {

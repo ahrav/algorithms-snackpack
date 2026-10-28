@@ -20,6 +20,9 @@ fn agree(g: &Graph, s: usize, domain: u32) {
             assert!(got.stats.peak <= g.len());
             assert_eq!(got.stats.stale, 0);
         }
+        if q == Queue::ZeroOne {
+            assert!(got.stats.improved < 2 * g.len(), "{:?}", got.stats);
+        }
     }
 }
 #[test]
@@ -30,9 +33,14 @@ fn running_example_stale_and_disconnected() {
     )
     .unwrap();
     assert_eq!(oracle(&g, 0).unwrap(), vec![0, 2, 1, 3, INF]);
+    assert_eq!(g.edge_count(), 5);
     agree(&g, 0, 20);
     let r = shortest_paths(&g, 0, Queue::Lazy).unwrap();
     assert_eq!(r.stats.stale, 2);
+    assert!(matches!(
+        shortest_paths(&g, 0, Queue::ZeroOne),
+        Err(Error::WeightDomain)
+    ));
 }
 #[test]
 fn reject_before_search_and_integer_boundary() {
@@ -40,13 +48,32 @@ fn reject_before_search_and_integer_boundary() {
         Graph::new(1, &[(0, 1, 0)]),
         Err(Error::InvalidVertex)
     ));
+    assert!(matches!(
+        Graph::new(1, &[(1, 0, 0)]),
+        Err(Error::InvalidVertex)
+    ));
+    #[cfg(target_pointer_width = "64")]
+    assert!(matches!(
+        Graph::new(usize::try_from(u32::MAX).unwrap() + 1, &[]),
+        Err(Error::TooManyVertices)
+    ));
     let empty = Graph::new(0, &[]).unwrap();
     assert!(empty.is_empty());
+    assert!(matches!(oracle(&empty, 0), Err(Error::InvalidVertex)));
     for q in ALL {
         assert!(matches!(
             shortest_paths(&empty, 0, q),
             Err(Error::InvalidVertex)
         ));
+    }
+    for (w, q) in [(65, Queue::Dial), (2, Queue::ZeroOne)] {
+        let g = Graph::new(2, &[(0, 1, w)]).unwrap();
+        assert!(matches!(shortest_paths(&g, 0, q), Err(Error::WeightDomain)));
+        let g = Graph::new(2, &[(0, 1, w - 1)]).unwrap();
+        assert_eq!(
+            shortest_paths(&g, 0, q).unwrap().distances,
+            oracle(&g, 0).unwrap()
+        );
     }
     let g = Graph::new(3, &[(0, 1, u32::MAX), (1, 2, u32::MAX)]).unwrap();
     assert_eq!(
@@ -112,21 +139,23 @@ fn duplicate_decreases_zero_cycles_and_radix_boundaries() {
 #[test]
 fn seeded_multigraphs_all_roots() {
     let mut state = 123_456_789_u64;
-    for case in 0..160 {
-        let n = 2 + case % 15;
-        let mut edges = Vec::new();
-        for _ in 0..(n * n) {
-            state ^= state << 13;
-            state ^= state >> 7;
-            state ^= state << 17;
-            let u = usize::try_from(state % u64::try_from(n).unwrap()).unwrap();
-            let v = usize::try_from((state >> 16) % u64::try_from(n).unwrap()).unwrap();
-            let w = u32::try_from((state >> 32) % 65).unwrap();
-            edges.push((u, v, w));
-        }
-        let g = Graph::new(n, &edges).unwrap();
-        for s in 0..n {
-            agree(&g, s, 64);
+    for modulus in [65_u64, 2] {
+        for case in 0..160 {
+            let n = 2 + case % 15;
+            let mut edges = Vec::new();
+            for _ in 0..(n * n) {
+                state ^= state << 13;
+                state ^= state >> 7;
+                state ^= state << 17;
+                let u = usize::try_from(state % u64::try_from(n).unwrap()).unwrap();
+                let v = usize::try_from((state >> 16) % u64::try_from(n).unwrap()).unwrap();
+                let w = u32::try_from((state >> 32) % modulus).unwrap();
+                edges.push((u, v, w));
+            }
+            let g = Graph::new(n, &edges).unwrap();
+            for s in 0..n {
+                agree(&g, s, u32::try_from(modulus - 1).unwrap());
+            }
         }
     }
 }
