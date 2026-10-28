@@ -44,7 +44,9 @@ rule is exploratory; it supplies no confidence interval or simultaneous error-ra
 claim. Six processes and one execution window limit generalization. An isolated
 small result can be quantized or dominated by timer/control overhead.
 
-Retain every failed, timed-out, partial or successful attempt. A missing process
+Retain every failed, timed-out, partial or successful attempt. Each benchmark process
+is bounded at600 s (`TOPIC_032_PROCESS_TIMEOUT_S`, recorded as `timeout_s`); a timed-out
+attempt is retained with returncode `timeout` and stops the campaign. A missing process
 prevents that cell's declared selection. Reject incorrect candidates before timing
 selection. Check every update in preflight against independently memoized raw-edge
 values; validate final complete values after timing. Verify orders independently.

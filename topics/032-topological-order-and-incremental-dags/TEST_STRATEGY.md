@@ -5,7 +5,8 @@ and edge insertion. Primary technique: exact examples and independent differenti
 state transitions. Secondary: exhaustive64 reverse-ranked four-vertex DAGs,48 two-edit
 batches per candidate,1024 possible edge insertions, and16,384-vertex reverse path.
 Oracle: independent raw-edge predecessor memoization with u128 accumulation and no
-candidate ordering/update helpers. Replay: cargo tests and standalone run.py.
+candidate ordering/update helpers. Replay: cargo tests, standalone run.py, and
+scripts/test_run.py driving run.py against stub compiler and benchmark processes.
 A green run establishes bounded agreement, not proof for all graphs or histories.
 Concurrency, dynamic dependencies, deletion API, effects, local order repair and
 allocation-failure recovery remain outside scope. No additional test is queued for
