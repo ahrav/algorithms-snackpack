@@ -1,0 +1,65 @@
+{
+  "source_commit": "a278f9fec500c7ac3517644feeba37d5032d5d09",
+  "source_files": {
+    "src/lib.rs": "c0bcc8425c306435f0273976affd18bae8a032c9f29478fccd6b7e3733e968d8",
+    "tests/contracts.rs": "e8adc5f092555434b36fa463ff3369c7bced1ee163b7c8f517aa1d35ec74a96e",
+    "examples/running.rs": "652f3fff6f6db6397d4857627fe5be74fb3b20b3b16bb13e545c43935465a661",
+    "benches/queues.rs": "5a1929dc1f9430eca63454bd093074efa454b53fa153ab542ab1516eb86e88cf",
+    "replay.py": "b8450b64b0f30d56542903e9dafb303aed4e74cf22061a9c5007ccb9371b5e57"
+  },
+  "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-031/20261027/raw-evidence.tar.gz",
+  "archive_sha256": "8713ddf29b0666a805ac5bbd7bd9ad51b51414fa630e99d553d4fd99673de8f4",
+  "archive_bytes": 22448512,
+  "archive_members": 61,
+  "archive_member_bytes_verified": true,
+  "campaigns": {
+    "arm": {
+      "environment": {
+        "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+        "architecture": "aarch64",
+        "uname": [
+          "Linux",
+          "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+          "6.12.111-136.204.amzn2023.aarch64",
+          "#1 SMP Tue Oct  6 18:01:38 UTC 2026",
+          "aarch64",
+          "aarch64"
+        ],
+        "available_cpus": 64,
+        "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+        "cpu": "Architecture:                            aarch64\nCPU op-mode(s):                          32-bit, 64-bit\nByte Order:                              Little Endian\nCPU(s):                                  64\nOn-line CPU(s) list:                     0-63\nVendor ID:                               ARM\nModel:                                   1\nThread(s) per core:                      1\nCore(s) per socket:                      64\nSocket(s):                               1\nStepping:                                r1p1\nBogoMIPS:                                2100.00\nFlags:                                   fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 sm3 sm4 asimddp sha512 sve asimdfhm dit uscat ilrcpc flagm paca pacg dcpodp svei8mm svebf16 i8mm bf16 dgh rng\nL1d cache:                               4 MiB (64 instances)\nL1i cache:                               4 MiB (64 instances)\nL2 cache:                                64 MiB (64 instances)\nL3 cache:                                32 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-63\nVulnerability Gather data sampling:      Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; CSV2, BHB\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+        "flags": "--edition=2024 -C opt-level=3 -C target-cpu=native; default allocator; stats included"
+      },
+      "manifest_sha256": "9e09f55fb6044a4b9ef958d83afb1213af85ac96da5a2b68ca29a45568b626c7",
+      "linked_image_sha256": "95ff1d43bdff9f4a2ab483ee056c2d600688fef255c08345a87ffc36213f6413",
+      "measured_processes": 306,
+      "warmups": 51,
+      "source_and_manifest_hashes_verified": true,
+      "oracle_and_order_verified": true
+    },
+    "x86": {
+      "environment": {
+        "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+        "architecture": "x86_64",
+        "uname": [
+          "Linux",
+          "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+          "6.12.113-138.209.amzn2023.x86_64",
+          "#1 SMP PREEMPT_DYNAMIC Tue Oct 20 21:57:40 UTC 2026",
+          "x86_64",
+          "x86_64"
+        ],
+        "available_cpus": 192,
+        "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+        "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           46 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  192\nOn-line CPU(s) list:                     0-191\nVendor ID:                               GenuineIntel\nModel name:                              Intel(R) Xeon(R) Platinum 8488C\nCPU family:                              6\nModel:                                   143\nThread(s) per core:                      2\nCore(s) per socket:                      48\nSocket(s):                               2\nStepping:                                8\nBogoMIPS:                                4800.00\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities\nHypervisor vendor:                       KVM\nVirtualization type:                     full\nL1d cache:                               4.5 MiB (96 instances)\nL1i cache:                               3 MiB (96 instances)\nL2 cache:                                192 MiB (96 instances)\nL3 cache:                                210 MiB (2 instances)\nNUMA node(s):                            2\nNUMA node0 CPU(s):                       0-47,96-143\nNUMA node1 CPU(s):                       48-95,144-191\nVulnerability Gather data sampling:      Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI BHI_DIS_S\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+        "flags": "--edition=2024 -C opt-level=3 -C target-cpu=native; default allocator; stats included"
+      },
+      "manifest_sha256": "2f029de7833c6b7ff872d9800dc2ffea307a59f5559702abc248f2e1eddd49bc",
+      "linked_image_sha256": "175bcbcfd106413ad507e3261d36f70acf40b603e7e45d05ae02e9d9110944a1",
+      "measured_processes": 306,
+      "warmups": 51,
+      "source_and_manifest_hashes_verified": true,
+      "oracle_and_order_verified": true
+    }
+  }
+}

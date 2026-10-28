@@ -59,6 +59,10 @@ name = "segment-trees"
 version = "0.1.0"
 
 [[package]]
+name = "shortest-path-queues"
+version = "0.1.0"
+
+[[package]]
 name = "sorting_lab"
 version = "0.1.0"
 

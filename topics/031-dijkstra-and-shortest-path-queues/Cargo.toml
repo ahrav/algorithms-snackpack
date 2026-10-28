@@ -1,0 +1,13 @@
+[package]
+name = "shortest-path-queues"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[[bench]]
+name = "queues"
+harness = false
