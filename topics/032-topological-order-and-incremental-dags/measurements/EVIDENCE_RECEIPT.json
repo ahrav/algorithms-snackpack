@@ -1,0 +1,38 @@
+{
+  "source_commit": "d409e26a8c995b61b0bc1644fa55313d2c8e6df4",
+  "verification": "all inputs, binary hashes, 259 records/host, oracles, checksum agreement and 3:3 pair order passed",
+  "archives": {
+    "arm": {
+      "path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-032/20261028/arm.tar.gz",
+      "sha256": "45e4de4861316d16b5b5ad0dd1a53454c657e01b2b7f5eca877bb6fc0a88c949",
+      "bytes": 3699480,
+      "members": 11,
+      "binary_sha256": "1dadc8032d8a96eab3dd9afd4f8a04644c901b875c94bfad865a5071b3ea3c76",
+      "source_sha256": {
+        "Cargo.toml": "c0a27a0616f49f48adbfad7590509cf7dfc5af93c6578a744e6dd672fff478da",
+        "src/lib.rs": "63912b96f841c1527296150563b650b01b105f3011630f478b8e7a87cd364351",
+        "tests/contracts.rs": "f5c5ed0c290f7e31ee34b0cf6c1732da8c48e5f1651f6d41e673e186d416efd1",
+        "benches/dag.rs": "201adbe73c630e421edab1a868cec557993582911515be195b63a032cf1e469a",
+        "examples/demo.rs": "cc587e0b8a4cd08ac1234d756caf26a9deec35fc44d479e083ad9db8179ec2ea",
+        "scripts/run.py": "4274db6ef10ebbe05c8920d39ee76774840faa8573abd73c0cfea1b59296ee9d"
+      },
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com"
+    },
+    "x86": {
+      "path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-032/20261028/x86.tar.gz",
+      "sha256": "1fe7181c5d41a9a29a72557decca34219229b04d6c99c02ea957efde357ed95d",
+      "bytes": 4430387,
+      "members": 11,
+      "binary_sha256": "c13f2fefdbb419fbce365ee4ab64321cb7bcf5ee8d12f47b95046048ba8e4dcb",
+      "source_sha256": {
+        "Cargo.toml": "c0a27a0616f49f48adbfad7590509cf7dfc5af93c6578a744e6dd672fff478da",
+        "src/lib.rs": "63912b96f841c1527296150563b650b01b105f3011630f478b8e7a87cd364351",
+        "tests/contracts.rs": "f5c5ed0c290f7e31ee34b0cf6c1732da8c48e5f1651f6d41e673e186d416efd1",
+        "benches/dag.rs": "201adbe73c630e421edab1a868cec557993582911515be195b63a032cf1e469a",
+        "examples/demo.rs": "cc587e0b8a4cd08ac1234d756caf26a9deec35fc44d479e083ad9db8179ec2ea",
+        "scripts/run.py": "4274db6ef10ebbe05c8920d39ee76774840faa8573abd73c0cfea1b59296ee9d"
+      },
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com"
+    }
+  }
+}

@@ -1,0 +1,868 @@
+{
+  "arm": {
+    "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+    "architecture": "aarch64",
+    "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+    "source_commit": "d409e26a8c995b61b0bc1644fa55313d2c8e6df4",
+    "input_sha256": {
+      "Cargo.toml": "c0a27a0616f49f48adbfad7590509cf7dfc5af93c6578a744e6dd672fff478da",
+      "src/lib.rs": "63912b96f841c1527296150563b650b01b105f3011630f478b8e7a87cd364351",
+      "tests/contracts.rs": "f5c5ed0c290f7e31ee34b0cf6c1732da8c48e5f1651f6d41e673e186d416efd1",
+      "benches/dag.rs": "201adbe73c630e421edab1a868cec557993582911515be195b63a032cf1e469a",
+      "examples/demo.rs": "cc587e0b8a4cd08ac1234d756caf26a9deec35fc44d479e083ad9db8179ec2ea",
+      "scripts/run.py": "4274db6ef10ebbe05c8920d39ee76774840faa8573abd73c0cfea1b59296ee9d"
+    },
+    "binary_sha256": "1dadc8032d8a96eab3dd9afd4f8a04644c901b875c94bfad865a5071b3ea3c76",
+    "records": 259,
+    "measured": 222,
+    "warmups": 37,
+    "results": [
+      {
+        "phase": "primary",
+        "family": "order",
+        "workload": "tiny",
+        "arms": {
+          "fifo": {
+            "median": 128.8798828125,
+            "minimum": 128.384765625,
+            "maximum": 133.75,
+            "operations": 512,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "dfs": {
+            "median": 129.259765625,
+            "minimum": 125.275390625,
+            "maximum": 150.47265625,
+            "operations": 512,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "min": {
+            "median": 123.203125,
+            "minimum": 122.123046875,
+            "maximum": 128.17578125,
+            "operations": 512,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          }
+        },
+        "lowest_median": "min",
+        "selection": "unresolved"
+      },
+      {
+        "phase": "primary",
+        "family": "order",
+        "workload": "chain_root",
+        "arms": {
+          "fifo": {
+            "median": 30989.4375,
+            "minimum": 30719.875,
+            "maximum": 31330.75,
+            "operations": 8,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "dfs": {
+            "median": 22104.6875,
+            "minimum": 21289.875,
+            "maximum": 22422.625,
+            "operations": 8,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "min": {
+            "median": 31094.5,
+            "minimum": 30875.625,
+            "maximum": 31435.125,
+            "operations": 8,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          }
+        },
+        "lowest_median": "dfs",
+        "selection": "dfs"
+      },
+      {
+        "phase": "primary",
+        "family": "order",
+        "workload": "islands",
+        "arms": {
+          "fifo": {
+            "median": 140331.15625,
+            "minimum": 127796.1875,
+            "maximum": 144155.0,
+            "operations": 16,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "dfs": {
+            "median": 88972.21875,
+            "minimum": 88325.75,
+            "maximum": 92399.375,
+            "operations": 16,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "min": {
+            "median": 273177.71875,
+            "minimum": 268926.3125,
+            "maximum": 283138.6875,
+            "operations": 16,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          }
+        },
+        "lowest_median": "dfs",
+        "selection": "dfs"
+      },
+      {
+        "phase": "primary",
+        "family": "order",
+        "workload": "dense_root",
+        "arms": {
+          "fifo": {
+            "median": 28272.3125,
+            "minimum": 28156.875,
+            "maximum": 29796.875,
+            "operations": 8,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "dfs": {
+            "median": 66933.8125,
+            "minimum": 64742.0,
+            "maximum": 76248.5,
+            "operations": 8,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "min": {
+            "median": 27851.3125,
+            "minimum": 27747.25,
+            "maximum": 27946.125,
+            "operations": 8,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          }
+        },
+        "lowest_median": "min",
+        "selection": "unresolved"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "tiny",
+        "arms": {
+          "full": {
+            "median": 29.4228515625,
+            "minimum": 29.236572265625,
+            "maximum": 30.8668212890625,
+            "operations": 8192,
+            "evaluated_per_update": 8.0,
+            "parents_per_update": 13.0
+          },
+          "dirty": {
+            "median": 20.00738525390625,
+            "minimum": 19.677001953125,
+            "maximum": 20.199951171875,
+            "operations": 8192,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 2.0
+          },
+          "heap": {
+            "median": 15.58514404296875,
+            "minimum": 15.3463134765625,
+            "maximum": 15.951904296875,
+            "operations": 8192,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 2.0
+          }
+        },
+        "lowest_median": "heap",
+        "selection": "heap"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "chain_root",
+        "arms": {
+          "full": {
+            "median": 10471.98046875,
+            "minimum": 10277.9765625,
+            "maximum": 10689.140625,
+            "operations": 128,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 4095.0
+          },
+          "dirty": {
+            "median": 40587.4453125,
+            "minimum": 40258.4296875,
+            "maximum": 40760.875,
+            "operations": 128,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 4095.0
+          },
+          "heap": {
+            "median": 38877.33203125,
+            "minimum": 38141.96875,
+            "maximum": 39002.7421875,
+            "operations": 128,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 4095.0
+          }
+        },
+        "lowest_median": "full",
+        "selection": "full"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "chain_leaf",
+        "arms": {
+          "full": {
+            "median": 10381.03076171875,
+            "minimum": 10286.587890625,
+            "maximum": 10518.7861328125,
+            "operations": 1024,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 4095.0
+          },
+          "dirty": {
+            "median": 2423.208984375,
+            "minimum": 2396.498046875,
+            "maximum": 2440.072265625,
+            "operations": 1024,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 1.0
+          },
+          "heap": {
+            "median": 15.70654296875,
+            "minimum": 15.5361328125,
+            "maximum": 16.14453125,
+            "operations": 1024,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 1.0
+          }
+        },
+        "lowest_median": "heap",
+        "selection": "heap"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "islands",
+        "arms": {
+          "full": {
+            "median": 96796.216796875,
+            "minimum": 89048.89453125,
+            "maximum": 101755.453125,
+            "operations": 256,
+            "evaluated_per_update": 16384.0,
+            "parents_per_update": 16128.0
+          },
+          "dirty": {
+            "median": 10639.732421875,
+            "minimum": 10558.22265625,
+            "maximum": 10907.7421875,
+            "operations": 256,
+            "evaluated_per_update": 64.0,
+            "parents_per_update": 63.0
+          },
+          "heap": {
+            "median": 579.359375,
+            "minimum": 577.703125,
+            "maximum": 583.6875,
+            "operations": 256,
+            "evaluated_per_update": 64.0,
+            "parents_per_update": 63.0
+          }
+        },
+        "lowest_median": "heap",
+        "selection": "heap"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "layered_sink",
+        "arms": {
+          "full": {
+            "median": 27598.125,
+            "minimum": 27539.03125,
+            "maximum": 27671.875,
+            "operations": 256,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 32732.0
+          },
+          "dirty": {
+            "median": 2423.9609375,
+            "minimum": 2415.515625,
+            "maximum": 2431.85546875,
+            "operations": 256,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 8.0
+          },
+          "heap": {
+            "median": 21.625,
+            "minimum": 21.24609375,
+            "maximum": 23.12109375,
+            "operations": 256,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 8.0
+          }
+        },
+        "lowest_median": "heap",
+        "selection": "heap"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "dense_root",
+        "arms": {
+          "full": {
+            "median": 21641.5546875,
+            "minimum": 21515.0,
+            "maximum": 22073.59375,
+            "operations": 128,
+            "evaluated_per_update": 1024.0,
+            "parents_per_update": 32240.0
+          },
+          "dirty": {
+            "median": 48575.5078125,
+            "minimum": 48387.2734375,
+            "maximum": 48664.8203125,
+            "operations": 128,
+            "evaluated_per_update": 1024.0,
+            "parents_per_update": 32240.0
+          },
+          "heap": {
+            "median": 75622.0078125,
+            "minimum": 74926.03125,
+            "maximum": 76054.5234375,
+            "operations": 128,
+            "evaluated_per_update": 1024.0,
+            "parents_per_update": 32240.0
+          }
+        },
+        "lowest_median": "full",
+        "selection": "full"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "noop",
+        "arms": {
+          "full": {
+            "median": 27616.213134765625,
+            "minimum": 27550.2392578125,
+            "maximum": 27663.54296875,
+            "operations": 2048,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 32732.0
+          },
+          "dirty": {
+            "median": 64381.15380859375,
+            "minimum": 64087.4580078125,
+            "maximum": 64739.79736328125,
+            "operations": 2048,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 32732.0
+          },
+          "heap": {
+            "median": 14.32666015625,
+            "minimum": 14.14501953125,
+            "maximum": 14.63330078125,
+            "operations": 2048,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 0.0
+          }
+        },
+        "lowest_median": "heap",
+        "selection": "heap"
+      },
+      {
+        "phase": "aa",
+        "family": "order",
+        "workload": "tiny",
+        "arms": {
+          "fifo": {
+            "median": 129.1015625,
+            "minimum": 124.19921875,
+            "maximum": 136.65625,
+            "operations": 512,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "fifo_aa": {
+            "median": 129.1962890625,
+            "minimum": 128.314453125,
+            "maximum": 130.0546875,
+            "operations": 512,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          }
+        },
+        "lowest_median": "fifo",
+        "selection": "unresolved"
+      },
+      {
+        "phase": "aa",
+        "family": "update",
+        "workload": "tiny",
+        "arms": {
+          "full": {
+            "median": 29.34771728515625,
+            "minimum": 29.2542724609375,
+            "maximum": 30.333251953125,
+            "operations": 8192,
+            "evaluated_per_update": 8.0,
+            "parents_per_update": 13.0
+          },
+          "full_aa": {
+            "median": 29.38299560546875,
+            "minimum": 29.0966796875,
+            "maximum": 31.0894775390625,
+            "operations": 8192,
+            "evaluated_per_update": 8.0,
+            "parents_per_update": 13.0
+          }
+        },
+        "lowest_median": "full",
+        "selection": "unresolved"
+      }
+    ]
+  },
+  "x86": {
+    "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+    "architecture": "x86_64",
+    "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+    "source_commit": "d409e26a8c995b61b0bc1644fa55313d2c8e6df4",
+    "input_sha256": {
+      "Cargo.toml": "c0a27a0616f49f48adbfad7590509cf7dfc5af93c6578a744e6dd672fff478da",
+      "src/lib.rs": "63912b96f841c1527296150563b650b01b105f3011630f478b8e7a87cd364351",
+      "tests/contracts.rs": "f5c5ed0c290f7e31ee34b0cf6c1732da8c48e5f1651f6d41e673e186d416efd1",
+      "benches/dag.rs": "201adbe73c630e421edab1a868cec557993582911515be195b63a032cf1e469a",
+      "examples/demo.rs": "cc587e0b8a4cd08ac1234d756caf26a9deec35fc44d479e083ad9db8179ec2ea",
+      "scripts/run.py": "4274db6ef10ebbe05c8920d39ee76774840faa8573abd73c0cfea1b59296ee9d"
+    },
+    "binary_sha256": "c13f2fefdbb419fbce365ee4ab64321cb7bcf5ee8d12f47b95046048ba8e4dcb",
+    "records": 259,
+    "measured": 222,
+    "warmups": 37,
+    "results": [
+      {
+        "phase": "primary",
+        "family": "order",
+        "workload": "tiny",
+        "arms": {
+          "fifo": {
+            "median": 85.001953125,
+            "minimum": 83.197265625,
+            "maximum": 86.8203125,
+            "operations": 512,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "dfs": {
+            "median": 86.380859375,
+            "minimum": 84.453125,
+            "maximum": 90.8359375,
+            "operations": 512,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "min": {
+            "median": 86.5029296875,
+            "minimum": 82.47265625,
+            "maximum": 137.240234375,
+            "operations": 512,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          }
+        },
+        "lowest_median": "fifo",
+        "selection": "unresolved"
+      },
+      {
+        "phase": "primary",
+        "family": "order",
+        "workload": "chain_root",
+        "arms": {
+          "fifo": {
+            "median": 27617.375,
+            "minimum": 27222.625,
+            "maximum": 28031.125,
+            "operations": 8,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "dfs": {
+            "median": 16475.1875,
+            "minimum": 16427.0,
+            "maximum": 20541.875,
+            "operations": 8,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "min": {
+            "median": 28256.25,
+            "minimum": 27926.375,
+            "maximum": 29079.25,
+            "operations": 8,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          }
+        },
+        "lowest_median": "dfs",
+        "selection": "dfs"
+      },
+      {
+        "phase": "primary",
+        "family": "order",
+        "workload": "islands",
+        "arms": {
+          "fifo": {
+            "median": 156383.5,
+            "minimum": 146549.5625,
+            "maximum": 172644.4375,
+            "operations": 16,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "dfs": {
+            "median": 74872.40625,
+            "minimum": 70895.375,
+            "maximum": 90003.1875,
+            "operations": 16,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "min": {
+            "median": 313415.78125,
+            "minimum": 311481.875,
+            "maximum": 346172.6875,
+            "operations": 16,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          }
+        },
+        "lowest_median": "dfs",
+        "selection": "dfs"
+      },
+      {
+        "phase": "primary",
+        "family": "order",
+        "workload": "dense_root",
+        "arms": {
+          "fifo": {
+            "median": 26042.5625,
+            "minimum": 25670.0,
+            "maximum": 26471.25,
+            "operations": 8,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "dfs": {
+            "median": 64546.625,
+            "minimum": 64378.5,
+            "maximum": 64718.0,
+            "operations": 8,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "min": {
+            "median": 25637.0,
+            "minimum": 24942.5,
+            "maximum": 26575.625,
+            "operations": 8,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          }
+        },
+        "lowest_median": "min",
+        "selection": "unresolved"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "tiny",
+        "arms": {
+          "full": {
+            "median": 24.7891845703125,
+            "minimum": 24.4788818359375,
+            "maximum": 25.021240234375,
+            "operations": 8192,
+            "evaluated_per_update": 8.0,
+            "parents_per_update": 13.0
+          },
+          "dirty": {
+            "median": 19.524658203125,
+            "minimum": 18.946533203125,
+            "maximum": 21.74365234375,
+            "operations": 8192,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 2.0
+          },
+          "heap": {
+            "median": 16.446044921875,
+            "minimum": 16.332275390625,
+            "maximum": 18.9091796875,
+            "operations": 8192,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 2.0
+          }
+        },
+        "lowest_median": "heap",
+        "selection": "unresolved"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "chain_root",
+        "arms": {
+          "full": {
+            "median": 8844.50390625,
+            "minimum": 8808.7578125,
+            "maximum": 9039.7734375,
+            "operations": 128,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 4095.0
+          },
+          "dirty": {
+            "median": 35145.16796875,
+            "minimum": 34670.875,
+            "maximum": 35277.265625,
+            "operations": 128,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 4095.0
+          },
+          "heap": {
+            "median": 23830.75390625,
+            "minimum": 23698.8125,
+            "maximum": 24973.140625,
+            "operations": 128,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 4095.0
+          }
+        },
+        "lowest_median": "full",
+        "selection": "full"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "chain_leaf",
+        "arms": {
+          "full": {
+            "median": 8820.68408203125,
+            "minimum": 8794.3603515625,
+            "maximum": 8914.5595703125,
+            "operations": 1024,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 4095.0
+          },
+          "dirty": {
+            "median": 2616.81298828125,
+            "minimum": 2591.1982421875,
+            "maximum": 2629.24609375,
+            "operations": 1024,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 1.0
+          },
+          "heap": {
+            "median": 16.255859375,
+            "minimum": 16.044921875,
+            "maximum": 16.673828125,
+            "operations": 1024,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 1.0
+          }
+        },
+        "lowest_median": "heap",
+        "selection": "heap"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "islands",
+        "arms": {
+          "full": {
+            "median": 81040.234375,
+            "minimum": 78330.86328125,
+            "maximum": 83660.50390625,
+            "operations": 256,
+            "evaluated_per_update": 16384.0,
+            "parents_per_update": 16128.0
+          },
+          "dirty": {
+            "median": 11585.89453125,
+            "minimum": 11479.0390625,
+            "maximum": 12007.51953125,
+            "operations": 256,
+            "evaluated_per_update": 64.0,
+            "parents_per_update": 63.0
+          },
+          "heap": {
+            "median": 378.185546875,
+            "minimum": 370.38671875,
+            "maximum": 385.8671875,
+            "operations": 256,
+            "evaluated_per_update": 64.0,
+            "parents_per_update": 63.0
+          }
+        },
+        "lowest_median": "heap",
+        "selection": "heap"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "layered_sink",
+        "arms": {
+          "full": {
+            "median": 19311.3828125,
+            "minimum": 19239.234375,
+            "maximum": 19352.1328125,
+            "operations": 256,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 32732.0
+          },
+          "dirty": {
+            "median": 2591.05078125,
+            "minimum": 2589.94921875,
+            "maximum": 2601.66796875,
+            "operations": 256,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 8.0
+          },
+          "heap": {
+            "median": 18.875,
+            "minimum": 18.171875,
+            "maximum": 20.57421875,
+            "operations": 256,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 8.0
+          }
+        },
+        "lowest_median": "heap",
+        "selection": "heap"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "dense_root",
+        "arms": {
+          "full": {
+            "median": 12892.6953125,
+            "minimum": 12838.75,
+            "maximum": 13082.296875,
+            "operations": 128,
+            "evaluated_per_update": 1024.0,
+            "parents_per_update": 32240.0
+          },
+          "dirty": {
+            "median": 42867.875,
+            "minimum": 38965.59375,
+            "maximum": 43904.2734375,
+            "operations": 128,
+            "evaluated_per_update": 1024.0,
+            "parents_per_update": 32240.0
+          },
+          "heap": {
+            "median": 51077.01953125,
+            "minimum": 50914.7890625,
+            "maximum": 51357.9921875,
+            "operations": 128,
+            "evaluated_per_update": 1024.0,
+            "parents_per_update": 32240.0
+          }
+        },
+        "lowest_median": "full",
+        "selection": "full"
+      },
+      {
+        "phase": "primary",
+        "family": "update",
+        "workload": "noop",
+        "arms": {
+          "full": {
+            "median": 19310.548828125,
+            "minimum": 19286.1298828125,
+            "maximum": 20416.33154296875,
+            "operations": 2048,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 32732.0
+          },
+          "dirty": {
+            "median": 53812.93505859375,
+            "minimum": 53684.58447265625,
+            "maximum": 55342.35986328125,
+            "operations": 2048,
+            "evaluated_per_update": 4096.0,
+            "parents_per_update": 32732.0
+          },
+          "heap": {
+            "median": 16.18310546875,
+            "minimum": 15.89794921875,
+            "maximum": 18.39697265625,
+            "operations": 2048,
+            "evaluated_per_update": 1.0,
+            "parents_per_update": 0.0
+          }
+        },
+        "lowest_median": "heap",
+        "selection": "heap"
+      },
+      {
+        "phase": "aa",
+        "family": "order",
+        "workload": "tiny",
+        "arms": {
+          "fifo": {
+            "median": 84.92578125,
+            "minimum": 83.0859375,
+            "maximum": 88.986328125,
+            "operations": 512,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          },
+          "fifo_aa": {
+            "median": 84.9248046875,
+            "minimum": 83.31640625,
+            "maximum": 86.455078125,
+            "operations": 512,
+            "evaluated_per_update": 0.0,
+            "parents_per_update": 0.0
+          }
+        },
+        "lowest_median": "fifo_aa",
+        "selection": "unresolved"
+      },
+      {
+        "phase": "aa",
+        "family": "update",
+        "workload": "tiny",
+        "arms": {
+          "full": {
+            "median": 24.85797119140625,
+            "minimum": 24.7916259765625,
+            "maximum": 26.4052734375,
+            "operations": 8192,
+            "evaluated_per_update": 8.0,
+            "parents_per_update": 13.0
+          },
+          "full_aa": {
+            "median": 24.89111328125,
+            "minimum": 24.650390625,
+            "maximum": 30.500732421875,
+            "operations": 8192,
+            "evaluated_per_update": 8.0,
+            "parents_per_update": 13.0
+          }
+        },
+        "lowest_median": "full",
+        "selection": "unresolved"
+      }
+    ]
+  }
+}
