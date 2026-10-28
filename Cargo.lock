@@ -95,6 +95,10 @@ name = "topic-006-monotonic-stacks-and-deques"
 version = "0.1.0"
 
 [[package]]
+name = "topic-032-topological-order-and-incremental-dags"
+version = "0.1.0"
+
+[[package]]
 name = "topic021-heaps-and-priority-queues"
 version = "0.1.0"
 
