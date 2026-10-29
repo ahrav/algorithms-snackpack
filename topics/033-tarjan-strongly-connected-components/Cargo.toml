@@ -1,0 +1,9 @@
+[package]
+name = "topic033"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[[bench]]
+name = "scc"
+harness = false
