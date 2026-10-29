@@ -1,0 +1,66 @@
+{
+  "executable_source_commit": "7e1069cf60e56091a404c9816f4d9f33d85776af",
+  "frozen_source_archive_sha256": "b1abaa2ba08065a76645e7409fbd8d11455461f656079159739b19430ab13dc3",
+  "raw_evidence_location": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-033/20261029",
+  "archives": {
+    "arm": {
+      "archive_sha256": "77c1a559f87e174695ab115675846bdcd89acb3303bfb7a61a8820e1efb688bb",
+      "bytes": 4369212,
+      "members": 11,
+      "files_verified": 9,
+      "source_hashes": {
+        "src/lib.rs": "607ae2a6438a41db7a7b0e504c1e763b47d4d37ddb736a61b246db744bb2ed9d",
+        "tests/contracts.rs": "8720b228227b9b015fb535c8b6c166e0253741a2c97992c19a69a1ab42cd41d2",
+        "examples/components.rs": "5c3f886594646daeefb14bc926f639f387181e622a38db2bcce8938626e39cd6",
+        "benches/scc.rs": "33132264fce30d663a528a606a38a652fbf5743403494abf317a41ec508c1e4a",
+        "measurements/run.py": "d81051db4b31804f6e23957a687c07a6596454d87f3f75f8015bfd0c87be1712"
+      },
+      "binary_sha256": "3d8e532857c8f3ff6b33763f915c8745ccdba1bba5e5eec8b87a3fbc82aab88c",
+      "processes": 350,
+      "environment": {
+        "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+        "architecture": "aarch64",
+        "affinity": 32,
+        "flags": "--edition=2024 -O -C target-cpu=native -C codegen-units=1",
+        "available_cpus": 64,
+        "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)"
+      },
+      "archive": "arm-replay.tar.gz"
+    },
+    "x86": {
+      "archive_sha256": "993d058c982b4cffae327a7a470ee5b063337f5c24fbd66005e0f444df9f153e",
+      "bytes": 5221962,
+      "members": 11,
+      "files_verified": 9,
+      "source_hashes": {
+        "src/lib.rs": "607ae2a6438a41db7a7b0e504c1e763b47d4d37ddb736a61b246db744bb2ed9d",
+        "tests/contracts.rs": "8720b228227b9b015fb535c8b6c166e0253741a2c97992c19a69a1ab42cd41d2",
+        "examples/components.rs": "5c3f886594646daeefb14bc926f639f387181e622a38db2bcce8938626e39cd6",
+        "benches/scc.rs": "33132264fce30d663a528a606a38a652fbf5743403494abf317a41ec508c1e4a",
+        "measurements/run.py": "d81051db4b31804f6e23957a687c07a6596454d87f3f75f8015bfd0c87be1712"
+      },
+      "binary_sha256": "448b476e7ccedcbb1ade1b0b9e529947bc717a4e06dbf3719ad855b4123a4b55",
+      "processes": 350,
+      "environment": {
+        "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+        "architecture": "x86_64",
+        "affinity": 96,
+        "flags": "--edition=2024 -O -C target-cpu=native -C codegen-units=1",
+        "available_cpus": 192,
+        "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)"
+      },
+      "archive": "x86-replay.tar.gz"
+    }
+  },
+  "verification": "Both source archives matched transferred SHA-256; every raw member manifest hash, all five executable input hashes, architecture, linked binary hash, 350 process records/host and every pair order verified. Raw binaries/disassembly/test output retained externally.",
+  "retained_initial_campaign": {
+    "source": "e415812a27dca023f0e8e991fe100bbfb470bc79",
+    "archives": [
+      "arm.tar.gz",
+      "x86.tar.gz"
+    ],
+    "summary": "summary.json",
+    "status": "14 selected/6 unresolved; pre-runner-correction. Retained separately."
+  },
+  "replay_reason": "No-argument benchmark invocation failed all-targets; corrected default CLI only. Library,tests,workloads,timed loop and runner unchanged. Current replay17 selected/3 unresolved; one median leader and three decision states changed. No pooling."
+}

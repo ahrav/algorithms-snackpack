@@ -7,6 +7,7 @@ publish = false
 
 [workspace]
 members = [
+    "topics/033-tarjan-strongly-connected-components",
     "topics/032-topological-order-and-incremental-dags",
     "topics/031-dijkstra-and-shortest-path-queues",
     "topics/030-breadth-first-and-depth-first-traversal",
