@@ -8,7 +8,7 @@ dense-label assertion, `# Panics` documentation, `certify`'s component-count
 expression, the crate manifest (workspace edition, MSRV and lint inheritance),
 the contract tests, the runner's argument check, timeout and unparsed-output
 records, configurable bound and early `binary_sha256` flush, and the reducer's
-cross-host source-hash, schedule and graph-metadata checks; every timed SCC
+cross-host source-hash, completion-marker, schedule and graph-metadata checks; every timed SCC
 function, the timed loop body's work and the workload generator are the frozen
 commit's. The results below are that commit's. In the frozen binary the candidate
 string match ran inside the timed closure on every repetition (about twelve
@@ -78,7 +78,8 @@ Reproduction: run measurements/run.py with a fresh output directory on each
 host; place each results folder under arm/results and x86/results,then run
 `python3 measurements/analyze.py PARENT summary.json`. The reducer verifies
 counts,certification,order,the declared workload list,identical graph metadata
-across a workload's processes and identical executable-source hashes across hosts,
+across a workload's processes,each runner's `finished` marker (written only after
+the closing source-hash check) and identical executable-source hashes across hosts,
 and reproduces medians,full ranges and decisions. A process that exceeds the runner's
 bound (`TOPIC_033_PROCESS_TIMEOUT_S`,default90 seconds) is retained as an
 `exit: "timeout"` record before the campaign stops. `measurements/test_run.py` and

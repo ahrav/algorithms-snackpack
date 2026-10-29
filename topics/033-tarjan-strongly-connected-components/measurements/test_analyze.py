@@ -34,10 +34,13 @@ def records():
                    'reps': 1, 'ns_total': ns, 'ns_per_op': ns}
 
 
-def write_host(base, host, hashes, recs=None):
+def write_host(base, host, hashes, recs=None, finished=True):
     run = pathlib.Path(base, host, 'results')
     run.mkdir(parents=True)
-    (run / 'environment.json').write_text(json.dumps({'hostname': host, 'architecture': host, 'source_hashes': hashes}))
+    env = {'hostname': host, 'architecture': host, 'source_hashes': hashes}
+    if finished:
+        env['finished'] = 1.0
+    (run / 'environment.json').write_text(json.dumps(env))
     (run / 'records.jsonl').write_text(''.join(json.dumps(r) + '\n' for r in (recs or records())))
 
 
@@ -68,6 +71,15 @@ class AnalyzeTests(unittest.TestCase):
             process, summary = reduce(base)
             self.assertNotEqual(process.returncode, 0, 'analyze.py summarized a workload whose processes disagree on component count')
             self.assertIn('graph metadata', process.stderr)
+            self.assertFalse(summary.exists())
+
+    def test_unfinished_campaign_is_rejected(self):
+        with tempfile.TemporaryDirectory(prefix='topic033-') as base:
+            write_host(base, 'arm', HASHES)
+            write_host(base, 'x86', HASHES, finished=False)
+            process, summary = reduce(base)
+            self.assertNotEqual(process.returncode, 0, 'analyze.py summarized a host whose runner never recorded completion')
+            self.assertIn('finished', process.stderr)
             self.assertFalse(summary.exists())
 
     def test_mixed_source_campaign_is_rejected(self):

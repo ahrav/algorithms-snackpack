@@ -45,7 +45,7 @@ workload, candidate = sys.argv[1:]
 if candidate == os.environ.get('STUB_HANG_CANDIDATE'):
     time.sleep(600)
 if candidate == os.environ.get('STUB_GARBAGE_CANDIDATE'):
-    print('not json'); sys.exit(0)
+    print(os.environ.get('STUB_GARBAGE_TEXT', 'not json')); sys.exit(0)
 print(json.dumps({'workload': workload, 'candidate': candidate, 'vertices': 7, 'edges': 8, 'components': 4,
                   'reps': 1, 'ns_total': 1000, 'ns_per_op': 1000.0, 'certified': True}))
 """
@@ -59,7 +59,7 @@ def run_runner(tmp, extra_env, bound_s, argv=None):
         tool.write_text(body)
         tool.chmod(0o755)
     env = dict(os.environ, PATH=str(bin_dir) + os.pathsep + os.environ["PATH"], STUB_BINARY=BINARY)
-    for name in ["STUB_HANG_CANDIDATE", "STUB_GARBAGE_CANDIDATE"]:
+    for name in ["STUB_HANG_CANDIDATE", "STUB_GARBAGE_CANDIDATE", "STUB_GARBAGE_TEXT"]:
         env.pop(name, None)
     env.update(extra_env)
     out = pathlib.Path(tmp, "out")
@@ -98,14 +98,15 @@ class RunTests(unittest.TestCase):
             self.assertEqual(len(environment["binary_sha256"]), 64)
 
     def test_unparsable_success_output_is_retained_and_stops_the_campaign(self):
-        with tempfile.TemporaryDirectory(prefix="topic033-") as tmp:
-            code, output, out = run_runner(tmp, {"STUB_GARBAGE_CANDIDATE": "kosaraju"}, 30)
-            retained = records(out)
-            if code is None:
-                self.fail("run.py did not stop within 30 s")
-            self.assertNotEqual(code, 0, output)
-            self.assertEqual([r["candidate"] for r in retained], ["tarjan", "gabow", "kosaraju"])
-            self.assertEqual((retained[-1]["exit"], retained[-1]["stdout"]), ("unparsed-stdout", "not json\n"))
+        for text in ["not json", "[1, 2]", '"ok"']:
+            with tempfile.TemporaryDirectory(prefix="topic033-") as tmp:
+                code, output, out = run_runner(tmp, {"STUB_GARBAGE_CANDIDATE": "kosaraju", "STUB_GARBAGE_TEXT": text}, 30)
+                retained = records(out)
+                if code is None:
+                    self.fail(f"run.py did not stop within 30 s for stdout {text!r}")
+                self.assertNotEqual(code, 0, output)
+                self.assertEqual([r["candidate"] for r in retained], ["tarjan", "gabow", "kosaraju"], text)
+                self.assertEqual((retained[-1]["exit"], retained[-1]["stdout"]), ("unparsed-stdout", text + "\n"))
 
     def test_flag_argument_is_refused_before_any_output_directory_exists(self):
         with tempfile.TemporaryDirectory(prefix="topic033-") as tmp:

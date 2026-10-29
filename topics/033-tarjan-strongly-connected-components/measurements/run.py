@@ -53,8 +53,12 @@ with (OUT/'records.jsonl').open('w') as log:
             record.update(exit=p.returncode, stderr=p.stderr, stdout=p.stdout)
             if p.returncode == 0:
                 try:
-                    record.update(json.loads(p.stdout))
+                    parsed = json.loads(p.stdout)
                 except ValueError:
+                    parsed = None
+                if isinstance(parsed, dict):
+                    record.update(parsed)
+                else:
                     record['exit'] = 'unparsed-stdout'
         except subprocess.TimeoutExpired as expired:
             record.update(exit='timeout', stdout=str(expired.stdout), stderr=str(expired.stderr))

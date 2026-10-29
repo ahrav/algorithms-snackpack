@@ -8,6 +8,8 @@ def environment(host):
  except (OSError,ValueError) as e:
   raise SystemExit(f'unreadable environment record {path}: {e}') from e
 envs={host:environment(host) for host in ['arm','x86']}
+for host,env in envs.items():
+ assert 'finished' in env,(host,'runner never recorded finished: the campaign or its final source-hash check did not complete')
 assert envs['arm']['source_hashes']==envs['x86']['source_hashes'],('source_hashes differ across hosts',envs['arm']['source_hashes'],envs['x86']['source_hashes'])
 for host in ['arm','x86']:
  run=base/host/'results'

@@ -15,7 +15,7 @@ adversarial shapes; fixed named benchmark graphs. Sequential immutable snapshots
 Replay assets: tests/contracts.rs, examples/components.rs, measurements/run.py,
 measurements/test_run.py (stub-process timeout and unparsed-output retention, flag
 refusal and full schedule) and measurements/test_analyze.py (synthetic two-host
-reduction; mixed-source and inconsistent-metadata rejection).
+reduction; mixed-source, unfinished-campaign and inconsistent-metadata rejection).
 What a green run establishes: exact agreement in the enumerated finite domain
 and independent certificates for the large inputs actually executed.
 Known gaps and delegated skills: concurrency, allocator failures, dynamic SCC
