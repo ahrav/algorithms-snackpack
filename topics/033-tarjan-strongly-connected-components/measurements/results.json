@@ -1,0 +1,812 @@
+{
+  "arm": {
+    "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+    "cells": {
+      "tiny-first": {
+        "selected": "unresolved",
+        "median_leader": "tarjan",
+        "vertices": 7,
+        "edges": 8,
+        "components": 4,
+        "ns": {
+          "tarjan": {
+            "median_ns": 892.5,
+            "min_ns": 755,
+            "max_ns": 1020
+          },
+          "gabow": {
+            "median_ns": 958.0,
+            "min_ns": 795,
+            "max_ns": 1355
+          },
+          "kosaraju": {
+            "median_ns": 2666.0,
+            "min_ns": 2509,
+            "max_ns": 2856
+          },
+          "prepared": {
+            "median_ns": 867.5,
+            "min_ns": 832,
+            "max_ns": 994
+          },
+          "tarjan-aa": {
+            "median_ns": 956.0,
+            "min_ns": 844,
+            "max_ns": 1095
+          }
+        },
+        "aa_ratio": {
+          "median": 1.056251267463593,
+          "min": 0.9701149425287356,
+          "max": 1.2193308550185873
+        },
+        "prepared_comparison": "unresolved"
+      },
+      "tiny": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 7,
+        "edges": 8,
+        "components": 4,
+        "ns": {
+          "tarjan": {
+            "median_ns": 217.998,
+            "min_ns": 217.066,
+            "max_ns": 218.788
+          },
+          "gabow": {
+            "median_ns": 159.768,
+            "min_ns": 159.535,
+            "max_ns": 159.929
+          },
+          "kosaraju": {
+            "median_ns": 378.482,
+            "min_ns": 376.134,
+            "max_ns": 440.513
+          },
+          "prepared": {
+            "median_ns": 184.954,
+            "min_ns": 184.398,
+            "max_ns": 214.771
+          },
+          "tarjan-aa": {
+            "median_ns": 215.812,
+            "min_ns": 214.634,
+            "max_ns": 221.647
+          }
+        },
+        "aa_ratio": {
+          "median": 0.9884257128471383,
+          "min": 0.9845610020922028,
+          "max": 1.0167443208898501
+        },
+        "prepared_comparison": "gabow faster"
+      },
+      "isolated": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 0,
+        "components": 20000,
+        "ns": {
+          "tarjan": {
+            "median_ns": 249785.156,
+            "min_ns": 242773.938,
+            "max_ns": 263324.375
+          },
+          "gabow": {
+            "median_ns": 151682.438,
+            "min_ns": 146061.438,
+            "max_ns": 157210.938
+          },
+          "kosaraju": {
+            "median_ns": 378559.594,
+            "min_ns": 376482.938,
+            "max_ns": 403140
+          },
+          "prepared": {
+            "median_ns": 207885.188,
+            "min_ns": 205221.438,
+            "max_ns": 209366.438
+          },
+          "tarjan-aa": {
+            "median_ns": 253612.719,
+            "min_ns": 246414.375,
+            "max_ns": 265364.938
+          }
+        },
+        "aa_ratio": {
+          "median": 1.0178663832624344,
+          "min": 0.9357826255165326,
+          "max": 1.0930536458428532
+        },
+        "prepared_comparison": "gabow faster"
+      },
+      "chain": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 19999,
+        "components": 20000,
+        "ns": {
+          "tarjan": {
+            "median_ns": 546994.688,
+            "min_ns": 540516.938,
+            "max_ns": 554336.938
+          },
+          "gabow": {
+            "median_ns": 389588.344,
+            "min_ns": 388329.25,
+            "max_ns": 393384
+          },
+          "kosaraju": {
+            "median_ns": 1681095.469,
+            "min_ns": 1675332.625,
+            "max_ns": 1686293.438
+          },
+          "prepared": {
+            "median_ns": 438186.062,
+            "min_ns": 435315.062,
+            "max_ns": 451297.812
+          },
+          "tarjan-aa": {
+            "median_ns": 546773.656,
+            "min_ns": 542857.438,
+            "max_ns": 553379.938
+          }
+        },
+        "aa_ratio": {
+          "median": 0.995458629884582,
+          "min": 0.9888700362854677,
+          "max": 1.0124071042639622
+        },
+        "prepared_comparison": "gabow faster"
+      },
+      "cycle": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 20000,
+        "components": 1,
+        "ns": {
+          "tarjan": {
+            "median_ns": 550146.562,
+            "min_ns": 547123.25,
+            "max_ns": 556199.188
+          },
+          "gabow": {
+            "median_ns": 403063.188,
+            "min_ns": 396291.5,
+            "max_ns": 408179.75
+          },
+          "kosaraju": {
+            "median_ns": 1179483.5,
+            "min_ns": 1170592.062,
+            "max_ns": 1193001.125
+          },
+          "prepared": {
+            "median_ns": 512513.438,
+            "min_ns": 508444.25,
+            "max_ns": 531857.25
+          },
+          "tarjan-aa": {
+            "median_ns": 549265.469,
+            "min_ns": 541823.312,
+            "max_ns": 556905.5
+          }
+        },
+        "aa_ratio": {
+          "median": 1.0014033396918158,
+          "min": 0.9806174407062929,
+          "max": 1.0046151035022615
+        },
+        "prepared_comparison": "gabow faster"
+      },
+      "groups": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 22499,
+        "components": 2500,
+        "ns": {
+          "tarjan": {
+            "median_ns": 549811.906,
+            "min_ns": 543414.438,
+            "max_ns": 564999.562
+          },
+          "gabow": {
+            "median_ns": 358374.531,
+            "min_ns": 355720.312,
+            "max_ns": 362178.938
+          },
+          "kosaraju": {
+            "median_ns": 1660511.875,
+            "min_ns": 1653883.625,
+            "max_ns": 1671501.438
+          },
+          "prepared": {
+            "median_ns": 508165.062,
+            "min_ns": 505458.125,
+            "max_ns": 511729.562
+          },
+          "tarjan-aa": {
+            "median_ns": 548756.719,
+            "min_ns": 543834.375,
+            "max_ns": 557045.938
+          }
+        },
+        "aa_ratio": {
+          "median": 1.0001953795931953,
+          "min": 0.963907162317493,
+          "max": 1.0203398600926268
+        },
+        "prepared_comparison": "gabow faster"
+      },
+      "permuted": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 22499,
+        "components": 2500,
+        "ns": {
+          "tarjan": {
+            "median_ns": 663167.094,
+            "min_ns": 624933.688,
+            "max_ns": 703543.5
+          },
+          "gabow": {
+            "median_ns": 577972.312,
+            "min_ns": 521986,
+            "max_ns": 601669.938
+          },
+          "kosaraju": {
+            "median_ns": 2290085.188,
+            "min_ns": 2281599.312,
+            "max_ns": 2296243.688
+          },
+          "prepared": {
+            "median_ns": 978556.562,
+            "min_ns": 966626.062,
+            "max_ns": 998010.688
+          },
+          "tarjan-aa": {
+            "median_ns": 669343.906,
+            "min_ns": 658426.125,
+            "max_ns": 692635.375
+          }
+        },
+        "aa_ratio": {
+          "median": 1.005911465089697,
+          "min": 0.9537402449173363,
+          "max": 1.0833697318734292
+        },
+        "prepared_comparison": "gabow faster"
+      },
+      "duplicates": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 162499,
+        "components": 2500,
+        "ns": {
+          "tarjan": {
+            "median_ns": 978053.188,
+            "min_ns": 973079.125,
+            "max_ns": 1003968.688
+          },
+          "gabow": {
+            "median_ns": 888431.281,
+            "min_ns": 885219.625,
+            "max_ns": 893507.125
+          },
+          "kosaraju": {
+            "median_ns": 3326167.312,
+            "min_ns": 3315821.125,
+            "max_ns": 3330382.688
+          },
+          "prepared": {
+            "median_ns": 952384.719,
+            "min_ns": 949578.125,
+            "max_ns": 956724.688
+          },
+          "tarjan-aa": {
+            "median_ns": 983872.375,
+            "min_ns": 969945.125,
+            "max_ns": 1015023.125
+          }
+        },
+        "aa_ratio": {
+          "median": 1.0011588550121702,
+          "min": 0.9931638685742038,
+          "max": 1.036282525784119
+        },
+        "prepared_comparison": "gabow faster"
+      },
+      "dense": {
+        "selected": "unresolved",
+        "median_leader": "tarjan",
+        "vertices": 256,
+        "edges": 65280,
+        "components": 1,
+        "ns": {
+          "tarjan": {
+            "median_ns": 227619.0,
+            "min_ns": 220982.75,
+            "max_ns": 235081.75
+          },
+          "gabow": {
+            "median_ns": 231136.938,
+            "min_ns": 229352.5,
+            "max_ns": 233734.125
+          },
+          "kosaraju": {
+            "median_ns": 535010.125,
+            "min_ns": 532448.375,
+            "max_ns": 538894.625
+          },
+          "prepared": {
+            "median_ns": 233779.188,
+            "min_ns": 232761.25,
+            "max_ns": 235700.75
+          },
+          "tarjan-aa": {
+            "median_ns": 229608.25,
+            "min_ns": 218694.125,
+            "max_ns": 260752.75
+          }
+        },
+        "aa_ratio": {
+          "median": 1.0229420229020043,
+          "min": 0.95316629215156,
+          "max": 1.1672621145685
+        },
+        "prepared_comparison": "unresolved"
+      },
+      "random": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 80000,
+        "components": 371,
+        "ns": {
+          "tarjan": {
+            "median_ns": 2033911.594,
+            "min_ns": 2020192,
+            "max_ns": 2035272.625
+          },
+          "gabow": {
+            "median_ns": 1759626.625,
+            "min_ns": 1743943.062,
+            "max_ns": 1775584.75
+          },
+          "kosaraju": {
+            "median_ns": 5117710.375,
+            "min_ns": 5090184.312,
+            "max_ns": 5159606.875
+          },
+          "prepared": {
+            "median_ns": 2442003.062,
+            "min_ns": 2430446.062,
+            "max_ns": 2461194.75
+          },
+          "tarjan-aa": {
+            "median_ns": 2043526.844,
+            "min_ns": 2028421.375,
+            "max_ns": 2071085.125
+          }
+        },
+        "aa_ratio": {
+          "median": 1.004291986231948,
+          "min": 0.9974983200986645,
+          "max": 1.0251922218284202
+        },
+        "prepared_comparison": "gabow faster"
+      }
+    }
+  },
+  "x86": {
+    "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+    "cells": {
+      "tiny-first": {
+        "selected": "unresolved",
+        "median_leader": "tarjan",
+        "vertices": 7,
+        "edges": 8,
+        "components": 4,
+        "ns": {
+          "tarjan": {
+            "median_ns": 1445.5,
+            "min_ns": 1256,
+            "max_ns": 3314
+          },
+          "gabow": {
+            "median_ns": 1782.5,
+            "min_ns": 1442,
+            "max_ns": 2804
+          },
+          "kosaraju": {
+            "median_ns": 4545.5,
+            "min_ns": 3250,
+            "max_ns": 7156
+          },
+          "prepared": {
+            "median_ns": 1633.0,
+            "min_ns": 1292,
+            "max_ns": 2512
+          },
+          "tarjan-aa": {
+            "median_ns": 1779.5,
+            "min_ns": 1366,
+            "max_ns": 2988
+          }
+        },
+        "aa_ratio": {
+          "median": 1.1171369163552138,
+          "min": 0.9016294508147255,
+          "max": 1.414576802507837
+        },
+        "prepared_comparison": "unresolved"
+      },
+      "tiny": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 7,
+        "edges": 8,
+        "components": 4,
+        "ns": {
+          "tarjan": {
+            "median_ns": 148.809,
+            "min_ns": 145.653,
+            "max_ns": 167.117
+          },
+          "gabow": {
+            "median_ns": 121.724,
+            "min_ns": 119.637,
+            "max_ns": 123.816
+          },
+          "kosaraju": {
+            "median_ns": 293.517,
+            "min_ns": 291.849,
+            "max_ns": 331.56
+          },
+          "prepared": {
+            "median_ns": 142.727,
+            "min_ns": 141.594,
+            "max_ns": 190.715
+          },
+          "tarjan-aa": {
+            "median_ns": 151.699,
+            "min_ns": 148.782,
+            "max_ns": 158.978
+          }
+        },
+        "aa_ratio": {
+          "median": 1.014654209124057,
+          "min": 0.9053040117426784,
+          "max": 1.076497888695379
+        },
+        "prepared_comparison": "gabow faster"
+      },
+      "isolated": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 0,
+        "components": 20000,
+        "ns": {
+          "tarjan": {
+            "median_ns": 244096.5,
+            "min_ns": 238930.75,
+            "max_ns": 258795.25
+          },
+          "gabow": {
+            "median_ns": 138228.75,
+            "min_ns": 134988.375,
+            "max_ns": 147662.062
+          },
+          "kosaraju": {
+            "median_ns": 344957.875,
+            "min_ns": 335513.625,
+            "max_ns": 347781.125
+          },
+          "prepared": {
+            "median_ns": 187457.406,
+            "min_ns": 184676.438,
+            "max_ns": 202960.438
+          },
+          "tarjan-aa": {
+            "median_ns": 240754.156,
+            "min_ns": 238032.938,
+            "max_ns": 258974.312
+          }
+        },
+        "aa_ratio": {
+          "median": 0.9963603298439645,
+          "min": 0.9374140850730452,
+          "max": 1.0587043893066383
+        },
+        "prepared_comparison": "gabow faster"
+      },
+      "chain": {
+        "selected": "unresolved",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 19999,
+        "components": 20000,
+        "ns": {
+          "tarjan": {
+            "median_ns": 503894.969,
+            "min_ns": 491845.062,
+            "max_ns": 508013.688
+          },
+          "gabow": {
+            "median_ns": 395869.594,
+            "min_ns": 392349.125,
+            "max_ns": 725914.5
+          },
+          "kosaraju": {
+            "median_ns": 1613910.812,
+            "min_ns": 1592991.062,
+            "max_ns": 2718498.375
+          },
+          "prepared": {
+            "median_ns": 533366.281,
+            "min_ns": 527315.125,
+            "max_ns": 764927.562
+          },
+          "tarjan-aa": {
+            "median_ns": 506073.812,
+            "min_ns": 498684.438,
+            "max_ns": 739779.875
+          }
+        },
+        "aa_ratio": {
+          "median": 1.0036869463927642,
+          "min": 0.9904695119968082,
+          "max": 1.4909712713682346
+        },
+        "prepared_comparison": "unresolved"
+      },
+      "cycle": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 20000,
+        "components": 1,
+        "ns": {
+          "tarjan": {
+            "median_ns": 511363.062,
+            "min_ns": 509667.062,
+            "max_ns": 519748.812
+          },
+          "gabow": {
+            "median_ns": 404698.219,
+            "min_ns": 388397.812,
+            "max_ns": 407208.125
+          },
+          "kosaraju": {
+            "median_ns": 1040868.094,
+            "min_ns": 1029009.125,
+            "max_ns": 1056839
+          },
+          "prepared": {
+            "median_ns": 581746.875,
+            "min_ns": 572703,
+            "max_ns": 843195.688
+          },
+          "tarjan-aa": {
+            "median_ns": 514248.156,
+            "min_ns": 508631.5,
+            "max_ns": 994703.812
+          }
+        },
+        "aa_ratio": {
+          "median": 1.0056296974137355,
+          "min": 0.9803086370687956,
+          "max": 1.949232720362871
+        },
+        "prepared_comparison": "gabow faster"
+      },
+      "groups": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 22499,
+        "components": 2500,
+        "ns": {
+          "tarjan": {
+            "median_ns": 602490.5,
+            "min_ns": 508161.5,
+            "max_ns": 872401.5
+          },
+          "gabow": {
+            "median_ns": 346309.25,
+            "min_ns": 338617.375,
+            "max_ns": 353394.812
+          },
+          "kosaraju": {
+            "median_ns": 1568741.438,
+            "min_ns": 1544793.312,
+            "max_ns": 1577880.125
+          },
+          "prepared": {
+            "median_ns": 596319.438,
+            "min_ns": 590742.562,
+            "max_ns": 918316.438
+          },
+          "tarjan-aa": {
+            "median_ns": 519269.969,
+            "min_ns": 508006.188,
+            "max_ns": 860853.562
+          }
+        },
+        "aa_ratio": {
+          "median": 1.0007593031727373,
+          "min": 0.5983138032287058,
+          "max": 1.258234543536511
+        },
+        "prepared_comparison": "gabow faster"
+      },
+      "permuted": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 22499,
+        "components": 2500,
+        "ns": {
+          "tarjan": {
+            "median_ns": 450790.969,
+            "min_ns": 446506.562,
+            "max_ns": 477571.5
+          },
+          "gabow": {
+            "median_ns": 382192.656,
+            "min_ns": 365906.062,
+            "max_ns": 401854.062
+          },
+          "kosaraju": {
+            "median_ns": 2171337.625,
+            "min_ns": 2152464.062,
+            "max_ns": 2194237.812
+          },
+          "prepared": {
+            "median_ns": 1044874.719,
+            "min_ns": 1034574.125,
+            "max_ns": 1370342.438
+          },
+          "tarjan-aa": {
+            "median_ns": 464356.344,
+            "min_ns": 452263.188,
+            "max_ns": 478031.125
+          }
+        },
+        "aa_ratio": {
+          "median": 1.0267465340917878,
+          "min": 0.9975180418010706,
+          "max": 1.044376844745357
+        },
+        "prepared_comparison": "gabow faster"
+      },
+      "duplicates": {
+        "selected": "unresolved",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 162499,
+        "components": 2500,
+        "ns": {
+          "tarjan": {
+            "median_ns": 911226.094,
+            "min_ns": 894359.688,
+            "max_ns": 934823.812
+          },
+          "gabow": {
+            "median_ns": 899812.781,
+            "min_ns": 744796.125,
+            "max_ns": 1405497.75
+          },
+          "kosaraju": {
+            "median_ns": 3250349.312,
+            "min_ns": 3021351.812,
+            "max_ns": 5167471.938
+          },
+          "prepared": {
+            "median_ns": 1322762.5,
+            "min_ns": 1003998.062,
+            "max_ns": 1582929.75
+          },
+          "tarjan-aa": {
+            "median_ns": 929028.688,
+            "min_ns": 911707.125,
+            "max_ns": 1459266.062
+          }
+        },
+        "aa_ratio": {
+          "median": 1.0240781189335415,
+          "min": 0.9826988788863356,
+          "max": 1.5815776680006424
+        },
+        "prepared_comparison": "gabow faster"
+      },
+      "dense": {
+        "selected": "unresolved",
+        "median_leader": "tarjan",
+        "vertices": 256,
+        "edges": 65280,
+        "components": 1,
+        "ns": {
+          "tarjan": {
+            "median_ns": 167217.188,
+            "min_ns": 165959.75,
+            "max_ns": 209328.5
+          },
+          "gabow": {
+            "median_ns": 168484.75,
+            "min_ns": 166708.25,
+            "max_ns": 170659.5
+          },
+          "kosaraju": {
+            "median_ns": 479180.438,
+            "min_ns": 472171.25,
+            "max_ns": 521775.125
+          },
+          "prepared": {
+            "median_ns": 237013.375,
+            "min_ns": 217731,
+            "max_ns": 372085.75
+          },
+          "tarjan-aa": {
+            "median_ns": 166444.75,
+            "min_ns": 165856.625,
+            "max_ns": 362738.875
+          }
+        },
+        "aa_ratio": {
+          "median": 0.998825170849341,
+          "min": 0.7961810025868432,
+          "max": 2.1575883340929485
+        },
+        "prepared_comparison": "tarjan faster"
+      },
+      "random": {
+        "selected": "gabow",
+        "median_leader": "gabow",
+        "vertices": 20000,
+        "edges": 80000,
+        "components": 371,
+        "ns": {
+          "tarjan": {
+            "median_ns": 1762511.938,
+            "min_ns": 1474776.5,
+            "max_ns": 2659263.125
+          },
+          "gabow": {
+            "median_ns": 1302199.875,
+            "min_ns": 1220478.5,
+            "max_ns": 2099127.75
+          },
+          "kosaraju": {
+            "median_ns": 6564109.188,
+            "min_ns": 5607355.188,
+            "max_ns": 7931337.938
+          },
+          "prepared": {
+            "median_ns": 3073444.062,
+            "min_ns": 2596473.438,
+            "max_ns": 4161611.312
+          },
+          "tarjan-aa": {
+            "median_ns": 1892560.375,
+            "min_ns": 1505173.438,
+            "max_ns": 2982158.188
+          }
+        },
+        "aa_ratio": {
+          "median": 0.979708645791205,
+          "min": 0.567016807073878,
+          "max": 2.0095836370481495
+        },
+        "prepared_comparison": "gabow faster"
+      }
+    }
+  }
+}

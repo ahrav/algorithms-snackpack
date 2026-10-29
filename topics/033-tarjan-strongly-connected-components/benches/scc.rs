@@ -54,15 +54,18 @@ fn workload(name: &str) -> (Graph, usize, bool) {
 
 fn main() {
     let args: Vec<_> = std::env::args().collect();
-    let name = &args[1];
-    let candidate = &args[2];
+    let name = args
+        .get(1)
+        .filter(|s| !s.starts_with('-'))
+        .map_or("tiny", String::as_str);
+    let candidate = args.get(2).map_or("tarjan", String::as_str);
     let (g, reps, warm) = workload(name);
     let reverse = if candidate == "prepared" {
         transpose(&g)
     } else {
         vec![]
     };
-    let compute = || match candidate.as_str() {
+    let compute = || match candidate {
         "tarjan" | "tarjan-aa" => tarjan(black_box(&g)),
         "gabow" => gabow(black_box(&g)),
         "kosaraju" => kosaraju(black_box(&g)),
