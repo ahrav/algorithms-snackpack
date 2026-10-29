@@ -1,20 +1,20 @@
 import collections,itertools,json,statistics,sys
 from pathlib import Path
 base=Path(sys.argv[1]);out={}
-def environment(host):
- path=base/host/'results'/'environment.json'
+def load(host,name):
+ path=base/host/'results'/name
  try:
-  return json.loads(path.read_text())
+  text=path.read_text()
+  return [json.loads(x) for x in text.splitlines()] if name.endswith('.jsonl') else json.loads(text)
  except (OSError,ValueError) as e:
-  raise SystemExit(f'unreadable environment record {path}: {e}') from e
-envs={host:environment(host) for host in ['arm','x86']}
+  raise SystemExit(f'unreadable campaign record {path}: {e}') from e
+envs={host:load(host,'environment.json') for host in ['arm','x86']}
 for host,env in envs.items():
  assert 'finished' in env,(host,'runner never recorded finished: the campaign or its final source-hash check did not complete')
 assert envs['arm']['source_hashes']==envs['x86']['source_hashes'],('source_hashes differ across hosts',envs['arm']['source_hashes'],envs['x86']['source_hashes'])
 for host in ['arm','x86']:
- run=base/host/'results'
  env=envs[host]
- recs=[json.loads(x) for x in (run/'records.jsonl').read_text().splitlines()]
+ recs=load(host,'records.jsonl')
  assert len(recs)==350 and all(r['exit']==0 and r['certified'] for r in recs)
  assert sum(r['phase']=='warmup' for r in recs)==50,'warmup process count'
  vals=collections.defaultdict(dict)
