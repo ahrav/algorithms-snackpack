@@ -1,6 +1,15 @@
 # Measured SCC selection
 
 Frozen executable source: `7e1069cf60e56091a404c9816f4d9f33d85776af`.
+Later commits on this branch change only the benchmark's candidate dispatch
+(resolved to one function pointer before the timer starts), `canonical`'s dense-label
+assertion and documentation, the contract tests, the runner's timeout record and
+configurable bound, and the reducer's cross-host source-hash check; every timed SCC
+function, the timed loop body's work and the workload generator are the frozen
+commit's. The results below are that commit's. In the frozen binary the candidate
+string match ran inside the timed closure on every repetition (about twelve
+instructions per call, inside the observed A/A range); the two Tarjan labels took
+equal-length but distinct comparison paths there.
 Both exact-source campaigns passed six contract groups,66,067 exhaustive graphs,
 the100k chain/cycle,example and every timed process certificate. Each retained
 350 process records:300 measured and50 warmup. All pair orders are3:3.
@@ -54,14 +63,20 @@ These wide controls limit fine-grained speed claims. Dense medians remain unreso
 chain/duplicate cases change from unresolved to Gabow in this replay. First-call microsecond measurements
 need caution; x86 meets the descriptive rule,Arm remains unresolved. Keep both campaigns separate.
 
-Generated code: objdump output and linked SCC symbols are retained. The two
-Tarjan labels dispatch to the same function in source. This supports a code-path
-control,not a cache/branch causal explanation. The source uses reserved heap
+Generated code: objdump output and linked SCC symbols are retained. In the frozen
+binary the two Tarjan labels dispatch to the same function through distinct string
+comparisons inside the timed closure; this supports a code-path control,not a
+cache/branch causal explanation. The current benchmark resolves the candidate
+before the timer so a future campaign times one identical indirect call per label. The source uses reserved heap
 continuations; exact allocation counts and peak RSS remain unmeasured.
 
 Reproduction: run measurements/run.py with a fresh output directory on each
 host; place each results folder under arm/results and x86/results,then run
 `python3 measurements/analyze.py PARENT summary.json`. The reducer verifies
-counts,certification and order and reproduces medians,full ranges and decisions.
+counts,certification,order and identical executable-source hashes across hosts and
+reproduces medians,full ranges and decisions. A process that exceeds the runner's
+bound (`TOPIC_033_PROCESS_TIMEOUT_S`,default90 seconds) is retained as an
+`exit: "timeout"` record before the campaign stops. `measurements/test_run.py` and
+`measurements/test_analyze.py` exercise both checks against stub processes.
 EVIDENCE_RECEIPT.json binds the raw archives,source,binary and environment.
 The detailed compact results.json retains all candidate medians and ranges.

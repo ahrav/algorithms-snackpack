@@ -229,9 +229,18 @@ pub fn oracle(g: &Graph) -> Vec<usize> {
         .collect()
 }
 
-/// Canonicalize arbitrary component labels to their minimum member.
+/// Canonicalize dense component labels to their minimum member.
+///
+/// Every label must be below `id.len()`.
+/// # Panics
+/// `canonical` panics when any label is greater than or equal to `id.len()`.
 #[must_use]
 pub fn canonical(id: &[usize]) -> Vec<usize> {
+    assert!(
+        id.iter().all(|&c| c < id.len()),
+        "labels must be dense IDs below {}",
+        id.len()
+    );
     let mut minima = vec![NONE; id.len()];
     for (v, &c) in id.iter().enumerate() {
         minima[c] = minima[c].min(v);

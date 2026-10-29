@@ -12,7 +12,9 @@ Large certificate: restricted forward/reverse reachability plus quotient Kahn;
 these operations share no SCC algorithm with the candidates.
 Input/model/schedule domain and bounds: finite graphs<=4 exhaustive; two100k
 adversarial shapes; fixed named benchmark graphs. Sequential immutable snapshots.
-Replay assets: tests/contracts.rs, examples/components.rs, measurements/run.py.
+Replay assets: tests/contracts.rs, examples/components.rs, measurements/run.py,
+measurements/test_run.py (stub-process timeout retention and full schedule) and
+measurements/test_analyze.py (synthetic two-host reduction and mixed-source rejection).
 What a green run establishes: exact agreement in the enumerated finite domain
 and independent certificates for the large inputs actually executed.
 Known gaps and delegated skills: concurrency, allocator failures, dynamic SCC
@@ -46,6 +48,10 @@ the merge and distinct3/4 labels check the split.
 invalid_destination_rejected: the exact validation assertion panics for one vertex
 with edge0->1. The immutable input cannot be partially edited. This checks the
 Tarjan admission path; Kosaraju/Gabow validate through their entry assertions.
+
+canonical_rejects_labels_outside_vertex_range: `[10, 10]` is a valid two-element
+partition whose labels exceed the vertex count. The documented dense-label assertion
+names the bound; a raw index panic or a silent remap would both fail this test.
 
 Mutation backstop: explicit wrong partitions and two state-confusion regressions.
 A mutation-tool campaign is unmeasured; these named counterexamples are executable.

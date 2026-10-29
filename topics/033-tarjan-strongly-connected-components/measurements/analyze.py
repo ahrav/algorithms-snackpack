@@ -1,8 +1,17 @@
 import collections,itertools,json,statistics,sys
 from pathlib import Path
 base=Path(sys.argv[1]);out={}
+def environment(host):
+ path=base/host/'results'/'environment.json'
+ try:
+  return json.loads(path.read_text())
+ except (OSError,ValueError) as e:
+  raise SystemExit(f'unreadable environment record {path}: {e}') from e
+envs={host:environment(host) for host in ['arm','x86']}
+assert envs['arm']['source_hashes']==envs['x86']['source_hashes'],('source_hashes differ across hosts',envs['arm']['source_hashes'],envs['x86']['source_hashes'])
 for host in ['arm','x86']:
- run=base/host/'results';env=json.loads((run/'environment.json').read_text())
+ run=base/host/'results'
+ env=envs[host]
  recs=[json.loads(x) for x in (run/'records.jsonl').read_text().splitlines()]
  assert len(recs)==350 and all(r['exit']==0 and r['certified'] for r in recs)
  vals=collections.defaultdict(dict)

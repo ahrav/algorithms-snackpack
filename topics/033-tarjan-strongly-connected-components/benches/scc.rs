@@ -65,13 +65,16 @@ fn main() {
     } else {
         vec![]
     };
-    let compute = || match candidate {
-        "tarjan" | "tarjan-aa" => tarjan(black_box(&g)),
-        "gabow" => gabow(black_box(&g)),
-        "kosaraju" => kosaraju(black_box(&g)),
-        "prepared" => kosaraju_prepared(black_box(&g), black_box(&reverse)),
+    // Resolve the candidate once so every timed repetition makes the same
+    // indirect call; the two Tarjan labels share one timed instruction path.
+    let f: fn(&Graph, &Graph) -> Vec<usize> = match candidate {
+        "tarjan" | "tarjan-aa" => |g, _| tarjan(g),
+        "gabow" => |g, _| gabow(g),
+        "kosaraju" => |g, _| kosaraju(g),
+        "prepared" => kosaraju_prepared,
         _ => panic!("unknown candidate"),
     };
+    let compute = || f(black_box(&g), black_box(&reverse));
     if warm {
         black_box(compute());
     }

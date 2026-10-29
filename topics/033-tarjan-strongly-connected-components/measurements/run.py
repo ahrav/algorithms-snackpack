@@ -18,13 +18,14 @@ def call(args, **kw):
 def sha(p):
     return hashlib.sha256(p.read_bytes()).hexdigest()
 hashes = {p: sha(ROOT/p) for p in FILES}
+TIMEOUT = float(os.environ.get('TOPIC_033_PROCESS_TIMEOUT_S', 90))
 allowed = sorted(os.sched_getaffinity(0))
 cpu = allowed[len(allowed)//2]
 env = {"hostname": platform.node(), "architecture": platform.machine(), "uname": list(platform.uname()),
        "rustc": call(["rustc", "-vV"]).stdout, "cpus": allowed, "affinity": cpu,
        "cpuinfo": Path('/proc/cpuinfo').read_text(), "flags": "--edition=2024 -O -C target-cpu=native -C codegen-units=1",
        "target_cfg": call(["rustc", "--print", "cfg", "-C", "target-cpu=native"]).stdout,
-       "source_hashes": hashes, "started": time.time()}
+       "source_hashes": hashes, "timeout_s": TIMEOUT, "started": time.time()}
 (OUT/'environment.json').write_text(json.dumps(env, indent=2))
 flags = ["--edition=2024", "-O", "-C", "target-cpu=native", "-C", "codegen-units=1"]
 lib = OUT/'libtopic033.rlib'
@@ -43,13 +44,18 @@ candidates = ['tarjan','gabow','kosaraju','prepared','tarjan-aa']
 with (OUT/'records.jsonl').open('w') as log:
     def run(w,c,phase,block,position):
         before = time.monotonic_ns()
-        p = subprocess.run(['taskset','-c',str(cpu),str(OUT/'scc'),w,c],text=True,capture_output=True,timeout=90)
-        record = {'workload':w,'candidate':c,'phase':phase,'block':block,'position':position,
-                  'exit':p.returncode,'wall_ns':time.monotonic_ns()-before,'stderr':p.stderr}
-        if p.returncode == 0: record.update(json.loads(p.stdout))
-        else: record['stdout'] = p.stdout
+        record = {'workload':w,'candidate':c,'phase':phase,'block':block,'position':position,'timeout_s':TIMEOUT}
+        try:
+            p = subprocess.run(['taskset','-c',str(cpu),str(OUT/'scc'),w,c],text=True,capture_output=True,timeout=TIMEOUT)
+            record.update(exit=p.returncode, stderr=p.stderr)
+            if p.returncode == 0: record.update(json.loads(p.stdout))
+            else: record['stdout'] = p.stdout
+        except subprocess.TimeoutExpired as expired:
+            record.update(exit='timeout', stdout=str(expired.stdout), stderr=str(expired.stderr))
+        record['wall_ns'] = time.monotonic_ns()-before
         log.write(json.dumps(record)+'\n');log.flush()
-        if p.returncode: raise RuntimeError(record)
+        if record['exit']:
+            raise RuntimeError(record)
     for w in workloads:
         for i,c in enumerate(candidates): run(w,c,'warmup',-1,i)
         for b in range(6):

@@ -84,3 +84,9 @@ fn graph_edit_rebuild_changes_partition() {
 fn invalid_destination_rejected() {
     let _ = tarjan(&vec![vec![1]]);
 }
+
+#[test]
+#[should_panic(expected = "dense")]
+fn canonical_rejects_labels_outside_vertex_range() {
+    let _ = canonical(&[10, 10]);
+}
