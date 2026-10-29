@@ -14,12 +14,17 @@ for host in ['arm','x86']:
  env=envs[host]
  recs=[json.loads(x) for x in (run/'records.jsonl').read_text().splitlines()]
  assert len(recs)==350 and all(r['exit']==0 and r['certified'] for r in recs)
+ assert sum(r['phase']=='warmup' for r in recs)==50,'warmup process count'
  vals=collections.defaultdict(dict)
  for r in recs:
   if r['phase']=='measure':
    assert r['block'] not in vals[(r['workload'],r['candidate'])]
    vals[(r['workload'],r['candidate'])][r['block']]=r
  workloads=list(dict.fromkeys(r['workload'] for r in recs));cells={}
+ assert workloads==['tiny-first','tiny','isolated','chain','cycle','groups','permuted','duplicates','dense','random'],workloads
+ for w in workloads:
+  shapes={(r['vertices'],r['edges'],r['components']) for r in recs if r['workload']==w}
+  assert len(shapes)==1,('graph metadata differs across processes',w,shapes)
  for w in workloads:
   cs=['tarjan','gabow','kosaraju','prepared','tarjan-aa'];allstats={}
   for c in cs:

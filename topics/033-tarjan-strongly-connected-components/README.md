@@ -69,6 +69,7 @@ cargo bench -p topic033 --bench scc -- groups tarjan
 cargo bench -p topic033 --bench scc -- groups kosaraju
 cargo bench -p topic033 --bench scc -- groups gabow
 cargo bench -p topic033 --bench scc -- groups prepared
+cargo bench -p topic033 --bench scc -- groups
 python3 topics/033-tarjan-strongly-connected-components/measurements/run.py /tmp/topic033-new-run
 python3 topics/033-tarjan-strongly-connected-components/measurements/test_run.py
 python3 topics/033-tarjan-strongly-connected-components/measurements/test_analyze.py

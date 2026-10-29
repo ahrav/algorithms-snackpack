@@ -1,3 +1,5 @@
+//! Fresh-process SCC timing: one workload and one candidate per invocation.
+#![allow(clippy::cast_precision_loss)]
 use std::{hint::black_box, time::Instant};
 use topic033::{Graph, certify, gabow, kosaraju, kosaraju_prepared, tarjan, transpose};
 
@@ -10,7 +12,7 @@ fn workload(name: &str) -> (Graph, usize, bool) {
     }
     let n = if name == "dense" { 256 } else { 20_000 };
     let mut g = vec![vec![]; n];
-    let mut seed = 20261029_u64;
+    let mut seed = 20_261_029_u64;
     for (v, edges) in g.iter_mut().enumerate() {
         match name {
             "isolated" => (),
@@ -53,12 +55,13 @@ fn workload(name: &str) -> (Graph, usize, bool) {
 }
 
 fn main() {
-    let args: Vec<_> = std::env::args().collect();
-    let name = args
-        .get(1)
+    // Cargo appends `--bench`; flags are dropped before positional lookup.
+    let args: Vec<_> = std::env::args()
+        .skip(1)
         .filter(|s| !s.starts_with('-'))
-        .map_or("tiny", String::as_str);
-    let candidate = args.get(2).map_or("tarjan", String::as_str);
+        .collect();
+    let name = args.first().map_or("tiny", String::as_str);
+    let candidate = args.get(1).map_or("tarjan", String::as_str);
     let (g, reps, warm) = workload(name);
     let reverse = if candidate == "prepared" {
         transpose(&g)

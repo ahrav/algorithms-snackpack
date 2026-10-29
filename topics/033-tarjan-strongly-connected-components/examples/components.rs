@@ -1,3 +1,4 @@
+//! Print canonical component labels of the running example for each algorithm.
 fn main() {
     let g = topic033::example();
     for (name, f) in [

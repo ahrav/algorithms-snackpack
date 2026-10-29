@@ -5,7 +5,8 @@ A stub `rustc` on PATH writes a Python stand-in for every output binary; a stub
 `taskset` runs the pinned command directly. The stand-in answers the contract and
 demo runs with plain text and the bench runs with the JSON line run.py parses. A
 candidate named in STUB_HANG_CANDIDATE sleeps instead of answering, so the
-runner's process bound is observable.
+runner's process bound is observable; one named in STUB_GARBAGE_CANDIDATE exits 0
+with unparsable stdout.
 Run from anywhere: python3 topics/033-tarjan-strongly-connected-components/measurements/test_run.py
 """
 import json
@@ -43,23 +44,26 @@ if len(sys.argv) != 3:
 workload, candidate = sys.argv[1:]
 if candidate == os.environ.get('STUB_HANG_CANDIDATE'):
     time.sleep(600)
+if candidate == os.environ.get('STUB_GARBAGE_CANDIDATE'):
+    print('not json'); sys.exit(0)
 print(json.dumps({'workload': workload, 'candidate': candidate, 'vertices': 7, 'edges': 8, 'components': 4,
                   'reps': 1, 'ns_total': 1000, 'ns_per_op': 1000.0, 'certified': True}))
 """
 
 
-def run_runner(tmp, extra_env, bound_s):
+def run_runner(tmp, extra_env, bound_s, argv=None):
     bin_dir = pathlib.Path(tmp, "bin")
-    bin_dir.mkdir()
+    bin_dir.mkdir(exist_ok=True)
     for name, body in [("rustc", RUSTC), ("taskset", TASKSET)]:
         tool = bin_dir / name
         tool.write_text(body)
         tool.chmod(0o755)
     env = dict(os.environ, PATH=str(bin_dir) + os.pathsep + os.environ["PATH"], STUB_BINARY=BINARY)
-    env.pop("STUB_HANG_CANDIDATE", None)
+    for name in ["STUB_HANG_CANDIDATE", "STUB_GARBAGE_CANDIDATE"]:
+        env.pop(name, None)
     env.update(extra_env)
     out = pathlib.Path(tmp, "out")
-    process = subprocess.Popen([sys.executable, str(RUNNER), str(out)], env=env, text=True,
+    process = subprocess.Popen([sys.executable, str(RUNNER), *([str(out)] if argv is None else argv)], cwd=tmp, env=env, text=True,
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
     try:
         stdout, stderr = process.communicate(timeout=bound_s)
@@ -89,7 +93,29 @@ class RunTests(unittest.TestCase):
             self.assertEqual(timed_out["timeout_s"], 1.0)
             self.assertEqual((timed_out["phase"], timed_out["block"], timed_out["position"]), ("warmup", -1, 1))
             self.assertGreaterEqual(timed_out["wall_ns"], 1_000_000_000)
-            self.assertNotIn("finished", json.loads((out / "environment.json").read_text()))
+            environment = json.loads((out / "environment.json").read_text())
+            self.assertNotIn("finished", environment)
+            self.assertEqual(len(environment["binary_sha256"]), 64)
+
+    def test_unparsable_success_output_is_retained_and_stops_the_campaign(self):
+        with tempfile.TemporaryDirectory(prefix="topic033-") as tmp:
+            code, output, out = run_runner(tmp, {"STUB_GARBAGE_CANDIDATE": "kosaraju"}, 30)
+            retained = records(out)
+            if code is None:
+                self.fail("run.py did not stop within 30 s")
+            self.assertNotEqual(code, 0, output)
+            self.assertEqual([r["candidate"] for r in retained], ["tarjan", "gabow", "kosaraju"])
+            self.assertEqual((retained[-1]["exit"], retained[-1]["stdout"]), ("unparsed-stdout", "not json\n"))
+
+    def test_flag_argument_is_refused_before_any_output_directory_exists(self):
+        with tempfile.TemporaryDirectory(prefix="topic033-") as tmp:
+            code, output, _ = run_runner(tmp, {}, 30, argv=["--help"])
+            self.assertNotEqual(code, 0)
+            self.assertIn("usage", output)
+            self.assertEqual(sorted(p.name for p in pathlib.Path(tmp).iterdir()), ["bin"])
+            code, output, _ = run_runner(tmp, {}, 30, argv=[])
+            self.assertNotEqual(code, 0)
+            self.assertIn("usage", output)
 
     def test_complete_campaign_retains_every_declared_process(self):
         with tempfile.TemporaryDirectory(prefix="topic033-") as tmp:

@@ -2,9 +2,13 @@
 
 Frozen executable source: `7e1069cf60e56091a404c9816f4d9f33d85776af`.
 Later commits on this branch change only the benchmark's candidate dispatch
-(resolved to one function pointer before the timer starts), `canonical`'s dense-label
-assertion and documentation, the contract tests, the runner's timeout record and
-configurable bound, and the reducer's cross-host source-hash check; every timed SCC
+(resolved to one function pointer before the timer starts), its argument filter
+(Cargo's `--bench` flag is dropped before positional lookup), `canonical`'s
+dense-label assertion, `# Panics` documentation, `certify`'s component-count
+expression, the crate manifest (workspace edition, MSRV and lint inheritance),
+the contract tests, the runner's argument check, timeout and unparsed-output
+records, configurable bound and early `binary_sha256` flush, and the reducer's
+cross-host source-hash, schedule and graph-metadata checks; every timed SCC
 function, the timed loop body's work and the workload generator are the frozen
 commit's. The results below are that commit's. In the frozen binary the candidate
 string match ran inside the timed closure on every repetition (about twelve
@@ -73,8 +77,9 @@ continuations; exact allocation counts and peak RSS remain unmeasured.
 Reproduction: run measurements/run.py with a fresh output directory on each
 host; place each results folder under arm/results and x86/results,then run
 `python3 measurements/analyze.py PARENT summary.json`. The reducer verifies
-counts,certification,order and identical executable-source hashes across hosts and
-reproduces medians,full ranges and decisions. A process that exceeds the runner's
+counts,certification,order,the declared workload list,identical graph metadata
+across a workload's processes and identical executable-source hashes across hosts,
+and reproduces medians,full ranges and decisions. A process that exceeds the runner's
 bound (`TOPIC_033_PROCESS_TIMEOUT_S`,default90 seconds) is retained as an
 `exit: "timeout"` record before the campaign stops. `measurements/test_run.py` and
 `measurements/test_analyze.py` exercise both checks against stub processes.

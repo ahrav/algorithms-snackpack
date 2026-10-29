@@ -34,11 +34,11 @@ def records():
                    'reps': 1, 'ns_total': ns, 'ns_per_op': ns}
 
 
-def write_host(base, host, hashes):
+def write_host(base, host, hashes, recs=None):
     run = pathlib.Path(base, host, 'results')
     run.mkdir(parents=True)
     (run / 'environment.json').write_text(json.dumps({'hostname': host, 'architecture': host, 'source_hashes': hashes}))
-    (run / 'records.jsonl').write_text(''.join(json.dumps(r) + '\n' for r in records()))
+    (run / 'records.jsonl').write_text(''.join(json.dumps(r) + '\n' for r in (recs or records())))
 
 
 def reduce(base):
@@ -58,6 +58,17 @@ class AnalyzeTests(unittest.TestCase):
             self.assertEqual(set(out), {'arm', 'x86'})
             self.assertTrue(all(c['outgoing_only_selection'] == 'tarjan' for h in out.values() for c in h['cells'].values()))
             self.assertEqual(out['arm']['source_hashes'], HASHES)
+
+    def test_inconsistent_graph_metadata_is_rejected(self):
+        with tempfile.TemporaryDirectory(prefix='topic033-') as base:
+            write_host(base, 'arm', HASHES)
+            recs = list(records())
+            recs[-1]['components'] += 1
+            write_host(base, 'x86', HASHES, recs)
+            process, summary = reduce(base)
+            self.assertNotEqual(process.returncode, 0, 'analyze.py summarized a workload whose processes disagree on component count')
+            self.assertIn('graph metadata', process.stderr)
+            self.assertFalse(summary.exists())
 
     def test_mixed_source_campaign_is_rejected(self):
         with tempfile.TemporaryDirectory(prefix='topic033-') as base:

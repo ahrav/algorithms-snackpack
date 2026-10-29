@@ -10,6 +10,8 @@ import sys
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
+if len(sys.argv) != 2 or sys.argv[1].startswith('-'):
+    sys.exit('usage: run.py NEW_OUTPUT_DIR')
 OUT = Path(sys.argv[1]).resolve()
 OUT.mkdir(parents=True, exist_ok=False)
 FILES = ["src/lib.rs", "tests/contracts.rs", "examples/components.rs", "benches/scc.rs", "measurements/run.py"]
@@ -35,6 +37,7 @@ for name, source, extra in [('contracts','tests/contracts.rs',['--test']),('demo
     if name != 'scc':
         (OUT/(name+'.txt')).write_text(call([str(OUT/name)]).stdout)
 env['binary_sha256'] = sha(OUT/'scc')
+(OUT/'environment.json').write_text(json.dumps(env, indent=2))
 try:
     (OUT/'disassembly.txt').write_text(call(['objdump','-Cd',str(OUT/'scc')]).stdout)
 except (FileNotFoundError, subprocess.CalledProcessError) as e:
@@ -47,9 +50,12 @@ with (OUT/'records.jsonl').open('w') as log:
         record = {'workload':w,'candidate':c,'phase':phase,'block':block,'position':position,'timeout_s':TIMEOUT}
         try:
             p = subprocess.run(['taskset','-c',str(cpu),str(OUT/'scc'),w,c],text=True,capture_output=True,timeout=TIMEOUT)
-            record.update(exit=p.returncode, stderr=p.stderr)
-            if p.returncode == 0: record.update(json.loads(p.stdout))
-            else: record['stdout'] = p.stdout
+            record.update(exit=p.returncode, stderr=p.stderr, stdout=p.stdout)
+            if p.returncode == 0:
+                try:
+                    record.update(json.loads(p.stdout))
+                except ValueError:
+                    record['exit'] = 'unparsed-stdout'
         except subprocess.TimeoutExpired as expired:
             record.update(exit='timeout', stdout=str(expired.stdout), stderr=str(expired.stderr))
         record['wall_ns'] = time.monotonic_ns()-before

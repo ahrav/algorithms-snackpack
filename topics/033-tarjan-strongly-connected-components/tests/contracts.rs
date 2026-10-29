@@ -1,12 +1,25 @@
-use topic033::{Graph, canonical, certify, example, gabow, kosaraju, oracle, tarjan};
+//! Exhaustive small-graph agreement, regressions, certificates and edit checks.
+use topic033::{
+    Graph, canonical, certify, example, gabow, kosaraju, kosaraju_prepared, oracle, tarjan,
+    transpose,
+};
 
 fn check(g: &Graph) {
     let expected = oracle(g);
-    for f in [tarjan, kosaraju, gabow] {
-        let id = f(g);
+    let reverse = transpose(g);
+    for id in [
+        tarjan(g),
+        kosaraju(g),
+        gabow(g),
+        kosaraju_prepared(g, &reverse),
+    ] {
         assert_eq!(canonical(&id), expected, "graph={g:?}");
         assert!(certify(g, &id));
     }
+}
+
+fn panics(f: impl FnOnce() + std::panic::UnwindSafe) -> bool {
+    std::panic::catch_unwind(f).is_err()
 }
 
 #[test]
@@ -44,6 +57,7 @@ fn certificate_rejects_splits_merges_and_malformed_labels() {
     assert!(!certify(&g, &[0, 0]));
     assert!(!certify(&g, &[0, 0, 0, 3, 3, 5, 6]));
     assert!(!certify(&g, &[99; 7]));
+    assert!(!certify(&g, &[0, 1, 2, 3, 4, 5, 0]));
 }
 
 #[test]
@@ -70,6 +84,7 @@ fn graph_edit_rebuild_changes_partition() {
     let mut g = example();
     check(&g);
     g[6].push(1);
+    check(&g);
     for f in [tarjan, kosaraju, gabow] {
         assert_eq!(canonical(&f(&g)), vec![0; 7]);
     }
@@ -83,6 +98,24 @@ fn graph_edit_rebuild_changes_partition() {
 #[should_panic(expected = "valid(g)")]
 fn invalid_destination_rejected() {
     let _ = tarjan(&vec![vec![1]]);
+}
+
+#[test]
+fn every_entry_rejects_invalid_destinations_and_mismatched_transposes() {
+    let bad: Graph = vec![vec![1]];
+    let g = example();
+    let reverse = transpose(&g);
+    assert!(panics(|| drop(kosaraju(&bad))));
+    assert!(panics(|| drop(gabow(&bad))));
+    assert!(panics(|| drop(oracle(&bad))));
+    assert!(panics(|| drop(transpose(&bad))));
+    assert!(panics(|| drop(kosaraju_prepared(&bad, &bad))));
+    assert!(panics(|| drop(kosaraju_prepared(&g, &bad))));
+    assert!(panics(|| drop(kosaraju_prepared(
+        &g,
+        &reverse[..6].to_vec()
+    ))));
+    assert_eq!(kosaraju_prepared(&g, &reverse), kosaraju(&g));
 }
 
 #[test]

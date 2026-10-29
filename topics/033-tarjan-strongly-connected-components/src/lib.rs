@@ -13,6 +13,8 @@ pub fn valid(g: &Graph) -> bool {
 }
 
 /// Reverse every edge, retaining loops and duplicates.
+/// # Panics
+/// Panics for an invalid destination.
 #[must_use]
 pub fn transpose(g: &Graph) -> Graph {
     assert!(valid(g));
@@ -207,6 +209,8 @@ pub fn gabow(g: &Graph) -> Vec<usize> {
 
 /// Independent small-graph oracle using repeated breadth-first reachability.
 /// Labels are the minimum vertex in each mutual-reachability class.
+/// # Panics
+/// Panics for an invalid destination.
 #[must_use]
 pub fn oracle(g: &Graph) -> Vec<usize> {
     assert!(valid(g));
@@ -259,7 +263,7 @@ pub fn certify(g: &Graph, id: &[usize]) -> bool {
     if n == 0 {
         return true;
     }
-    let k = *id.iter().max().unwrap() + 1;
+    let k = id.iter().max().map_or(0, |&c| c + 1);
     let mut groups = vec![Vec::new(); k];
     for (v, &c) in id.iter().enumerate() {
         groups[c].push(v);
