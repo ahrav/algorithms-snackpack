@@ -1,0 +1,18 @@
+[package]
+name = "topic034"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.93"
+[workspace]
+[lib]
+path = "../../src/lib.rs"
+[[test]]
+name = "contracts"
+path = "../../tests/contracts.rs"
+[[example]]
+name = "demo"
+path = "../../examples/demo.rs"
+[[bench]]
+name = "dominators"
+path = "../../benches/dominators.rs"
+harness = false
