@@ -1,0 +1,1047 @@
+{
+  "verified": true,
+  "source": {
+    "Cargo.toml": "3904fd371754c52a0aa6b2344165d89350a0f805e0838b4ed0ce6880a8a63067",
+    "measurements/portable/Cargo.toml": "5ab62d40ba3686946150d9cee27a84f1d298e7a2423852e4d390e9cda5628110",
+    "measurements/portable/Cargo.lock": "f39b9b5f24312e88f255dd016ec7bc9bf9ff83450fecd8ecef14329338437093",
+    "src/lib.rs": "24208350f7d81edba596a09c9b02d21e20628a4e846e9a330a22b164e4da6a1c",
+    "tests/contracts.rs": "1a6ebe4d46e7fea9ae94aa9c02a0d0f26592b2ae399cdc6d733293b3606ce734",
+    "examples/demo.rs": "9e350cc560314c0265860bbe250101a98bc1ec79c5e74f22053f746626fb97c6",
+    "benches/dominators.rs": "1dbdbc7d4798e5eb50c2d201452c264d753ed22a81c6dc1fe3b163127569d7a2",
+    "measurements/run.py": "57e19c91f8a3ddf5fe4646e79c409b7464071bfd60a75eb00c38172b9d5fcfbd"
+  },
+  "hosts": {
+    "arm": {
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+      "cpu": 32,
+      "binary_sha256": "7d85cda4f21847e6f981f6bfe32342dc21eadf304614510d4ae5721c95fa26d0",
+      "cells": [
+        {
+          "shape": "tiny",
+          "n": 7,
+          "m": 6,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 0.8880715,
+              "range_us": [
+                0.880455,
+                0.9084439999999999
+              ]
+            },
+            "chk": {
+              "median_us": 0.5992109999999999,
+              "range_us": [
+                0.595223,
+                0.6080270000000001
+              ]
+            },
+            "control": {
+              "median_us": 0.602398,
+              "range_us": [
+                0.595682,
+                0.616388
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 12,
+              "edges": 12,
+              "steps": 12
+            },
+            "chk": {
+              "visits": 12,
+              "edges": 12,
+              "steps": 0
+            },
+            "control": {
+              "visits": 12,
+              "edges": 12,
+              "steps": 0
+            }
+          },
+          "AA_ratio_range": [
+            0.9786326964465101,
+            1.0207241447618025
+          ]
+        },
+        {
+          "shape": "chain",
+          "n": 512,
+          "m": 511,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 339.270625,
+              "range_us": [
+                337.31325,
+                363.671625
+              ]
+            },
+            "chk": {
+              "median_us": 29.445781250000003,
+              "range_us": [
+                29.1211875,
+                29.99925
+              ]
+            },
+            "control": {
+              "median_us": 29.542749999999998,
+              "range_us": [
+                29.380625,
+                29.9740625
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 1022,
+              "edges": 1022,
+              "steps": 8176
+            },
+            "chk": {
+              "visits": 1022,
+              "edges": 1022,
+              "steps": 0
+            },
+            "control": {
+              "visits": 1022,
+              "edges": 1022,
+              "steps": 0
+            }
+          },
+          "AA_ratio_range": [
+            0.984613780664533,
+            1.0073602927099068
+          ]
+        },
+        {
+          "shape": "permuted",
+          "n": 256,
+          "m": 255,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 1918.2745,
+              "range_us": [
+                1912.657,
+                1923.931
+              ]
+            },
+            "chk": {
+              "median_us": 16.5075,
+              "range_us": [
+                16.2975,
+                19.6675
+              ]
+            },
+            "control": {
+              "median_us": 16.43,
+              "range_us": [
+                16.047,
+                16.675
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 65025,
+              "edges": 65025,
+              "steps": 260100
+            },
+            "chk": {
+              "visits": 510,
+              "edges": 510,
+              "steps": 0
+            },
+            "control": {
+              "visits": 510,
+              "edges": 510,
+              "steps": 0
+            }
+          },
+          "AA_ratio_range": [
+            0.9927415696355665,
+            1.1794602698650674
+          ]
+        },
+        {
+          "shape": "joins",
+          "n": 512,
+          "m": 1020,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 295.62715625,
+              "range_us": [
+                294.7796875,
+                296.43175
+              ]
+            },
+            "chk": {
+              "median_us": 36.12371875,
+              "range_us": [
+                35.6070625,
+                36.3576875
+              ]
+            },
+            "control": {
+              "median_us": 35.754125,
+              "range_us": [
+                35.52725,
+                44.5600625
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 1022,
+              "edges": 2040,
+              "steps": 16320
+            },
+            "chk": {
+              "visits": 1022,
+              "edges": 2040,
+              "steps": 2038
+            },
+            "control": {
+              "visits": 1022,
+              "edges": 2040,
+              "steps": 2038
+            }
+          },
+          "AA_ratio_range": [
+            0.8109700250083806,
+            1.019584645665841
+          ]
+        },
+        {
+          "shape": "cycle",
+          "n": 512,
+          "m": 1022,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 343.83837500000004,
+              "range_us": [
+                340.5520625,
+                353.54175
+              ]
+            },
+            "chk": {
+              "median_us": 33.7390625,
+              "range_us": [
+                33.4395,
+                34.7278125
+              ]
+            },
+            "control": {
+              "median_us": 33.38775,
+              "range_us": [
+                33.237375,
+                34.67125
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 1022,
+              "edges": 2040,
+              "steps": 16320
+            },
+            "chk": {
+              "visits": 1022,
+              "edges": 1531,
+              "steps": 1527
+            },
+            "control": {
+              "visits": 1022,
+              "edges": 1531,
+              "steps": 1527
+            }
+          },
+          "AA_ratio_range": [
+            0.9644734470202257,
+            1.0434824250550714
+          ]
+        },
+        {
+          "shape": "dense",
+          "n": 128,
+          "m": 2468,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 83.78525,
+              "range_us": [
+                82.364625,
+                84.36675
+              ]
+            },
+            "chk": {
+              "median_us": 56.38084375,
+              "range_us": [
+                55.3040625,
+                67.7154375
+              ]
+            },
+            "control": {
+              "median_us": 55.50140625,
+              "range_us": [
+                54.9121875,
+                57.0801875
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 381,
+              "edges": 7347,
+              "steps": 14694
+            },
+            "chk": {
+              "visits": 381,
+              "edges": 6186,
+              "steps": 6281
+            },
+            "control": {
+              "visits": 381,
+              "edges": 6186,
+              "steps": 6281
+            }
+          },
+          "AA_ratio_range": [
+            0.9903835548985159,
+            1.2188228756177377
+          ]
+        },
+        {
+          "shape": "unreachable",
+          "n": 512,
+          "m": 510,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 179.60387500000002,
+              "range_us": [
+                179.232625,
+                180.481625
+              ]
+            },
+            "chk": {
+              "median_us": 25.24084375,
+              "range_us": [
+                25.114625,
+                25.495375
+              ]
+            },
+            "control": {
+              "median_us": 25.155250000000002,
+              "range_us": [
+                24.9175625,
+                45.8009375
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 510,
+              "edges": 510,
+              "steps": 4080
+            },
+            "chk": {
+              "visits": 510,
+              "edges": 510,
+              "steps": 0
+            },
+            "control": {
+              "visits": 510,
+              "edges": 510,
+              "steps": 0
+            }
+          },
+          "AA_ratio_range": [
+            0.5483430333713147,
+            1.0145580050215586
+          ]
+        },
+        {
+          "shape": "noop",
+          "n": 512,
+          "m": 511,
+          "dynamic": true,
+          "winner": "incremental",
+          "median_leader": "incremental",
+          "candidates": {
+            "rebuild": {
+              "median_us": 903.954875,
+              "range_us": [
+                900.02075,
+                906.5785
+              ]
+            },
+            "incremental": {
+              "median_us": 490.073,
+              "range_us": [
+                488.64,
+                510.93325
+              ]
+            },
+            "rebuild-tree": {
+              "median_us": 3281.465,
+              "range_us": [
+                3261.58475,
+                3331.70325
+              ]
+            }
+          },
+          "counters": {
+            "rebuild": {
+              "visits": 8176,
+              "edges": 8248,
+              "steps": 65984
+            },
+            "incremental": {
+              "visits": 8,
+              "edges": 44,
+              "steps": 352
+            },
+            "rebuild-tree": {
+              "visits": 8176,
+              "edges": 8212,
+              "steps": 36
+            }
+          }
+        },
+        {
+          "shape": "bypass",
+          "n": 512,
+          "m": 511,
+          "dynamic": true,
+          "winner": "incremental",
+          "median_leader": "incremental",
+          "candidates": {
+            "rebuild": {
+              "median_us": 877.2128749999999,
+              "range_us": [
+                874.19975,
+                877.96825
+              ]
+            },
+            "incremental": {
+              "median_us": 540.6726249999999,
+              "range_us": [
+                538.16775,
+                542.40625
+              ]
+            },
+            "rebuild-tree": {
+              "median_us": 1941.870125,
+              "range_us": [
+                1927.045,
+                1970.62725
+              ]
+            }
+          },
+          "counters": {
+            "rebuild": {
+              "visits": 8176,
+              "edges": 8248,
+              "steps": 65984
+            },
+            "incremental": {
+              "visits": 2020,
+              "edges": 2028,
+              "steps": 16224
+            },
+            "rebuild-tree": {
+              "visits": 8176,
+              "edges": 8248,
+              "steps": 4136
+            }
+          }
+        },
+        {
+          "shape": "newreach",
+          "n": 512,
+          "m": 510,
+          "dynamic": true,
+          "winner": "incremental",
+          "median_leader": "incremental",
+          "candidates": {
+            "rebuild": {
+              "median_us": 877.411625,
+              "range_us": [
+                875.6805,
+                896.78275
+              ]
+            },
+            "incremental": {
+              "median_us": 523.214375,
+              "range_us": [
+                521.202,
+                530.23125
+              ]
+            },
+            "rebuild-tree": {
+              "median_us": 1944.710875,
+              "range_us": [
+                1929.912,
+                1959.943
+              ]
+            }
+          },
+          "counters": {
+            "rebuild": {
+              "visits": 8176,
+              "edges": 8232,
+              "steps": 65856
+            },
+            "incremental": {
+              "visits": 1029,
+              "edges": 1057,
+              "steps": 8456
+            },
+            "rebuild-tree": {
+              "visits": 8176,
+              "edges": 8232,
+              "steps": 0
+            }
+          }
+        }
+      ]
+    },
+    "x86": {
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+      "cpu": 96,
+      "binary_sha256": "33b86ab64989789a6dab8d9610c0ec9066ccb835adcf1d266cc55e361008e983",
+      "cells": [
+        {
+          "shape": "tiny",
+          "n": 7,
+          "m": 6,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 0.6595395,
+              "range_us": [
+                0.633612,
+                0.682542
+              ]
+            },
+            "chk": {
+              "median_us": 0.3940065,
+              "range_us": [
+                0.38964800000000005,
+                0.441375
+              ]
+            },
+            "control": {
+              "median_us": 0.395,
+              "range_us": [
+                0.386418,
+                0.402584
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 12,
+              "edges": 12,
+              "steps": 12
+            },
+            "chk": {
+              "visits": 12,
+              "edges": 12,
+              "steps": 0
+            },
+            "control": {
+              "visits": 12,
+              "edges": 12,
+              "steps": 0
+            }
+          },
+          "AA_ratio_range": [
+            0.984474207477141,
+            1.0963550464002545
+          ]
+        },
+        {
+          "shape": "chain",
+          "n": 512,
+          "m": 511,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 423.02318749999995,
+              "range_us": [
+                421.539625,
+                507.9438125
+              ]
+            },
+            "chk": {
+              "median_us": 23.35909375,
+              "range_us": [
+                23.0519375,
+                23.839125
+              ]
+            },
+            "control": {
+              "median_us": 23.292,
+              "range_us": [
+                23.09125,
+                35.5158125
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 1022,
+              "edges": 1022,
+              "steps": 8176
+            },
+            "chk": {
+              "visits": 1022,
+              "edges": 1022,
+              "steps": 0
+            },
+            "control": {
+              "visits": 1022,
+              "edges": 1022,
+              "steps": 0
+            }
+          },
+          "AA_ratio_range": [
+            0.6490612456071503,
+            1.0265135907400376
+          ]
+        },
+        {
+          "shape": "permuted",
+          "n": 256,
+          "m": 255,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 1797.9502499999999,
+              "range_us": [
+                1788.2845,
+                2220.434
+              ]
+            },
+            "chk": {
+              "median_us": 14.07275,
+              "range_us": [
+                13.5675,
+                20.04
+              ]
+            },
+            "control": {
+              "median_us": 14.085,
+              "range_us": [
+                13.792,
+                16.151
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 65025,
+              "edges": 65025,
+              "steps": 260100
+            },
+            "chk": {
+              "visits": 510,
+              "edges": 510,
+              "steps": 0
+            },
+            "control": {
+              "visits": 510,
+              "edges": 510,
+              "steps": 0
+            }
+          },
+          "AA_ratio_range": [
+            0.9267818930041152,
+            1.2407900439601263
+          ]
+        },
+        {
+          "shape": "joins",
+          "n": 512,
+          "m": 1020,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 322.34771875,
+              "range_us": [
+                320.0111875,
+                373.52475
+              ]
+            },
+            "chk": {
+              "median_us": 29.3419375,
+              "range_us": [
+                28.5686875,
+                31.0764375
+              ]
+            },
+            "control": {
+              "median_us": 29.412468750000002,
+              "range_us": [
+                28.712,
+                31.9838125
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 1022,
+              "edges": 2040,
+              "steps": 16320
+            },
+            "chk": {
+              "visits": 1022,
+              "edges": 2040,
+              "steps": 2038
+            },
+            "control": {
+              "visits": 1022,
+              "edges": 2040,
+              "steps": 2038
+            }
+          },
+          "AA_ratio_range": [
+            0.9276391768492265,
+            1.0742420796100731
+          ]
+        },
+        {
+          "shape": "cycle",
+          "n": 512,
+          "m": 1022,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 426.8421875,
+              "range_us": [
+                424.4598125,
+                427.3430625
+              ]
+            },
+            "chk": {
+              "median_us": 27.35475,
+              "range_us": [
+                27.2771875,
+                42.509125
+              ]
+            },
+            "control": {
+              "median_us": 27.572000000000003,
+              "range_us": [
+                27.1723125,
+                28.1368125
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 1022,
+              "edges": 2040,
+              "steps": 16320
+            },
+            "chk": {
+              "visits": 1022,
+              "edges": 1531,
+              "steps": 1527
+            },
+            "control": {
+              "visits": 1022,
+              "edges": 1531,
+              "steps": 1527
+            }
+          },
+          "AA_ratio_range": [
+            0.9835154929577464,
+            1.5108010191275218
+          ]
+        },
+        {
+          "shape": "dense",
+          "n": 128,
+          "m": 2468,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 74.9615,
+              "range_us": [
+                74.4404375,
+                115.8491875
+              ]
+            },
+            "chk": {
+              "median_us": 46.9425,
+              "range_us": [
+                46.6346875,
+                47.9391875
+              ]
+            },
+            "control": {
+              "median_us": 47.1218125,
+              "range_us": [
+                46.4348125,
+                63.7589375
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 381,
+              "edges": 7347,
+              "steps": 14694
+            },
+            "chk": {
+              "visits": 381,
+              "edges": 6186,
+              "steps": 6281
+            },
+            "control": {
+              "visits": 381,
+              "edges": 6186,
+              "steps": 6281
+            }
+          },
+          "AA_ratio_range": [
+            0.735547859466761,
+            1.0263661094332706
+          ]
+        },
+        {
+          "shape": "unreachable",
+          "n": 512,
+          "m": 510,
+          "dynamic": false,
+          "winner": "chk",
+          "median_leader": "chk",
+          "candidates": {
+            "sets": {
+              "median_us": 203.15015625,
+              "range_us": [
+                201.659625,
+                205.94025
+              ]
+            },
+            "chk": {
+              "median_us": 19.4918125,
+              "range_us": [
+                19.0015,
+                29.2163125
+              ]
+            },
+            "control": {
+              "median_us": 19.9501875,
+              "range_us": [
+                19.196,
+                28.940375
+              ]
+            }
+          },
+          "counters": {
+            "sets": {
+              "visits": 510,
+              "edges": 510,
+              "steps": 4080
+            },
+            "chk": {
+              "visits": 510,
+              "edges": 510,
+              "steps": 0
+            },
+            "control": {
+              "visits": 510,
+              "edges": 510,
+              "steps": 0
+            }
+          },
+          "AA_ratio_range": [
+            0.6656336519481866,
+            1.3990811684424758
+          ]
+        },
+        {
+          "shape": "noop",
+          "n": 512,
+          "m": 511,
+          "dynamic": true,
+          "winner": "incremental",
+          "median_leader": "incremental",
+          "candidates": {
+            "rebuild": {
+              "median_us": 890.89425,
+              "range_us": [
+                886.745,
+                897.21875
+              ]
+            },
+            "incremental": {
+              "median_us": 534.87525,
+              "range_us": [
+                532.8145,
+                552.289
+              ]
+            },
+            "rebuild-tree": {
+              "median_us": 3412.3205,
+              "range_us": [
+                3398.0785,
+                3536.1575
+              ]
+            }
+          },
+          "counters": {
+            "rebuild": {
+              "visits": 8176,
+              "edges": 8248,
+              "steps": 65984
+            },
+            "incremental": {
+              "visits": 8,
+              "edges": 44,
+              "steps": 352
+            },
+            "rebuild-tree": {
+              "visits": 8176,
+              "edges": 8212,
+              "steps": 36
+            }
+          }
+        },
+        {
+          "shape": "bypass",
+          "n": 512,
+          "m": 511,
+          "dynamic": true,
+          "winner": "incremental",
+          "median_leader": "incremental",
+          "candidates": {
+            "rebuild": {
+              "median_us": 829.99,
+              "range_us": [
+                827.32025,
+                1006.14725
+              ]
+            },
+            "incremental": {
+              "median_us": 557.7707499999999,
+              "range_us": [
+                554.783,
+                682.552
+              ]
+            },
+            "rebuild-tree": {
+              "median_us": 2009.934125,
+              "range_us": [
+                2007.0705,
+                2139.21375
+              ]
+            }
+          },
+          "counters": {
+            "rebuild": {
+              "visits": 8176,
+              "edges": 8248,
+              "steps": 65984
+            },
+            "incremental": {
+              "visits": 2020,
+              "edges": 2028,
+              "steps": 16224
+            },
+            "rebuild-tree": {
+              "visits": 8176,
+              "edges": 8248,
+              "steps": 4136
+            }
+          }
+        },
+        {
+          "shape": "newreach",
+          "n": 512,
+          "m": 510,
+          "dynamic": true,
+          "winner": "incremental",
+          "median_leader": "incremental",
+          "candidates": {
+            "rebuild": {
+              "median_us": 892.346375,
+              "range_us": [
+                823.8045,
+                1067.709
+              ]
+            },
+            "incremental": {
+              "median_us": 538.09025,
+              "range_us": [
+                532.19075,
+                555.21225
+              ]
+            },
+            "rebuild-tree": {
+              "median_us": 2012.8315,
+              "range_us": [
+                2007.17025,
+                2200.70175
+              ]
+            }
+          },
+          "counters": {
+            "rebuild": {
+              "visits": 8176,
+              "edges": 8232,
+              "steps": 65856
+            },
+            "incremental": {
+              "visits": 1029,
+              "edges": 1057,
+              "steps": 8456
+            },
+            "rebuild-tree": {
+              "visits": 8176,
+              "edges": 8232,
+              "steps": 0
+            }
+          }
+        }
+      ]
+    }
+  }
+}

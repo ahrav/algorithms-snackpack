@@ -30,3 +30,4 @@ jobs:
           python3 measurements/test_run.py
           python3 measurements/test_analyze.py
         working-directory: topics/033-tarjan-strongly-connected-components
+      - run: python3 topics/034-dominator-trees/measurements/test_run.py

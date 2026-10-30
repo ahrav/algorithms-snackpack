@@ -1,0 +1,38 @@
+{
+  "source_commit": "1c247acb7da3e18c625a58301bee1143e6e97b76",
+  "repository_commit": "dc733f2175e19d619b5743455b854f6dfb757b2f",
+  "run_ids": [
+    "topic034-final-20261030-arm",
+    "topic034-final-20261030-x86"
+  ],
+  "receipts": [
+    {
+      "host": "arm",
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-034/20261030/final-arm.tar.gz",
+      "archive_sha256": "6021fd829c505144fb258dddfad6f5c15def15677315cddb39ade100a1cd6d81",
+      "size": 899455,
+      "member_count": 24,
+      "source_commit": "1c247acb7da3e18c625a58301bee1143e6e97b76",
+      "manifest_sha256": "7195ff117310d515c4ad4a48e59cc34f080b5690a9dcbc4119de6d7a456a1bb9",
+      "binary_sha256": "7d85cda4f21847e6f981f6bfe32342dc21eadf304614510d4ae5721c95fa26d0",
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "verified": true
+    },
+    {
+      "host": "x86",
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-034/20261030/final-x86.tar.gz",
+      "archive_sha256": "73c0f7f4f571c1a94cad3725585be6ec9ba047823ad08f798cb2f55fc06baf98",
+      "size": 1008699,
+      "member_count": 24,
+      "source_commit": "1c247acb7da3e18c625a58301bee1143e6e97b76",
+      "manifest_sha256": "7195ff117310d515c4ad4a48e59cc34f080b5690a9dcbc4119de6d7a456a1bb9",
+      "binary_sha256": "33b86ab64989789a6dab8d9610c0ec9066ccb835adcf1d266cc55e361008e983",
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "verified": true
+    }
+  ],
+  "earlier_campaigns": "Initial scratch and committed8a5e815 campaigns retained separately beside these archives; never pooled.",
+  "verified": true
+}
