@@ -206,7 +206,10 @@ pub fn chk(g: &Graph, root: usize) -> (Vec<Option<usize>>, Work) {
 /// Panics for invalid edge endpoints or an incompatible cached set shape.
 #[allow(clippy::many_single_char_names)]
 pub fn insert(g: &mut Graph, root: usize, d: &mut Sets, u: usize, v: usize) -> Work {
-    assert!(u < g.len() && v < g.len(), "edge endpoint outside the graph");
+    assert!(
+        u < g.len() && v < g.len(),
+        "edge endpoint outside the graph"
+    );
     let seen = reachable(g, root);
     g[u].push(v);
     if !seen[u] {

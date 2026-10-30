@@ -14,7 +14,10 @@ def call(args):
 checks={}
 for name,args in [('tests',['cargo','test']),('example',['cargo','run','--example','demo']),('build',['cargo','build','--release','--benches','--message-format=json-render-diagnostics'])]:
  checks[name]=call(args);(out/'checks.json').write_text(json.dumps(checks,indent=2));assert checks[name]['code']==0,checks[name]
-artifacts=[json.loads(line) for line in checks['build']['out'].splitlines() if line.startswith('{')]
+try:
+ artifacts=[json.loads(line) for line in checks['build']['out'].splitlines() if line.startswith('{')]
+except json.JSONDecodeError as e:
+ sys.exit(f'unparsable cargo message stream: {e}')
 [binary]=[pathlib.Path(a['executable']) for a in artifacts if a.get('reason')=='compiler-artifact' and a['target']['name']=='dominators' and a['target']['kind']==['bench']]
 cpus=sorted(os.sched_getaffinity(0));cpu=cpus[len(cpus)//2]
 info={'hostname':platform.node(),'arch':platform.machine(),'uname':list(platform.uname()),'available_cpus':cpus,'pinned_cpu':cpu,'rustflags':env['RUSTFLAGS'],'rustc':call(['rustc','-vV']),'target_features':call(['rustc','--print','cfg','-C','target-cpu=native']),'cpuinfo':pathlib.Path('/proc/cpuinfo').read_text(),'lscpu':call(['lscpu']),'binary_sha256':hashlib.sha256(binary.read_bytes()).hexdigest()}
