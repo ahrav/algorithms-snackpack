@@ -60,3 +60,18 @@ fn update_sequence_and_deletion_requires_reset() {
     assert_ne!(stale, fresh);
     check(&h, 0);
 }
+#[test]
+fn insert_rejects_invalid_endpoints_before_mutating() {
+    let mut g: Graph = vec![vec![1], vec![], vec![]];
+    let before = g.clone();
+    let mut d = bitsets(&g, 0).0;
+    let sets = d.clone();
+    for (u, v) in [(2, 3), (0, 3), (3, 0)] {
+        let r = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            insert(&mut g, 0, &mut d, u, v);
+        }));
+        assert!(r.is_err(), "insert({u}, {v}) must panic");
+        assert_eq!(g, before, "insert({u}, {v}) mutated the graph");
+        assert_eq!(d, sets, "insert({u}, {v}) mutated the sets");
+    }
+}
