@@ -14,7 +14,7 @@ impl Dag {
     /// Returns `endpoint` or `cycle` for invalid input.
     pub fn new(edges: Vec<Vec<usize>>) -> Result<Self, &'static str> {
         let n = edges.len();
-        let mut degree = vec![0; n];
+        let mut degree = vec![0_usize; n];
         for row in &edges {
             for &v in row {
                 if v >= n {
@@ -149,6 +149,9 @@ impl Intervals {
         Self { labels }
     }
     /// Necessary containment condition. A passing condition requires exact search.
+    ///
+    /// # Panics
+    /// Panics for endpoints outside the indexed graph.
     #[must_use]
     pub fn may_reach(&self, u: usize, v: usize) -> bool {
         self.labels
@@ -168,9 +171,14 @@ impl Intervals {
 /// Exact traversal with topological rejection and optional interval pruning.
 ///
 /// # Panics
-/// Panics for endpoints outside the graph or scratch belonging to another size.
+/// Panics for endpoints outside the graph, or scratch or filter built for another size.
 pub fn search(g: &Dag, s: &mut Scratch, u: usize, v: usize, filter: Option<&Intervals>) -> bool {
-    assert!(u < g.len() && v < g.len() && s.seen.len() == g.len());
+    assert!(
+        u < g.len()
+            && v < g.len()
+            && s.seen.len() == g.len()
+            && filter.is_none_or(|f| f.labels[0].len() == g.len())
+    );
     if u == v {
         return true;
     }

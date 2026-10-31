@@ -22,7 +22,9 @@ fn main() {
         }
     }
     println!(
-        "36 query pairs agree; 0->5=true; 1->4=false; closure={} bytes; intervals={} bytes; empty={}",
+        "36 query pairs agree; 0->5={}; 1->4={}; closure={} bytes; intervals={} bytes; empty={}",
+        c.reaches(0, 5),
+        c.reaches(1, 4),
         c.bytes(),
         f.bytes(),
         g.is_empty()

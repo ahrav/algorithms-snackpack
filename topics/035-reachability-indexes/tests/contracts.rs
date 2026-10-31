@@ -60,8 +60,13 @@ fn boundaries_cross_edges_duplicates_and_deep_chain() {
         vec![],
         vec![],
     ]);
-    // An interval can contain an unreachable vertex: passing is only a filter.
+    // Disconnected vertex.
     compare(vec![vec![1, 3], vec![], vec![], vec![]]);
+    // Pair (2, 3) is an interval-filter false positive.
+    let edges = vec![vec![4], vec![3], vec![4], vec![], vec![]];
+    let g = Dag::new(edges.clone()).unwrap();
+    assert!(Intervals::new(&g).may_reach(2, 3) && !g.oracle(2)[3]);
+    compare(edges);
     for n in [63, 64, 65, 129] {
         compare(
             (0..n)
@@ -79,6 +84,8 @@ fn boundaries_cross_edges_duplicates_and_deep_chain() {
     let f = Intervals::new(&g);
     let mut s = Scratch::new(n);
     assert!(search(&g, &mut s, 0, n - 1, Some(&f)));
+    assert!(search(&g, &mut s, 0, n - 1, None));
+    assert!(!search(&g, &mut s, n - 1, 0, Some(&f)));
 }
 
 #[test]
@@ -89,4 +96,19 @@ fn invalid_graph_and_budget_are_explicit() {
     let g = Dag::new(vec![vec![1], vec![]]).unwrap();
     assert_eq!(Closure::new(&g, 15).err(), Some("budget"));
     assert_eq!(Closure::new(&g, 16).unwrap().bytes(), 16);
+}
+
+#[test]
+#[should_panic(expected = "assertion failed")]
+fn filter_built_for_another_graph_is_rejected() {
+    let g = Dag::new(vec![vec![1], vec![]]).unwrap();
+    let f = Intervals::new(&Dag::new(vec![vec![], vec![], vec![]]).unwrap());
+    search(&g, &mut Scratch::new(g.len()), 0, 1, Some(&f));
+}
+
+#[test]
+#[ignore = "allocates a 16 GiB edge row"]
+fn indegree_counter_accepts_two_to_the_thirty_one_duplicate_edges() {
+    let g = Dag::new(vec![vec![1; 1 << 31], vec![]]).unwrap();
+    assert_eq!(g.len(), 2);
 }

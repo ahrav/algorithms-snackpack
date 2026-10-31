@@ -2,6 +2,13 @@
 
 Frozen executable commit: `86d74b91200b57e9e1e711a9127b29e4b2a392f7`.
 Both source archives hash to `6076d9a3e7d547de11ff914ff9cc2378a2752c185ef7e6c294a78c7a206bdf0f`.
+Later commits on this branch change the benchmark's argument handling and its untimed
+warmup (per-query oracle comparison instead of a true count), add one filter-size
+comparison to `search`'s entry assertion (inside the timed query path; its cost was not
+re-measured), type the indegree counter as `usize` in untimed construction, and change
+the tests, example formatting, runner guards and documentation. Every timed algorithm
+body, the generator and the measured boundaries are the frozen commit's; the results
+below are that commit's.
 Each host completed 138 processes, all oracle checks, three contract groups and the example.
 Warm batches have 1024 queries except few (8). Durations below are microseconds per batch.
 
@@ -34,11 +41,16 @@ state, allocation slack and peak RSS are outside those index-payload figures.
 Cold first-touch queries, update algorithms, compressed/chain/2-hop indexes and
 production-size memory behavior remain unmeasured. Graph generation/validation,
 oracle and startup are excluded. No cross-host hardware-cause claim.
-Disassembly was retained and symbols inspected; whole-process counters would include
-oracle work and are unsuitable for candidate-only causal attribution.
+Disassembly was retained and symbols inspected outside `run.py`; whole-process counters would
+include oracle work and are unsuitable for candidate-only causal attribution.
+The frozen runner recorded the first 32 `lscpu` lines, which truncates the x86 field in
+summary.json; the current runner records the full output.
 
 Reproduce from repository root:
 ```sh
 python3 topics/035-reachability-indexes/scripts/run.py /tmp/topic035-fresh
 ```
+The runner writes environment.json, the built binaries, tests.txt, example.txt and
+samples.jsonl. The tables above and summary.json were reduced from both hosts'
+samples.jsonl outside the repository.
 See BENCHMARK.md for exact boundaries, generator and ordering.

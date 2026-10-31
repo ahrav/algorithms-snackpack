@@ -9,6 +9,9 @@ Seven cells: tiny n32, sparse n512, dense n512, chain n4096, disconnected-chain
 negative n4096, few-query chain n4096, and large-sparse n4096. Probabilities
 are 1/64 for tiny/sparse, 1/4 dense, 1/1024 large-sparse.
 Each batch has 1024 deterministic endpoint pairs, except few has 8.
+Pairs are (37i mod n, 71i+3 mod n), so endpoints differ in parity and no batch asks
+a reflexive query; tiny repeats 32 distinct negative pairs 32 times, sparse and
+dense repeat 512 pairs twice, and few asks eight forward pairs within distance 241.
 Negative has two chains and only forward cross-component queries.
 Graph IDs follow topological order in this campaign; reversed IDs are tested.
 
@@ -18,6 +21,8 @@ appears in either order three times. Fixed stopping: six blocks, no exclusions.
 Within each process, one checked warmup batch precedes eight measured batches.
 Those eight repetitions produce one mean and are subsamples, not independent runs.
 An identical-code DFS control uses AB/BA order in alternating blocks on sparse.
+Control records carry position -1 and candidate dfs or dfs-control; even blocks run
+dfs first.
 Total: 126 candidate processes plus 12 control processes per host.
 
 Graph generation, validation, oracle construction, compilation and startup are
