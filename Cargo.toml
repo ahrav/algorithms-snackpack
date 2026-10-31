@@ -7,6 +7,7 @@ publish = false
 
 [workspace]
 members = [
+    "topics/035-reachability-indexes",
     "topics/034-dominator-trees",
     "topics/033-tarjan-strongly-connected-components",
     "topics/032-topological-order-and-incremental-dags",

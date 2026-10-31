@@ -1,0 +1,1070 @@
+{
+  "arm": {
+    "environment": {
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "uname": "Linux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.113-138.209.amzn2023.aarch64 #1 SMP Tue Oct 20 21:58:08 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+      "cpu": "Architecture:                            aarch64\nCPU op-mode(s):                          32-bit, 64-bit\nByte Order:                              Little Endian\nCPU(s):                                  64\nOn-line CPU(s) list:                     0-63\nVendor ID:                               ARM\nModel:                                   1\nThread(s) per core:                      1\nCore(s) per socket:                      64\nSocket(s):                               1\nStepping:                                r1p1\nBogoMIPS:                                2100.00\nFlags:                                   fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 sm3 sm4 asimddp sha512 sve asimdfhm dit uscat ilrcpc flagm paca pacg dcpodp svei8mm svebf16 i8mm bf16 dgh rng\nL1d cache:                               4 MiB (64 instances)\nL1i cache:                               4 MiB (64 instances)\nL2 cache:                                64 MiB (64 instances)\nL3 cache:                                32 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-63\nVulnerability Gather data sampling:      Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; CSV2, BHB",
+      "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8",
+      "cpus": "64",
+      "affinity": "pid 527848's current affinity list: 0-63",
+      "flags": "-C opt-level=3 --edition=2024; generic target; no target-cpu=native",
+      "inputs": {
+        "src/lib.rs": "97649dfe05b815dd0df16e3d93143e8ddb92702fc6adf40d9df797b12684add1",
+        "benches/reachability.rs": "c1ea5132be48253a7cbce470a76d3f5a2a7c90cd9ff3197f05c93a3d48c7c52a",
+        "tests/contracts.rs": "e14e04be5a983f42664e327b53637aa8bb676a4b15b381c67fa51667659cc7c8",
+        "examples/running.rs": "a496e734ca5f06b4f1f6b3b09f40b1d9f7ccd95c2d30deba96b670c19b912c90",
+        "scripts/run.py": "bd17f5ee83437544fb7e241df31dbd451c3a27be24b8aa747f43870709af1ef3"
+      },
+      "binary_sha256": "eaf52e114dbd514b466e7494f93e31fc151f29f958658e6591661a00bbbbe8c4"
+    },
+    "cells": [
+      {
+        "workload": "tiny",
+        "n": 32,
+        "m": 13,
+        "q": 1024,
+        "positive": 0,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 7723.5,
+              "min": 7341,
+              "max": 7955
+            },
+            "filter": {
+              "median": 7165.0,
+              "min": 6780,
+              "max": 7702
+            },
+            "closure": {
+              "median": 2282.0,
+              "min": 2253,
+              "max": 2285
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 8083.5,
+              "min": 7704,
+              "max": 8510
+            },
+            "filter": {
+              "median": 13435.0,
+              "min": 12963,
+              "max": 13948
+            },
+            "closure": {
+              "median": 3041.5,
+              "min": 2930,
+              "max": 3102
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 274.0,
+              "min": 216,
+              "max": 469
+            },
+            "filter": {
+              "median": 6144.5,
+              "min": 6039,
+              "max": 6237
+            },
+            "closure": {
+              "median": 705.0,
+              "min": 600,
+              "max": 758
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 1536,
+          "closure": 256
+        }
+      },
+      {
+        "workload": "sparse",
+        "n": 512,
+        "m": 2143,
+        "q": 1024,
+        "positive": 140,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 101025.5,
+              "min": 80380,
+              "max": 105712
+            },
+            "filter": {
+              "median": 44105.0,
+              "min": 40646,
+              "max": 46645
+            },
+            "closure": {
+              "median": 3265.0,
+              "min": 3206,
+              "max": 4052
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 103953.5,
+              "min": 83554,
+              "max": 108662
+            },
+            "filter": {
+              "median": 142463.5,
+              "min": 138441,
+              "max": 149605
+            },
+            "closure": {
+              "median": 39895.0,
+              "min": 38669,
+              "max": 40876
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 2801.5,
+              "min": 2710,
+              "max": 3042
+            },
+            "filter": {
+              "median": 97324.0,
+              "min": 96397,
+              "max": 108696
+            },
+            "closure": {
+              "median": 36468.5,
+              "min": 35276,
+              "max": 36948
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 24576,
+          "closure": 32768
+        }
+      },
+      {
+        "workload": "dense",
+        "n": 512,
+        "m": 33042,
+        "q": 1024,
+        "positive": 500,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 132799.0,
+              "min": 128295,
+              "max": 136912
+            },
+            "filter": {
+              "median": 105568.5,
+              "min": 104612,
+              "max": 107043
+            },
+            "closure": {
+              "median": 3013.5,
+              "min": 2961,
+              "max": 3053
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 133407.5,
+              "min": 128968,
+              "max": 137379
+            },
+            "filter": {
+              "median": 611003.5,
+              "min": 607224,
+              "max": 617736
+            },
+            "closure": {
+              "median": 293898.0,
+              "min": 287216,
+              "max": 302426
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 414.0,
+              "min": 362,
+              "max": 563
+            },
+            "filter": {
+              "median": 505130.5,
+              "min": 501861,
+              "max": 510343
+            },
+            "closure": {
+              "median": 290780.5,
+              "min": 284098,
+              "max": 299274
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 24576,
+          "closure": 32768
+        }
+      },
+      {
+        "workload": "chain",
+        "n": 4096,
+        "m": 4095,
+        "q": 1024,
+        "positive": 532,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 4412301.0,
+              "min": 4392424,
+              "max": 4544965
+            },
+            "filter": {
+              "median": 5386832.5,
+              "min": 5366719,
+              "max": 6444950
+            },
+            "closure": {
+              "median": 3303.0,
+              "min": 3256,
+              "max": 3367
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 4425463.5,
+              "min": 4406288,
+              "max": 4558962
+            },
+            "filter": {
+              "median": 5747130.5,
+              "min": 5727240,
+              "max": 6799817
+            },
+            "closure": {
+              "median": 843750.5,
+              "min": 829733,
+              "max": 987399
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 4542.5,
+              "min": 3766,
+              "max": 5721
+            },
+            "filter": {
+              "median": 330185.5,
+              "min": 321850,
+              "max": 332952
+            },
+            "closure": {
+              "median": 698655.5,
+              "min": 686109,
+              "max": 827941
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 196608,
+          "closure": 2097152
+        }
+      },
+      {
+        "workload": "negative",
+        "n": 4096,
+        "m": 4094,
+        "q": 1024,
+        "positive": 0,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 3561671.5,
+              "min": 3559207,
+              "max": 3596518
+            },
+            "filter": {
+              "median": 29680.0,
+              "min": 29446,
+              "max": 29773
+            },
+            "closure": {
+              "median": 2894.5,
+              "min": 2844,
+              "max": 2967
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "filter",
+          "candidates": {
+            "dfs": {
+              "median": 3573711.0,
+              "min": 3572011,
+              "max": 3608947
+            },
+            "filter": {
+              "median": 361863.0,
+              "min": 358390,
+              "max": 384725
+            },
+            "closure": {
+              "median": 836235.0,
+              "min": 809783,
+              "max": 886476
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 4006.5,
+              "min": 3764,
+              "max": 4775
+            },
+            "filter": {
+              "median": 307064.0,
+              "min": 304355,
+              "max": 329475
+            },
+            "closure": {
+              "median": 693536.0,
+              "min": 671223,
+              "max": 745714
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 196608,
+          "closure": 2097152
+        }
+      },
+      {
+        "workload": "few",
+        "n": 4096,
+        "m": 4095,
+        "q": 8,
+        "positive": 8,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 6727.5,
+              "min": 6043,
+              "max": 7580
+            },
+            "filter": {
+              "median": 7599.0,
+              "min": 7320,
+              "max": 8905
+            },
+            "closure": {
+              "median": 38.5,
+              "min": 37,
+              "max": 39
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 14028.5,
+              "min": 13266,
+              "max": 15235
+            },
+            "filter": {
+              "median": 326839.0,
+              "min": 312261,
+              "max": 341988
+            },
+            "closure": {
+              "median": 853972.5,
+              "min": 817132,
+              "max": 891008
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 2603.0,
+              "min": 2463,
+              "max": 2899
+            },
+            "filter": {
+              "median": 296473.5,
+              "min": 282710,
+              "max": 309969
+            },
+            "closure": {
+              "median": 701179.0,
+              "min": 677281,
+              "max": 751934
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 196608,
+          "closure": 2097152
+        }
+      },
+      {
+        "workload": "large-sparse",
+        "n": 4096,
+        "m": 8235,
+        "q": 1024,
+        "positive": 5,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 57255.0,
+              "min": 54355,
+              "max": 58112
+            },
+            "filter": {
+              "median": 39028.5,
+              "min": 38289,
+              "max": 40887
+            },
+            "closure": {
+              "median": 2867.0,
+              "min": 2851,
+              "max": 5187
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 58990.5,
+              "min": 55959,
+              "max": 59773
+            },
+            "filter": {
+              "median": 788739.0,
+              "min": 782717,
+              "max": 812355
+            },
+            "closure": {
+              "median": 1163192.0,
+              "min": 1119098,
+              "max": 1218484
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 1509.0,
+              "min": 1303,
+              "max": 1930
+            },
+            "filter": {
+              "median": 732840.5,
+              "min": 725009,
+              "max": 757725
+            },
+            "closure": {
+              "median": 1011720.5,
+              "min": 971720,
+              "max": 1060634
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 196608,
+          "closure": 2097152
+        }
+      }
+    ],
+    "aa_ratios": [
+      1.0785173516411173,
+      0.8814699459090867,
+      0.8952219864686336,
+      0.8552602788773298,
+      1.063187264073527,
+      1.056406886319961
+    ]
+  },
+  "x86": {
+    "environment": {
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "uname": "Linux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.113-138.209.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Tue Oct 20 21:57:40 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux",
+      "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           46 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  192\nOn-line CPU(s) list:                     0-191\nVendor ID:                               GenuineIntel\nModel name:                              Intel(R) Xeon(R) Platinum 8488C\nCPU family:                              6\nModel:                                   143\nThread(s) per core:                      2\nCore(s) per socket:                      48\nSocket(s):                               2\nStepping:                                8\nBogoMIPS:                                4800.00\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities\nHypervisor vendor:                       KVM\nVirtualization type:                     full\nL1d cache:                               4.5 MiB (96 instances)\nL1i cache:                               3 MiB (96 instances)\nL2 cache:                                192 MiB (96 instances)\nL3 cache:                                210 MiB (2 instances)\nNUMA node(s):                            2\nNUMA node0 CPU(s):                       0-47,96-143\nNUMA node1 CPU(s):                       48-95,144-191\nVulnerability Gather data sampling:      Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected",
+      "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1",
+      "cpus": "192",
+      "affinity": "pid 774954's current affinity list: 0-191",
+      "flags": "-C opt-level=3 --edition=2024; generic target; no target-cpu=native",
+      "inputs": {
+        "src/lib.rs": "97649dfe05b815dd0df16e3d93143e8ddb92702fc6adf40d9df797b12684add1",
+        "benches/reachability.rs": "c1ea5132be48253a7cbce470a76d3f5a2a7c90cd9ff3197f05c93a3d48c7c52a",
+        "tests/contracts.rs": "e14e04be5a983f42664e327b53637aa8bb676a4b15b381c67fa51667659cc7c8",
+        "examples/running.rs": "a496e734ca5f06b4f1f6b3b09f40b1d9f7ccd95c2d30deba96b670c19b912c90",
+        "scripts/run.py": "bd17f5ee83437544fb7e241df31dbd451c3a27be24b8aa747f43870709af1ef3"
+      },
+      "binary_sha256": "d0de016319121c8118545651f9545b8bd96b2323c8075baad9899680ddfa280d"
+    },
+    "cells": [
+      {
+        "workload": "tiny",
+        "n": 32,
+        "m": 13,
+        "q": 1024,
+        "positive": 0,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 5921.5,
+              "min": 5864,
+              "max": 10082
+            },
+            "filter": {
+              "median": 5869.0,
+              "min": 5794,
+              "max": 5924
+            },
+            "closure": {
+              "median": 2025.5,
+              "min": 2018,
+              "max": 2236
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 6642.5,
+              "min": 6477,
+              "max": 10776
+            },
+            "filter": {
+              "median": 13178.0,
+              "min": 12901,
+              "max": 13412
+            },
+            "closure": {
+              "median": 3026.5,
+              "min": 2889,
+              "max": 3384
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 524.5,
+              "min": 409,
+              "max": 745
+            },
+            "filter": {
+              "median": 7051.5,
+              "min": 6862,
+              "max": 7425
+            },
+            "closure": {
+              "median": 895.0,
+              "min": 756,
+              "max": 1006
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 1536,
+          "closure": 256
+        }
+      },
+      {
+        "workload": "sparse",
+        "n": 512,
+        "m": 2143,
+        "q": 1024,
+        "positive": 140,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 56448.5,
+              "min": 48457,
+              "max": 75650
+            },
+            "filter": {
+              "median": 24324.0,
+              "min": 23919,
+              "max": 27170
+            },
+            "closure": {
+              "median": 2029.5,
+              "min": 2028,
+              "max": 2037
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 59569.5,
+              "min": 51651,
+              "max": 78834
+            },
+            "filter": {
+              "median": 132244.0,
+              "min": 130457,
+              "max": 136029
+            },
+            "closure": {
+              "median": 39210.5,
+              "min": 38118,
+              "max": 40798
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 3016.5,
+              "min": 2793,
+              "max": 3064
+            },
+            "filter": {
+              "median": 107297.0,
+              "min": 105722,
+              "max": 111388
+            },
+            "closure": {
+              "median": 37040.5,
+              "min": 35932,
+              "max": 38623
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 24576,
+          "closure": 32768
+        }
+      },
+      {
+        "workload": "dense",
+        "n": 512,
+        "m": 33042,
+        "q": 1024,
+        "positive": 500,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 88970.0,
+              "min": 88295,
+              "max": 135291
+            },
+            "filter": {
+              "median": 77368.5,
+              "min": 74649,
+              "max": 80542
+            },
+            "closure": {
+              "median": 2031.5,
+              "min": 2026,
+              "max": 2037
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 89580.5,
+              "min": 88894,
+              "max": 135935
+            },
+            "filter": {
+              "median": 575918.0,
+              "min": 574280,
+              "max": 590320
+            },
+            "closure": {
+              "median": 208887.5,
+              "min": 207092,
+              "max": 217591
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 426.0,
+              "min": 401,
+              "max": 468
+            },
+            "filter": {
+              "median": 498269.5,
+              "min": 495965,
+              "max": 513956
+            },
+            "closure": {
+              "median": 206727.0,
+              "min": 204919,
+              "max": 215417
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 24576,
+          "closure": 32768
+        }
+      },
+      {
+        "workload": "chain",
+        "n": 4096,
+        "m": 4095,
+        "q": 1024,
+        "positive": 532,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 4168120.5,
+              "min": 4071988,
+              "max": 4171746
+            },
+            "filter": {
+              "median": 4582133.5,
+              "min": 4556026,
+              "max": 4650060
+            },
+            "closure": {
+              "median": 2333.0,
+              "min": 2054,
+              "max": 2349
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 4175615.0,
+              "min": 4078270,
+              "max": 4179575
+            },
+            "filter": {
+              "median": 4915227.5,
+              "min": 4873118,
+              "max": 4979313
+            },
+            "closure": {
+              "median": 1068071.0,
+              "min": 856325,
+              "max": 1198546
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 2744.0,
+              "min": 2353,
+              "max": 2933
+            },
+            "filter": {
+              "median": 310049.0,
+              "min": 297182,
+              "max": 333187
+            },
+            "closure": {
+              "median": 988183.0,
+              "min": 785500,
+              "max": 1115817
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 196608,
+          "closure": 2097152
+        }
+      },
+      {
+        "workload": "negative",
+        "n": 4096,
+        "m": 4094,
+        "q": 1024,
+        "positive": 0,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 3354283.5,
+              "min": 3339927,
+              "max": 3389618
+            },
+            "filter": {
+              "median": 26879.0,
+              "min": 26524,
+              "max": 28820
+            },
+            "closure": {
+              "median": 2188.0,
+              "min": 2184,
+              "max": 2194
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "filter",
+          "candidates": {
+            "dfs": {
+              "median": 3361980.0,
+              "min": 3348753,
+              "max": 3396946
+            },
+            "filter": {
+              "median": 333272.5,
+              "min": 317817,
+              "max": 338262
+            },
+            "closure": {
+              "median": 1078897.0,
+              "min": 996521,
+              "max": 1186452
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 2828.0,
+              "min": 2375,
+              "max": 7978
+            },
+            "filter": {
+              "median": 294552.0,
+              "min": 280687,
+              "max": 299809
+            },
+            "closure": {
+              "median": 1004652.0,
+              "min": 925712,
+              "max": 1108715
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 196608,
+          "closure": 2097152
+        }
+      },
+      {
+        "workload": "few",
+        "n": 4096,
+        "m": 4095,
+        "q": 8,
+        "positive": 8,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 5902.0,
+              "min": 5882,
+              "max": 5918
+            },
+            "filter": {
+              "median": 6422.5,
+              "min": 6376,
+              "max": 9102
+            },
+            "closure": {
+              "median": 44.0,
+              "min": 43,
+              "max": 47
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 11469.5,
+              "min": 11293,
+              "max": 11775
+            },
+            "filter": {
+              "median": 311660.5,
+              "min": 299063,
+              "max": 323617
+            },
+            "closure": {
+              "median": 1065539.5,
+              "min": 984103,
+              "max": 1123063
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 2464.5,
+              "min": 2282,
+              "max": 2772
+            },
+            "filter": {
+              "median": 293403.0,
+              "min": 283707,
+              "max": 304141
+            },
+            "closure": {
+              "median": 990252.0,
+              "min": 919885,
+              "max": 1043998
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 196608,
+          "closure": 2097152
+        }
+      },
+      {
+        "workload": "large-sparse",
+        "n": 4096,
+        "m": 8235,
+        "q": 1024,
+        "positive": 5,
+        "query_ns": {
+          "selected": "closure",
+          "candidates": {
+            "dfs": {
+              "median": 40629.0,
+              "min": 36090,
+              "max": 43172
+            },
+            "filter": {
+              "median": 29150.0,
+              "min": 28936,
+              "max": 30140
+            },
+            "closure": {
+              "median": 2331.5,
+              "min": 2323,
+              "max": 2337
+            }
+          }
+        },
+        "lifecycle_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 42823.0,
+              "min": 38220,
+              "max": 45446
+            },
+            "filter": {
+              "median": 793383.5,
+              "min": 781161,
+              "max": 811678
+            },
+            "closure": {
+              "median": 1263737.5,
+              "min": 1131268,
+              "max": 1511979
+            }
+          }
+        },
+        "build_ns": {
+          "selected": "dfs",
+          "candidates": {
+            "dfs": {
+              "median": 1948.0,
+              "min": 1631,
+              "max": 2135
+            },
+            "filter": {
+              "median": 754423.5,
+              "min": 743409,
+              "max": 771653
+            },
+            "closure": {
+              "median": 1181479.5,
+              "min": 1060015,
+              "max": 1428594
+            }
+          }
+        },
+        "index_bytes": {
+          "dfs": 0,
+          "filter": 196608,
+          "closure": 2097152
+        }
+      }
+    ],
+    "aa_ratios": [
+      0.9776127948698374,
+      1.0148514044440098,
+      1.1259212006244859,
+      1.2780102180266173,
+      1.4442816323540186,
+      0.6623215085327628
+    ]
+  }
+}

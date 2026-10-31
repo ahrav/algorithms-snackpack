@@ -1,0 +1,22 @@
+{
+  "frozen_source_commit": "86d74b91200b57e9e1e711a9127b29e4b2a392f7",
+  "source_tar_sha256": "6076d9a3e7d547de11ff914ff9cc2378a2752c185ef7e6c294a78c7a206bdf0f",
+  "archives": {
+    "arm": {
+      "path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-035/20261031/arm.tar.gz",
+      "sha256": "094ac3e845b18d058d467bacd4ac68a4caed607a2aa89957cc219f5bb47a4c56",
+      "bytes": 4346970,
+      "members": 27,
+      "verified": "transferred archive hash, all five input hashes, binary hash, 138 records, balanced order and oracle agreement",
+      "binary_sha256": "eaf52e114dbd514b466e7494f93e31fc151f29f958658e6591661a00bbbbe8c4"
+    },
+    "x86": {
+      "path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-035/20261031/x86.tar.gz",
+      "sha256": "eec472578ed239f2c5d7c22b2c321a9b29cd8f158cd8b54733757e05c968e33d",
+      "bytes": 5163179,
+      "members": 27,
+      "verified": "transferred archive hash, all five input hashes, binary hash, 138 records, balanced order and oracle agreement",
+      "binary_sha256": "d0de016319121c8118545651f9545b8bd96b2323c8075baad9899680ddfa280d"
+    }
+  }
+}
