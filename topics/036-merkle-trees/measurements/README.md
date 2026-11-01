@@ -4,8 +4,9 @@ Frozen executable-source commit: b2139a801c1c5fd198b367d6e6a7c7cd50b75a83.
 The retained data was measured from that commit's five inputs, whose hashes
 are in EVIDENCE_RECEIPT.json. Review fixes after measurement changed four of
 them: the write payload delta is now `(r+q)%250+1` so every non-noop write
-changes its leaf, the bench binary accepts Cargo's `--bench` flag, summarize.py
-asserts the block sequence, and src/lib.rs encodes the SHA-256 bit length with
+changes its leaf, the bench binary accepts Cargo's `--bench` flag and drops
+its construction-timed tree before lifecycle batches (about 4 MiB less resident
+memory in large-record lifecycle cells), summarize.py asserts the block sequence, and src/lib.rs encodes the SHA-256 bit length with
 `checked_mul` and tests Full and Eager call counts. tests/contracts.rs is
 unchanged. The timings were not re-measured. In the retained data the old delta
 `r+q+1` wrapped to zero whenever `(r+q+1) % 251 == 0`, so Eager and Batch

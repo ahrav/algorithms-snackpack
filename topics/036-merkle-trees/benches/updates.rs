@@ -52,23 +52,26 @@ fn main() {
         })
         .collect();
     let start = Instant::now();
-    let mut tree = Tree::new(initial.clone()).unwrap();
+    let tree = Tree::new(initial.clone()).unwrap();
     let build_ns = start.elapsed().as_nanos();
     let mut elapsed = 0u128;
     let mut calls = 0usize;
     let mut final_root = tree.root();
+    // Lifecycle mode drops the initial tree before the loop so each timed
+    // batch owns the only tree in memory.
+    let mut tree = (mode != "lifecycle").then_some(tree);
     for batch in &batches {
-        if mode == "lifecycle" {
+        if let Some(tree) = tree.as_mut() {
+            let start = Instant::now();
+            calls += tree.update(black_box(batch), method).unwrap();
+            final_root = black_box(tree.root());
+            elapsed += start.elapsed().as_nanos();
+        } else {
             let start = Instant::now();
             let mut fresh = Tree::new(initial.clone()).unwrap();
             calls += fresh.update(black_box(batch), method).unwrap();
             final_root = black_box(fresh.root());
             drop(fresh);
-            elapsed += start.elapsed().as_nanos();
-        } else {
-            let start = Instant::now();
-            calls += tree.update(black_box(batch), method).unwrap();
-            final_root = black_box(tree.root());
             elapsed += start.elapsed().as_nanos();
         }
     }
