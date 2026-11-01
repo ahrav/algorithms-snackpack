@@ -1,0 +1,30 @@
+{
+  "gate-rustdoc.log": {
+    "finished": "   Generated /Users/ahrav/Documents/Codex/2026-11-01/algorithms-daily-curriculum-deliver-a-new/work/lesson/target/doc/algorithms_growth/index.html and 36 other files",
+    "passed_tests": 0
+  },
+  "gate-lib.log": {
+    "finished": "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.25s",
+    "passed_tests": 99
+  },
+  "gate-bench.log": {
+    "finished": "  Executable benches/updates.rs (target/release/deps/updates-4a366028851da639)",
+    "passed_tests": 0
+  },
+  "gate-fmt.log": {
+    "finished": "format clean",
+    "passed_tests": 0
+  },
+  "gate-doc-tests.log": {
+    "finished": "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "passed_tests": 5
+  },
+  "gate-all-targets.log": {
+    "finished": "32875,2,6,126750,9917b3048aa9a6aca4d0602b5fcfeedbc2e14cd5e1aff1c90680133148dde205",
+    "passed_tests": 255
+  },
+  "gate-clippy.log": {
+    "finished": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.40s",
+    "passed_tests": 0
+  }
+}

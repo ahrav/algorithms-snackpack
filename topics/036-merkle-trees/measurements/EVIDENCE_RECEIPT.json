@@ -1,0 +1,39 @@
+{
+  "arm": {
+    "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-036/20261101/arm.tar.gz",
+    "sha256": "1c03986b0940852d7d470592ab7a5146c188d3722a26ea37310f1f7351041ba3",
+    "size": 5060401,
+    "file_count": 14,
+    "binary_sha256": "da70ad48430bb5e0233e86aae04f31752bfe109a7633f55e6ff90bd0adaa0f2b",
+    "inputs": {
+      "src/lib.rs": "dd7ee8c88d4a02a0d1324894213d5f67ee5ead285454fb41d84a6ea1c638f200",
+      "benches/updates.rs": "95fdeb141c23fe3e54e2e3102b91eb3969c9894ea3223f9528c13e17b29d67cc",
+      "measurements/run.py": "ed280db10b5ce3027368648f2bcb22c18e4aced4a81d3f1c6d751447a73b4c15",
+      "measurements/summarize.py": "d14f7d7fb3000908effbc34d9a48786c6e33f9a0d41d1ebf0d3e1d437319f452",
+      "tests/contracts.rs": "e32d77bc7ecc3823e91b77384f9bac7c4bb01c8410a673cc02fb89761758ab52"
+    },
+    "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+    "architecture": "aarch64",
+    "status": "PASS; member hashes, source/transfer/binary identities, 378 roots, six permutations and summary verified"
+  },
+  "x86": {
+    "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-036/20261101/x86.tar.gz",
+    "sha256": "6072ddad638326a0ebe1d0d18f8dcd2f87fde1280ddcd0b1cfb90c3f92e2701b",
+    "size": 5995521,
+    "file_count": 14,
+    "binary_sha256": "158fc458dd78e27067c9b57762eb7c42f0ab525e5c66ef2aeb7594b8c946700f",
+    "inputs": {
+      "src/lib.rs": "dd7ee8c88d4a02a0d1324894213d5f67ee5ead285454fb41d84a6ea1c638f200",
+      "benches/updates.rs": "95fdeb141c23fe3e54e2e3102b91eb3969c9894ea3223f9528c13e17b29d67cc",
+      "measurements/run.py": "ed280db10b5ce3027368648f2bcb22c18e4aced4a81d3f1c6d751447a73b4c15",
+      "measurements/summarize.py": "d14f7d7fb3000908effbc34d9a48786c6e33f9a0d41d1ebf0d3e1d437319f452",
+      "tests/contracts.rs": "e32d77bc7ecc3823e91b77384f9bac7c4bb01c8410a673cc02fb89761758ab52"
+    },
+    "host": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+    "architecture": "x86_64",
+    "status": "PASS; member hashes, source/transfer/binary identities, 378 roots, six permutations and summary verified"
+  },
+  "source_commit": "b2139a801c1c5fd198b367d6e6a7c7cd50b75a83",
+  "source_archive_sha256": "ff7b982e966d17eb22d3a262bb3f2065676e87badc6f145cf849f4ca794a4f38",
+  "verification": "All source, transfer, binary, archive and member hashes verified independently. Every sample root rechecked; exact summary reducer and paired schedule reproduce."
+}
