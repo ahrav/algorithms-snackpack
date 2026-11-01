@@ -1,0 +1,21 @@
+{
+  "reviewed": 6,
+  "corrected": 0,
+  "checks": [
+    "white background",
+    "visible borders and labels",
+    "operand order/index consistency",
+    "contrast",
+    "no clipping or missing glyphs",
+    "wrapped cells preserve values",
+    "all repeated figures use inspected files"
+  ],
+  "visuals": [
+    "merkle-states.png",
+    "state-table.png",
+    "invariant-table.png",
+    "arm-table.png",
+    "x86-table.png",
+    "selections.png"
+  ]
+}
