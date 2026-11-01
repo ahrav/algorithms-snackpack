@@ -15,7 +15,9 @@ def oracle(n,k,size,pattern,reps,mode):
   for q in range(k):
    i=q*4051%n if pattern=='scatter' else n//2 if pattern=='duplicate' else q%n
    v=initial[i]
-   if pattern!='noop':v=bytes([(v[0]+r+q+1)%251])+v[1:]
+   if pattern!='noop':
+    v=bytes([(v[0]+(r+q)%250+1)%251])+v[1:]
+    assert v!=xs[i],(r,q,i)
    xs[i]=v
  return root(xs).hex()
 def run(cmd):return subprocess.check_output(cmd,text=True,stderr=subprocess.STDOUT)

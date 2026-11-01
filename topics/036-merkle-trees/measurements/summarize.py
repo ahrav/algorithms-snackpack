@@ -8,7 +8,7 @@ for r in rows:
 result=[]
 for (workload,mode),rs in groups.items():
  by={m:sorted([r for r in rs if r['method']==m],key=lambda r:r['block']) for m in ['full','eager','batch']}
- assert all(len(x)==6 for x in by.values())
+ assert all([r['block'] for r in x]==list(range(6)) for x in by.values())
  stats={m:{'median_ns':statistics.median(r['ns'] for r in xs),'min_ns':min(r['ns'] for r in xs),'max_ns':max(r['ns'] for r in xs),'hash_calls':sorted(set(r['hash_calls'] for r in xs))} for m,xs in by.items()}
  best=min(stats,key=lambda m:stats[m]['median_ns'])
  wins=all(by[best][i]['ns']*1.05<by[other][i]['ns'] for other in by if other!=best for i in range(6))

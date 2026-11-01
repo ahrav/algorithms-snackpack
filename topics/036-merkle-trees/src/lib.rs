@@ -76,7 +76,7 @@ const K: [u32; 64] = [
 /// Portable SHA-256 over one byte slice.
 ///
 /// # Panics
-/// Requires a slice length representable as u64 and successful allocation.
+/// Panics when the input bit length exceeds `u64::MAX`.
 #[must_use]
 #[allow(
     clippy::many_single_char_names,
@@ -101,7 +101,8 @@ pub fn sha256(input: &[u8]) -> Digest {
     padded.extend_from_slice(
         &(u64::try_from(input.len())
             .expect("slice length fits u64")
-            .wrapping_mul(8))
+            .checked_mul(8)
+            .expect("bit length fits u64"))
         .to_be_bytes(),
     );
     for chunk in padded.chunks_exact(64) {
@@ -350,19 +351,21 @@ mod tests {
     }
     #[test]
     fn hash_work_and_noops() {
-        let mut t = Tree::new(vec![
-            b"A".to_vec(),
-            b"B".to_vec(),
-            b"C".to_vec(),
-            b"D".to_vec(),
-        ])
-        .unwrap();
-        assert_eq!(t.update(&[(2, b"C2".to_vec())], Method::Batch), Ok(3));
-        assert_eq!(t.update(&[(2, b"C2".to_vec())], Method::Batch), Ok(0));
-        assert_eq!(
-            t.update(&[(2, b"X".to_vec()), (3, b"Y".to_vec())], Method::Batch),
-            Ok(4)
-        );
+        let leaves = vec![b"A".to_vec(), b"B".to_vec(), b"C".to_vec(), b"D".to_vec()];
+        for (method, one_leaf, repeated, two_leaves) in [
+            (Method::Full, 7, 7, 7),
+            (Method::Eager, 3, 0, 6),
+            (Method::Batch, 3, 0, 4),
+        ] {
+            let mut t = Tree::new(leaves.clone()).unwrap();
+            assert_eq!(t.update(&[(2, b"C2".to_vec())], method), Ok(one_leaf));
+            assert_eq!(t.update(&[(2, b"C2".to_vec())], method), Ok(repeated));
+            assert_eq!(
+                t.update(&[(2, b"X".to_vec()), (3, b"Y".to_vec())], method),
+                Ok(two_leaves)
+            );
+        }
+        let t = Tree::new(leaves).unwrap();
         assert!(Tree::new(vec![]).is_err());
         assert!(Tree::new(data(3)).is_err());
         assert!(!verify(b"A", 0, 0, &[], [0; 32]));

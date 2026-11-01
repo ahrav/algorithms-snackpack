@@ -1,7 +1,20 @@
 # Native results: fixed Merkle update portfolio
 
 Frozen executable-source commit: b2139a801c1c5fd198b367d6e6a7c7cd50b75a83.
-All five frozen inputs match the published tree. Each host passed two unit groups,
+The retained data was measured from that commit's five inputs, whose hashes
+are in EVIDENCE_RECEIPT.json. Review fixes after measurement changed four of
+them: the write payload delta is now `(r+q)%250+1` so every non-noop write
+changes its leaf, the bench binary accepts Cargo's `--bench` flag, summarize.py
+asserts the block sequence, and src/lib.rs encodes the SHA-256 bit length with
+`checked_mul` and tests Full and Eager call counts. tests/contracts.rs is
+unchanged. The timings were not re-measured. In the retained data the old delta
+`r+q+1` wrapped to zero whenever `(r+q+1) % 251 == 0`, so Eager and Batch
+skipped 184 of the schedule's writes as byte-equal: 32 of 8192 per batch in
+dense/lifecycle (16351 Batch calls instead of 16383), 32 in the first of four
+dense/update batches, 8 of 2048 tiny/lifecycle writes and 16 of 4096
+small/lifecycle writes, visible as fractional hash-call means in results.json.
+Full rebuild counts are unaffected.
+Each host passed two unit groups,
 one independent recursive contract test and 136 SHA-256/hashlib comparisons.
 All 378 process roots per host match the independent Python tree oracle.
 There are 324 measured and 54 warmup processes per host, 18 cells each.

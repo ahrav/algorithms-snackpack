@@ -2,7 +2,8 @@
 use std::{hint::black_box, time::Instant};
 use topic036_merkle_trees::{Method, Tree, sha256, verify};
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
+    // Cargo appends `--bench`; the remaining positional arguments keep their indices.
+    let args: Vec<String> = std::env::args().filter(|a| a != "--bench").collect();
     if args.get(1).is_some_and(|s| s == "hash") {
         let n: usize = args[2].parse().unwrap();
         let input: Vec<u8> = (0..n).map(|i| u8::try_from(i % 251).unwrap()).collect();
@@ -42,7 +43,8 @@ fn main() {
                     };
                     let mut v = initial[i].clone();
                     if pattern != "noop" {
-                        v[0] = u8::try_from((usize::from(v[0]) + r + q + 1) % 251).unwrap();
+                        // A delta in 1..=250 changes a byte held modulo 251.
+                        v[0] = u8::try_from((usize::from(v[0]) + (r + q) % 250 + 1) % 251).unwrap();
                     }
                     (i, v)
                 })
