@@ -145,3 +145,7 @@ version = "0.1.0"
 [[package]]
 name = "topic035"
 version = "0.1.0"
+
+[[package]]
+name = "topic036-merkle-trees"
+version = "0.1.0"
