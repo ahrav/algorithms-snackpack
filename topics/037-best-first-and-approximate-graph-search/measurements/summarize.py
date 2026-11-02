@@ -5,6 +5,7 @@ p=pathlib.Path(sys.argv[1]);rows=[json.loads(s) for s in (p/'samples.jsonl').rea
 for case in sorted({r['case'] for r in rows}):
  grouped={m:[r for r in rows if r['case']==case and r['method']==m and r['block']>=0] for m in ['flat','4','16','64']}
  if not grouped['flat']:continue
+ assert all([r['block'] for r in rs]==list(range(len(grouped['flat']))) for rs in grouped.values()),('incomplete or misordered blocks',case)
  stats={m:dict(median_ns=statistics.median(r['ns_per_query'] for r in rs),min_ns=min(r['ns_per_query'] for r in rs),max_ns=max(r['ns_per_query'] for r in rs),recall=rs[0]['recall'],full=rs[0]['full'],distances=rs[0]['distances']/32,expanded=rs[0]['expanded']/32,frontier_max=rs[0]['frontier'],build_median_ns=statistics.median(r['build_ns'] for r in rs)) for m,rs in grouped.items()}
  qualified=[m for m,s in stats.items() if s['recall']>=.95 and s['full']]
  fastest=min(qualified,key=lambda m:stats[m]['median_ns'])

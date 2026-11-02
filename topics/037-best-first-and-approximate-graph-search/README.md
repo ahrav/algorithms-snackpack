@@ -9,15 +9,15 @@ A frontier distance supplies no lower bound on undiscovered points.
 ```text
 Before: q=0, entry A. Squared distances: A=100 B=4 C=9 D=0.
 Edges: A--B, A--C, C--D.
-During: width1 keeps B; width2 keeps B and C.
-After: width1 returns B; width2 expands C and reaches D.
+During: width 1 keeps B; width 2 keeps B and C.
+After: width 1 returns B; width 2 expands C and reaches D.
 ```
 
 The rendered/inspected figure is retained externally with VISUAL_REVIEW.json.
 
 ## Contract and example
 
-Points and queries have equal dimension1..1024 and integer coordinates
+Points and queries have equal dimension 1..1024 and integer coordinates
 -10000..10000, with i64 accumulation. Empty graphs accept empty queries.
 Self matches and distinct IDs with equal coordinates remain eligible. Links may
 repeat or cycle. Construction rejects invalid IDs and shapes. Search validates
@@ -25,11 +25,11 @@ query, entry and width, returning sorted distinct results. Disconnection can
 underfill. k=0 returns empty. Width must be at least min(k,N) for nonempty output.
 
 For q=0, A=10,B=2,C=3,D=0 and undirected edges A-B,A-C,C-D,
-width1 returns B; width2 keeps C and reaches D. An integration test checks this.
+width 1 returns B; width 2 keeps C and reaches D. An integration test checks this.
 
 ## Alternatives and costs
 
-Implemented: exact flat scan and widths4/16/64 on one deterministic graph.
+Implemented: exact flat scan and widths 4/16/64 on one deterministic graph.
 HNSW adds hierarchy and entry descent. NSG invests in sparse connected topology.
 DiskANN adds storage-aware search. Their full construction/execution remains
 revisit scope. This lab measures single-layer search, not those engines.
@@ -58,7 +58,7 @@ python3 measurements/run.py --out /tmp/topic037-run
 python3 measurements/summarize.py /tmp/topic037-run
 ```
 
-The bare bench executes case0/flat. The Python runner supplies the full matrix,
+The bare bench executes case 0/flat. The Python runner supplies the full matrix,
 oracle, process schedule and environment/source checks. See BENCHMARK.md.
 
 ## Sources and scope
@@ -71,4 +71,6 @@ oracle, process schedule and environment/source checks. See BENCHMARK.md.
 Catalog origin/main has Topic037 but no coverage array or ALGORITHM_INDEX.md.
 Explicit revisit: full HNSW/NSG/Vamana construction, build seeds/orders, filters,
 fallback, deletion/churn, float/quantized scoring, reusable visited storage,
-wider k, layout, cold storage and concurrent load.
+wider k, layout, cold storage, concurrent load, and allocation-bounded retained
+buffers (pre-sized heap with in-place root replacement, pop-before-insert scan
+buffer, method parsed once in the bench).

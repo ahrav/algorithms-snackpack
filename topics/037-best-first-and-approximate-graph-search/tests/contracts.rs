@@ -1,5 +1,5 @@
 //! Independent full-sort and sorted-frontier checks.
-use topic037_graph_search::{Graph, Neighbor};
+use topic037_graph_search::{Graph, Neighbor, Work};
 
 fn oracle(g: &Graph, q: &[i32], k: usize) -> Vec<Neighbor> {
     let mut scores = Vec::new();
@@ -15,12 +15,18 @@ fn oracle(g: &Graph, q: &[i32], k: usize) -> Vec<Neighbor> {
     scores
 }
 
-fn reference(g: &Graph, q: &[i32], k: usize, ef: usize) -> Vec<Neighbor> {
+fn reference(g: &Graph, q: &[i32], k: usize, ef: usize, entry: usize) -> (Vec<Neighbor>, Work) {
     let scores = oracle(g, q, g.points().len());
     let score = |id| *scores.iter().find(|x| x.1 == id).unwrap();
-    let mut pending = vec![score(0)];
+    let ef = ef.min(g.points().len());
+    let mut pending = vec![score(entry)];
     let mut retained = pending.clone();
-    let mut visited = std::collections::BTreeSet::from([0]);
+    let mut visited = std::collections::BTreeSet::from([entry]);
+    let mut work = Work {
+        distances: 1,
+        expanded: 0,
+        frontier: 1,
+    };
     while !pending.is_empty() {
         pending.sort_unstable();
         let current = pending.remove(0);
@@ -28,22 +34,26 @@ fn reference(g: &Graph, q: &[i32], k: usize, ef: usize) -> Vec<Neighbor> {
         if retained.len() == ef && current > *retained.last().unwrap() {
             break;
         }
+        work.expanded += 1;
         for &id in &g.edges()[current.1] {
             if !visited.insert(id) {
                 continue;
             }
             let item = score(id);
+            work.distances += 1;
             if retained.len() < ef || item < *retained.last().unwrap() {
                 pending.push(item);
                 retained.push(item);
                 retained.sort_unstable();
                 retained.truncate(ef);
+                work.frontier = work.frontier.max(pending.len());
             }
         }
     }
+    assert_eq!(work.distances, visited.len());
     retained.sort_unstable();
     retained.truncate(k);
-    retained
+    (retained, work)
 }
 
 #[test]
@@ -75,12 +85,18 @@ fn graph_and_scan_agree_with_independent_models() {
         for q in [vec![0, 0], vec![9, 17], vec![-12, 30]] {
             for k in [1, 4, 40] {
                 assert_eq!(g.exact(&q, k).unwrap().0, oracle(&g, &q, k));
-                for width in [k.min(n), n] {
-                    let got = g.search(&q, k, width, 0).unwrap();
-                    assert_eq!(got.0, reference(&g, &q, k, width));
-                    assert!(got.1.distances <= n);
-                    if width == n {
-                        assert_eq!(got.0, oracle(&g, &q, k));
+                for width in [k.min(n), n, n + 1] {
+                    for entry in [0, n / 2] {
+                        let got = g.search(&q, k, width, entry).unwrap();
+                        let (want, work) = reference(&g, &q, k, width, entry);
+                        assert_eq!(got.0, want);
+                        assert_eq!(got.1.distances, work.distances);
+                        assert_eq!(got.1.expanded, work.expanded);
+                        assert_eq!(got.1.frontier, work.frontier);
+                        assert!(got.1.distances <= n);
+                        if width >= n {
+                            assert_eq!(got.0, oracle(&g, &q, k));
+                        }
                     }
                 }
             }
@@ -102,6 +118,8 @@ fn empty_ties_disconnection_and_input_contracts() {
     assert_eq!(g.search(&[0], 3, 3, 0).unwrap().0, vec![(1, 0), (1, 1)]);
     assert!(g.search(&[0], 2, 1, 0).is_err());
     assert!(g.search(&[0], 1, 1, 3).is_err());
+    assert!(g.search(&[0], 0, 1, 3).is_err());
+    assert!(g.search(&[0], 0, 1, 0).unwrap().0.is_empty());
     assert!(g.exact(&[0, 1], 1).is_err());
     assert!(g.exact(&[10001], 1).is_err());
     assert!(Graph::new(vec![vec![i32::MIN]], vec![vec![]]).is_err());

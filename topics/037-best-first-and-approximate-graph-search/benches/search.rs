@@ -78,7 +78,8 @@ fn execute(g: &Graph, q: &[i32], method: &str) -> (Vec<(i64, usize)>, topic037_g
     }
 }
 fn main() {
-    let args: Vec<_> = std::env::args().collect();
+    // Cargo appends `--bench`; the positional arguments keep their indices.
+    let args: Vec<_> = std::env::args().filter(|a| a != "--bench").collect();
     let case = args.get(1).map_or(0, |x| x.parse().unwrap());
     let method = args.get(2).map_or("flat", String::as_str);
     let start = Instant::now();

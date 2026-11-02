@@ -112,7 +112,8 @@ impl Graph {
     /// node once. Disconnected or poorly routed graphs can underfill or lose recall.
     ///
     /// # Errors
-    /// Returns an error for invalid query, entry, or width below min(k, N).
+    /// Returns an error for invalid query, entry outside a nonempty graph, or
+    /// width below min(k, N). An empty graph or k=0 yields no results.
     pub fn search(
         &self,
         q: &[i32],
@@ -122,11 +123,11 @@ impl Graph {
     ) -> Result<(Vec<Neighbor>, Work), &'static str> {
         self.query(q)?;
         let cap = k.min(self.points.len());
+        if (!self.points.is_empty() && entry >= self.points.len()) || ef < cap {
+            return Err("invalid entry or width");
+        }
         if cap == 0 {
             return Ok((Vec::new(), Work::default()));
-        }
-        if entry >= self.points.len() || ef < cap {
-            return Err("invalid entry or width");
         }
         let width = ef.min(self.points.len());
         let first = (self.distance(entry, q), entry);

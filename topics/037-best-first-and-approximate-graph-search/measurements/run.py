@@ -9,7 +9,7 @@ def main():
  p=argparse.ArgumentParser();p.add_argument('--out',required=True);p.add_argument('--focus',action='store_true');a=p.parse_args();out=pathlib.Path(a.out);out.mkdir(parents=True,exist_ok=False)
  inputs=['src/lib.rs','tests/contracts.rs','benches/search.rs','measurements/run.py','measurements/summarize.py']
  (out/'inputs.json').write_text(json.dumps({s:hashlib.sha256((HERE/s).read_bytes()).hexdigest() for s in inputs},indent=2))
- env=dict(hostname=platform.node(),uname=list(platform.uname()),cpu=run(['cat','/proc/cpuinfo']),rustc=run(['rustc','-vV']),flags='--edition=2024 -C opt-level=3 -C target-cpu=native',target_cfg=run(['rustc','--print','cfg','-C','target-cpu=native']),available_cpus=len(os.sched_getaffinity(0)))
+ env=dict(hostname=platform.node(),uname=list(platform.uname()),cpu=run(['sh','-c','cat /proc/cpuinfo 2>/dev/null || sysctl -n machdep.cpu.brand_string']),rustc=run(['rustc','-vV']),flags='--edition=2024 -C opt-level=3 -C target-cpu=native',target_cfg=run(['rustc','--print','cfg','-C','target-cpu=native']),available_cpus=len(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else os.cpu_count())
  (out/'environment.json').write_text(json.dumps(env,indent=2))
  lib=out/'libgraph.rlib';exe=out/'search'
  common=['rustc','--edition=2024','-C','opt-level=3','-C','target-cpu=native']
@@ -24,7 +24,7 @@ def main():
   for case in range(1 if a.focus else 8):
    fixture=json.loads(run([str(exe),str(case),'fixture']));(out/f'fixture-{case}.json').write_text(json.dumps(fixture))
    points=fixture['points'];queries=fixture['queries'];oracles=[sorted((sum((x-y)**2 for x,y in zip(p,q)),i) for i,p in enumerate(points))[:4] for q in queries]
-   for block in range(-1,0 if a.focus else 8):
+   for block in range(-1,1 if a.focus else 8):
     for method in (METHODS if block<0 else ORDERS[block%4]):
      start=time.monotonic_ns();row=json.loads(run([str(exe),str(case),method]));wall=time.monotonic_ns()-start
      hits=0;full=True

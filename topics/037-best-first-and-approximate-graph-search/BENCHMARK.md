@@ -1,6 +1,6 @@
 # Benchmark decision: true
 
-Compare flat and graph widths4/16/64 at k=4 on these fixed cases:
+Compare flat and graph widths 4/16/64 at k=4 on these fixed cases:
 
 | Case | N | d | maximum degree | geometry |
 |---|---:|---:|---:|---|
@@ -14,7 +14,7 @@ Compare flat and graph widths4/16/64 at k=4 on these fixed cases:
 | 7 | 1024 | 2 | 16 | disconnected clusters, first-cluster entry |
 
 Build ranks permitted neighbors, keeps M-2 nearest, adds allowed ring neighbors.
-Seed37 controls corpus and 32 subsequent queries. Entry0 and exact scorer/tie
+Seed 37 controls corpus and 32 subsequent queries. Entry 0 and exact scorer/tie
 order remain fixed. Every process checks distances, IDs, order, checksum,
 flat-oracle agreement and recall using independent Python exhaustive scoring.
 
