@@ -1,0 +1,5 @@
+{
+  "path": "search-states.png",
+  "sha256": "10d3b47cc5d09b366c5b1e3005af5f39fd8beb2a3728918de4f6d789c0ecc478",
+  "review": "Rendered and visually inspected: aligned panels, readable labels, sufficient contrast, no clipping; running example matches width1/2 regression."
+}

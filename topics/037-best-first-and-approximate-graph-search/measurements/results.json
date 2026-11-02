@@ -1,0 +1,1304 @@
+{
+  "arm": [
+    {
+      "case": 0,
+      "stats": {
+        "flat": {
+          "median_ns": 342.8101806640625,
+          "min_ns": 337.9775390625,
+          "max_ns": 345.2958984375,
+          "recall": 1.0,
+          "full": true,
+          "distances": 32.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 33694.5
+        },
+        "4": {
+          "median_ns": 567.135986328125,
+          "min_ns": 562.7890625,
+          "max_ns": 577.043212890625,
+          "recall": 0.75,
+          "full": true,
+          "distances": 19.0,
+          "expanded": 7.375,
+          "frontier_max": 11,
+          "build_median_ns": 33555.5
+        },
+        "16": {
+          "median_ns": 1422.908935546875,
+          "min_ns": 1409.468017578125,
+          "max_ns": 1440.402099609375,
+          "recall": 1.0,
+          "full": true,
+          "distances": 31.34375,
+          "expanded": 17.59375,
+          "frontier_max": 16,
+          "build_median_ns": 33604.5
+        },
+        "64": {
+          "median_ns": 1856.1463623046875,
+          "min_ns": 1841.34375,
+          "max_ns": 1875.480224609375,
+          "recall": 1.0,
+          "full": true,
+          "distances": 32.0,
+          "expanded": 32.0,
+          "frontier_max": 18,
+          "build_median_ns": 33605.0
+        }
+      },
+      "qualified": [
+        "flat",
+        "16",
+        "64"
+      ],
+      "fastest_median": "flat",
+      "resolved_winner": "flat",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "16": [
+          4.168735166491443,
+          4.189159183133793,
+          4.251908468630901,
+          4.135728030060522,
+          4.111856339247079,
+          4.156797731653386,
+          4.201046721518672,
+          4.129946727279688
+        ],
+        "64": [
+          5.454487305508307,
+          5.520197095308962,
+          5.503806824256189,
+          5.406225889724613,
+          5.332654567668694,
+          5.451017494292053,
+          5.4036236502098784,
+          5.37051410940121
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "stats": {
+        "flat": {
+          "median_ns": 738.42919921875,
+          "min_ns": 733.60546875,
+          "max_ns": 744.27734375,
+          "recall": 1.0,
+          "full": true,
+          "distances": 64.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 123122.5
+        },
+        "4": {
+          "median_ns": 935.03125,
+          "min_ns": 924.72900390625,
+          "max_ns": 939.42236328125,
+          "recall": 0.9921875,
+          "full": true,
+          "distances": 44.15625,
+          "expanded": 5.5,
+          "frontier_max": 18,
+          "build_median_ns": 122412.5
+        },
+        "16": {
+          "median_ns": 2892.47900390625,
+          "min_ns": 2828.154296875,
+          "max_ns": 2946.47412109375,
+          "recall": 1.0,
+          "full": true,
+          "distances": 59.9375,
+          "expanded": 16.9375,
+          "frontier_max": 33,
+          "build_median_ns": 121795.5
+        },
+        "64": {
+          "median_ns": 6744.5703125,
+          "min_ns": 6690.62841796875,
+          "max_ns": 6793.08154296875,
+          "recall": 1.0,
+          "full": true,
+          "distances": 64.0,
+          "expanded": 64.0,
+          "frontier_max": 48,
+          "build_median_ns": 122647.5
+        }
+      },
+      "qualified": [
+        "flat",
+        "4",
+        "16",
+        "64"
+      ],
+      "fastest_median": "flat",
+      "resolved_winner": "flat",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "4": [
+          1.275149738897251,
+          1.2654041098737114,
+          1.2608893661873795,
+          1.2590895373553415,
+          1.2546286385229335,
+          1.2797732198101202,
+          1.2455335680354407,
+          1.2694436623833327
+        ],
+        "16": [
+          3.999474414316609,
+          3.909267831849971,
+          3.9072443304231386,
+          3.946377962054216,
+          3.8888016958212557,
+          3.956027060270603,
+          3.8092901784862834,
+          3.929643052552736
+        ],
+        "64": [
+          9.082562021430375,
+          9.169821739225089,
+          9.125654130952144,
+          8.989429107513056,
+          9.135942164509897,
+          9.200036075036076,
+          9.096238167613608,
+          9.16565625846618
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "stats": {
+        "flat": {
+          "median_ns": 3896.859375,
+          "min_ns": 3882.0078125,
+          "max_ns": 3932.3671875,
+          "recall": 1.0,
+          "full": true,
+          "distances": 1024.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 24388741.5
+        },
+        "4": {
+          "median_ns": 714.4296875,
+          "min_ns": 707.0234375,
+          "max_ns": 754.109375,
+          "recall": 0.109375,
+          "full": true,
+          "distances": 22.5625,
+          "expanded": 7.5,
+          "frontier_max": 15,
+          "build_median_ns": 24376388.0
+        },
+        "16": {
+          "median_ns": 3428.10546875,
+          "min_ns": 3387.0,
+          "max_ns": 3466.3203125,
+          "recall": 0.40625,
+          "full": true,
+          "distances": 74.1875,
+          "expanded": 26.9375,
+          "frontier_max": 33,
+          "build_median_ns": 24403176.5
+        },
+        "64": {
+          "median_ns": 12011.44921875,
+          "min_ns": 11964.5078125,
+          "max_ns": 12069.5,
+          "recall": 0.59375,
+          "full": true,
+          "distances": 200.0,
+          "expanded": 76.53125,
+          "frontier_max": 76,
+          "build_median_ns": 24351039.5
+        }
+      },
+      "qualified": [
+        "flat"
+      ],
+      "fastest_median": "flat",
+      "resolved_winner": "flat",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "stats": {
+        "flat": {
+          "median_ns": 3903.46484375,
+          "min_ns": 3892.203125,
+          "max_ns": 3968.3046875,
+          "recall": 1.0,
+          "full": true,
+          "distances": 1024.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 24433234.5
+        },
+        "4": {
+          "median_ns": 2168.1484375,
+          "min_ns": 2137.28125,
+          "max_ns": 2256.546875,
+          "recall": 0.9921875,
+          "full": true,
+          "distances": 79.59375,
+          "expanded": 8.78125,
+          "frontier_max": 58,
+          "build_median_ns": 24469262.0
+        },
+        "16": {
+          "median_ns": 4770.76953125,
+          "min_ns": 4696.6796875,
+          "max_ns": 4817.5,
+          "recall": 1.0,
+          "full": true,
+          "distances": 115.28125,
+          "expanded": 20.0625,
+          "frontier_max": 93,
+          "build_median_ns": 24470753.0
+        },
+        "64": {
+          "median_ns": 12104.6171875,
+          "min_ns": 12067.453125,
+          "max_ns": 12228.046875,
+          "recall": 1.0,
+          "full": true,
+          "distances": 242.09375,
+          "expanded": 66.53125,
+          "frontier_max": 120,
+          "build_median_ns": 24484378.5
+        }
+      },
+      "qualified": [
+        "flat",
+        "4",
+        "16",
+        "64"
+      ],
+      "fastest_median": "4",
+      "resolved_winner": "4",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "4": [
+          0.5603610870332916,
+          0.5797608199083906,
+          0.5415391097032541,
+          0.5457204991456532,
+          0.5475174068714863,
+          0.5519526527736636,
+          0.5567539937627292,
+          0.5688073394495413
+        ],
+        "16": [
+          1.2277400558605414,
+          1.2116009168971622,
+          1.2037649893787294,
+          1.1972306417757668,
+          1.2115802977630745,
+          1.2341982434931589,
+          1.2129920602087576,
+          1.2350004414585791
+        ],
+        "64": [
+          3.112236749173328,
+          3.100417099891209,
+          3.046981649515792,
+          3.0795518363477767,
+          3.1267384356130883,
+          3.1131601911822395,
+          3.113046556771894,
+          3.1050149694590927
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "stats": {
+        "flat": {
+          "median_ns": 5430.24609375,
+          "min_ns": 5420.515625,
+          "max_ns": 5496.3203125,
+          "recall": 1.0,
+          "full": true,
+          "distances": 1024.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 26581353.5
+        },
+        "4": {
+          "median_ns": 934.34765625,
+          "min_ns": 915.703125,
+          "max_ns": 942.75,
+          "recall": 0.1015625,
+          "full": true,
+          "distances": 23.875,
+          "expanded": 7.15625,
+          "frontier_max": 9,
+          "build_median_ns": 26587049.5
+        },
+        "16": {
+          "median_ns": 3818.16796875,
+          "min_ns": 3799.234375,
+          "max_ns": 3836.28125,
+          "recall": 0.2109375,
+          "full": true,
+          "distances": 69.53125,
+          "expanded": 22.25,
+          "frontier_max": 27,
+          "build_median_ns": 26621997.5
+        },
+        "64": {
+          "median_ns": 14274.28515625,
+          "min_ns": 14253.328125,
+          "max_ns": 14609.1171875,
+          "recall": 0.5,
+          "full": true,
+          "distances": 212.53125,
+          "expanded": 72.75,
+          "frontier_max": 77,
+          "build_median_ns": 26613821.0
+        }
+      },
+      "qualified": [
+        "flat"
+      ],
+      "fastest_median": "flat",
+      "resolved_winner": "flat",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "stats": {
+        "flat": {
+          "median_ns": 5440.0859375,
+          "min_ns": 5414.140625,
+          "max_ns": 5464.796875,
+          "recall": 1.0,
+          "full": true,
+          "distances": 1024.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 26673827.5
+        },
+        "4": {
+          "median_ns": 2104.359375,
+          "min_ns": 2088.4609375,
+          "max_ns": 2162.09375,
+          "recall": 0.7734375,
+          "full": true,
+          "distances": 95.3125,
+          "expanded": 7.53125,
+          "frontier_max": 22,
+          "build_median_ns": 26660007.5
+        },
+        "16": {
+          "median_ns": 6857.57421875,
+          "min_ns": 6769.2734375,
+          "max_ns": 6933.453125,
+          "recall": 0.9375,
+          "full": true,
+          "distances": 196.71875,
+          "expanded": 18.53125,
+          "frontier_max": 69,
+          "build_median_ns": 26700073.5
+        },
+        "64": {
+          "median_ns": 20063.66796875,
+          "min_ns": 19987.390625,
+          "max_ns": 20191.109375,
+          "recall": 0.984375,
+          "full": true,
+          "distances": 468.96875,
+          "expanded": 65.40625,
+          "frontier_max": 139,
+          "build_median_ns": 26760162.5
+        }
+      },
+      "qualified": [
+        "flat",
+        "64"
+      ],
+      "fastest_median": "flat",
+      "resolved_winner": "flat",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "64": [
+          3.6730185848521613,
+          3.690844393042403,
+          3.698630611390889,
+          3.6882712546244747,
+          3.7137450388402327,
+          3.6812550687341847,
+          3.7126300229699467,
+          3.6613194680726355
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "stats": {
+        "flat": {
+          "median_ns": 6250.796875,
+          "min_ns": 6143.859375,
+          "max_ns": 6773.328125,
+          "recall": 1.0,
+          "full": true,
+          "distances": 1024.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 26792391.0
+        },
+        "4": {
+          "median_ns": 2133.0859375,
+          "min_ns": 2109.984375,
+          "max_ns": 2175.765625,
+          "recall": 0.78125,
+          "full": true,
+          "distances": 99.125,
+          "expanded": 8.0,
+          "frontier_max": 26,
+          "build_median_ns": 26852696.0
+        },
+        "16": {
+          "median_ns": 6678.578125,
+          "min_ns": 6648.765625,
+          "max_ns": 6744.96875,
+          "recall": 0.9609375,
+          "full": true,
+          "distances": 187.84375,
+          "expanded": 19.3125,
+          "frontier_max": 66,
+          "build_median_ns": 26844818.5
+        },
+        "64": {
+          "median_ns": 17853.31640625,
+          "min_ns": 17691.0859375,
+          "max_ns": 18182.6015625,
+          "recall": 1.0,
+          "full": true,
+          "distances": 370.5,
+          "expanded": 66.0,
+          "frontier_max": 134,
+          "build_median_ns": 26867759.5
+        }
+      },
+      "qualified": [
+        "flat",
+        "16",
+        "64"
+      ],
+      "fastest_median": "flat",
+      "resolved_winner": null,
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "16": [
+          1.0736535037537323,
+          1.0968487811323249,
+          1.031822685095689,
+          1.0845591923234668,
+          0.9901832324858764,
+          1.071167533662604,
+          1.0184118824013708,
+          1.084816648737179
+        ],
+        "64": [
+          2.8697890997655553,
+          2.9208930232085413,
+          2.735911221728204,
+          2.955232920615128,
+          2.6355073784351766,
+          2.853954064865068,
+          2.7349782685698423,
+          2.898674235199272
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "stats": {
+        "flat": {
+          "median_ns": 4315.14453125,
+          "min_ns": 4277.78125,
+          "max_ns": 4344.1953125,
+          "recall": 1.0,
+          "full": true,
+          "distances": 1024.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 12851868.0
+        },
+        "4": {
+          "median_ns": 1034.05078125,
+          "min_ns": 1028.078125,
+          "max_ns": 1049.3984375,
+          "recall": 0.0,
+          "full": true,
+          "distances": 62.0,
+          "expanded": 9.0,
+          "frontier_max": 25,
+          "build_median_ns": 12857679.0
+        },
+        "16": {
+          "median_ns": 2135.4453125,
+          "min_ns": 2119.8828125,
+          "max_ns": 2180.7421875,
+          "recall": 0.0,
+          "full": true,
+          "distances": 91.0,
+          "expanded": 20.0,
+          "frontier_max": 42,
+          "build_median_ns": 12846943.5
+        },
+        "64": {
+          "median_ns": 5382.43359375,
+          "min_ns": 5368.2890625,
+          "max_ns": 5427.21875,
+          "recall": 0.0,
+          "full": true,
+          "distances": 197.34375,
+          "expanded": 65.0,
+          "frontier_max": 65,
+          "build_median_ns": 12855415.5
+        }
+      },
+      "qualified": [
+        "flat"
+      ],
+      "fastest_median": "flat",
+      "resolved_winner": "flat",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    }
+  ],
+  "x86": [
+    {
+      "case": 0,
+      "stats": {
+        "flat": {
+          "median_ns": 236.917236328125,
+          "min_ns": 232.4541015625,
+          "max_ns": 274.858642578125,
+          "recall": 1.0,
+          "full": true,
+          "distances": 32.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 37783.5
+        },
+        "4": {
+          "median_ns": 505.9921875,
+          "min_ns": 463.1708984375,
+          "max_ns": 628.0576171875,
+          "recall": 0.75,
+          "full": true,
+          "distances": 19.0,
+          "expanded": 7.375,
+          "frontier_max": 11,
+          "build_median_ns": 39719.0
+        },
+        "16": {
+          "median_ns": 1177.3525390625,
+          "min_ns": 1160.58203125,
+          "max_ns": 1444.079345703125,
+          "recall": 1.0,
+          "full": true,
+          "distances": 31.34375,
+          "expanded": 17.59375,
+          "frontier_max": 16,
+          "build_median_ns": 36633.0
+        },
+        "64": {
+          "median_ns": 1542.866943359375,
+          "min_ns": 1530.8720703125,
+          "max_ns": 1873.074462890625,
+          "recall": 1.0,
+          "full": true,
+          "distances": 32.0,
+          "expanded": 32.0,
+          "frontier_max": 18,
+          "build_median_ns": 37407.0
+        }
+      },
+      "qualified": [
+        "flat",
+        "16",
+        "64"
+      ],
+      "fastest_median": "flat",
+      "resolved_winner": "flat",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "16": [
+          6.141426380638817,
+          4.272952805108449,
+          4.936820705617364,
+          5.005101084718177,
+          4.559071012513434,
+          4.993161662458567,
+          4.876885355219287,
+          4.921457185854481
+        ],
+        "64": [
+          6.510541228898075,
+          6.8146827959329235,
+          7.122582488334251,
+          6.54981348479562,
+          5.71210826184921,
+          6.5955980893405535,
+          6.4866263144396,
+          6.375240598369533
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "stats": {
+        "flat": {
+          "median_ns": 597.288330078125,
+          "min_ns": 533.80224609375,
+          "max_ns": 684.02197265625,
+          "recall": 1.0,
+          "full": true,
+          "distances": 64.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 142132.0
+        },
+        "4": {
+          "median_ns": 772.088623046875,
+          "min_ns": 765.5400390625,
+          "max_ns": 1054.09375,
+          "recall": 0.9921875,
+          "full": true,
+          "distances": 44.15625,
+          "expanded": 5.5,
+          "frontier_max": 18,
+          "build_median_ns": 141428.5
+        },
+        "16": {
+          "median_ns": 1868.048828125,
+          "min_ns": 1783.1337890625,
+          "max_ns": 2160.61376953125,
+          "recall": 1.0,
+          "full": true,
+          "distances": 59.9375,
+          "expanded": 16.9375,
+          "frontier_max": 33,
+          "build_median_ns": 141655.5
+        },
+        "64": {
+          "median_ns": 5574.997314453125,
+          "min_ns": 5441.93017578125,
+          "max_ns": 5656.5634765625,
+          "recall": 1.0,
+          "full": true,
+          "distances": 64.0,
+          "expanded": 64.0,
+          "frontier_max": 48,
+          "build_median_ns": 141311.5
+        }
+      },
+      "qualified": [
+        "flat",
+        "4",
+        "16",
+        "64"
+      ],
+      "fastest_median": "flat",
+      "resolved_winner": "flat",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "4": [
+          1.3833735915468268,
+          1.2726565837409223,
+          1.2879470687878591,
+          1.2601457506188847,
+          1.4490037293261144,
+          1.7655645301116532,
+          1.1326176388076898,
+          1.28229694030278
+        ],
+        "16": [
+          3.2006664516445684,
+          2.9729919346193783,
+          3.086980716257946,
+          3.0526129839070024,
+          3.6410791171458445,
+          3.6189409478570655,
+          2.7707379020427916,
+          3.1346021412155367
+        ],
+        "64": [
+          9.99436180506377,
+          9.15684613378516,
+          9.217868124666504,
+          9.047936078833548,
+          10.194655821709489,
+          9.349629840453547,
+          8.167814162128439,
+          9.474872205910017
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "stats": {
+        "flat": {
+          "median_ns": 2766.96484375,
+          "min_ns": 2577.5078125,
+          "max_ns": 4157.828125,
+          "recall": 1.0,
+          "full": true,
+          "distances": 1024.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 25946129.5
+        },
+        "4": {
+          "median_ns": 615.35546875,
+          "min_ns": 586.671875,
+          "max_ns": 1095.1796875,
+          "recall": 0.109375,
+          "full": true,
+          "distances": 22.5625,
+          "expanded": 7.5,
+          "frontier_max": 15,
+          "build_median_ns": 25730183.5
+        },
+        "16": {
+          "median_ns": 2674.3203125,
+          "min_ns": 2422.0859375,
+          "max_ns": 3271.1328125,
+          "recall": 0.40625,
+          "full": true,
+          "distances": 74.1875,
+          "expanded": 26.9375,
+          "frontier_max": 33,
+          "build_median_ns": 25577365.0
+        },
+        "64": {
+          "median_ns": 11355.22265625,
+          "min_ns": 11155.0859375,
+          "max_ns": 11643.875,
+          "recall": 0.59375,
+          "full": true,
+          "distances": 200.0,
+          "expanded": 76.53125,
+          "frontier_max": 76,
+          "build_median_ns": 25823047.0
+        }
+      },
+      "qualified": [
+        "flat"
+      ],
+      "fastest_median": "flat",
+      "resolved_winner": "flat",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "stats": {
+        "flat": {
+          "median_ns": 2747.765625,
+          "min_ns": 2562.3671875,
+          "max_ns": 2888.7890625,
+          "recall": 1.0,
+          "full": true,
+          "distances": 1024.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 25619428.5
+        },
+        "4": {
+          "median_ns": 1730.3359375,
+          "min_ns": 1561.046875,
+          "max_ns": 2069.3203125,
+          "recall": 0.9921875,
+          "full": true,
+          "distances": 79.59375,
+          "expanded": 8.78125,
+          "frontier_max": 58,
+          "build_median_ns": 25916525.0
+        },
+        "16": {
+          "median_ns": 3901.96875,
+          "min_ns": 3700.15625,
+          "max_ns": 4255.2734375,
+          "recall": 1.0,
+          "full": true,
+          "distances": 115.28125,
+          "expanded": 20.0625,
+          "frontier_max": 93,
+          "build_median_ns": 25725912.0
+        },
+        "64": {
+          "median_ns": 11321.28125,
+          "min_ns": 11067.671875,
+          "max_ns": 11603.2421875,
+          "recall": 1.0,
+          "full": true,
+          "distances": 242.09375,
+          "expanded": 66.53125,
+          "frontier_max": 120,
+          "build_median_ns": 25671791.0
+        }
+      },
+      "qualified": [
+        "flat",
+        "4",
+        "16",
+        "64"
+      ],
+      "fastest_median": "4",
+      "resolved_winner": "4",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "4": [
+          0.6505932988782188,
+          0.6213139740549272,
+          0.6115911457276919,
+          0.6159861944064174,
+          0.6152364630288869,
+          0.7514404786559504,
+          0.5791290486196652,
+          0.6328615423617974
+        ],
+        "16": [
+          1.4975750649586936,
+          1.5488417987522252,
+          1.2892377591172772,
+          1.4440382580804494,
+          1.4089636626144844,
+          1.3831602300226675,
+          1.541549163104123,
+          1.375968333443767
+        ],
+        "64": [
+          4.127708507456746,
+          4.10879072756536,
+          3.911340986842995,
+          4.427323977157353,
+          4.092267973063825,
+          4.204521017796401,
+          4.124475038040722,
+          4.081223333919111
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "stats": {
+        "flat": {
+          "median_ns": 6298.671875,
+          "min_ns": 6206.7265625,
+          "max_ns": 7805.125,
+          "recall": 1.0,
+          "full": true,
+          "distances": 1024.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 29747556.5
+        },
+        "4": {
+          "median_ns": 760.48828125,
+          "min_ns": 733.796875,
+          "max_ns": 837.375,
+          "recall": 0.1015625,
+          "full": true,
+          "distances": 23.875,
+          "expanded": 7.15625,
+          "frontier_max": 9,
+          "build_median_ns": 29542856.0
+        },
+        "16": {
+          "median_ns": 2929.828125,
+          "min_ns": 2698.203125,
+          "max_ns": 3229.3984375,
+          "recall": 0.2109375,
+          "full": true,
+          "distances": 69.53125,
+          "expanded": 22.25,
+          "frontier_max": 27,
+          "build_median_ns": 29435425.5
+        },
+        "64": {
+          "median_ns": 13329.16015625,
+          "min_ns": 13029.90625,
+          "max_ns": 13631.046875,
+          "recall": 0.5,
+          "full": true,
+          "distances": 212.53125,
+          "expanded": 72.75,
+          "frontier_max": 77,
+          "build_median_ns": 29508865.0
+        }
+      },
+      "qualified": [
+        "flat"
+      ],
+      "fastest_median": "flat",
+      "resolved_winner": "flat",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "stats": {
+        "flat": {
+          "median_ns": 6241.0703125,
+          "min_ns": 6205.5546875,
+          "max_ns": 6289.875,
+          "recall": 1.0,
+          "full": true,
+          "distances": 1024.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 29474472.5
+        },
+        "4": {
+          "median_ns": 1747.828125,
+          "min_ns": 1680.9296875,
+          "max_ns": 1843.84375,
+          "recall": 0.7734375,
+          "full": true,
+          "distances": 95.3125,
+          "expanded": 7.53125,
+          "frontier_max": 22,
+          "build_median_ns": 29528358.5
+        },
+        "16": {
+          "median_ns": 6530.5703125,
+          "min_ns": 6278.125,
+          "max_ns": 6735.0546875,
+          "recall": 0.9375,
+          "full": true,
+          "distances": 196.71875,
+          "expanded": 18.53125,
+          "frontier_max": 69,
+          "build_median_ns": 29708396.0
+        },
+        "64": {
+          "median_ns": 19974.88671875,
+          "min_ns": 19836.25,
+          "max_ns": 20502.375,
+          "recall": 0.984375,
+          "full": true,
+          "distances": 468.96875,
+          "expanded": 65.40625,
+          "frontier_max": 139,
+          "build_median_ns": 29508642.5
+        }
+      },
+      "qualified": [
+        "flat",
+        "64"
+      ],
+      "fastest_median": "flat",
+      "resolved_winner": "flat",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "64": [
+          3.1985494346672776,
+          3.2038834466026094,
+          3.2595838550050678,
+          3.1963919762987563,
+          3.2066911759158905,
+          3.2321101964014174,
+          3.188225511143926,
+          3.16570765979465
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "stats": {
+        "flat": {
+          "median_ns": 6661.2109375,
+          "min_ns": 6573.21875,
+          "max_ns": 8944.2421875,
+          "recall": 1.0,
+          "full": true,
+          "distances": 1024.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 30068667.0
+        },
+        "4": {
+          "median_ns": 1824.6015625,
+          "min_ns": 1755.65625,
+          "max_ns": 3156.2109375,
+          "recall": 0.78125,
+          "full": true,
+          "distances": 99.125,
+          "expanded": 8.0,
+          "frontier_max": 26,
+          "build_median_ns": 30654675.0
+        },
+        "16": {
+          "median_ns": 6540.74609375,
+          "min_ns": 6255.8671875,
+          "max_ns": 9316.390625,
+          "recall": 0.9609375,
+          "full": true,
+          "distances": 187.84375,
+          "expanded": 19.3125,
+          "frontier_max": 66,
+          "build_median_ns": 32162165.5
+        },
+        "64": {
+          "median_ns": 18446.76953125,
+          "min_ns": 17490.5859375,
+          "max_ns": 23803.1484375,
+          "recall": 1.0,
+          "full": true,
+          "distances": 370.5,
+          "expanded": 66.0,
+          "frontier_max": 134,
+          "build_median_ns": 31220382.0
+        }
+      },
+      "qualified": [
+        "flat",
+        "16",
+        "64"
+      ],
+      "fastest_median": "16",
+      "resolved_winner": null,
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "16": [
+          0.8442955174356023,
+          0.9863387755813751,
+          0.9379737449675121,
+          0.965996016030959,
+          1.4003572238003585,
+          0.8775530347299196,
+          1.262723154182888,
+          0.9519018568048616
+        ],
+        "64": [
+          2.2998956306982725,
+          2.6122592982231807,
+          2.6224518362943554,
+          2.6810590321522465,
+          2.8965483631939706,
+          2.560165714150951,
+          3.5824637232988077,
+          3.2123400774727227
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "stats": {
+        "flat": {
+          "median_ns": 2950.6484375,
+          "min_ns": 2902.578125,
+          "max_ns": 4931.4921875,
+          "recall": 1.0,
+          "full": true,
+          "distances": 1024.0,
+          "expanded": 0.0,
+          "frontier_max": 0,
+          "build_median_ns": 13838949.5
+        },
+        "4": {
+          "median_ns": 1138.49609375,
+          "min_ns": 1008.4140625,
+          "max_ns": 1810.8828125,
+          "recall": 0.0,
+          "full": true,
+          "distances": 62.0,
+          "expanded": 9.0,
+          "frontier_max": 25,
+          "build_median_ns": 13959456.5
+        },
+        "16": {
+          "median_ns": 2101.79296875,
+          "min_ns": 2057.1328125,
+          "max_ns": 2146.015625,
+          "recall": 0.0,
+          "full": true,
+          "distances": 91.0,
+          "expanded": 20.0,
+          "frontier_max": 42,
+          "build_median_ns": 13721528.0
+        },
+        "64": {
+          "median_ns": 5638.91015625,
+          "min_ns": 5481.7109375,
+          "max_ns": 6088.6640625,
+          "recall": 0.0,
+          "full": true,
+          "distances": 197.34375,
+          "expanded": 65.0,
+          "frontier_max": 65,
+          "build_median_ns": 14306987.5
+        }
+      },
+      "qualified": [
+        "flat"
+      ],
+      "fastest_median": "flat",
+      "resolved_winner": "flat",
+      "paired_ratios_to_flat": {
+        "flat": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    }
+  ]
+}
