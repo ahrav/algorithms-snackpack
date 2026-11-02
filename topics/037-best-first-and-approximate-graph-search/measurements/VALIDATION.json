@@ -1,0 +1,94 @@
+[
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 0.014255749993026257,
+    "log": "gate-0.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 0.3163532500038855,
+    "log": "gate-1.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--workspace",
+      "--lib",
+      "--examples"
+    ],
+    "exit_code": 0,
+    "seconds": 51.54164829198271,
+    "log": "gate-2.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--workspace",
+      "--doc"
+    ],
+    "exit_code": 0,
+    "seconds": 4.119758124987129,
+    "log": "gate-3.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--workspace",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit_code": 0,
+    "seconds": 1.611100041976897,
+    "log": "gate-4.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "bench",
+      "--workspace",
+      "--no-run"
+    ],
+    "exit_code": 0,
+    "seconds": 5.715501750004478,
+    "log": "gate-5.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "doc",
+      "--workspace",
+      "--no-deps"
+    ],
+    "exit_code": 0,
+    "seconds": 2.6556449590134434,
+    "log": "gate-6.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--workspace",
+      "--all-targets"
+    ],
+    "exit_code": 0,
+    "seconds": 64.65485008398537,
+    "log": "gate-7.log"
+  }
+]

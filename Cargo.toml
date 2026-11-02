@@ -7,6 +7,7 @@ publish = false
 
 [workspace]
 members = [
+    "topics/037-best-first-and-approximate-graph-search",
     "topics/036-merkle-trees",
     "topics/035-reachability-indexes",
     "topics/034-dominator-trees",

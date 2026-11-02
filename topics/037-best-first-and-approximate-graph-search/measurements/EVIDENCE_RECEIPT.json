@@ -1,0 +1,44 @@
+[
+  {
+    "host": "arm",
+    "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+    "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-037/20261102/exact-arm-evidence.tar.gz",
+    "sha256": "70c37e15eb06c29e74cffedf0c6abac7c310ec1788180e4058736a132b1aa355",
+    "size": 2971297,
+    "members": 19,
+    "source_commit": "af07996f913c4dd6d751f1c1d9dcf150cc647b46",
+    "inputs": {
+      "src/lib.rs": "61f4da741423afcb9e857657e5828fa17bca3f24e87ea9cd192fab7be132ece0",
+      "tests/contracts.rs": "d5a4a595936852733276f63fb9bf1552db606265bc0d7aba936e9b193942ffbb",
+      "benches/search.rs": "b1f63d536a85e233571a6728db99b4a49679f5402170636d47882a667d52286f",
+      "measurements/run.py": "37e192b7ccab07589e8e1330b0393fc878eeec1c5a9e3e17f4675abf5959e518",
+      "measurements/summarize.py": "c7eca93d1205d1c128156cbf433d48dd4f2060ee007fc13738902ad9ba506ea6"
+    },
+    "binary_sha256": "0c88301923ebb1d61a75d85bf484d228ee388a3676f7bc2f32a6689ba3eafd29",
+    "manifest_sha256": "e91f2ffdf12c2d4032984140fb202205b63740cb34c0a4b415561b8c873bfe2b",
+    "verified": true,
+    "assembly_sha256": "31eaef6aee60829efe92d9bbd43f854756451fa052cafe2b5c15067e8c5f8f1c",
+    "assembly_review": "Inspected exact/search emitted functions and distance/scoring loops. Heap/scan routines remain distinct; no causal branch/cache claim derived."
+  },
+  {
+    "host": "x86",
+    "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+    "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-037/20261102/exact-x86-evidence.tar.gz",
+    "sha256": "9b223607922ccccfabc258298f4a37ad11ea0f0438aff8b5d028c62a2e62b494",
+    "size": 3502744,
+    "members": 19,
+    "source_commit": "af07996f913c4dd6d751f1c1d9dcf150cc647b46",
+    "inputs": {
+      "src/lib.rs": "61f4da741423afcb9e857657e5828fa17bca3f24e87ea9cd192fab7be132ece0",
+      "tests/contracts.rs": "d5a4a595936852733276f63fb9bf1552db606265bc0d7aba936e9b193942ffbb",
+      "benches/search.rs": "b1f63d536a85e233571a6728db99b4a49679f5402170636d47882a667d52286f",
+      "measurements/run.py": "37e192b7ccab07589e8e1330b0393fc878eeec1c5a9e3e17f4675abf5959e518",
+      "measurements/summarize.py": "c7eca93d1205d1c128156cbf433d48dd4f2060ee007fc13738902ad9ba506ea6"
+    },
+    "binary_sha256": "0eb94baf2870701bad30623f0d5320d8c434d01de534b7ff91ed01b959d97022",
+    "manifest_sha256": "eec383edb9eeed7d90d4f8c87790d5f0dc593c9721b7e571e437c07d37df4477",
+    "verified": true,
+    "assembly_sha256": "cf3a14eced26441ca1f0de8adec78096155ecf40fcca8f3b8e899da43485f860",
+    "assembly_review": "Inspected exact/search emitted functions and distance/scoring loops. Heap/scan routines remain distinct; no causal branch/cache claim derived."
+  }
+]
