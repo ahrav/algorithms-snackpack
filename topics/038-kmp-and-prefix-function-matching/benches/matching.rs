@@ -36,6 +36,16 @@ fn workload(name: &str) -> (Vec<u8>, Vec<u8>, usize) {
 
 fn main() {
     let args: Vec<_> = std::env::args().collect();
+    if args.get(1).is_some_and(|a| a == "--test") {
+        for name in ["tiny", "random", "large", "near", "dense", "binary"] {
+            let (text, pattern, _) = workload(name);
+            let want = oracle(&text, &pattern).unwrap();
+            assert_eq!(direct(&text, &pattern).unwrap(), want);
+            assert_eq!(Kmp::new(&pattern).unwrap().find_all(&text), want);
+            assert_eq!(Dfa::new(&pattern).unwrap().find_all(&text), want);
+        }
+        return;
+    }
     if args.len() != 4 {
         eprintln!("usage: matching CASE direct|kmp|dfa|kmp-aa total|prepared");
         std::process::exit(2);
