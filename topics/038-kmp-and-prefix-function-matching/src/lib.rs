@@ -156,6 +156,7 @@ impl Stream<'_> {
     /// Consume a chunk and return new absolute match starts.
     /// Return `None` before changing state if the absolute end overflows `usize`.
     /// Empty chunks return an empty vector. Ending the stream needs no flush.
+    #[must_use]
     pub fn push(&mut self, chunk: &[u8]) -> Option<Vec<usize>> {
         let end = self.consumed.checked_add(chunk.len())?;
         let out = self.matcher.scan(chunk, &mut self.q, self.consumed);
@@ -210,7 +211,8 @@ mod tests {
     use super::*;
     #[test]
     fn overflow_is_atomic() {
-        let k = Kmp::new(b"a").unwrap();
+        // A two-byte pattern leaves `q == 1` visible if the scan ran before the check.
+        let k = Kmp::new(b"ab").unwrap();
         let mut s = k.stream();
         s.consumed = usize::MAX;
         assert_eq!(s.push(b"a"), None);

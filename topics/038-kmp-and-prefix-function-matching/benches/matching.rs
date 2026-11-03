@@ -35,7 +35,8 @@ fn workload(name: &str) -> (Vec<u8>, Vec<u8>, usize) {
 }
 
 fn main() {
-    let args: Vec<_> = std::env::args().collect();
+    // Cargo appends `--bench`; the positional arguments keep their indices.
+    let args: Vec<_> = std::env::args().filter(|a| a != "--bench").collect();
     if args.len() == 1 || args.get(1).is_some_and(|a| a == "--test") {
         for name in ["tiny", "random", "large", "near", "dense", "binary"] {
             let (text, pattern, _) = workload(name);
@@ -58,7 +59,7 @@ fn main() {
     assert_eq!(k.find_all(&text), expected);
     assert_eq!(d.find_all(&text), expected);
     let run = || match (args[2].as_str(), args[3].as_str()) {
-        ("direct", _) => direct(black_box(&text), black_box(&pattern)).unwrap(),
+        ("direct", "total" | "prepared") => direct(black_box(&text), black_box(&pattern)).unwrap(),
         ("kmp" | "kmp-aa", "prepared") => k.find_all(black_box(&text)),
         ("dfa", "prepared") => d.find_all(black_box(&text)),
         ("kmp" | "kmp-aa", "total") => Kmp::new(black_box(&pattern))

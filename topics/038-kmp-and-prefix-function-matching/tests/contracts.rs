@@ -1,5 +1,7 @@
 //! Differential checks for complete offsets, borders, overlaps and streams.
-use topic038_kmp_and_prefix_function_matching::{Dfa, Kmp, direct, oracle, prefix_function};
+use topic038_kmp_and_prefix_function_matching::{
+    Dfa, Kmp, direct, direct_comparisons, oracle, prefix_function,
+};
 
 fn check(text: &[u8], pattern: &[u8]) {
     let want = oracle(text, pattern).unwrap();
@@ -45,6 +47,15 @@ fn named_contracts() {
     assert!(Kmp::new(b"").is_none());
     assert!(Dfa::new(b"").is_none());
     assert_eq!(prefix_function(b"ababaca"), [0, 0, 1, 2, 3, 0, 1]);
+    // Index 5 falls back through borders 3 and 1 before matching at 0.
+    assert_eq!(prefix_function(b"ababaa"), [0, 0, 1, 2, 3, 1]);
+    assert_eq!(direct_comparisons(b"abababacababaca", b"ababaca"), Some(30));
+    assert_eq!(
+        Kmp::new(b"ababaca")
+            .unwrap()
+            .comparisons(b"abababacababaca"),
+        30
+    );
     for (t, p) in [
         (b"aaaaa".as_slice(), b"aaa".as_slice()),
         (b"abababacababaca", b"ababaca"),

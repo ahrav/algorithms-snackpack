@@ -24,7 +24,7 @@ Concrete tests to add: transformed-text mappings if that API is introduced.
 | Claim and scope | Plausible violation | Observation and independent oracle | Smallest discriminator |
 |---|---|---|---|
 | Complete ordered overlaps | Reset q to zero after a match | Exact vector equals independent slice-window vector | `aaa` in `aaaaa`: `[0,1,2]` |
-| Border correctness | Use preceding pi without failure traversal | Full pi vector equals brute-force prefix/suffix equality | `ababaca`: `[0,0,1,2,3,0,1]` |
+| Border correctness | Use preceding pi without failure traversal | Full pi vector equals brute-force prefix/suffix equality | `abaa`: `[0,0,1,1]`; multi-step `ababaa`: `[0,0,1,2,3,1]` |
 | Stream continuation | Reset state at each chunk | Concatenated stream output equals resident oracle after every split | `aaa` split across one-byte chunks |
 | Empty-chunk progress | Emit a previous match twice | Exact ordered vectors with inserted empty chunks | Empty chunk after a completed match |
 | DFA accepting row | Clear state after acceptance | Exact vector equals independent oracle | `aaa` in `aaaaa` |

@@ -48,10 +48,13 @@ comparisons. These diagnostics run outside timing. The prefix loop sometimes
 compares the same byte again after its while condition; the count follows
 this exact implementation. Dense traversal performs 8192 table transitions.
 
-Selection across 24 cells: {'direct': 6, 'unresolved': 4, 'kmp': 10, 'dfa': 4}. Direct suits
-the tiny total operation on both hosts. KMP wins the Arm uniform and dense
-workloads. KMP wins the x86 near-miss workload; DFA wins the binary workload. Preparation and
-host conditions can change the choice. The full table is the selection guide.
+Selection across 24 cells: {'direct': 6, 'unresolved': 4, 'kmp': 10, 'dfa': 4}. Direct wins
+the tiny total cell on both hosts and all four x86 uniform cells. KMP wins
+the Arm large and dense cells, Arm random total, Arm near total and all four
+x86 near-miss and dense cells. DFA wins the binary workload on both hosts.
+Arm random prepared stays unresolved on one KMP outlier (31709.1 ns max).
+Preparation and host conditions can change the choice. The full table is the
+selection guide.
 
 A/A ratios (KMP/KMP-AA), observed ranges and medians:
 

@@ -3,9 +3,10 @@
 import hashlib,itertools,json,os,pathlib,platform,subprocess,time
 root=pathlib.Path(__file__).resolve().parents[1]
 os.chdir(root)
-out=root/'native';out.mkdir(exist_ok=True)
+out=root/'native'
+out.mkdir()
 def run(args):
-    return subprocess.run(args,check=True,text=True,capture_output=True).stdout
+    return subprocess.run(args,check=True,text=True,stdout=subprocess.PIPE).stdout
 def digest(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 inputs={str(p.relative_to(root)):digest(p) for p in sorted(root.rglob('*')) if p.is_file() and p.suffix in ['.rs','.py','.toml','.lock'] and 'target' not in p.parts and 'native' not in p.parts}
 (out/'inputs.json').write_text(json.dumps(inputs,indent=2)+'\n')

@@ -4,7 +4,7 @@ Compare the direct left-to-right baseline, prefix-table KMP and dense byte DFA
 for exact all-overlap results. The oracle separately compares complete slices.
 The target is this fixed synthetic workload on the two declared hosts.
 
-Workloads are frozen in `benches/matching.rs`: tiny 32/3, uniform 8192/16 and
+Workloads are frozen in `benches/matching.rs`: tiny 34/3, uniform 8192/16 and
 131072/64 over 26 symbols, repeated-prefix near miss 8192/64, dense overlaps
 8192/64, and binary-alphabet 8192/16. Deterministic xorshift seeds are 17/91,
 19/93 and 23/97. Each process verifies all candidates before timing. Fixtures,
