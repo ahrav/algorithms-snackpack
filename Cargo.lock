@@ -153,3 +153,7 @@ version = "0.1.0"
 [[package]]
 name = "topic037-graph-search"
 version = "0.1.0"
+
+[[package]]
+name = "topic038-kmp-and-prefix-function-matching"
+version = "0.1.0"

@@ -1,0 +1,52 @@
+[
+  {
+    "host": "arm",
+    "remote": "/tmp/algorithms-topic038-20261103-verified-arm",
+    "source_sha256": "34c007b41d70b23d9753e5df0f625243f56c618c70f9ecff2a7c8d2615f43786",
+    "evidence_sha256": "edcb2bf4a2edf99a6c360f7d191a376b7b5233102ec26f9d0d2392f24ad914c9",
+    "members": 9,
+    "verified": true,
+    "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+    "architecture": "aarch64",
+    "source_commit": "371e9175e11a98eea5dd2c454923eee0b461b1d3",
+    "inputs": {
+      "src/lib.rs": "108af5bb4680ac17b4afeb4682986be74aadfcab6a7408a9bce82664de155120",
+      "tests/contracts.rs": "6ebd0cb833405e475ef4603375608f5a8e78ef493ac68e0c5e4c7c57b9af4217",
+      "benches/matching.rs": "ffd6830e3ff7f50a47b96c6ca9a1764c97c49dccdffde1d94316b3df92b27e16",
+      "measurements/run.py": "2395aa3f68fbe281f97a3b3f912edee84e4962d024b00f20b6aec28f3ad18578",
+      "Cargo.toml": "e03ecf82161384d3c9ef096f5d61ded3ee9980a95c2fa0d4924810e487ab2a9b"
+    },
+    "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-038/20261103/verified-arm-evidence.tar.gz",
+    "size": 4957342,
+    "binary_sha256": "79cfc1905caf51211fb8cfe0fb9984ab3bc6be6339d916df78c622ddaf1e1ffa",
+    "manifest_sha256": "c97f11a535dda2779de6b892116423db3c60d1ce9d8b5d742f650d1970264a8f",
+    "linked_image_hash": "79cfc1905caf51211fb8cfe0fb9984ab3bc6be6339d916df78c622ddaf1e1ffa",
+    "run_id": "topic038-20261103-final-arm",
+    "verification": "All archive member hashes, transferred inputs and committed path identities match."
+  },
+  {
+    "host": "x86",
+    "remote": "/tmp/algorithms-topic038-20261103-verified-x86",
+    "source_sha256": "34c007b41d70b23d9753e5df0f625243f56c618c70f9ecff2a7c8d2615f43786",
+    "evidence_sha256": "966ccc675a7ffd5ca70b15d2003a0535957ae005e32fe57f4e277c33cee609a4",
+    "members": 9,
+    "verified": true,
+    "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+    "architecture": "x86_64",
+    "source_commit": "371e9175e11a98eea5dd2c454923eee0b461b1d3",
+    "inputs": {
+      "src/lib.rs": "108af5bb4680ac17b4afeb4682986be74aadfcab6a7408a9bce82664de155120",
+      "tests/contracts.rs": "6ebd0cb833405e475ef4603375608f5a8e78ef493ac68e0c5e4c7c57b9af4217",
+      "benches/matching.rs": "ffd6830e3ff7f50a47b96c6ca9a1764c97c49dccdffde1d94316b3df92b27e16",
+      "measurements/run.py": "2395aa3f68fbe281f97a3b3f912edee84e4962d024b00f20b6aec28f3ad18578",
+      "Cargo.toml": "e03ecf82161384d3c9ef096f5d61ded3ee9980a95c2fa0d4924810e487ab2a9b"
+    },
+    "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-038/20261103/verified-x86-evidence.tar.gz",
+    "size": 5887715,
+    "binary_sha256": "3f080d70f7a7345b9d7ad9c93b8beb35d9dc31b537dc6a9cfaf3f84b781e5166",
+    "manifest_sha256": "6e834b7606c2c9d0cb41a305ae04ca65bf48f0ed670602e82949c722558a91ad",
+    "linked_image_hash": "3f080d70f7a7345b9d7ad9c93b8beb35d9dc31b537dc6a9cfaf3f84b781e5166",
+    "run_id": "topic038-20261103-final-x86",
+    "verification": "All archive member hashes, transferred inputs and committed path identities match."
+  }
+]
