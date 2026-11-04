@@ -32,7 +32,11 @@ fn main() {
     let mut text: Vec<u8> = (0..text_len).map(|_| random()).collect();
     let mut pattern: Vec<u8> = (0..pattern_len).map(|_| random()).collect();
     match shape.as_str() {
-        "wide" | "small" => text[text_len - pattern_len..].copy_from_slice(&pattern),
+        "wide" => text[text_len - pattern_len..].copy_from_slice(&pattern),
+        "small" => {
+            pattern[pattern_len - 1] = 255;
+            text[text_len - pattern_len..].copy_from_slice(&pattern);
+        }
         "prefix" => {
             text.fill(b'a');
             pattern.fill(b'a');

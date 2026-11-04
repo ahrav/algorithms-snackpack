@@ -8,7 +8,7 @@ fixtures on these two host/toolchain combinations. Generalization to fleets,
 cold caches, service latency, Unicode, and other libraries requires new work.
 
 Cross n={64,32768}, m={4,32}, five shapes, and two endpoints: 40 cells per host.
-Shapes are xorshift seed39 broad-byte late match, four-byte-alphabet late match,
+Shapes are xorshift seed39 broad-byte late match, four-byte-background late match with a terminal255 sentinel,
 repeated-prefix miss a^(m-1)b, repeated-suffix miss ba^(m-1), and immediate match.
 An independent oracle asserts actual result positions before every timing.
 
