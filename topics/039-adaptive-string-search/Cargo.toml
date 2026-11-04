@@ -1,0 +1,18 @@
+[package]
+name = "topic-039-adaptive-string-search"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.93"
+publish = false
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "deny"
+
+[lints.clippy]
+all = "deny"
+pedantic = "deny"
+
+[[bench]]
+name = "search"
+harness = false

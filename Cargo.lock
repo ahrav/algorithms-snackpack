@@ -99,6 +99,10 @@ name = "topic-032-topological-order-and-incremental-dags"
 version = "0.1.0"
 
 [[package]]
+name = "topic-039-adaptive-string-search"
+version = "0.1.0"
+
+[[package]]
 name = "topic021-heaps-and-priority-queues"
 version = "0.1.0"
 
