@@ -4,9 +4,9 @@
 The crate's measured input files are copied into a temporary tree so the runner's
 build output never touches the repository. A stub `rustc` reports a version and
 writes an executable for every `-o` target. A stub `taskset` plays the search
-binary: its first call sleeps past the runner's one second test timeout, its second
-prints text that is not JSON, its third exits 1, and every later call prints a
-valid result. Run from anywhere: python3 topics/039-adaptive-string-search/measurements/test_run.py
+binary: its first call writes partial output and sleeps past the runner's one
+second test timeout, its second prints text that is not JSON, its third exits 1,
+its fourth prints a JSON array, and every later call prints a valid result. Run from anywhere: python3 topics/039-adaptive-string-search/measurements/test_run.py
 """
 import json
 import os
@@ -32,9 +32,10 @@ TASKSET = """#!/bin/sh
 count=$(cat "$STUB_COUNT" 2>/dev/null || echo 0)
 echo $((count + 1)) > "$STUB_COUNT"
 case $count in
-  0) sleep 5 ;;
+  0) echo 'partial' >&2; exec sleep 5 ;;
   1) echo 'not json' ;;
   2) echo 'stub failure' >&2; exit 1 ;;
+  3) echo '[1, 2]' ;;
   *) echo '{"ns_total":1000,"iterations":10,"comparisons":1,"windows":1,"fallbacks":0,"answer":0,"checksum":0}' ;;
 esac
 """
@@ -64,13 +65,14 @@ class RunTests(unittest.TestCase):
             records = [json.loads(line) for line in (out / 'results.jsonl').read_text().splitlines()]
             self.assertEqual(len(records), PROCESSES, output)
             self.assertEqual([rec['index'] for rec in records], list(range(PROCESSES)))
-            timed_out, malformed, failed = records[:3]
-            self.assertIsNone(timed_out['returncode'], timed_out)
+            timed_out, malformed, failed, array = records[:4]
+            self.assertEqual((timed_out['returncode'], timed_out['stderr']), (None, 'partial\n'), timed_out)
             self.assertIn('TimeoutExpired', timed_out['error'])
             self.assertEqual((malformed['returncode'], malformed['stdout']), (None, 'not json\n'), malformed)
             self.assertEqual((failed['returncode'], failed['stderr']), (1, 'stub failure\n'), failed)
-            self.assertTrue(all('ns_per_query' not in rec for rec in records[:3]))
-            self.assertTrue(all(rec['ns_per_query'] == 100.0 for rec in records[3:]), output)
+            self.assertEqual((array['returncode'], array['stdout']), (None, '[1, 2]\n'), array)
+            self.assertTrue(all('ns_per_query' not in rec for rec in records[:4]))
+            self.assertTrue(all(rec['ns_per_query'] == 100.0 for rec in records[4:]), output)
             self.assertEqual(json.loads((out / 'complete.json').read_text())['processes'], PROCESSES)
 
 

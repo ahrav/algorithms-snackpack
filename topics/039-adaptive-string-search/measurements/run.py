@@ -56,10 +56,12 @@ with (OUT/'results.jsonl').open('w') as rows:
                 try:
                     result=json.loads(process.stdout)
                     record.update(result,ns_per_query=result['ns_total']/result['iterations'])
-                except (ValueError,KeyError) as malformed:
+                except (ValueError,KeyError,TypeError,ZeroDivisionError) as malformed:
                     record.update(returncode=None,error=repr(malformed))
         except subprocess.TimeoutExpired as expired:
-            record=dict(row,index=index,returncode=None,error=repr(expired),stdout=expired.stdout,stderr=expired.stderr)
+            # TimeoutExpired carries the raw bytes captured before the kill, even in text mode.
+            partial={k:(v.decode('utf-8','replace') if isinstance(v,bytes) else v) for k,v in (('stdout',expired.stdout),('stderr',expired.stderr))}
+            record=dict(row,index=index,returncode=None,error=repr(expired),**partial)
         rows.write(json.dumps(record)+'\n');rows.flush()
 (OUT/'complete.json').write_text(json.dumps({'processes':len(schedule),'source':manifest,'binary':sha(OUT/'search'),'end_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())},indent=2)+'\n')
 print(json.dumps({'out':str(OUT),'processes':len(schedule)}))
