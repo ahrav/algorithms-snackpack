@@ -9,11 +9,18 @@ fn main() {
         Candidate::Adaptive,
     ] {
         println!("{c:?}: {:?}", Finder::new(b"ABCD", c).diagnose(b"ABAAABCD"));
+        let text = vec![b'a'; 32768];
         let mut p = vec![b'a'; 32];
+        p[31] = b'b';
+        println!(
+            "prefix trap {c:?}: {:?}",
+            Finder::new(&p, c).diagnose(&text)
+        );
+        p[31] = b'a';
         p[0] = b'b';
         println!(
             "suffix trap {c:?}: {:?}",
-            Finder::new(&p, c).diagnose(&vec![b'a'; 32768])
+            Finder::new(&p, c).diagnose(&text)
         );
     }
 }

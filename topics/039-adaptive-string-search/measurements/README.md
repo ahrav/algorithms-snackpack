@@ -48,6 +48,7 @@ Screened wins: {'unresolved': 21, 'tw': 12, 'direct': 7}. A/A paired A/B ratio r
 |32768|32|suffix|oneshot|tw|tw: 26663.7 [26636.1,27420.6]|
 |32768|32|early|prepared|unresolved|direct: 27.8 [27.8,28.0]|
 |32768|32|early|oneshot|direct|direct: 32.5 [32.2,34.7]|
+
 ## x86
 
 Screened wins: {'horspool': 1, 'direct': 6, 'unresolved': 19, 'tw': 14}. A/A paired A/B ratio range: [0.7636982804168202, 1.2426936606371204].
@@ -97,25 +98,26 @@ Screened wins: {'horspool': 1, 'direct': 6, 'unresolved': 19, 'tw': 14}. A/A pai
 
 ## Evidence boundaries
 
-Frozen executable source: a38ff79. Both hosts ran1816processes:1600measured,
-200warmup,16A/A. All three native contract groups pass. Arm rustc1.98.1 and
-x86 rustc1.99.0 use opt-level3 and target-cpu=native, pinned to CPU0. Toolchains
+Frozen executable source: a38ff79. Both hosts ran 1816 processes: 1600 measured,
+200 warmup, 16 A/A. All three native contract groups pass. Arm rustc 1.98.1 and
+x86 rustc 1.99.0 use opt-level 3 and target-cpu=native, pinned to CPU 0. Toolchains
 differ, so cross-host differences include compiler effects. Full CPU/kernel and
 target-feature details accompany the external receipts. Timing is warm,
 resident, synthetic, and single-core. Ranges are descriptive. The x86 A/A range
 is wide; retain unresolved comparisons. No cache, branch or SIMD cause is claimed.
 
 A first campaign failed an input-shape assertion: the four-byte background
-contained an earlier match at147. Both failed campaigns are retained externally;
-the corrected fixture uses a terminal255 sentinel outside its background alphabet.
+contained an earlier match at 147. Both failed campaigns are retained externally;
+the corrected fixture uses a terminal 255 sentinel outside its background alphabet.
 Corrected results alone enter selection. The original source remains in history.
 
-At n32768,m32, the repeated-suffix diagnostic counts direct32737,
-Horspool1047584, Boyer-Moore32768, Two-Way32768 and adaptive96256 comparisons.
+At n=32768, m=32, the repeated-suffix diagnostic counts direct 32737,
+Horspool 1047584, Boyer-Moore 32768, Two-Way 32768 and adaptive 96256 comparisons.
 The adaptive candidate falls back once. Counts exclude preparation and explain
 algorithmic work; instrumented elapsed time does not enter primary timings.
 
-See BENCHMARK.md for the frozen selection rule, exact commands and exclusions.
-All five candidates and all40cells per host are retained in the task delivery's
+See BENCHMARK.md for the frozen selection rule and exclusions, and the crate
+README.md for the exact commands.
+All five candidates and all 40 cells per host are retained in the task delivery's
 measurements.json. The table reports the smallest observed median even when the
 screening rule leaves selection unresolved.

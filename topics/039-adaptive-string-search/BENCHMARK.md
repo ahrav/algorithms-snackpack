@@ -8,7 +8,7 @@ fixtures on these two host/toolchain combinations. Generalization to fleets,
 cold caches, service latency, Unicode, and other libraries requires new work.
 
 Cross n={64,32768}, m={4,32}, five shapes, and two endpoints: 40 cells per host.
-Shapes are xorshift seed39 broad-byte late match, four-byte-background late match with a terminal255 sentinel,
+Shapes are xorshift seed 39 broad-byte late match, four-byte-background late match with a terminal 255 sentinel,
 repeated-prefix miss a^(m-1)b, repeated-suffix miss ba^(m-1), and immediate match.
 An independent oracle asserts actual result positions before every timing.
 
@@ -22,16 +22,16 @@ are subsamples. Warm cache is expected; CPU caches are shared between processes.
 A fresh process receives one candidate. A complete five-candidate block is the
 analysis unit. Eight blocks alternate forward/reverse order, balancing every
 candidate's positions. Assignment is deterministic with no randomization seed;
-fixture seed is39. The schedule is fixed before collection. Processes run
+fixture seed is 39. The schedule is fixed before collection. Processes run
 serially per host, pinned to the smallest permitted CPU; hosts run independently.
 Shared thermals, kernel activity and non-linear time drift remain uncontrolled.
 
 Use one warmup process per candidate/cell, excluded by its predeclared phase.
 Report per-candidate median and observed min/max across eight processes. A
-candidate is a screened winner only if it is at least5% faster than every rival
+candidate is a screened winner only if it is at least 5% faster than every rival
 in every paired block. Otherwise report unresolved plus the smallest observed
 median. These descriptive ranges are not confidence intervals. No significance,
-familywise error, power, or production-optimum claim is made. All40 cells/host
+familywise error, power, or production-optimum claim is made. All 40 cells/host
 form the fixed report family. There is no measured pilot variance; eight blocks
 are an exploratory resource allocation. Fixed stopping; retain failures and
 partial blocks. Failed correctness removes the candidate from speed selection

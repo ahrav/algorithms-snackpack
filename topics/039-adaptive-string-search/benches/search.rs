@@ -3,9 +3,14 @@ use std::{hint::black_box, time::Instant};
 use topic_039_adaptive_string_search::{Candidate, Finder, oracle};
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
+    // Cargo appends `--bench`; the positional arguments keep their indices.
+    let args: Vec<String> = std::env::args().filter(|a| a != "--bench").collect();
     if args.len() != 6 {
-        println!("usage: search direct|horspool|bm|tw|adaptive N M shape prepared|oneshot");
+        eprintln!("usage: search direct|horspool|bm|tw|adaptive N M shape prepared|oneshot");
+        // `cargo test --all-targets` runs this binary without arguments.
+        if args.len() > 1 {
+            std::process::exit(2);
+        }
         return;
     }
     let candidate = match args[1].as_str() {
@@ -19,7 +24,11 @@ fn main() {
     let text_len: usize = args[2].parse().expect("N");
     let pattern_len: usize = args[3].parse().expect("M");
     assert!(pattern_len > 0 && pattern_len <= text_len);
-    assert!(matches!(args[5].as_str(), "prepared" | "oneshot"));
+    let prepared = match args[5].as_str() {
+        "prepared" => true,
+        "oneshot" => false,
+        _ => panic!("endpoint"),
+    };
     let shape = &args[4];
     let mut seed = 39_u64;
     let sigma = if shape == "small" { 4 } else { 256 };
@@ -52,7 +61,11 @@ fn main() {
     }
     let expected = oracle(&text, &pattern);
     if shape == "wide" || shape == "small" {
-        assert_eq!(expected, Some(text_len - pattern_len));
+        assert_eq!(
+            expected,
+            Some(text_len - pattern_len),
+            "the {shape} fixture matches before its planted suffix; choose another N or M"
+        );
     }
     let finder = Finder::new(&pattern, candidate);
     assert_eq!(finder.find(&text), expected);
@@ -63,18 +76,20 @@ fn main() {
     } else {
         (500_000 / text_len).max(16)
     };
-    let mut checksum = 0_usize;
-    for _ in 0..4 {
-        black_box(finder.find(black_box(&text)));
-    }
-    let before = Instant::now();
-    for _ in 0..iters {
-        let answer = if args[5] == "prepared" {
+    let query = || {
+        if prepared {
             finder.find(black_box(&text))
         } else {
             Finder::new(black_box(&pattern), candidate).find(black_box(&text))
-        };
-        checksum = checksum.wrapping_add(black_box(answer).unwrap_or(text_len));
+        }
+    };
+    let mut checksum = 0_usize;
+    for _ in 0..4 {
+        black_box(query());
+    }
+    let before = Instant::now();
+    for _ in 0..iters {
+        checksum = checksum.wrapping_add(black_box(query()).unwrap_or(text_len));
     }
     let ns = before.elapsed().as_nanos();
     assert_eq!(checksum, expected.unwrap_or(text_len).wrapping_mul(iters));

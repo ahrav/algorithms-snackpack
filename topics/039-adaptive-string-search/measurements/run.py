@@ -48,11 +48,17 @@ for block in range(8):
 with (OUT/'results.jsonl').open('w') as rows:
     for index,row in enumerate(schedule):
         args=['taskset','-c',str(cpu),str(OUT/'search'),row['candidate'],str(row['n']),str(row['m']),row['shape'],row['endpoint']]
-        process=subprocess.run(args,cwd=ROOT,text=True,capture_output=True,timeout=60)
-        record=dict(row,index=index,returncode=process.returncode,stdout=process.stdout,stderr=process.stderr)
-        if process.returncode==0:
-            record.update(json.loads(process.stdout));record['ns_per_query']=record['ns_total']/record['iterations']
+        try:
+            process=subprocess.run(args,cwd=ROOT,text=True,capture_output=True,timeout=60)
+            record: dict = dict(row,index=index,returncode=process.returncode,stdout=process.stdout,stderr=process.stderr)
+            if process.returncode==0:
+                try:
+                    result=json.loads(process.stdout)
+                    record.update(result,ns_per_query=result['ns_total']/result['iterations'])
+                except (ValueError,KeyError) as malformed:
+                    record.update(returncode=None,error=repr(malformed))
+        except subprocess.TimeoutExpired as expired:
+            record=dict(row,index=index,returncode=None,error=repr(expired),stdout=expired.stdout,stderr=expired.stderr)
         rows.write(json.dumps(record)+'\n');rows.flush()
-        if process.returncode:raise RuntimeError(record)
 (OUT/'complete.json').write_text(json.dumps({'processes':len(schedule),'source':manifest,'binary':sha(OUT/'search'),'end_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())},indent=2)+'\n')
 print(json.dumps({'out':str(OUT),'processes':len(schedule)}))

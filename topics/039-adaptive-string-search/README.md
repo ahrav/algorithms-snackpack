@@ -31,11 +31,11 @@ queries, total cost is `B+R*Q`. For `ABCD` in `ABAAABCD`, `n=8`, `m=4`, and
 
 ```text
 Before, start 0:  ABAAABCD     final A mismatches D; shift 3
-                 ABCD
+                  ABCD
 During, start 3:  ABAAABCD     final C mismatches D; shift 1
-                    ABCD
-After, start 4:   ABAAABCD     return Some(4)
                      ABCD
+After, start 4:   ABAAABCD     return Some(4)
+                      ABCD
 ```
 
 Use direct search when setup dominates. Consider Horspool for useful skips,

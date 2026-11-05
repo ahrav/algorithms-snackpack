@@ -6,6 +6,6 @@ production-hybrids, and measurement references cover first-byte contracts,
 Horspool versus full Boyer-Moore, both opposing repetition traps, Two-Way memory,
 linear fallback continuation, preparation/reuse endpoints, independent oracles,
 and workload-specific selection. Current origin/main owner bytes match the
-inspected checkout.17existing Python contract tests pass. No verified defect or
+inspected checkout. 17 existing Python contract tests pass. No verified defect or
 material gap was found in this lesson's scope. No source edit, model evaluation,
-plugin PR or evaluator synchronization is required for Topic039.
+plugin PR or evaluator synchronization is required for Topic 039.

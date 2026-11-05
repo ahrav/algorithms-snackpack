@@ -61,10 +61,10 @@ fn seeded_larger_and_periodic_inputs() {
             seed.to_le_bytes()[0]
         };
         let mut t: Vec<u8> = (0..n)
-            .map(|_| bytes() % if case % 2 == 0 { 4 } else { 255 })
+            .map(|_| if case % 2 == 0 { bytes() % 4 } else { bytes() })
             .collect();
         let p: Vec<u8> = (0..m)
-            .map(|_| bytes() % if case % 2 == 0 { 4 } else { 255 })
+            .map(|_| if case % 2 == 0 { bytes() % 4 } else { bytes() })
             .collect();
         if case % 3 == 0 && m <= n {
             t[n - m..].copy_from_slice(&p);
@@ -72,7 +72,7 @@ fn seeded_larger_and_periodic_inputs() {
         check(&t, &p);
     }
     for m in [4, 31, 32, 63, 64, 127] {
-        let t = vec![b'a'; 4096];
+        let mut t = vec![b'a'; 4096];
         let mut p = vec![b'a'; m];
         p[0] = b'b';
         check(&t, &p);
@@ -81,6 +81,16 @@ fn seeded_larger_and_periodic_inputs() {
         let a = Finder::new(&p, Candidate::Adaptive).diagnose(&t).1;
         assert_eq!(a.fallbacks, 1);
         assert!(a.comparisons <= 4 * t.len() + 2 * m);
+        // Strong good-suffix shifts advance a whole pattern per window on this trap.
+        let bm = Finder::new(&p, Candidate::BoyerMoore).diagnose(&t).1;
+        assert!(bm.comparisons <= t.len() + m, "{m}: {bm:?}");
+        // A match placed past the fallback window must keep its original offset.
+        let late = t.len() - m;
+        t[late..].copy_from_slice(&p);
+        check(&t, &p);
+        let (found, a) = Finder::new(&p, Candidate::Adaptive).diagnose(&t);
+        assert_eq!((found, a.fallbacks), (Some(late), 1));
+        t.fill(b'a');
         p[0] = b'a';
         p[m - 1] = b'b';
         check(&t, &p);
@@ -90,5 +100,12 @@ fn seeded_larger_and_periodic_inputs() {
         for offset in 0..m {
             check(&periodic[offset..], &periodic[..m]);
         }
+        // The right factor matches at start 0 and the left factor fails, so period
+        // memory skips the re-comparison of m-2 bytes at the next start.
+        let mut shifted = periodic.clone();
+        shifted[0] = b'b';
+        let (found, tw) = Finder::new(&periodic[..m], Candidate::TwoWay).diagnose(&shifted);
+        assert_eq!(found, Some(2));
+        assert!(tw.comparisons < 2 * m, "{m}: {tw:?}");
     }
 }
