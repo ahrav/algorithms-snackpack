@@ -8,6 +8,7 @@ publish = false
 [workspace]
 members = [
     "topics/040-rolling-hashes-and-content-defined-chunking",
+    "topics/039-adaptive-string-search",
     "topics/038-kmp-and-prefix-function-matching",
     "topics/037-best-first-and-approximate-graph-search",
     "topics/036-merkle-trees",
