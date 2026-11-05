@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = Path(sys.argv[1] if len(sys.argv)>1 else 'run-039').resolve()
 OUT.mkdir(parents=True, exist_ok=False)
 CANDIDATES = ['direct', 'horspool', 'bm', 'tw', 'adaptive']
+TIMEOUT = float(os.environ.get('TOPIC_039_PROCESS_TIMEOUT_S', 60))
 def call(args):
     return subprocess.check_output(args, text=True, cwd=ROOT, stderr=subprocess.STDOUT)
 def sha(path):
@@ -22,7 +23,7 @@ inputs = ['src/lib.rs','benches/search.rs','tests/contracts.rs','examples/search
 manifest = {p:sha(ROOT/p) for p in inputs}
 (OUT/'inputs.json').write_text(json.dumps(manifest,indent=2)+'\n')
 cpu = min(os.sched_getaffinity(0))
-metadata = {'hostname':platform.node(),'architecture':platform.machine(),'uname':list(platform.uname()),'rustc':call(['rustc','-Vv']),'cpus':call(['lscpu']),'available_cpus':sorted(os.sched_getaffinity(0)),'affinity_cpu':cpu,'flags':['-C','opt-level=3','-C','target-cpu=native','--edition=2024'],'start_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())}
+metadata = {'hostname':platform.node(),'architecture':platform.machine(),'uname':list(platform.uname()),'rustc':call(['rustc','-Vv']),'cpus':call(['lscpu']),'available_cpus':sorted(os.sched_getaffinity(0)),'affinity_cpu':cpu,'timeout_s':TIMEOUT,'flags':['-C','opt-level=3','-C','target-cpu=native','--edition=2024'],'start_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())}
 (OUT/'environment.json').write_text(json.dumps(metadata,indent=2)+'\n')
 lib = OUT/'libtopic_039_adaptive_string_search.rlib'
 call(['rustc','--edition=2024','-C','opt-level=3','-C','target-cpu=native','--crate-type=rlib','--crate-name','topic_039_adaptive_string_search','src/lib.rs','-o',str(lib)])
@@ -49,7 +50,7 @@ with (OUT/'results.jsonl').open('w') as rows:
     for index,row in enumerate(schedule):
         args=['taskset','-c',str(cpu),str(OUT/'search'),row['candidate'],str(row['n']),str(row['m']),row['shape'],row['endpoint']]
         try:
-            process=subprocess.run(args,cwd=ROOT,text=True,capture_output=True,timeout=60)
+            process=subprocess.run(args,cwd=ROOT,text=True,capture_output=True,timeout=TIMEOUT)
             record: dict = dict(row,index=index,returncode=process.returncode,stdout=process.stdout,stderr=process.stderr)
             if process.returncode==0:
                 try:

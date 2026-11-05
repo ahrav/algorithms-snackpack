@@ -24,11 +24,7 @@ fn main() {
     let text_len: usize = args[2].parse().expect("N");
     let pattern_len: usize = args[3].parse().expect("M");
     assert!(pattern_len > 0 && pattern_len <= text_len);
-    let prepared = match args[5].as_str() {
-        "prepared" => true,
-        "oneshot" => false,
-        _ => panic!("endpoint"),
-    };
+    assert!(matches!(args[5].as_str(), "prepared" | "oneshot"));
     let shape = &args[4];
     let mut seed = 39_u64;
     let sigma = if shape == "small" { 4 } else { 256 };
@@ -76,20 +72,18 @@ fn main() {
     } else {
         (500_000 / text_len).max(16)
     };
-    let query = || {
-        if prepared {
-            finder.find(black_box(&text))
-        } else {
-            Finder::new(black_box(&pattern), candidate).find(black_box(&text))
-        }
-    };
     let mut checksum = 0_usize;
     for _ in 0..4 {
-        black_box(query());
+        black_box(finder.find(black_box(&text)));
     }
     let before = Instant::now();
     for _ in 0..iters {
-        checksum = checksum.wrapping_add(black_box(query()).unwrap_or(text_len));
+        let answer = if args[5] == "prepared" {
+            finder.find(black_box(&text))
+        } else {
+            Finder::new(black_box(&pattern), candidate).find(black_box(&text))
+        };
+        checksum = checksum.wrapping_add(black_box(answer).unwrap_or(text_len));
     }
     let ns = before.elapsed().as_nanos();
     assert_eq!(checksum, expected.unwrap_or(text_len).wrapping_mul(iters));

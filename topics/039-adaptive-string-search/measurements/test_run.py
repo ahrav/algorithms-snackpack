@@ -4,7 +4,7 @@
 The crate's measured input files are copied into a temporary tree so the runner's
 build output never touches the repository. A stub `rustc` reports a version and
 writes an executable for every `-o` target. A stub `taskset` plays the search
-binary: its first call sleeps past the runner's 60 second timeout, its second
+binary: its first call sleeps past the runner's one second test timeout, its second
 prints text that is not JSON, its third exits 1, and every later call prints a
 valid result. Run from anywhere: python3 topics/039-adaptive-string-search/measurements/test_run.py
 """
@@ -32,7 +32,7 @@ TASKSET = """#!/bin/sh
 count=$(cat "$STUB_COUNT" 2>/dev/null || echo 0)
 echo $((count + 1)) > "$STUB_COUNT"
 case $count in
-  0) sleep 70 ;;
+  0) sleep 5 ;;
   1) echo 'not json' ;;
   2) echo 'stub failure' >&2; exit 1 ;;
   *) echo '{"ns_total":1000,"iterations":10,"comparisons":1,"windows":1,"fallbacks":0,"answer":0,"checksum":0}' ;;
@@ -54,10 +54,11 @@ class RunTests(unittest.TestCase):
             for name, body in [('rustc', RUSTC), ('taskset', TASKSET), ('lscpu', ECHO), ('objdump', ECHO)]:
                 (bin_dir / name).write_text(body)
                 (bin_dir / name).chmod(0o755)
-            env = dict(os.environ, PATH=str(bin_dir) + os.pathsep + os.environ['PATH'], STUB_COUNT=str(tmp / 'count'))
+            env = dict(os.environ, PATH=str(bin_dir) + os.pathsep + os.environ['PATH'], STUB_COUNT=str(tmp / 'count'),
+                       TOPIC_039_PROCESS_TIMEOUT_S='1')
             out = tmp / 'out'
             r = subprocess.run([sys.executable, str(tmp / 'measurements/run.py'), str(out)], cwd=tmp, env=env,
-                               text=True, capture_output=True, timeout=900)
+                               text=True, capture_output=True, timeout=300)
             output = r.stdout + r.stderr
             self.assertEqual(r.returncode, 0, output)
             records = [json.loads(line) for line in (out / 'results.jsonl').read_text().splitlines()]
