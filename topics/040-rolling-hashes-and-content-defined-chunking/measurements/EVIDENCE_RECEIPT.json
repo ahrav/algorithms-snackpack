@@ -1,0 +1,49 @@
+{
+  "topic": 40,
+  "source_commit": "d01ae3cc1405096664e93b0c80eef66c47ccb946",
+  "source_archive_sha256": "b6419da4cfe2f37e27515b99f22b2e14a4abc7f01acc8c907d58994cf8489ae5",
+  "hosts": {
+    "arm": {
+      "archive_path": "/Users/ahrav/Documents/Codex/2026-11-05/algorithms-daily-curriculum-deliver-a-new/outputs/arm-native.tar.gz",
+      "retained_path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-040/20261105/arm-native.tar.gz",
+      "archive_sha256": "8810b43fa768ac04fcb423039143dfbf09a9b6e474d7b56c0a7d5aec3234c1b1",
+      "archive_size": 4313263,
+      "archive_members": 16,
+      "run_id": "20261105-arm-040",
+      "inputs": {
+        "src/lib.rs": "0ecb0512f12e62df48b3238f6945f58b26e75943ff9064887c8f0ed23df19fd8",
+        "benches/chunk.rs": "75986bc5537a801b4a331119bb2c6bc477dd42678c531542333de586263a9fce",
+        "tests/contracts.rs": "4f16d17b1727148a3ce80d2bcf115da736f90edfbd6c65090719552a171e3a79",
+        "examples/chunk.rs": "76b8d1f051c35df47149143f5534a571cf3dc4ac4b9b7eeddeccb21f9e6a2e18",
+        "measurements/run.py": "736fc1647ab15d4b643a24d8adc65480824a285d3f0422af5aa5898d814a8da6"
+      },
+      "linked_image_sha256": "f075449b5785fc71c839cb3a78c97423f2fe8fef1107ddf11c85c3436c6edd73",
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "verified_processes": 556,
+      "verified_member_hashes": 11,
+      "verification": "archive, source, runner, schedule, binary, all process oracles and contracts PASS"
+    },
+    "x86": {
+      "archive_path": "/Users/ahrav/Documents/Codex/2026-11-05/algorithms-daily-curriculum-deliver-a-new/outputs/x86-native.tar.gz",
+      "retained_path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-040/20261105/x86-native.tar.gz",
+      "archive_sha256": "8bc469162f345dc246de108f47bca0fbd3fa6e773abeeec187b03f34ba8a4fab",
+      "archive_size": 5130036,
+      "archive_members": 16,
+      "run_id": "20261105-x86-040",
+      "inputs": {
+        "src/lib.rs": "0ecb0512f12e62df48b3238f6945f58b26e75943ff9064887c8f0ed23df19fd8",
+        "benches/chunk.rs": "75986bc5537a801b4a331119bb2c6bc477dd42678c531542333de586263a9fce",
+        "tests/contracts.rs": "4f16d17b1727148a3ce80d2bcf115da736f90edfbd6c65090719552a171e3a79",
+        "examples/chunk.rs": "76b8d1f051c35df47149143f5534a571cf3dc4ac4b9b7eeddeccb21f9e6a2e18",
+        "measurements/run.py": "736fc1647ab15d4b643a24d8adc65480824a285d3f0422af5aa5898d814a8da6"
+      },
+      "linked_image_sha256": "35966f41e2c6bbab09109a29bcff95ef895b2cf74f3cd0a3956fe2512d8f2656",
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "verified_processes": 556,
+      "verified_member_hashes": 11,
+      "verification": "archive, source, runner, schedule, binary, all process oracles and contracts PASS"
+    }
+  }
+}
