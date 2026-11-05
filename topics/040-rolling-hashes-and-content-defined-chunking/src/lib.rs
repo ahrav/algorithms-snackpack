@@ -25,7 +25,8 @@ pub struct Config {
     window: usize,
 }
 impl Config {
-    /// Require a power-of-two target, positive window, and window <= min <= target <= max.
+    /// Require window > 0, 2 <= target <= `usize::MAX / 2` with target a power of two,
+    /// and window <= min <= target <= max. The target bound keeps 2 * target - 1 in range.
     #[must_use]
     pub fn new(min: usize, target: usize, max: usize, window: usize) -> Option<Self> {
         (window > 0
@@ -161,6 +162,10 @@ pub fn exact_matches(text: &[u8], pattern: &[u8]) -> Vec<usize> {
 }
 
 /// Deterministic benchmark input. `zero` and `periodic` exercise structured data.
+///
+/// # Panics
+///
+/// `fixture` accepts `random`, `zero`, and `periodic`; any other `shape` panics when `n > 0`.
 #[must_use]
 pub fn fixture(n: usize, shape: &str) -> Vec<u8> {
     let mut state = 7_u64;
@@ -170,9 +175,10 @@ pub fn fixture(n: usize, shape: &str) -> Vec<u8> {
             state ^= state >> 7;
             state ^= state << 17;
             match shape {
+                "random" => state.to_le_bytes()[0],
                 "zero" => 0,
                 "periodic" => u8::try_from(i % 7).unwrap_or(0),
-                _ => state.to_le_bytes()[0],
+                _ => panic!("unknown shape {shape}; use random, zero, or periodic"),
             }
         })
         .collect()

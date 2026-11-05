@@ -2,7 +2,8 @@
 use std::{hint::black_box, time::Instant};
 use topic_040_chunking::{Config, Policy, boundaries, fixture};
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
+    // Cargo appends `--bench`; the positional arguments keep their indices.
+    let args: Vec<String> = std::env::args().filter(|a| a != "--bench").collect();
     let name = args.get(1).map_or("rolling", String::as_str);
     let n = args.get(2).map_or(Ok(256), |s| s.parse()).expect("length");
     let target = args.get(3).map_or(Ok(256), |s| s.parse()).expect("target");
@@ -15,7 +16,8 @@ fn main() {
         "normalized" => Policy::Normalized,
         _ => panic!("unknown policy"),
     };
-    let config = Config::new(target / 4, target, target * 4, 32).expect("config");
+    let config = Config::new(target / 4, target, target * 4, 32)
+        .expect("config: target is a power of two >= 128 so that window 32 <= min = target / 4");
     let input = fixture(n, shape);
     let ends = boundaries(&input, config, policy);
     let mut edited = input.clone();

@@ -14,31 +14,42 @@ API requires a separate persistent state design before transport fragmentation.
 
 Direct recomputes every eligible window. Rolling removes the outgoing weighted
 byte, multiplies by 257, and adds the incoming byte modulo 2^64. Both produce exactly
-the same cuts. With window w, n bytes and e eligible positions, direct work is
-O(e*w), rolling work O(n+w). For n=65,536 and w=32, direct can perform up to
-32 hash multiply-adds per eligible position; rolling uses constant work per byte.
+the same cuts. With window w, n bytes and e eligible positions, every policy pays
+an O(n) scan plus O(w) power setup; direct adds O(e*w) hash work, rolling O(n).
+For n=65,536 and w=32, direct can perform up to 32 hash multiply-adds per eligible
+position; rolling uses constant work per byte.
 
 ```text
-BEFORE end87: x[55..87), chunk begins at0
-DURING: remove x[55]*257^31; multiply257; append x[87]
-AFTER end88: x[56..88), low8bits=0; emit[0..88), reset; nextcut263
+BEFORE end 87: x[55..87), chunk begins at 0
+DURING: remove x[55]*257^31; multiply 257; append x[87]
+AFTER end 88: x[56..88), low 8 bits=0; emit [0..88), reset; next cut 263
 ```
 
 Fixed cuts at the target. Gear uses a fixed generated table and shift/add with
-64-bit wrapping. Normalized Gear hashes every byte, uses mask 2*target-1 below
+64-bit wrapping; it ignores `window`, its state spans the last 64 bytes, and a
+mask of k low bits reads only the last k bytes because byte j back contributes
+`GEAR[b] << j`. Normalized Gear hashes every byte, uses mask 2*target-1 below
 target and target/2-1 thereafter. This is an educational format whose exact
-rules differ from production FastCDC. Version constants, overflow, masks,
-window, min/target/max, short tails, and resets before persisting boundaries.
+rules differ from production FastCDC, which places mask bits higher. Version
+constants, overflow, masks, window, min/target/max, short tails, and resets
+before persisting boundaries.
+
+Base 257 is 1 modulo 256, so the low 8 bits of the polynomial hash equal the
+window's byte sum modulo 256 and ignore byte order; bits 8 and 9 repeat with
+period 4 across positions. A boundary mask of 8 or 10 low bits therefore tests a
+near-checksum of the window. The 64-bit fingerprint used by `exact_matches`
+keeps full positional weight. Changing the base or mask bits changes every
+measured boundary; the retained results use these rules.
 
 Under independent uniform boundary bits, k=8 gives p=1/256. With first eligible
 length a=64, the uncapped expected length is a-1+1/p=319 bytes. The cap and
 structured inputs change this estimate. Zero input makes the polynomial hash
-zero and cuts every64bytes. A target size alone cannot predict the distribution.
+zero and cuts every 64 bytes. A target size alone cannot predict the distribution.
 
 For c chunks and r metadata bytes per chunk, metadata costs c*r. The example's
-221 polynomial chunks at illustrative r=48 cost10,608 bytes, excluding storage,
+221 polynomial chunks at illustrative r=48 cost 10,608 bytes, excluding storage,
 digests, indexes and allocator overhead. Measure exact reused bytes after the
-17-byte insertion at offset21,845 against the edited65,553-byte object.
+17-byte insertion at offset 21,845 against the edited 65,553-byte object.
 
 `exact_matches` verifies every hash hit against bytes and supports overlaps.
 The test constructs an unequal-byte collision using (257-1)^8=2^64.
@@ -53,23 +64,24 @@ cargo run --release -p topic-040-chunking --example chunk
 python3 topics/040-rolling-hashes-and-content-defined-chunking/measurements/run.py /tmp/run-040
 ```
 
-The last command requires Linux, Python3, rustc, taskset and objdump. Results and
+The last command requires Linux, Python 3, rustc, taskset, lscpu and objdump.
+`measurements/test_run.py` checks the runner against stub tools. Results and
 selection live in measurements/README.md. Fixed is useful for offset stability;
 rolling preserves polynomial boundaries; Gear policies require throughput,
 reuse and metadata assessment together. Distinct policies produce different chunks.
 
 ## Coverage and revisit
 
-Catalog040 has no coverage array; ALGORITHM_INDEX.md is absent at the inspected
+Catalog 040 has no coverage array; ALGORITHM_INDEX.md is absent at the inspected
 base. Scope: polynomial recurrence, exact Rabin-Karp verification, fixed chunks,
 bounded polynomial CDC, Gear and stepped-mask normalization. Revisit table-based
 Rabin, rolling CRC, production FastCDC, streaming fragmentation, cryptographic
 chunk IDs, real backup corpora, cold and storage-inclusive performance. Rabin uses
-bit-polynomial arithmetic; this integer base257implementation has different semantics.
+bit-polynomial arithmetic; this integer base-257 implementation has different semantics.
 
 ## Primary sources
 
-- [Karp and Rabin1987](https://didawiki.cli.di.unipi.it/lib/exe/fetch.php/bio/kr87.pdf): fingerprint filtering and verification.
+- [Karp and Rabin 1987](https://didawiki.cli.di.unipi.it/lib/exe/fetch.php/bio/kr87.pdf): fingerprint filtering and verification.
 - [Rsync checksum](https://rsync.samba.org/tech_report/node3.html): cheap rolling checks followed by stronger checks.
 - [Restic chunker](https://github.com/restic/chunker): production rolling-Rabin CDC.
-- [FastCDC2016](https://www.usenix.org/system/files/conference/atc16/atc16-paper-xia.pdf): Gear-based boundary selection, skipped minimum region, normalization.
+- [FastCDC 2016](https://www.usenix.org/system/files/conference/atc16/atc16-paper-xia.pdf): Gear-based boundary selection, skipped minimum region, normalization.

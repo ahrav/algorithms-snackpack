@@ -22,7 +22,7 @@
       "architecture": "aarch64",
       "verified_processes": 556,
       "verified_member_hashes": 11,
-      "verification": "archive, source, runner, schedule, binary, allprocessoracles and contracts PASS"
+      "verification": "archive, source, runner, schedule, binary, all process oracles and contracts PASS"
     },
     "x86": {
       "archive_path": "/Users/ahrav/Documents/Codex/2026-11-05/algorithms-daily-curriculum-deliver-a-new/outputs/x86-native.tar.gz",
@@ -43,7 +43,7 @@
       "architecture": "x86_64",
       "verified_processes": 556,
       "verified_member_hashes": 11,
-      "verification": "archive, source, runner, schedule, binary, allprocessoracles and contracts PASS"
+      "verification": "archive, source, runner, schedule, binary, all process oracles and contracts PASS"
     }
   }
 }

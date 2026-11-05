@@ -6,6 +6,7 @@ ROOT=Path(__file__).resolve().parents[1]
 OUT=Path(sys.argv[1] if len(sys.argv)>1 else 'run-040').resolve()
 OUT.mkdir(parents=True,exist_ok=False)
 CS=['fixed','direct','rolling','gear','normalized']; M=(1<<64)-1
+TIMEOUT=float(os.environ.get('TOPIC_040_PROCESS_TIMEOUT_S',60))
 
 def call(args): return subprocess.check_output(args,text=True,cwd=ROOT,stderr=subprocess.STDOUT)
 def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -41,7 +42,7 @@ def chunks(data,ends):return [data[a:b] for a,b in zip([0]+ends,ends)]
 inputs=['src/lib.rs','benches/chunk.rs','tests/contracts.rs','examples/chunk.rs','measurements/run.py']
 manifest={p:sha(ROOT/p) for p in inputs};(OUT/'inputs.json').write_text(json.dumps(manifest,indent=2)+'\n')
 cpu=min(os.sched_getaffinity(0))
-env=dict(hostname=platform.node(),architecture=platform.machine(),uname=list(platform.uname()),rustc=call(['rustc','-Vv']),cpus=call(['lscpu']),available_cpus=sorted(os.sched_getaffinity(0)),affinity_cpu=cpu,flags=['--edition=2024','-C','opt-level=3','-C','target-cpu=native'],target_features=call(['rustc','--print','cfg','-C','target-cpu=native']),start_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()))
+env=dict(hostname=platform.node(),architecture=platform.machine(),uname=list(platform.uname()),rustc=call(['rustc','-Vv']),cpus=call(['lscpu']),available_cpus=sorted(os.sched_getaffinity(0)),affinity_cpu=cpu,flags=['--edition=2024','-C','opt-level=3','-C','target-cpu=native'],target_features=call(['rustc','--print','cfg','-C','target-cpu=native']),process_timeout_s=TIMEOUT,start_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()))
 assert env['architecture'] in ('aarch64','x86_64')
 (OUT/'environment.json').write_text(json.dumps(env,indent=2)+'\n')
 lib=OUT/'libtopic_040_chunking.rlib';flags=['--edition=2024','-C','opt-level=3','-C','target-cpu=native']
@@ -72,17 +73,27 @@ for b in range(8):
     for label in ['A','B'] if b%2==0 else ['B','A']:
         schedule.append(dict(n=65536,target=256,shape='random',candidate='rolling',arm=label,phase='aa',block=b))
 (OUT/'schedule.json').write_text(json.dumps(schedule,indent=2)+'\n')
+failures=0
 with (OUT/'results.jsonl').open('w') as stream:
     for index,row in enumerate(schedule):
         args=['taskset','-c',str(cpu),str(OUT/'chunk'),row['candidate'],str(row['n']),str(row['target']),row['shape']]
-        proc=subprocess.run(args,cwd=ROOT,text=True,capture_output=True,timeout=60)
-        rec=dict(row,index=index,returncode=proc.returncode,stdout=proc.stdout,stderr=proc.stderr)
-        if proc.returncode==0:
-            value=json.loads(proc.stdout);rec.update(value);rec['ns_per_operation']=value['ns_total']/value['iterations']
-            key=(row['n'],row['target'],row['shape'],row['candidate'])
-            rec['oracle_ok']=value['ends']==expected[key] and value['edited_ends']==edited_expected[key]
+        try:
+            proc=subprocess.run(args,cwd=ROOT,text=True,capture_output=True,timeout=TIMEOUT)
+            rec: dict=dict(row,index=index,returncode=proc.returncode,stdout=proc.stdout,stderr=proc.stderr,oracle_ok=False)
+            if proc.returncode==0:
+                try:
+                    value=json.loads(proc.stdout);rec.update(value);rec['ns_per_operation']=value['ns_total']/value['iterations']
+                    key=(row['n'],row['target'],row['shape'],row['candidate'])
+                    rec['oracle_ok']=value['ends']==expected[key] and value['edited_ends']==edited_expected[key]
+                except (ValueError,KeyError,TypeError,ZeroDivisionError) as malformed:
+                    rec.update(returncode=None,error=repr(malformed))
+        except subprocess.TimeoutExpired as expired:
+            # TimeoutExpired carries the raw bytes captured before the kill, even in text mode.
+            partial={k:(v.decode('utf-8','replace') if isinstance(v,bytes) else v) for k,v in (('stdout',expired.stdout),('stderr',expired.stderr))}
+            rec=dict(row,index=index,returncode=None,error=repr(expired),oracle_ok=False,**partial)
+        failures+=not (rec['returncode']==0 and rec['oracle_ok'])
         stream.write(json.dumps(rec)+'\n');stream.flush()
-        assert rec['returncode']==0 and rec['oracle_ok'],rec
 assert manifest=={p:sha(ROOT/p) for p in inputs}
-(OUT/'complete.json').write_text(json.dumps(dict(processes=len(schedule),inputs=manifest,binary_sha256=sha(OUT/'chunk'),end_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())),indent=2)+'\n')
-print(json.dumps(dict(processes=len(schedule),output=str(OUT))))
+(OUT/'complete.json').write_text(json.dumps({'processes':len(schedule),'failures':failures,'inputs':manifest,'binary_sha256':sha(OUT/'chunk'),'end_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())},indent=2)+'\n')
+(OUT/'manifest.json').write_text(json.dumps({p.name:sha(p) for p in sorted(OUT.iterdir()) if p.name!='manifest.json'},indent=2)+'\n')
+print(json.dumps({'processes':len(schedule),'failures':failures,'output':str(OUT)}))
