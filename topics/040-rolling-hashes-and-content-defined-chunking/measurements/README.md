@@ -2,7 +2,7 @@
 
 All 556 processes per host passed original and edited boundary-vector oracles: 480 measured, 60 warmup, 16 A/A. Both hosts pass all 3 native contract groups. Raw data and compact receipt are retained separately.
 
-Source commit: d01ae3cc1405096664e93b0c80eef66c47ccb946. All 5 native inputs match that commit; `EVIDENCE_RECEIPT.json` records their hashes. Review fixes after measurement changed `src/lib.rs` (`fixture` rejects unknown shape names), `benches/chunk.rs` (Cargo's `--bench` argument is filtered; the config panic names its constraint), `tests/contracts.rs` (added tests) and `measurements/run.py` (failed attempts are retained, a member manifest is written). The timed `boundaries` function and the bench's warmup and timed loops are byte-identical to the measured source.
+Source commit: d01ae3cc1405096664e93b0c80eef66c47ccb946. All 5 native inputs match that commit; `EVIDENCE_RECEIPT.json` records their hashes. Review fixes after measurement changed `src/lib.rs` (`fixture` rejects unknown shape names before generating bytes), `benches/chunk.rs` (Cargo's `--bench` argument is filtered; `max = target * 4` uses checked arithmetic and the config panic names its constraint), `tests/contracts.rs` (added tests) and `measurements/run.py` (failed attempts are retained, results are validated before they enter a record, a member manifest is written). The timed `boundaries` function and the bench's warmup and timed loops are byte-identical to the measured source.
 
 ## arm: dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com
 

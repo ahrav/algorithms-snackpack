@@ -42,7 +42,7 @@ def chunks(data,ends):return [data[a:b] for a,b in zip([0]+ends,ends)]
 inputs=['src/lib.rs','benches/chunk.rs','tests/contracts.rs','examples/chunk.rs','measurements/run.py']
 manifest={p:sha(ROOT/p) for p in inputs};(OUT/'inputs.json').write_text(json.dumps(manifest,indent=2)+'\n')
 cpu=min(os.sched_getaffinity(0))
-env=dict(hostname=platform.node(),architecture=platform.machine(),uname=list(platform.uname()),rustc=call(['rustc','-Vv']),cpus=call(['lscpu']),available_cpus=sorted(os.sched_getaffinity(0)),affinity_cpu=cpu,flags=['--edition=2024','-C','opt-level=3','-C','target-cpu=native'],target_features=call(['rustc','--print','cfg','-C','target-cpu=native']),process_timeout_s=TIMEOUT,start_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()))
+env={'hostname':platform.node(),'architecture':platform.machine(),'uname':list(platform.uname()),'rustc':call(['rustc','-Vv']),'cpus':call(['lscpu']),'available_cpus':sorted(os.sched_getaffinity(0)),'affinity_cpu':cpu,'flags':['--edition=2024','-C','opt-level=3','-C','target-cpu=native'],'target_features':call(['rustc','--print','cfg','-C','target-cpu=native']),'process_timeout_s':TIMEOUT,'start_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())}
 assert env['architecture'] in ('aarch64','x86_64')
 (OUT/'environment.json').write_text(json.dumps(env,indent=2)+'\n')
 lib=OUT/'libtopic_040_chunking.rlib';flags=['--edition=2024','-C','opt-level=3','-C','target-cpu=native']
@@ -82,9 +82,13 @@ with (OUT/'results.jsonl').open('w') as stream:
             rec: dict=dict(row,index=index,returncode=proc.returncode,stdout=proc.stdout,stderr=proc.stderr,oracle_ok=False)
             if proc.returncode==0:
                 try:
-                    value=json.loads(proc.stdout);rec.update(value);rec['ns_per_operation']=value['ns_total']/value['iterations']
+                    value=json.loads(proc.stdout)
+                    if not isinstance(value,dict):
+                        raise TypeError('result is not a JSON object')
                     key=(row['n'],row['target'],row['shape'],row['candidate'])
-                    rec['oracle_ok']=value['ends']==expected[key] and value['edited_ends']==edited_expected[key]
+                    ns_per_operation=value['ns_total']/value['iterations']
+                    oracle_ok=value['ends']==expected[key] and value['edited_ends']==edited_expected[key]
+                    rec.update(ns_total=value['ns_total'],iterations=value['iterations'],ends=value['ends'],edited_ends=value['edited_ends'],ns_per_operation=ns_per_operation,oracle_ok=oracle_ok)
                 except (ValueError,KeyError,TypeError,ZeroDivisionError) as malformed:
                     rec.update(returncode=None,error=repr(malformed))
         except subprocess.TimeoutExpired as expired:

@@ -74,7 +74,7 @@ fn rolling_agrees_with_direct_and_bounds_hold() {
     assert!(Config::new(8, 256, 1024, 9).is_none());
     // Each remaining guard rejects alone: min > target, window == 0, target > usize::MAX / 2.
     assert!(Config::new(512, 256, 1024, 8).is_none());
-    assert!(Config::new(0, 256, 1024, 0).is_none());
+    assert!(Config::new(8, 256, 1024, 0).is_none());
     let half = 1_usize << (usize::BITS - 1);
     assert!(Config::new(half, half, usize::MAX, 1).is_none());
     assert!(Config::new(half / 2, half / 2, usize::MAX, 1).is_some());
@@ -120,7 +120,7 @@ fn gear_policies_agree_with_closed_form_reference_and_reset_at_cuts() {
 #[test]
 #[should_panic(expected = "unknown shape")]
 fn fixture_rejects_unknown_shape() {
-    let _bytes = fixture(1, "period7");
+    let _bytes = fixture(0, "period7");
 }
 #[test]
 fn exact_search_agrees_with_byte_oracle_including_dense_hits() {

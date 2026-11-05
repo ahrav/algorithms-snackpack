@@ -165,9 +165,13 @@ pub fn exact_matches(text: &[u8], pattern: &[u8]) -> Vec<usize> {
 ///
 /// # Panics
 ///
-/// `fixture` accepts `random`, `zero`, and `periodic`; any other `shape` panics when `n > 0`.
+/// Panics on an unknown `shape`, for `n == 0` as well.
 #[must_use]
 pub fn fixture(n: usize, shape: &str) -> Vec<u8> {
+    assert!(
+        matches!(shape, "random" | "zero" | "periodic"),
+        "unknown shape {shape}; use random, zero, or periodic"
+    );
     let mut state = 7_u64;
     (0..n)
         .map(|i| {
@@ -175,10 +179,9 @@ pub fn fixture(n: usize, shape: &str) -> Vec<u8> {
             state ^= state >> 7;
             state ^= state << 17;
             match shape {
-                "random" => state.to_le_bytes()[0],
                 "zero" => 0,
                 "periodic" => u8::try_from(i % 7).unwrap_or(0),
-                _ => panic!("unknown shape {shape}; use random, zero, or periodic"),
+                _ => state.to_le_bytes()[0],
             }
         })
         .collect()
