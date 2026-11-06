@@ -201,19 +201,25 @@ impl Trie {
 }
 
 /// Scan a dictionary using `row`, `band`, or `myers`, retaining all IDs.
+///
+/// Each method prepares only its own state before the scan, so a timed scan
+/// measures the chosen method alone.
 #[must_use]
 pub fn scan(terms: &[Vec<u8>], query: &[u8], k: usize, method: &str) -> Vec<usize> {
-    let myers = Myers::new(query);
+    match method {
+        "band" => retain(terms, |term| bounded(query, term, k).is_some()),
+        "myers" => {
+            let myers = Myers::new(query);
+            retain(terms, |term| myers.distance(term) <= k)
+        }
+        _ => retain(terms, |term| distance(query, term) <= k),
+    }
+}
+
+fn retain(terms: &[Vec<u8>], keep: impl Fn(&[u8]) -> bool) -> Vec<usize> {
     terms
         .iter()
         .enumerate()
-        .filter_map(|(id, term)| {
-            let yes = match method {
-                "band" => bounded(query, term, k).is_some(),
-                "myers" => myers.distance(term) <= k,
-                _ => distance(query, term) <= k,
-            };
-            yes.then_some(id)
-        })
+        .filter_map(|(id, term)| keep(term).then_some(id))
         .collect()
 }
