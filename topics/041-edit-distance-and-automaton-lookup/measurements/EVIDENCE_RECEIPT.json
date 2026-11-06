@@ -1,0 +1,68 @@
+{
+  "frozen_source": "cf90420d55899b4afadd726772262104f6cc95d5",
+  "hosts": {
+    "arm": {
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-041/20261106/arm-evidence.tar.gz",
+      "sha256": "58ededd077d1d7337d41bae8dfad26f0f8511a5210894c8e73a8348e6e3c6ef3",
+      "size": 4346034,
+      "members": 18,
+      "source_commit": "cf90420d55899b4afadd726772262104f6cc95d5",
+      "source_sha256": {
+        "src/lib.rs": "2e6d8094d27dcca9a859f1e7a52c9705ed15d55bd1c239e5d07bceb200c4b315",
+        "tests/contracts.rs": "32563bafe4788e88d16915217b169f98262327a4972d789d59e3c99c50c1e199",
+        "examples/edit.rs": "e2e66d038ae8649723036628a7d168f66b5e6d655203d93263abac99fe5a6068",
+        "benches/lookup.rs": "025054d9e219ba7606848fd16dea83a7fd8a10f2ccca81fb31713c6a2e1313be",
+        "measurements/run.py": "aed8578b4c8a23dd50501e0cffe66c983e27051de0acdebc21f7a254e62298a6"
+      },
+      "binary_sha256": "eeb6618cdd0ddf66f5653478a6944dc702b1e77fd2ae7ed3e838fa55cef5678a",
+      "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "flags": [
+        "--edition=2024",
+        "-O",
+        "-C",
+        "target-cpu=native"
+      ],
+      "verification": "all source, binary, archive member, oracle, process count and balanced schedule checks passed",
+      "processes": {
+        "main": 612,
+        "measured": 544,
+        "warmup": 68,
+        "aa": 16
+      }
+    },
+    "x86": {
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-041/20261106/x86-evidence.tar.gz",
+      "sha256": "75c77246b70fcdca049353f97e2663ef4b23a8cbe14e8e1cee6256efe6ad462b",
+      "size": 5176856,
+      "members": 18,
+      "source_commit": "cf90420d55899b4afadd726772262104f6cc95d5",
+      "source_sha256": {
+        "src/lib.rs": "2e6d8094d27dcca9a859f1e7a52c9705ed15d55bd1c239e5d07bceb200c4b315",
+        "tests/contracts.rs": "32563bafe4788e88d16915217b169f98262327a4972d789d59e3c99c50c1e199",
+        "examples/edit.rs": "e2e66d038ae8649723036628a7d168f66b5e6d655203d93263abac99fe5a6068",
+        "benches/lookup.rs": "025054d9e219ba7606848fd16dea83a7fd8a10f2ccca81fb31713c6a2e1313be",
+        "measurements/run.py": "aed8578b4c8a23dd50501e0cffe66c983e27051de0acdebc21f7a254e62298a6"
+      },
+      "binary_sha256": "b92d8c17bac6dfca9f54c4858fc12f1e8f504ba7493d1771c67359f2dcd6def6",
+      "host": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "flags": [
+        "--edition=2024",
+        "-O",
+        "-C",
+        "target-cpu=native"
+      ],
+      "verification": "all source, binary, archive member, oracle, process count and balanced schedule checks passed",
+      "processes": {
+        "main": 612,
+        "measured": 544,
+        "warmup": 68,
+        "aa": 16
+      }
+    }
+  },
+  "visual_sha256": "80a7d1d9630178a597cb0f4a614bc980a6e48528a32d291106d3d1abe7856451",
+  "visual_inspection": "Rendered at 1200x410 and visually checked: aligned panels, complete labels, readable contrast, no clipping.",
+  "evidence_boundary": "Warm synthetic workloads; per-host compiler/native flags differ; exploratory fixed eight-block screen. Whole-process timing includes oracle and is not candidate-only evidence."
+}

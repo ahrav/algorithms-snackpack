@@ -1,0 +1,11 @@
+[package]
+name = "topic-041-edit"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+[lints]
+workspace = true
+[[bench]]
+name = "lookup"
+harness = false
