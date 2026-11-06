@@ -1,3 +1,4 @@
+//! Independent edit-graph and representation-boundary contracts.
 use topic_041_edit::{Myers, Trie, bounded, distance, scan};
 
 // Shortest paths in the edit graph form an independent oracle. Each edge

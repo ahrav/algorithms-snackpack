@@ -1,3 +1,4 @@
+//! Complete dictionary lookup for a one-edit query.
 use topic_041_edit::Trie;
 fn main() {
     let words: Vec<_> = ["cat", "cart", "cut", "dog"]

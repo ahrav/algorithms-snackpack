@@ -1,4 +1,4 @@
-#![allow(missing_docs)]
+//! Frozen lookup driver with an independent full-matrix oracle.
 use std::{hint::black_box, time::Instant};
 use topic_041_edit::{Trie, scan};
 
