@@ -47,10 +47,11 @@ and [measurements](measurements/README.md).
 Coverage audit: the authoritative catalog has no coverage array for Topic 042;
 ALGORITHM_INDEX.md is absent. Implemented: exact full-table LCS, Hirschberg and
 Myers compact-history scripts. Explicit revisits: Hunt-Szymanski sparse matching,
-bit-parallel length-only kernels, linear-space Myers traceback, patience and
-histogram presentation, line/Unicode tokenization, preprocessing/common-prefix
-trimming and production-library comparison. Unit substitution distance belongs
-to Topic 041; exact reconstruction and presentation objectives stay distinct.
+bit-parallel length-only kernels, a symmetric length-one Hirschberg base case,
+linear-space Myers traceback, patience and histogram presentation, line/Unicode
+tokenization, preprocessing/common-prefix trimming and production-library
+comparison. Unit substitution distance belongs to Topic 041; exact reconstruction
+and presentation objectives stay distinct.
 
 Primary sources: [Hirschberg 1975](https://www.cs.emory.edu/~cheung/Courses/253/Syllabus/DynProg/Docs/Hirschberg%3DLinear-space-LCS.pdf),
 [Myers 1986](https://gi.cebitec.uni-bielefeld.de/_media/teaching/2013summer/818myers-1986-difference-algorithm.pdf),

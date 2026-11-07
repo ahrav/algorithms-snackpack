@@ -106,6 +106,7 @@ fn matrix(a: &[u8], b: &[u8], stats: &mut Stats) -> Pairs {
     let (mut i, mut j) = (a.len(), b.len());
     let mut pairs = Vec::with_capacity(a.len().min(b.len()));
     while i > 0 && j > 0 {
+        stats.comparisons += 1;
         if a[i - 1] == b[j - 1] {
             pairs.push((i - 1, j - 1));
             i -= 1;
@@ -298,9 +299,9 @@ pub fn valid(a: &[u8], b: &[u8], script: &[Edit], expected_cost: usize) -> bool 
     consumed == a && output == b && cost == expected_cost
 }
 
-/// Fixed synthetic workload. Unknown names select sparse replacements.
+/// The function builds source bytes of length `n` and derives the target according to `shape`.
 /// # Panics
-/// Panics if workload index arithmetic exceeds `usize`. Allocations must fit memory.
+/// Panics when `shape` is not one of `identical`, `sparse`, `unrelated`, `repeat`, `unequal`.
 #[must_use]
 pub fn workload(shape: &str, n: usize) -> (Vec<u8>, Vec<u8>) {
     let a: Vec<u8> = (0..n)
@@ -322,11 +323,12 @@ pub fn workload(shape: &str, n: usize) -> (Vec<u8>, Vec<u8>) {
         "unequal" => {
             b.truncate(n / 16);
         }
-        _ => {
+        "sparse" => {
             for i in (0..n).step_by(64) {
                 b[i] = 255;
             }
         }
+        _ => panic!("unknown shape"),
     }
     (a, b)
 }
