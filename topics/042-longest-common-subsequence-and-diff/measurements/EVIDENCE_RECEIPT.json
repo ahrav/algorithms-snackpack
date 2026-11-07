@@ -1,0 +1,46 @@
+{
+  "source": "395cba1437c6072325c05ad2d96d8ec23c1ecf2f",
+  "verification": "source, runner, binary, plan, archive and records checked; contracts and all workload oracles passed",
+  "hosts": {
+    "arm": {
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-042/20261107/arm-results.tar.gz",
+      "sha256": "c758765d91183aab961291d3247664252e5e08449d75e8206caebdcd601f71e3",
+      "size": 2702624,
+      "members": 10,
+      "source": "395cba1437c6072325c05ad2d96d8ec23c1ecf2f",
+      "inputs": {
+        "src/lib.rs": "9fc32ec14818901e2411c21bf97bf0334eaa194f0a0c9c88f0323b1888d1ba33",
+        "tests/contracts.rs": "51f695b2ee91fe631fa93fa73877f98eaf05125f400b306ea217d72896ff8a27",
+        "examples/compare.rs": "64725c6855c0742f27c9f6911a0444ec28eb8214dbc8a30e9543fe39bb378aaa",
+        "measurements/runner.py": "98e3f9c96aa58163f87fc70806d8f9839fea57709ad16896987facd5d60e19c9"
+      },
+      "processes": 421,
+      "measured": 360,
+      "warmup": 45,
+      "aa": 16,
+      "contracts": "\nrunning 2 tests\ntest semantic_controls_and_boundaries ... ok\ntest exhaustive_binary_pairs ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s\n\n",
+      "binary_sha256": "5ec44185c4e360a4aaba9bd342716c62adca4d256201a9a6e0f5572fe199ccce",
+      "plan_sha256": "a31d2a6aefe3b413e95fbd93adb637340306ed54eac4c5dfea08f860c17378db"
+    },
+    "x86": {
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-042/20261107/x86-results.tar.gz",
+      "sha256": "1ff62b00ee601b2c7940965162c697a7d9101c2a82c00a0651383deb6a381e77",
+      "size": 3229402,
+      "members": 10,
+      "source": "395cba1437c6072325c05ad2d96d8ec23c1ecf2f",
+      "inputs": {
+        "src/lib.rs": "9fc32ec14818901e2411c21bf97bf0334eaa194f0a0c9c88f0323b1888d1ba33",
+        "tests/contracts.rs": "51f695b2ee91fe631fa93fa73877f98eaf05125f400b306ea217d72896ff8a27",
+        "examples/compare.rs": "64725c6855c0742f27c9f6911a0444ec28eb8214dbc8a30e9543fe39bb378aaa",
+        "measurements/runner.py": "98e3f9c96aa58163f87fc70806d8f9839fea57709ad16896987facd5d60e19c9"
+      },
+      "processes": 421,
+      "measured": 360,
+      "warmup": 45,
+      "aa": 16,
+      "contracts": "\nrunning 2 tests\ntest semantic_controls_and_boundaries ... ok\ntest exhaustive_binary_pairs ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s\n\n",
+      "binary_sha256": "cfcd53e261f6193faef780b58c1ed30d00cb5a0044677537ea3e3a5dbcc64b90",
+      "plan_sha256": "a31d2a6aefe3b413e95fbd93adb637340306ed54eac4c5dfea08f860c17378db"
+    }
+  }
+}
