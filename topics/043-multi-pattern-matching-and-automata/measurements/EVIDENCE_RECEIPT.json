@@ -1,0 +1,68 @@
+{
+  "source_commit": "0941e07a0517518958495e7c241eb9bf5b06f2e0",
+  "inputs": {
+    "lib.rs": {
+      "sha256": "e91126ea5d0204bd36c3f719deca176fc9ef639f476d4137a4345d6cf7a70797",
+      "git_path": "topics/043-multi-pattern-matching-and-automata/src/lib.rs"
+    },
+    "experiment.rs": {
+      "sha256": "4034d2e018fca7a91342ba3031423eda63a45315dad6e06b5c5f927bfef24877",
+      "git_path": "topics/043-multi-pattern-matching-and-automata/examples/experiment.rs"
+    },
+    "run.py": {
+      "sha256": "12528dc97d012f510f9faa3445871c512704499a1c365e7423e2e7ec1d190234",
+      "git_path": "topics/043-multi-pattern-matching-and-automata/measurements/run.py"
+    }
+  },
+  "verification": "Local/remote archive hashes, all archive members, binary and all three executable input hashes verified; complete run count and balanced ordering checked; all independent oracle comparisons passed.",
+  "hosts": {
+    "arm": {
+      "archive_sha256": "43aea09c65b2045249b30ebc83dc325c0d0afa493fce88c9378c21fc68601ab7",
+      "archive_bytes": 2724344,
+      "members": 10,
+      "binary_sha256": "9298602e816cf0bf2103741a85924ae0bd678deb4d551e059dd60f3e15a65301",
+      "rows": 474,
+      "measured_main": 396,
+      "warmup": 66,
+      "AA": 12,
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-043/20261108/native-arm.tar.gz",
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+      "flags": [
+        "--edition=2024",
+        "-C",
+        "opt-level=3",
+        "-C",
+        "target-cpu=native"
+      ],
+      "available_cpus": 64,
+      "pinned_cpu": 0,
+      "environment_sha256": "49627a4c3a6808df490a335ea8f331e22554e9b58c1f206319e5341d1358e3da"
+    },
+    "x86": {
+      "archive_sha256": "2cd936b31780668f2c2aa01d8c0901fe02248730814881c2532f8e0080823955",
+      "archive_bytes": 3248481,
+      "members": 10,
+      "binary_sha256": "6470c0944c78101af5e222d3ae8e3a2f58ac710002595955e469ce0676cee8f3",
+      "rows": 474,
+      "measured_main": 396,
+      "warmup": 66,
+      "AA": 12,
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-043/20261108/native-x86.tar.gz",
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+      "flags": [
+        "--edition=2024",
+        "-C",
+        "opt-level=3",
+        "-C",
+        "target-cpu=native"
+      ],
+      "available_cpus": 192,
+      "pinned_cpu": 0,
+      "environment_sha256": "71eb611827f84ae41e97e82ed8e3df1d680821b44768460b07c3605967050eb2"
+    }
+  }
+}
