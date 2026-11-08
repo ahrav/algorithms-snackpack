@@ -1,3 +1,4 @@
+//! Public API regression for complete match records.
 use topic043::{Hit, Sparse};
 #[test]
 fn exact_suffix_and_duplicate_records() {

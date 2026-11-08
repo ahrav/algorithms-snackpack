@@ -1,4 +1,4 @@
-// Fixed multi-pattern experiment. Run `example` or `candidate case endpoint`.
+//! Fixed multi-pattern experiment. Run `example` or `candidate case endpoint`.
 use std::hint::black_box;
 use std::time::Instant;
 use topic043::{Dense, Hit, Sparse, direct};
@@ -67,7 +67,8 @@ fn digest(h: Hit) -> u64 {
         .wrapping_add(u64::try_from(h.start).unwrap().rotate_left(17))
         .wrapping_add(u64::try_from(h.end).unwrap().rotate_left(31))
 }
-fn main() {
+/// Execute the fixed experiment.
+pub fn main() {
     let args: Vec<String> = std::env::args().collect();
     if args.get(1).is_none_or(|s| s == "example") {
         let p: Vec<Vec<u8>> = ["he", "she", "hers", "his", "he"]
