@@ -10,6 +10,7 @@ os.chdir(root)
 print('Evidence directory: '+str(root),flush=True)
 def call(args): return subprocess.check_output(args,text=True,stderr=subprocess.STDOUT)
 TIMEOUT=float(os.environ.get('TOPIC_043_PROCESS_TIMEOUT_S',60))
+REQUIRED={'candidate','case','endpoint','n','r','states','table_bytes','matches','reps','elapsed_ns','checksum'}
 def measure(out,args,**meta):
     row: dict = {'status': 'ok'}
     try:
@@ -21,7 +22,10 @@ def measure(out,args,**meta):
         row.update(status='timeout', timeout_s=TIMEOUT, output=partial.decode(errors='replace') if isinstance(partial, bytes) else partial)
     else:
         try:
-            row.update(json.loads(output))
+            decoded = json.loads(output)
+            if not isinstance(decoded, dict) or not decoded.keys() >= REQUIRED:
+                raise ValueError('measurement object missing ' + ','.join(sorted(REQUIRED)))
+            row.update(decoded)
         except ValueError as malformed:
             row.update(status='malformed', output=output, error=repr(malformed))
     row.update(args=args, **meta)

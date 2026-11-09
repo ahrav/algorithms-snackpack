@@ -6,8 +6,9 @@ an executable for every `-o` target keeps the repository and the real toolchain 
 of the test. A stub `taskset` plays the experiment binary: in one case its first
 call exits 3 with diagnostic output, in the second it prints text that is not JSON,
 and in the third it prints partial output and sleeps past the one second timeout
-set through TOPIC_043_PROCESS_TIMEOUT_S. The runner must write that attempt as a
-row in raw.jsonl, then halt. Run from
+set through TOPIC_043_PROCESS_TIMEOUT_S. A fourth group prints JSON of the wrong
+shape: `null`, `[]`, and an object missing the timing fields. The runner must
+write that attempt as a row in raw.jsonl, then halt. Run from
 anywhere:
 python3 topics/043-multi-pattern-matching-and-automata/measurements/test_run.py
 """
@@ -42,6 +43,18 @@ echo 'not json'
 HANGING_TASKSET = """#!/bin/sh
 echo 'partial'
 sleep 5
+"""
+
+NULL_TASKSET = """#!/bin/sh
+echo 'null'
+"""
+
+ARRAY_TASKSET = """#!/bin/sh
+echo '[]'
+"""
+
+MISSING_FIELDS_TASKSET = """#!/bin/sh
+echo '{"candidate":"dense","case":0,"endpoint":"scan"}'
 """
 
 
@@ -99,6 +112,16 @@ class RunTests(unittest.TestCase):
         self.assert_single_retained_attempt(returncode, output, rows, 'timeout')
         self.assertEqual((rows[0]['timeout_s'], rows[0]['output']), (1.0, 'partial\n'), rows[0])
         self.assertNotIn('returncode', rows[0])
+
+    def test_wrong_shape_json_is_retained_as_malformed_before_halting(self):
+        for stub, printed in [(NULL_TASKSET, 'null\n'), (ARRAY_TASKSET, '[]\n'),
+                              (MISSING_FIELDS_TASKSET, '{"candidate":"dense","case":0,"endpoint":"scan"}\n')]:
+            with self.subTest(printed=printed):
+                returncode, output, rows = run_with_stub(stub)
+                self.assert_single_retained_attempt(returncode, output, rows, 'malformed')
+                self.assertEqual(rows[0]['output'], printed, rows[0])
+                self.assertIn('measurement object missing', rows[0]['error'])
+                self.assertNotIn('reps', rows[0])
 
 
 if __name__ == '__main__':
