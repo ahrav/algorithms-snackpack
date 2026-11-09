@@ -4,8 +4,10 @@
 The runner copies its inputs into a temporary tree, so a stub `rustc` that writes
 an executable for every `-o` target keeps the repository and the real toolchain out
 of the test. A stub `taskset` plays the experiment binary: in one case its first
-call exits 3 with diagnostic output, in the other it prints text that is not JSON.
-The runner must write that attempt as a row in raw.jsonl, then halt. Run from
+call exits 3 with diagnostic output, in the second it prints text that is not JSON,
+and in the third it prints partial output and sleeps past the one second timeout
+set through TOPIC_043_PROCESS_TIMEOUT_S. The runner must write that attempt as a
+row in raw.jsonl, then halt. Run from
 anywhere:
 python3 topics/043-multi-pattern-matching-and-automata/measurements/test_run.py
 """
@@ -37,6 +39,11 @@ MALFORMED_TASKSET = """#!/bin/sh
 echo 'not json'
 """
 
+HANGING_TASKSET = """#!/bin/sh
+echo 'partial'
+sleep 5
+"""
+
 
 def run_with_stub(taskset):
     with tempfile.TemporaryDirectory(prefix='topic043-test-') as tmp:
@@ -49,7 +56,8 @@ def run_with_stub(taskset):
         for name, body in [('rustc', RUSTC), ('taskset', taskset)]:
             (bin_dir / name).write_text(body)
             (bin_dir / name).chmod(0o755)
-        env = dict(os.environ, PATH=str(bin_dir) + os.pathsep + os.environ['PATH'], TMPDIR=str(tmp))
+        env = dict(os.environ, PATH=str(bin_dir) + os.pathsep + os.environ['PATH'], TMPDIR=str(tmp),
+                   TOPIC_043_PROCESS_TIMEOUT_S='1')
         r = subprocess.run([sys.executable, str(tmp / 'measurements/run.py')], cwd=tmp, env=env,
                            text=True, capture_output=True, timeout=300)
         output = r.stdout + r.stderr
@@ -85,6 +93,12 @@ class RunTests(unittest.TestCase):
         self.assert_single_retained_attempt(returncode, output, rows, 'malformed')
         self.assertEqual(rows[0]['output'], 'not json\n', rows[0])
         self.assertIn('JSONDecodeError', rows[0]['error'])
+
+    def test_timed_out_process_is_retained_before_halting(self):
+        returncode, output, rows = run_with_stub(HANGING_TASKSET)
+        self.assert_single_retained_attempt(returncode, output, rows, 'timeout')
+        self.assertEqual((rows[0]['timeout_s'], rows[0]['output']), (1.0, 'partial\n'), rows[0])
+        self.assertNotIn('returncode', rows[0])
 
 
 if __name__ == '__main__':

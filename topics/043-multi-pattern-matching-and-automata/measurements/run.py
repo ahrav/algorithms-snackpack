@@ -9,12 +9,16 @@ for src,name in [(lib,'lib.rs'),(experiment,'experiment.rs'),(source/'run.py','r
 os.chdir(root)
 print('Evidence directory: '+str(root),flush=True)
 def call(args): return subprocess.check_output(args,text=True,stderr=subprocess.STDOUT)
+TIMEOUT=float(os.environ.get('TOPIC_043_PROCESS_TIMEOUT_S',60))
 def measure(out,args,**meta):
     row: dict = {'status': 'ok'}
     try:
-        output = call(args)
+        output = subprocess.check_output(args, text=True, stderr=subprocess.STDOUT, timeout=TIMEOUT)
     except subprocess.CalledProcessError as failed:
         row.update(status='failed', returncode=failed.returncode, output=failed.output)
+    except subprocess.TimeoutExpired as expired:
+        partial = expired.output or b''
+        row.update(status='timeout', timeout_s=TIMEOUT, output=partial.decode(errors='replace') if isinstance(partial, bytes) else partial)
     else:
         try:
             row.update(json.loads(output))
@@ -33,7 +37,7 @@ subprocess.run(['rustc',*flags,'--test','lib.rs','-o','contracts'],check=True)
 contracts=call(['./contracts'])
 example=call(['./experiment','example'])
 def sha(p): return hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
-env={'hostname':platform.node(),'architecture':platform.machine(),'uname':call(['uname','-a']),'cpu':call(['lscpu']),'available_cpus':len(os.sched_getaffinity(0)),'affinity':sorted(os.sched_getaffinity(0)),'toolchain':call(['rustc','-vV']),'features':call(['rustc','--print','cfg','-C','target-cpu=native']),'flags':flags,'inputs':{p:sha(p) for p in ['lib.rs','experiment.rs','run.py']},'binary_sha256':sha('experiment'),'contracts':contracts,'example':example,'started_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())}
+env={'hostname':platform.node(),'architecture':platform.machine(),'uname':call(['uname','-a']),'cpu':call(['lscpu']),'available_cpus':len(os.sched_getaffinity(0)),'affinity':sorted(os.sched_getaffinity(0)),'toolchain':call(['rustc','-vV']),'features':call(['rustc','--print','cfg','-C','target-cpu=native']),'flags':flags,'process_timeout_s':TIMEOUT,'inputs':{p:sha(p) for p in ['lib.rs','experiment.rs','run.py']},'binary_sha256':sha('experiment'),'contracts':contracts,'example':example,'started_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())}
 pathlib.Path('environment.json').write_text(json.dumps(env,indent=2)+'\n')
 cpu=min(os.sched_getaffinity(0))
 with open('raw.jsonl','w') as out:
