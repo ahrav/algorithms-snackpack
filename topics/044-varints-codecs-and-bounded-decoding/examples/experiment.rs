@@ -39,7 +39,7 @@ fn data(case: usize) -> Vec<u32> {
         .collect()
 }
 
-fn main() {
+pub(crate) fn main() {
     let args: Vec<_> = std::env::args().collect();
     if args.get(1).is_none_or(|x| x == "example") {
         let v = vec![1, 127, 128, 300, u32::MAX];

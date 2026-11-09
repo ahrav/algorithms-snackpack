@@ -231,7 +231,9 @@ mod tests {
     }
     #[test]
     fn exhaustive_short_and_limits() {
-        agree(&[], 0);
+        for limit in [0, 1, 2] {
+            agree(&[], limit);
+        }
         for a in 0..=255u8 {
             for limit in [0, 1, 2] {
                 agree(&[a], limit);
@@ -245,6 +247,9 @@ mod tests {
     }
     #[test]
     fn boundaries_and_errors() {
+        for len in 1..5 {
+            agree(&vec![128; len], 3);
+        }
         for bytes in [
             &[0x80][..],
             &[0x80, 0],
