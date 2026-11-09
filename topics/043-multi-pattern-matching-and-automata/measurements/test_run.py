@@ -7,7 +7,8 @@ of the test. A stub `taskset` plays the experiment binary: in one case its first
 call exits 3 with diagnostic output, in the second it prints text that is not JSON,
 and in the third it prints partial output and sleeps past the one second timeout
 set through TOPIC_043_PROCESS_TIMEOUT_S. A fourth group prints JSON of the wrong
-shape: `null`, `[]`, and an object missing the timing fields. The runner must
+shape: `null`, `[]`, and an object missing the timing fields. A fifth stub exits 2
+after printing a byte that is not UTF-8. The runner must
 write that attempt as a row in raw.jsonl, then halt. Run from
 anywhere:
 python3 topics/043-multi-pattern-matching-and-automata/measurements/test_run.py
@@ -55,6 +56,11 @@ echo '[]'
 
 MISSING_FIELDS_TASKSET = """#!/bin/sh
 echo '{"candidate":"dense","case":0,"endpoint":"scan"}'
+"""
+
+BINARY_TASKSET = """#!/bin/sh
+printf 'bad \\377 byte\\n'
+exit 2
 """
 
 
@@ -122,6 +128,11 @@ class RunTests(unittest.TestCase):
                 self.assertEqual(rows[0]['output'], printed, rows[0])
                 self.assertIn('measurement object missing', rows[0]['error'])
                 self.assertNotIn('reps', rows[0])
+
+    def test_non_utf8_output_is_retained_before_halting(self):
+        returncode, output, rows = run_with_stub(BINARY_TASKSET)
+        self.assert_single_retained_attempt(returncode, output, rows, 'failed')
+        self.assertEqual((rows[0]['returncode'], rows[0]['output']), (2, 'bad \ufffd byte\n'), rows[0])
 
 
 if __name__ == '__main__':

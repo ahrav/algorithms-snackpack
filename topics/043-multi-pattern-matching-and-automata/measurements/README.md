@@ -71,7 +71,10 @@ resident in the process, so build medians carry that resident-state effect: x86
 direct build for identical r32 pattern sets is1.543us at n64 (case1) and5.151us at
 n32768 (case6). The A/A control reuses the direct treatment string, so it covers
 scheduling, process order and parsing; the binary's candidate dispatch is outside
-its coverage. results.json carries per-cell medians, min/max and selections; the
+its coverage. The control has no discarded warmup block of its own: its twelve
+retained processes run after the 462 main-schedule processes of the same binary,
+so first-block effects within the control cell are part of its descriptive ratios.
+results.json carries per-cell medians, min/max and selections; the
 per-block paired ratios behind each selection live only in the external raw rows.
 Assembly is retained for replay; hardware causal attribution remains unmeasured.
 Transition n and dense payload 256*S*sizeof(usize) are source-derived counts.

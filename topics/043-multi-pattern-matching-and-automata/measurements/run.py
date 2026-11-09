@@ -13,13 +13,13 @@ TIMEOUT=float(os.environ.get('TOPIC_043_PROCESS_TIMEOUT_S',60))
 REQUIRED={'candidate','case','endpoint','n','r','states','table_bytes','matches','reps','elapsed_ns','checksum'}
 def measure(out,args,**meta):
     row: dict = {'status': 'ok'}
+    def text(captured): return (captured or b'').decode(errors='replace')
     try:
-        output = subprocess.check_output(args, text=True, stderr=subprocess.STDOUT, timeout=TIMEOUT)
+        output = text(subprocess.check_output(args, stderr=subprocess.STDOUT, timeout=TIMEOUT))
     except subprocess.CalledProcessError as failed:
-        row.update(status='failed', returncode=failed.returncode, output=failed.output)
+        row.update(status='failed', returncode=failed.returncode, output=text(failed.output))
     except subprocess.TimeoutExpired as expired:
-        partial = expired.output or b''
-        row.update(status='timeout', timeout_s=TIMEOUT, output=partial.decode(errors='replace') if isinstance(partial, bytes) else partial)
+        row.update(status='timeout', timeout_s=TIMEOUT, output=text(expired.output))
     else:
         try:
             decoded = json.loads(output)
