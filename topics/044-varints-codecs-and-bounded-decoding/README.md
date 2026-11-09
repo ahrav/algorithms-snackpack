@@ -29,11 +29,11 @@ regular positions with four bytes per value. Measure both time and representatio
 Let x be a value and b(x) its bit length, defining b(0)=1. Then L(x)=ceil(b(x)/7)
 encoded bytes. For 300, ceil(9/7)=2. For N values, B=sum L(x[i]); the example gives
 N=5 and B=11, versus 4N=20 fixed-width bytes. Valid scalar work is O(B+N), with N
-output writes. A count limit M bounds varint reads by 5M; M=5 permits at most25
-reads and20 output payload bytes. Metadata and allocator costs are additional.
+output writes. A count limit M bounds varint reads by 5M; M=5 permits at most 25
+reads and 20 output payload bytes. Metadata and allocator costs are additional.
 
 ZigZag maps signed values near zero to small unsigned values. For i32 x,
-`((x as u32)<<1)^((x>>31) as u32)` maps -2 to3. Signed LEB128 instead has signed
+`((x as u32)<<1)^((x>>31) as u32)` maps -2 to 3. Signed LEB128 instead has signed
 termination/sign-extension rules. This crate implements the unsigned contract.
 WebAssembly accepts some redundant LEB128 forms. Its acceptance rules differ from ours.
 

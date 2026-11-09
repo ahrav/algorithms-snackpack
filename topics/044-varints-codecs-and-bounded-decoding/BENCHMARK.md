@@ -2,16 +2,16 @@
 
 Claim: decode time and bytes vary with integer lengths and representation.
 Candidates: scalar and unrolled canonical u32 varints; fixed32 little-endian.
-Eight cells: N=32 or65536 crossed with small(0..127), threshold cycle,
-deterministic full-width pseudorandom, alternating1/u32::MAX distributions.
+Eight cells: N=32 or 65536 crossed with small(0..127), threshold cycle,
+deterministic full-width pseudorandom, alternating 1/u32::MAX distributions.
 
 Unit: one fresh process returns one ns/decode sample after repeated internal decodes.
 Internal iterations estimate that process mean; they are not independent samples.
 One discarded warmup block and six measured blocks per cell. Rotate three candidates,
 then reverse the last three block orders. No data-dependent reruns or stopping.
-Selection: beat both alternatives by at least5% in every paired block; otherwise unresolved.
+Selection: beat both alternatives by at least 5% in every paired block; otherwise unresolved.
 Report median and min/max, per host/cell, including A/A control range.
-The A/A control uses scalar case6, six balanced AB/BA blocks of the identical binary.
+The A/A control uses scalar case 6, six balanced AB/BA blocks of the identical binary.
 
 Boundary: complete-buffer decoding, checked input, output stores and vector clear/push,
 with reused preallocated output and black_box consumption. Input generation, encoding,
