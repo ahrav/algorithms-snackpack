@@ -8,7 +8,8 @@ call exits 3 with diagnostic output, in the second it prints text that is not JS
 and in the third it prints partial output and sleeps past the one second timeout
 set through TOPIC_043_PROCESS_TIMEOUT_S. A fourth group prints JSON of the wrong
 shape: `null`, `[]`, and an object missing the timing fields. A fifth stub exits 2
-after printing a byte that is not UTF-8. The runner must
+after printing a byte that is not UTF-8. A sixth prints a complete object whose
+candidate label differs from the one the runner invoked. The runner must
 write that attempt as a row in raw.jsonl, then halt. Run from
 anywhere:
 python3 topics/043-multi-pattern-matching-and-automata/measurements/test_run.py
@@ -61,6 +62,10 @@ echo '{"candidate":"dense","case":0,"endpoint":"scan"}'
 BINARY_TASKSET = """#!/bin/sh
 printf 'bad \\377 byte\\n'
 exit 2
+"""
+
+MISLABELED_TASKSET = """#!/bin/sh
+echo '{"candidate":"direct","case":0,"endpoint":"scan","n":64,"r":2,"states":25,"table_bytes":51200,"matches":0,"reps":2000,"elapsed_ns":1000,"checksum":0}'
 """
 
 
@@ -133,6 +138,12 @@ class RunTests(unittest.TestCase):
         returncode, output, rows = run_with_stub(BINARY_TASKSET)
         self.assert_single_retained_attempt(returncode, output, rows, 'failed')
         self.assertEqual((rows[0]['returncode'], rows[0]['output']), (2, 'bad \ufffd byte\n'), rows[0])
+
+    def test_output_labels_must_match_the_invocation(self):
+        returncode, output, rows = run_with_stub(MISLABELED_TASKSET)
+        self.assert_single_retained_attempt(returncode, output, rows, 'malformed')
+        self.assertIn('"candidate": "direct"', rows[0]['error'])
+        self.assertIn('differ from invocation', rows[0]['error'])
 
 
 if __name__ == '__main__':

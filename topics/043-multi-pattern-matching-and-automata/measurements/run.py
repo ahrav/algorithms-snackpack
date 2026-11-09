@@ -25,6 +25,10 @@ def measure(out,args,**meta):
             decoded = json.loads(output)
             if not isinstance(decoded, dict) or not decoded.keys() >= REQUIRED:
                 raise ValueError('measurement object missing ' + ','.join(sorted(REQUIRED)))
+            invocation = {k: meta[k] for k in ('candidate', 'case', 'endpoint')}
+            printed = {k: decoded[k] for k in invocation}
+            if printed != invocation:
+                raise ValueError('measurement labels ' + json.dumps(printed) + ' differ from invocation ' + json.dumps(invocation))
             row.update(decoded)
         except ValueError as malformed:
             row.update(status='malformed', output=output, error=repr(malformed))
