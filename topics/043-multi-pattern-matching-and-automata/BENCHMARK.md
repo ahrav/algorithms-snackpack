@@ -1,9 +1,12 @@
-# Benchmark decision: true
+benchmark_required: true
+
+# Benchmark decision
 
 Claim: choose the fastest correct tested educational candidate for each fixed
 workload and host. This is an exploratory screen with six complete process
 blocks. It has no powered population-level or simultaneous confidence claim.
-The stopping rule is fixed; every attempt is retained and failures halt the run.
+The stopping rule is fixed; every attempt is retained as a raw row, and a failed
+or malformed attempt halts the run after its row is written.
 
 ## Frozen design
 

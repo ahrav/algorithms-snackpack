@@ -52,9 +52,12 @@ The Python runner creates an external temporary evidence directory and prints
 its path. It needs Linux, Python 3, rustc and taskset. It builds exact local
 source with native target features. See BENCHMARK.md and measurements/README.md.
 
-Use direct scans for small or short-lived sets when measured lifetime cost wins.
-Use sparse automata when measured search and memory fit the budget. Use dense
-transitions when saved query time pays for construction and table storage.
+Use direct scans for small or short-lived sets when measured lifetime cost wins,
+and for dense-output workloads where output enumeration dominates: x86 case9
+(z=130,576) selected direct on the reused scan endpoint itself. Use dense
+transitions when saved query time pays for construction and table storage; dense
+won19 of22 scan cells. Sparse won no scan or build cell in this screen, so it is
+the fallback when the dense payload 256*S*sizeof(usize) exceeds the memory budget.
 Consult measured per-cell selections before choosing a runtime winner.
 
 Production work should compare a maintained library with the exact API contract.

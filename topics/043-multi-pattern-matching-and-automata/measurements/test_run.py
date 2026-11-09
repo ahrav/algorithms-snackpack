@@ -1,0 +1,91 @@
+#!/usr/bin/env python3
+"""Behavioral check for run.py failure retention against stub rustc and taskset processes.
+
+The runner copies its inputs into a temporary tree, so a stub `rustc` that writes
+an executable for every `-o` target keeps the repository and the real toolchain out
+of the test. A stub `taskset` plays the experiment binary: in one case its first
+call exits 3 with diagnostic output, in the other it prints text that is not JSON.
+The runner must write that attempt as a row in raw.jsonl, then halt. Run from
+anywhere:
+python3 topics/043-multi-pattern-matching-and-automata/measurements/test_run.py
+"""
+import json
+import os
+import pathlib
+import shutil
+import subprocess
+import sys
+import tempfile
+import unittest
+
+MEASUREMENTS = pathlib.Path(__file__).resolve().parent
+CRATE = MEASUREMENTS.parent
+INPUTS = ['src/lib.rs', 'examples/experiment.rs', 'measurements/run.py']
+
+RUSTC = """#!/bin/sh
+if [ "$1" = -vV ] || [ "$1" = --print ]; then echo 'rustc stub'; exit 0; fi
+while [ $# -gt 1 ]; do [ "$1" = -o ] && out=$2; shift; done
+printf '#!/bin/sh\\necho stub\\n' > "$out" && chmod +x "$out"
+"""
+
+FAILING_TASKSET = """#!/bin/sh
+echo 'stub failure'
+exit 3
+"""
+
+MALFORMED_TASKSET = """#!/bin/sh
+echo 'not json'
+"""
+
+
+def run_with_stub(taskset):
+    with tempfile.TemporaryDirectory(prefix='topic043-test-') as tmp:
+        tmp = pathlib.Path(tmp)
+        for rel in INPUTS:
+            (tmp / rel).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(CRATE / rel, tmp / rel)
+        bin_dir = tmp / 'bin'
+        bin_dir.mkdir()
+        for name, body in [('rustc', RUSTC), ('taskset', taskset)]:
+            (bin_dir / name).write_text(body)
+            (bin_dir / name).chmod(0o755)
+        env = dict(os.environ, PATH=str(bin_dir) + os.pathsep + os.environ['PATH'], TMPDIR=str(tmp))
+        r = subprocess.run([sys.executable, str(tmp / 'measurements/run.py')], cwd=tmp, env=env,
+                           text=True, capture_output=True, timeout=300)
+        output = r.stdout + r.stderr
+        prefix = 'Evidence directory: '
+        evidence = [line[len(prefix):] for line in r.stdout.splitlines() if line.startswith(prefix)]
+        rows = []
+        if evidence:
+            raw = pathlib.Path(evidence[0]) / 'raw.jsonl'
+            if raw.exists():
+                rows = [json.loads(line) for line in raw.read_text().splitlines()]
+        return r.returncode, output, rows
+
+
+class RunTests(unittest.TestCase):
+    def assert_single_retained_attempt(self, returncode, output, rows, status):
+        self.assertNotEqual(returncode, 0, output)
+        self.assertEqual(len(rows), 1, output)
+        row = rows[0]
+        self.assertEqual(row['status'], status, row)
+        self.assertEqual((row['candidate'], row['case'], row['endpoint']), ('dense', 0, 'scan'), row)
+        self.assertEqual((row['block'], row['position'], row['warmup']), (-1, 0, True), row)
+        self.assertEqual(row['args'][3:], ['./experiment', 'dense', '0', 'scan'], row)
+        self.assertNotIn('elapsed_ns', row)
+        self.assertIn('retained in raw.jsonl', output)
+
+    def test_nonzero_exit_is_retained_before_halting(self):
+        returncode, output, rows = run_with_stub(FAILING_TASKSET)
+        self.assert_single_retained_attempt(returncode, output, rows, 'failed')
+        self.assertEqual((rows[0]['returncode'], rows[0]['output']), (3, 'stub failure\n'), rows[0])
+
+    def test_malformed_output_is_retained_before_halting(self):
+        returncode, output, rows = run_with_stub(MALFORMED_TASKSET)
+        self.assert_single_retained_attempt(returncode, output, rows, 'malformed')
+        self.assertEqual(rows[0]['output'], 'not json\n', rows[0])
+        self.assertIn('JSONDecodeError', rows[0]['error'])
+
+
+if __name__ == '__main__':
+    unittest.main()

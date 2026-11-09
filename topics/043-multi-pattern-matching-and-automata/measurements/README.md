@@ -53,9 +53,10 @@ For random32768/r32, dense median/range is97.572[93.248,100.444]us Arm and
 Tiny n64/r2 dense search is0.168us Arm,0.158us x86, while construction is
 8.365/12.041us. Direct construction is0.181/0.306us with search0.342/0.408us.
 A median-only total-cost projection gives direct at one scan; dense overtakes
-direct at48 scans Arm or47 scans x86. This is a derived projection, with no
-joint total-lifetime timing claim. Dense versus sparse crossover is64 scans
-Arm,127 scans x86. Large random r128 tables occupy3,102,720 payload bytes.
+direct at47 scans on both hosts (crossover46.91 Arm,46.81 x86). This is a derived
+projection, with no joint total-lifetime timing claim. Dense versus sparse
+crossover is64 scans Arm,127 scans x86. Large random r128 tables occupy3,102,720
+payload bytes.
 
 Dense output case9 emits130,576 records: x86 direct294.552us versus dense346.178us.
 Case10 emits1,048,080 records; its x86 outcome stays unresolved despite direct's
@@ -65,11 +66,24 @@ These are descriptive diagnostics. They establish no universal noise threshold.
 Evidence limits: correctness-warmed deterministic synthetic input, one artifact
 and host per architecture, different toolchains, no cold-cache control, no
 production-library comparison, no total allocation/RSS/peak-memory measurement.
+Build timing runs after oracle verification with the input text and both automata
+resident in the process, so build medians carry that resident-state effect: x86
+direct build for identical r32 pattern sets is1.543us at n64 (case1) and5.151us at
+n32768 (case6). The A/A control reuses the direct treatment string, so it covers
+scheduling, process order and parsing; the binary's candidate dispatch is outside
+its coverage. results.json carries per-cell medians, min/max and selections; the
+per-block paired ratios behind each selection live only in the external raw rows.
 Assembly is retained for replay; hardware causal attribution remains unmeasured.
 Transition n and dense payload 256*S*sizeof(usize) are source-derived counts.
 Use the full results and memory budget to choose for a declared workload.
 
 Replay: python3 measurements/run.py from this topic or the root command in README.
-The runner prints its external temporary evidence directory. All original
+The runner prints its external temporary evidence directory and writes eight files:
+the three copied inputs, the rlib, the experiment and unit-test binaries,
+environment.json and raw.jsonl. tests/contract.rs runs through cargo test. The
+aggregation into results.json and the archive's remaining members were produced
+outside the runner. The receipt hashes bind lib.rs, experiment.rs and run.py at
+commit 0941e07; run.py at HEAD adds failed-attempt retention with the same schedule
+and binary inputs. All original
 failed local documentation checks are preserved in daily outputs; corrected
 focused checks and the full repository gates passed.
