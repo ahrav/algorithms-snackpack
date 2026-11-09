@@ -1,0 +1,1262 @@
+{
+  "arm": {
+    "source_commit": "0941e07a0517518958495e7c241eb9bf5b06f2e0",
+    "binary_sha256": "9298602e816cf0bf2103741a85924ae0bd678deb4d551e059dd60f3e15a65301",
+    "AA_ratios": [
+      1.0043308149718684,
+      1.0038116132419672,
+      1.013895757096232,
+      1.005874930872112,
+      1.0159825269407001,
+      1.0418986856800097
+    ],
+    "results": [
+      {
+        "case": 0,
+        "endpoint": "scan",
+        "n": 64,
+        "r": 2,
+        "states": 25,
+        "table_bytes": 51200,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 0.34242,
+            "min_us": 0.339566,
+            "max_us": 0.3574315
+          },
+          "sparse": {
+            "median_us": 0.25996175,
+            "min_us": 0.2596345,
+            "max_us": 0.2759675
+          },
+          "dense": {
+            "median_us": 0.167954,
+            "min_us": 0.1677245,
+            "max_us": 0.172923
+          }
+        }
+      },
+      {
+        "case": 0,
+        "endpoint": "build",
+        "n": 64,
+        "r": 2,
+        "states": 25,
+        "table_bytes": 51200,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 0.18133333333333335,
+            "min_us": 0.169,
+            "max_us": 0.193
+          },
+          "sparse": {
+            "median_us": 2.5676666666666668,
+            "min_us": 2.468,
+            "max_us": 2.63
+          },
+          "dense": {
+            "median_us": 8.365333333333332,
+            "min_us": 8.29,
+            "max_us": 8.788333333333334
+          }
+        }
+      },
+      {
+        "case": 1,
+        "endpoint": "scan",
+        "n": 64,
+        "r": 32,
+        "states": 64,
+        "table_bytes": 131072,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 4.189860655737705,
+            "min_us": 4.17751024590164,
+            "max_us": 4.208652663934426
+          },
+          "sparse": {
+            "median_us": 0.9761388319672131,
+            "min_us": 0.9744979508196722,
+            "max_us": 0.9867909836065574
+          },
+          "dense": {
+            "median_us": 0.18554303278688525,
+            "min_us": 0.18473053278688525,
+            "max_us": 0.19436987704918032
+          }
+        }
+      },
+      {
+        "case": 1,
+        "endpoint": "build",
+        "n": 64,
+        "r": 32,
+        "states": 64,
+        "table_bytes": 131072,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 1.321,
+            "min_us": 1.273,
+            "max_us": 1.387
+          },
+          "sparse": {
+            "median_us": 14.72,
+            "min_us": 14.272,
+            "max_us": 15.094
+          },
+          "dense": {
+            "median_us": 68.7325,
+            "min_us": 67.528,
+            "max_us": 95.89
+          }
+        }
+      },
+      {
+        "case": 2,
+        "endpoint": "scan",
+        "n": 32768,
+        "r": 2,
+        "states": 25,
+        "table_bytes": 51200,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 191.53708333333333,
+            "min_us": 190.69266666666667,
+            "max_us": 196.49473333333333
+          },
+          "sparse": {
+            "median_us": 130.02348333333333,
+            "min_us": 129.67860000000002,
+            "max_us": 134.72636666666668
+          },
+          "dense": {
+            "median_us": 86.45085,
+            "min_us": 85.43746666666667,
+            "max_us": 88.05536666666667
+          }
+        }
+      },
+      {
+        "case": 2,
+        "endpoint": "build",
+        "n": 32768,
+        "r": 2,
+        "states": 25,
+        "table_bytes": 51200,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 0.17516666666666666,
+            "min_us": 0.16466666666666666,
+            "max_us": 0.4083333333333333
+          },
+          "sparse": {
+            "median_us": 2.2315,
+            "min_us": 2.143,
+            "max_us": 2.4556666666666667
+          },
+          "dense": {
+            "median_us": 10.574833333333332,
+            "min_us": 10.361666666666666,
+            "max_us": 10.900333333333334
+          }
+        }
+      },
+      {
+        "case": 3,
+        "endpoint": "scan",
+        "n": 32768,
+        "r": 32,
+        "states": 384,
+        "table_bytes": 786432,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 2798.3469999999998,
+            "min_us": 2794.588,
+            "max_us": 2815.999
+          },
+          "sparse": {
+            "median_us": 613.3715,
+            "min_us": 612.176,
+            "max_us": 623.499
+          },
+          "dense": {
+            "median_us": 97.5715,
+            "min_us": 93.248,
+            "max_us": 100.444
+          }
+        }
+      },
+      {
+        "case": 3,
+        "endpoint": "build",
+        "n": 32768,
+        "r": 32,
+        "states": 384,
+        "table_bytes": 786432,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 1.5950000000000002,
+            "min_us": 1.466,
+            "max_us": 1.833
+          },
+          "sparse": {
+            "median_us": 48.578,
+            "min_us": 48.236,
+            "max_us": 49.088
+          },
+          "dense": {
+            "median_us": 321.255,
+            "min_us": 317.83,
+            "max_us": 334.615
+          }
+        }
+      },
+      {
+        "case": 4,
+        "endpoint": "scan",
+        "n": 32768,
+        "r": 128,
+        "states": 1515,
+        "table_bytes": 3102720,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 10552.6885,
+            "min_us": 10546.766,
+            "max_us": 10564.142
+          },
+          "sparse": {
+            "median_us": 1418.8310000000001,
+            "min_us": 1404.68,
+            "max_us": 1430.265
+          },
+          "dense": {
+            "median_us": 139.034,
+            "min_us": 134.921,
+            "max_us": 139.673
+          }
+        }
+      },
+      {
+        "case": 4,
+        "endpoint": "build",
+        "n": 32768,
+        "r": 128,
+        "states": 1515,
+        "table_bytes": 3102720,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 5.868,
+            "min_us": 4.736,
+            "max_us": 7.175
+          },
+          "sparse": {
+            "median_us": 242.1155,
+            "min_us": 239.538,
+            "max_us": 242.885
+          },
+          "dense": {
+            "median_us": 1304.9285,
+            "min_us": 1279.356,
+            "max_us": 1327.145
+          }
+        }
+      },
+      {
+        "case": 5,
+        "endpoint": "scan",
+        "n": 262144,
+        "r": 128,
+        "states": 1515,
+        "table_bytes": 3102720,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 84481.57,
+            "min_us": 84460.206,
+            "max_us": 84517.479
+          },
+          "sparse": {
+            "median_us": 11255.6175,
+            "min_us": 11241.489,
+            "max_us": 11303.601
+          },
+          "dense": {
+            "median_us": 1109.974,
+            "min_us": 1090.493,
+            "max_us": 1121.068
+          }
+        }
+      },
+      {
+        "case": 5,
+        "endpoint": "build",
+        "n": 262144,
+        "r": 128,
+        "states": 1515,
+        "table_bytes": 3102720,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 4.983499999999999,
+            "min_us": 4.84,
+            "max_us": 6.228
+          },
+          "sparse": {
+            "median_us": 252.522,
+            "min_us": 243.081,
+            "max_us": 255.423
+          },
+          "dense": {
+            "median_us": 1438.4785000000002,
+            "min_us": 1372.794,
+            "max_us": 1518.177
+          }
+        }
+      },
+      {
+        "case": 6,
+        "endpoint": "scan",
+        "n": 32768,
+        "r": 32,
+        "states": 64,
+        "table_bytes": 131072,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 3478.5429999999997,
+            "min_us": 3461.346,
+            "max_us": 3486.657
+          },
+          "sparse": {
+            "median_us": 764.7745,
+            "min_us": 761.787,
+            "max_us": 773.819
+          },
+          "dense": {
+            "median_us": 86.968,
+            "min_us": 82.947,
+            "max_us": 91.999
+          }
+        }
+      },
+      {
+        "case": 6,
+        "endpoint": "build",
+        "n": 32768,
+        "r": 32,
+        "states": 64,
+        "table_bytes": 131072,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 1.334,
+            "min_us": 1.27,
+            "max_us": 1.81
+          },
+          "sparse": {
+            "median_us": 14.8095,
+            "min_us": 14.633,
+            "max_us": 15.695
+          },
+          "dense": {
+            "median_us": 70.5355,
+            "min_us": 69.341,
+            "max_us": 75.078
+          }
+        }
+      },
+      {
+        "case": 7,
+        "endpoint": "scan",
+        "n": 32768,
+        "r": 128,
+        "states": 160,
+        "table_bytes": 327680,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 13523.5205,
+            "min_us": 13490.154,
+            "max_us": 13557.055
+          },
+          "sparse": {
+            "median_us": 1984.0140000000001,
+            "min_us": 1977.693,
+            "max_us": 1996.339
+          },
+          "dense": {
+            "median_us": 93.2855,
+            "min_us": 84.497,
+            "max_us": 96.09
+          }
+        }
+      },
+      {
+        "case": 7,
+        "endpoint": "build",
+        "n": 32768,
+        "r": 128,
+        "states": 160,
+        "table_bytes": 327680,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 7.0265,
+            "min_us": 6.614,
+            "max_us": 9.73
+          },
+          "sparse": {
+            "median_us": 65.17599999999999,
+            "min_us": 64.646,
+            "max_us": 66.241
+          },
+          "dense": {
+            "median_us": 190.603,
+            "min_us": 183.029,
+            "max_us": 197.907
+          }
+        }
+      },
+      {
+        "case": 8,
+        "endpoint": "scan",
+        "n": 4096,
+        "r": 8,
+        "states": 9,
+        "table_bytes": 18432,
+        "matches": 32740,
+        "selection": "unresolved",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 92.46998360655738,
+            "min_us": 90.77809836065575,
+            "max_us": 93.41781967213116
+          },
+          "sparse": {
+            "median_us": 114.01985245901639,
+            "min_us": 113.71031147540984,
+            "max_us": 116.5134262295082
+          },
+          "dense": {
+            "median_us": 85.70874590163933,
+            "min_us": 84.46514754098361,
+            "max_us": 87.1849344262295
+          }
+        }
+      },
+      {
+        "case": 8,
+        "endpoint": "build",
+        "n": 4096,
+        "r": 8,
+        "states": 9,
+        "table_bytes": 18432,
+        "matches": 32740,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 0.32175,
+            "min_us": 0.305875,
+            "max_us": 0.48775
+          },
+          "sparse": {
+            "median_us": 1.4708125,
+            "min_us": 1.448375,
+            "max_us": 1.501
+          },
+          "dense": {
+            "median_us": 1.867,
+            "min_us": 1.8425,
+            "max_us": 1.87625
+          }
+        }
+      },
+      {
+        "case": 9,
+        "endpoint": "scan",
+        "n": 4096,
+        "r": 32,
+        "states": 33,
+        "table_bytes": 67584,
+        "matches": 130576,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 435.3307,
+            "min_us": 432.8588,
+            "max_us": 437.38506666666666
+          },
+          "sparse": {
+            "median_us": 414.24316666666664,
+            "min_us": 413.4203333333333,
+            "max_us": 419.1469333333333
+          },
+          "dense": {
+            "median_us": 379.1964333333333,
+            "min_us": 373.9601333333334,
+            "max_us": 387.4262
+          }
+        }
+      },
+      {
+        "case": 9,
+        "endpoint": "build",
+        "n": 4096,
+        "r": 32,
+        "states": 33,
+        "table_bytes": 67584,
+        "matches": 130576,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 1.7882500000000001,
+            "min_us": 1.707,
+            "max_us": 2.049
+          },
+          "sparse": {
+            "median_us": 8.19925,
+            "min_us": 7.9725,
+            "max_us": 8.381
+          },
+          "dense": {
+            "median_us": 10.844999999999999,
+            "min_us": 10.5475,
+            "max_us": 10.874
+          }
+        }
+      },
+      {
+        "case": 10,
+        "endpoint": "scan",
+        "n": 32768,
+        "r": 32,
+        "states": 33,
+        "table_bytes": 67584,
+        "matches": 1048080,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 3496.7635,
+            "min_us": 3484.302,
+            "max_us": 3506.245
+          },
+          "sparse": {
+            "median_us": 3326.8145,
+            "min_us": 3316.083,
+            "max_us": 3385.47
+          },
+          "dense": {
+            "median_us": 3094.238,
+            "min_us": 3017.117,
+            "max_us": 3105.714
+          }
+        }
+      },
+      {
+        "case": 10,
+        "endpoint": "build",
+        "n": 32768,
+        "r": 32,
+        "states": 33,
+        "table_bytes": 67584,
+        "matches": 1048080,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 2.22975,
+            "min_us": 2.1715,
+            "max_us": 2.7035
+          },
+          "sparse": {
+            "median_us": 9.63375,
+            "min_us": 9.325,
+            "max_us": 9.89
+          },
+          "dense": {
+            "median_us": 12.3845,
+            "min_us": 12.211,
+            "max_us": 12.8675
+          }
+        }
+      }
+    ]
+  },
+  "x86": {
+    "source_commit": "0941e07a0517518958495e7c241eb9bf5b06f2e0",
+    "binary_sha256": "6470c0944c78101af5e222d3ae8e3a2f58ac710002595955e469ce0676cee8f3",
+    "AA_ratios": [
+      0.9197758479600308,
+      1.003031937132739,
+      1.0022920842014968,
+      0.9023171939003656,
+      1.0044515042156257,
+      0.9986675273118717
+    ],
+    "results": [
+      {
+        "case": 0,
+        "endpoint": "scan",
+        "n": 64,
+        "r": 2,
+        "states": 25,
+        "table_bytes": 51200,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 0.40839575,
+            "min_us": 0.3742715,
+            "max_us": 0.413724
+          },
+          "sparse": {
+            "median_us": 0.232212,
+            "min_us": 0.227019,
+            "max_us": 0.233084
+          },
+          "dense": {
+            "median_us": 0.1577305,
+            "min_us": 0.15767599999999998,
+            "max_us": 0.158562
+          }
+        }
+      },
+      {
+        "case": 0,
+        "endpoint": "build",
+        "n": 64,
+        "r": 2,
+        "states": 25,
+        "table_bytes": 51200,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 0.30633333333333335,
+            "min_us": 0.2693333333333333,
+            "max_us": 0.6933333333333334
+          },
+          "sparse": {
+            "median_us": 2.6405,
+            "min_us": 2.48,
+            "max_us": 4.548
+          },
+          "dense": {
+            "median_us": 12.040833333333333,
+            "min_us": 10.003333333333334,
+            "max_us": 18.63
+          }
+        }
+      },
+      {
+        "case": 1,
+        "endpoint": "scan",
+        "n": 64,
+        "r": 32,
+        "states": 64,
+        "table_bytes": 131072,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 3.7066306352459018,
+            "min_us": 3.534590163934426,
+            "max_us": 4.041115778688525
+          },
+          "sparse": {
+            "median_us": 0.5841501024590163,
+            "min_us": 0.5690737704918033,
+            "max_us": 0.8778709016393443
+          },
+          "dense": {
+            "median_us": 0.21528278688524588,
+            "min_us": 0.2140420081967213,
+            "max_us": 0.2259262295081967
+          }
+        }
+      },
+      {
+        "case": 1,
+        "endpoint": "build",
+        "n": 64,
+        "r": 32,
+        "states": 64,
+        "table_bytes": 131072,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 1.5425,
+            "min_us": 1.51,
+            "max_us": 1.755
+          },
+          "sparse": {
+            "median_us": 12.328,
+            "min_us": 11.45,
+            "max_us": 13.176
+          },
+          "dense": {
+            "median_us": 86.186,
+            "min_us": 84.959,
+            "max_us": 88.186
+          }
+        }
+      },
+      {
+        "case": 2,
+        "endpoint": "scan",
+        "n": 32768,
+        "r": 2,
+        "states": 25,
+        "table_bytes": 51200,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 217.7711,
+            "min_us": 211.22403333333332,
+            "max_us": 229.04913333333334
+          },
+          "sparse": {
+            "median_us": 108.96078333333332,
+            "min_us": 107.79846666666666,
+            "max_us": 112.363
+          },
+          "dense": {
+            "median_us": 91.95635000000001,
+            "min_us": 91.87939999999999,
+            "max_us": 96.34706666666666
+          }
+        }
+      },
+      {
+        "case": 2,
+        "endpoint": "build",
+        "n": 32768,
+        "r": 2,
+        "states": 25,
+        "table_bytes": 51200,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 0.2823333333333333,
+            "min_us": 0.277,
+            "max_us": 0.303
+          },
+          "sparse": {
+            "median_us": 2.2886666666666664,
+            "min_us": 2.1753333333333336,
+            "max_us": 2.4286666666666665
+          },
+          "dense": {
+            "median_us": 13.784833333333335,
+            "min_us": 13.144666666666666,
+            "max_us": 17.272
+          }
+        }
+      },
+      {
+        "case": 3,
+        "endpoint": "scan",
+        "n": 32768,
+        "r": 32,
+        "states": 384,
+        "table_bytes": 786432,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 2999.696,
+            "min_us": 2747.346,
+            "max_us": 3035.819
+          },
+          "sparse": {
+            "median_us": 483.73249999999996,
+            "min_us": 481.805,
+            "max_us": 489.926
+          },
+          "dense": {
+            "median_us": 96.787,
+            "min_us": 96.606,
+            "max_us": 96.928
+          }
+        }
+      },
+      {
+        "case": 3,
+        "endpoint": "build",
+        "n": 32768,
+        "r": 32,
+        "states": 384,
+        "table_bytes": 786432,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 1.6475,
+            "min_us": 1.469,
+            "max_us": 2.125
+          },
+          "sparse": {
+            "median_us": 48.665499999999994,
+            "min_us": 43.615,
+            "max_us": 55.011
+          },
+          "dense": {
+            "median_us": 424.837,
+            "min_us": 420.57,
+            "max_us": 437.466
+          }
+        }
+      },
+      {
+        "case": 4,
+        "endpoint": "scan",
+        "n": 32768,
+        "r": 128,
+        "states": 1515,
+        "table_bytes": 3102720,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 12092.322499999998,
+            "min_us": 11685.553,
+            "max_us": 12203.86
+          },
+          "sparse": {
+            "median_us": 1341.0425,
+            "min_us": 1326.203,
+            "max_us": 1366.745
+          },
+          "dense": {
+            "median_us": 131.2935,
+            "min_us": 130.905,
+            "max_us": 131.762
+          }
+        }
+      },
+      {
+        "case": 4,
+        "endpoint": "build",
+        "n": 32768,
+        "r": 128,
+        "states": 1515,
+        "table_bytes": 3102720,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 5.445,
+            "min_us": 4.774,
+            "max_us": 6.07
+          },
+          "sparse": {
+            "median_us": 248.0965,
+            "min_us": 246.74,
+            "max_us": 263.836
+          },
+          "dense": {
+            "median_us": 1938.118,
+            "min_us": 1890.181,
+            "max_us": 2187.783
+          }
+        }
+      },
+      {
+        "case": 5,
+        "endpoint": "scan",
+        "n": 262144,
+        "r": 128,
+        "states": 1515,
+        "table_bytes": 3102720,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 96079.92199999999,
+            "min_us": 94920.517,
+            "max_us": 110934.892
+          },
+          "sparse": {
+            "median_us": 10938.734,
+            "min_us": 10614.232,
+            "max_us": 15664.767
+          },
+          "dense": {
+            "median_us": 1046.3685,
+            "min_us": 1044.976,
+            "max_us": 1116.058
+          }
+        }
+      },
+      {
+        "case": 5,
+        "endpoint": "build",
+        "n": 262144,
+        "r": 128,
+        "states": 1515,
+        "table_bytes": 3102720,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 8.1485,
+            "min_us": 6.55,
+            "max_us": 9.253
+          },
+          "sparse": {
+            "median_us": 299.5425,
+            "min_us": 284.377,
+            "max_us": 317.106
+          },
+          "dense": {
+            "median_us": 2176.3680000000004,
+            "min_us": 2018.614,
+            "max_us": 2282.418
+          }
+        }
+      },
+      {
+        "case": 6,
+        "endpoint": "scan",
+        "n": 32768,
+        "r": 32,
+        "states": 64,
+        "table_bytes": 131072,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 3002.817,
+            "min_us": 2681.767,
+            "max_us": 4705.252
+          },
+          "sparse": {
+            "median_us": 443.0715,
+            "min_us": 440.796,
+            "max_us": 443.225
+          },
+          "dense": {
+            "median_us": 92.1505,
+            "min_us": 91.809,
+            "max_us": 92.475
+          }
+        }
+      },
+      {
+        "case": 6,
+        "endpoint": "build",
+        "n": 32768,
+        "r": 32,
+        "states": 64,
+        "table_bytes": 131072,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 5.151,
+            "min_us": 1.514,
+            "max_us": 7.282
+          },
+          "sparse": {
+            "median_us": 19.918,
+            "min_us": 13.343,
+            "max_us": 33.103
+          },
+          "dense": {
+            "median_us": 126.93,
+            "min_us": 104.66,
+            "max_us": 327.723
+          }
+        }
+      },
+      {
+        "case": 7,
+        "endpoint": "scan",
+        "n": 32768,
+        "r": 128,
+        "states": 160,
+        "table_bytes": 327680,
+        "matches": 0,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 12046.475999999999,
+            "min_us": 11336.865,
+            "max_us": 12097.989
+          },
+          "sparse": {
+            "median_us": 1430.8645000000001,
+            "min_us": 1430.103,
+            "max_us": 1543.842
+          },
+          "dense": {
+            "median_us": 92.1805,
+            "min_us": 92.102,
+            "max_us": 92.303
+          }
+        }
+      },
+      {
+        "case": 7,
+        "endpoint": "build",
+        "n": 32768,
+        "r": 128,
+        "states": 160,
+        "table_bytes": 327680,
+        "matches": 0,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 8.757000000000001,
+            "min_us": 8.485,
+            "max_us": 9.275
+          },
+          "sparse": {
+            "median_us": 63.683,
+            "min_us": 61.542,
+            "max_us": 66.14
+          },
+          "dense": {
+            "median_us": 251.6325,
+            "min_us": 245.481,
+            "max_us": 265.964
+          }
+        }
+      },
+      {
+        "case": 8,
+        "endpoint": "scan",
+        "n": 4096,
+        "r": 8,
+        "states": 9,
+        "table_bytes": 18432,
+        "matches": 32740,
+        "selection": "dense",
+        "lowest_median": "dense",
+        "stats": {
+          "direct": {
+            "median_us": 80.26518032786885,
+            "min_us": 79.33447540983607,
+            "max_us": 81.10873770491804
+          },
+          "sparse": {
+            "median_us": 80.36618032786885,
+            "min_us": 80.08493442622951,
+            "max_us": 80.46980327868853
+          },
+          "dense": {
+            "median_us": 72.73369672131147,
+            "min_us": 72.48719672131146,
+            "max_us": 72.86347540983607
+          }
+        }
+      },
+      {
+        "case": 8,
+        "endpoint": "build",
+        "n": 4096,
+        "r": 8,
+        "states": 9,
+        "table_bytes": 18432,
+        "matches": 32740,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 0.357,
+            "min_us": 0.3325,
+            "max_us": 0.362875
+          },
+          "sparse": {
+            "median_us": 1.3794374999999999,
+            "min_us": 1.341875,
+            "max_us": 1.891875
+          },
+          "dense": {
+            "median_us": 1.6318125,
+            "min_us": 1.542875,
+            "max_us": 1.810875
+          }
+        }
+      },
+      {
+        "case": 9,
+        "endpoint": "scan",
+        "n": 4096,
+        "r": 32,
+        "states": 33,
+        "table_bytes": 67584,
+        "matches": 130576,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 294.55206666666663,
+            "min_us": 292.6628666666666,
+            "max_us": 304.37573333333336
+          },
+          "sparse": {
+            "median_us": 356.5919333333334,
+            "min_us": 355.8154,
+            "max_us": 357.9277333333333
+          },
+          "dense": {
+            "median_us": 346.17766666666665,
+            "min_us": 345.7458,
+            "max_us": 348.2182
+          }
+        }
+      },
+      {
+        "case": 9,
+        "endpoint": "build",
+        "n": 4096,
+        "r": 32,
+        "states": 33,
+        "table_bytes": 67584,
+        "matches": 130576,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 2.8085,
+            "min_us": 2.7025,
+            "max_us": 3.4715
+          },
+          "sparse": {
+            "median_us": 10.255749999999999,
+            "min_us": 9.313,
+            "max_us": 11.171
+          },
+          "dense": {
+            "median_us": 16.75425,
+            "min_us": 14.5405,
+            "max_us": 18.01
+          }
+        }
+      },
+      {
+        "case": 10,
+        "endpoint": "scan",
+        "n": 32768,
+        "r": 32,
+        "states": 33,
+        "table_bytes": 67584,
+        "matches": 1048080,
+        "selection": "unresolved",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 2379.267,
+            "min_us": 2352.303,
+            "max_us": 4298.283
+          },
+          "sparse": {
+            "median_us": 2877.8955,
+            "min_us": 2856.374,
+            "max_us": 3194.625
+          },
+          "dense": {
+            "median_us": 2805.376,
+            "min_us": 2776.0,
+            "max_us": 3660.7
+          }
+        }
+      },
+      {
+        "case": 10,
+        "endpoint": "build",
+        "n": 32768,
+        "r": 32,
+        "states": 33,
+        "table_bytes": 67584,
+        "matches": 1048080,
+        "selection": "direct",
+        "lowest_median": "direct",
+        "stats": {
+          "direct": {
+            "median_us": 3.01875,
+            "min_us": 2.9305,
+            "max_us": 3.398
+          },
+          "sparse": {
+            "median_us": 10.699,
+            "min_us": 10.46,
+            "max_us": 11.0325
+          },
+          "dense": {
+            "median_us": 16.9225,
+            "min_us": 16.038,
+            "max_us": 17.9395
+          }
+        }
+      }
+    ]
+  }
+}
