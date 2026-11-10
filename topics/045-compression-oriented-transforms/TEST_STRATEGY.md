@@ -6,7 +6,8 @@ Oracle: Python modulo arithmetic, byte extraction and prefix reconstruction;
 it invokes no Rust codec helper. Hard-coded Rust fixture bytes are separately derived.
 Input/model/schedule domain and bounds: lengths0/1/2/3/31/32/33/127/128/129/1024,
 wraparound values; 12 synthetic workload cells through65536 words and six modes.
-Replay assets: library, example, measurements/run.py, retained raw archives.
+Replay assets: library, example, measurements/run.py, retained raw archives;
+measurements/test_run.py checks runner attempt retention with stub processes.
 What a green run establishes: agreement on the declared finite/synthetic domain.
 Known gaps and delegated skills: arbitrary-byte fuzzing, allocator failure, SIMD,
 integrity/authentication and production-format compatibility remain outside scope.

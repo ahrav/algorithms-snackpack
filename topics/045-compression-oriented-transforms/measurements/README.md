@@ -1,6 +1,6 @@
 # Exact-source measurements
 
-Frozen executable commit: `842b5aca4c4a3e6c729f1577ec36863aa2f3a11d`. Library, example and runner match this commit and the final published artifact.
+Frozen executable commit: `842b5aca4c4a3e6c729f1577ec36863aa2f3a11d`. The receipt hashes bind lib.rs, experiment.rs and run.py at this commit. lib.rs and experiment.rs are unchanged at HEAD. run.py at HEAD keeps the same schedule and binary inputs. It writes each failed, malformed, mislabeled or timed-out attempt as a raw row before halting, adds status and args to every row, and limits each timed process to TOPIC_045_PROCESS_TIMEOUT_S seconds (default 60). measurements/test_run.py checks that behavior with stub processes.
 
 Both hosts: 1020 invocations, including864 measured main,144 warmup and12 A/A control processes. Independent Python checks all72 frames and reconstructions; Rust runs3 contract groups plus a roundtrip in each timing process. Separate workspace integration tests cover state reset and permissive short packets.
 

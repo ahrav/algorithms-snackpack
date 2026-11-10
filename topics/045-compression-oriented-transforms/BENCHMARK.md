@@ -23,6 +23,10 @@ Independent Python arithmetic/byte model checks all72 complete frames and values
 Rust checks each timed candidate's full roundtrip before starting its clock.
 Incorrect or failed cells receive no selection. Retain failures/timeouts and
 report missing cells. No adaptive reruns or candidate changes after the freeze.
+A failed, malformed, mislabeled or timed-out attempt is written as a raw row, then
+halts the run. A halted run is incomplete and supplies no selection. This rule was
+recorded after the two-host measurements of source 842b5ac, which completed all
+1020 attempts.
 
 Speed winner must beat every competitor by at least5percent in all six paired
 process means; otherwise unresolved. Size winner first minimizes full frame bytes,

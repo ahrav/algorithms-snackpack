@@ -14,6 +14,38 @@ print("Evidence directory: " + str(root), flush=True)
 def call(args):
     return subprocess.check_output(args, text=True, stderr=subprocess.STDOUT)
 
+TIMEOUT = float(os.environ.get("TOPIC_045_PROCESS_TIMEOUT_S", 60))
+REQUIRED = {"case", "mode", "operation", "n", "bytes", "reps", "ns"}
+
+def measure(out, args, **meta):
+    """Run one timed process and write its attempt row before any failure halts the run."""
+    row: dict = {"status": "ok"}
+    def text(captured):
+        return (captured or b"").decode(errors="replace")
+    try:
+        output = text(subprocess.check_output(args, stderr=subprocess.STDOUT, timeout=TIMEOUT))
+    except subprocess.CalledProcessError as failed:
+        row.update(status="failed", returncode=failed.returncode, output=text(failed.output))
+    except subprocess.TimeoutExpired as expired:
+        row.update(status="timeout", timeout_s=TIMEOUT, output=text(expired.output))
+    else:
+        try:
+            decoded = json.loads(output)
+            if not isinstance(decoded, dict) or not decoded.keys() >= REQUIRED:
+                raise ValueError("measurement object missing " + ",".join(sorted(REQUIRED)))
+            invocation = {k: meta[k] for k in ("case", "mode", "operation")}
+            printed = {k: decoded[k] for k in invocation}
+            if printed != invocation:
+                raise ValueError("measurement labels " + json.dumps(printed) + " differ from invocation " + json.dumps(invocation))
+            row.update(decoded)
+        except ValueError as malformed:
+            row.update(status="malformed", output=output, error=repr(malformed))
+    row.update(args=args, **meta)
+    out.write(json.dumps(row) + "\n")
+    out.flush()
+    if row["status"] != "ok":
+        raise SystemExit("attempt " + row["status"] + "; retained in raw.jsonl: " + json.dumps(row))
+
 def sha(p):
     return hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
 
@@ -79,7 +111,7 @@ for case in range(12):
 env = {"hostname": platform.node(), "architecture": platform.machine(), "uname": call(["uname", "-a"]),
        "cpu": call(["lscpu"]), "available_cpus": len(os.sched_getaffinity(0)), "affinity": sorted(os.sched_getaffinity(0)),
        "toolchain": call(["rustc", "-vV"]), "features": call(["rustc", "--print", "cfg", "-C", "target-cpu=native"]),
-       "flags": flags, "inputs": {p: sha(p) for p in ["lib.rs", "experiment.rs", "run.py"]},
+       "flags": flags, "process_timeout_s": TIMEOUT, "inputs": {p: sha(p) for p in ["lib.rs", "experiment.rs", "run.py"]},
        "binary_sha256": sha("experiment"), "contracts": contracts, "example": example_result,
        "python_oracle": "72 complete workload/candidate frames and reconstructions pass",
        "started_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
@@ -94,13 +126,11 @@ with open("raw.jsonl", "w") as out:
                 if block >= 0 and block % 2:
                     order.reverse()
                 for position, mode in enumerate(order):
-                    row = json.loads(call(["taskset", "-c", str(cpu), "./experiment", operation, str(case), str(mode)]))
-                    row.update(block=block, position=position, warmup=block < 0, cpu=cpu)
-                    out.write(json.dumps(row) + "\n"); out.flush()
+                    measure(out, ["taskset", "-c", str(cpu), "./experiment", operation, str(case), str(mode)],
+                            case=case, mode=mode, operation=operation, block=block, position=position, warmup=block < 0, cpu=cpu)
     for block in range(6):
         for label in (["A", "B"] if block % 2 == 0 else ["B", "A"]):
-            row = json.loads(call(["taskset", "-c", str(cpu), "./experiment", "encode", "10", "0"]))
-            row.update(block=block, label=label, control="AA", warmup=False, cpu=cpu)
-            out.write(json.dumps(row) + "\n"); out.flush()
+            measure(out, ["taskset", "-c", str(cpu), "./experiment", "encode", "10", "0"],
+                    case=10, mode=0, operation="encode", block=block, label=label, control="AA", warmup=False, cpu=cpu)
 subprocess.run(["rustc", *flags, "--crate-name", "topic045", "--crate-type", "rlib", "--emit=asm", "lib.rs", "-o", "lib.s"], check=True)
 print(json.dumps({"status": "complete", "records": 1020, "raw_sha256": sha("raw.jsonl"), "binary_sha256": sha("experiment")}))
