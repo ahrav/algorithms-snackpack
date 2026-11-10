@@ -29,3 +29,37 @@ no branch/cache/SIMD causal inference follows from these elapsed times.
 Correctness oracles execute before timing. Rejected candidates would be excluded.
 Retain every raw row externally; Git holds compact results and an archive receipt.
 A failed, malformed, mislabeled or timed-out attempt is written as a raw row, then halts the run.
+
+## Design declarations
+
+Recorded after the two-host measurements of source 7c35370. They describe the schedule
+that run.py executed and leave the reported results as they are.
+
+This is an exploratory screen. Its unit count of six blocks per cell is fixed, with no
+pilot variance estimate, power or sensitivity analysis, confidence level, error budget
+or familywise control. The 16 host/cell selections are reported separately as
+descriptive outcomes of the 5% rule.
+
+Units: one process invocation receives one candidate and is the treatment unit. Each
+complete block of three processes is the paired analysis unit. Internal decode
+repetitions (100,000 for N=32, 50 for N=65536) are subsamples. Each host contributes one
+build artifact, so each result generalizes to that host and binary.
+
+Assignment: deterministic, with a fixed order and no schedule seed. The six measured
+orders over scalar/unrolled/fixed are abc, bca, cab, cba, acb, bac, so each candidate
+holds every position twice. The warmup block runs cab. Pseudorandom workload values use
+a fixed LCG state of 42; the threshold and alternating shapes are fixed sequences.
+
+Interference: processes in one block share host cache, thermal and scheduler state, and
+a fresh process resets process state only. The analysis therefore pairs candidates
+within a block.
+
+Baseline and oracle: scalar is the timed baseline. The `reference` oracle runs before
+timing in every process, and its decode time is unmeasured.
+
+Semantic equivalence: before timing, every process checks that the oracle and all three
+candidates decode the workload to the same values. Fixed32 reads a different byte
+representation of those values.
+
+Missing data: selections use complete 180-row schedules. Both recorded hosts completed
+180 rows.
