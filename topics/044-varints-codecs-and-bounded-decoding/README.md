@@ -5,6 +5,8 @@ The running values `[1,127,128,300,4294967295]` occupy 11 canonical varint bytes
 20 little-endian fixed-width bytes. For 300, `ac 02` carries payloads 44 and 2:
 `44 + 2*128 = 300`. Each high bit indicates continuation.
 
+![Decoding 300 from ac 02: before, during, after](measurements/varint-states.svg)
+
 ## Contract
 
 `scalar` and `unrolled` decode complete buffers of shortest-form unsigned u32 varints.
@@ -49,6 +51,8 @@ python3 run.py
 The runner supports its repository layout and the standalone replay layout.
 It prints an external evidence directory containing raw samples and environment identity.
 See BENCHMARK.md and measurements/README.md for the frozen schedule and obtained results.
+`cargo bench -p topic044` runs a smoke of the running example and ignores arguments;
+timed samples come from the experiment example, which the runner schedules.
 
 ## Selection and coverage
 

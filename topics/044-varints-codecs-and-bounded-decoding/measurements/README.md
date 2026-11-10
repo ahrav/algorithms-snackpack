@@ -47,7 +47,7 @@ Unrolled wins the large small-value cell on both hosts and the tiny small-value
 cell on Arm. Tiny small-value x86 is unresolved under the paired rule. Fixed32
 wins the other six cells on each host. Scalar remains the readable reference.
 For 65536 small values, varints use 65536 bytes versus 262144 fixed bytes.
-For full-width pseudorandom values, read results.json for the exact encoded size.
+For 65536 full-width pseudorandom values, varints use 323623 bytes versus 262144 fixed bytes.
 The results show a workload-dependent time/size decision among tested candidates.
 
 Warm, repeated, single-threaded synthetic buffers pinned to CPU 0. Arm rustc 1.98.1
@@ -67,6 +67,13 @@ Raw bundles are retained outside Git at
 `/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-044/20261109/`.
 The EVIDENCE_RECEIPT.json records local/remote archive and every-member verification.
 Compact results live in results.json. Contracts live in src/lib.rs and tests/contract.rs.
+The runner compiles and runs the src/lib.rs unit tests; tests/contract.rs runs through
+cargo test. The receipt hashes bind lib.rs, experiment.rs and run.py at commit 7c35370.
+lib.rs and experiment.rs are unchanged at HEAD. run.py at HEAD keeps the same schedule
+and binary inputs. It writes each failed, malformed, mislabeled or timed-out attempt as
+a raw row before halting, adds status and args to every row, and leaves the dump's
+decoded field to the Rust assertion that precedes the dump. measurements/test_run.py
+checks that behavior with stub processes.
 
 ## Plugin audit
 

@@ -1,4 +1,6 @@
-# Benchmark decision: true
+benchmark_required: true
+
+# Benchmark decision
 
 Claim: decode time and bytes vary with integer lengths and representation.
 Candidates: scalar and unrolled canonical u32 varints; fixed32 little-endian.
@@ -26,3 +28,4 @@ encoded input bytes and decoded values. Mechanism claims require separate eviden
 no branch/cache/SIMD causal inference follows from these elapsed times.
 Correctness oracles execute before timing. Rejected candidates would be excluded.
 Retain every raw row externally; Git holds compact results and an archive receipt.
+A failed, malformed, mislabeled or timed-out attempt is written as a raw row, then halts the run.
