@@ -56,22 +56,27 @@ subprocess.run(["rustc", *flags, "--test", "lib.rs", "-o", "contracts"], check=T
 contracts = call(["./contracts"])
 example_result = call(["./experiment", "example"])
 
+def pack(data):
+    """Packet coding from the README rule: runs of at least three, literals of at most 128 bytes."""
+    out, literal, i = [], [], 0
+    while i < len(data):
+        if data[i:i+3] == [data[i]] * 3:
+            n = 3
+            while n < 128 and data[i+n:i+n+1] == [data[i]]:
+                n += 1
+            if literal:
+                out += [len(literal) - 1, *literal]; literal = []
+            out += [128 + n - 1, data[i]]; i += n
+        else:
+            literal.append(data[i]); i += 1
+            if len(literal) == 128:
+                out += [127, *literal]; literal = []
+    if literal:
+        out += [len(literal) - 1, *literal]
+    return out
+
 def oracle(frame, values, mode):
     assert frame[0] == mode and int.from_bytes(bytes(frame[1:5]), "little") == len(values)
-    data = frame[5:]
-    unpacked = []
-    if mode == 0:
-        unpacked = data
-    else:
-        i = 0
-        while i < len(data):
-            tag = data[i]; i += 1
-            n = tag % 128 + 1
-            if tag >= 128:
-                unpacked += [data[i]] * n; i += 1
-            else:
-                assert i + n <= len(data)
-                unpacked += data[i:i+n]; i += n
     expected = []
     if mode == 5:
         expected = [(v // 256**b) % 256 for b in range(4) for v in values]
@@ -87,6 +92,22 @@ def oracle(frame, values, mode):
                 v ^= previous
             v %= 2**32
             expected += [(v // 256**b) % 256 for b in range(4)]
+    # The complete frame, header and packet choice included, equals the Python encoding.
+    assert frame == [mode, *len(values).to_bytes(4, "little"), *(expected if mode == 0 else pack(expected))]
+    data = frame[5:]
+    unpacked = []
+    if mode == 0:
+        unpacked = data
+    else:
+        i = 0
+        while i < len(data):
+            tag = data[i]; i += 1
+            n = tag % 128 + 1
+            if tag >= 128:
+                unpacked += [data[i]] * n; i += 1
+            else:
+                assert i + n <= len(data)
+                unpacked += data[i:i+n]; i += n
     assert unpacked == expected
     # Reconstruct independently using whole-prefix sums rather than the Rust loop.
     if mode == 5:
@@ -113,7 +134,7 @@ env = {"hostname": platform.node(), "architecture": platform.machine(), "uname":
        "toolchain": call(["rustc", "-vV"]), "features": call(["rustc", "--print", "cfg", "-C", "target-cpu=native"]),
        "flags": flags, "process_timeout_s": TIMEOUT, "inputs": {p: sha(p) for p in ["lib.rs", "experiment.rs", "run.py"]},
        "binary_sha256": sha("experiment"), "contracts": contracts, "example": example_result,
-       "python_oracle": "72 complete workload/candidate frames and reconstructions pass",
+       "python_oracle": "72 complete workload/candidate frames equal the Python encoding and reconstruct",
        "started_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
 pathlib.Path("environment.json").write_text(json.dumps(env, indent=2) + "\n")
 cpu = min(os.sched_getaffinity(0))

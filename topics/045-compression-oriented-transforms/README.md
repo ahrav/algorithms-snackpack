@@ -44,6 +44,8 @@ cargo run -p topic045 --release --example experiment -- example
 python3 topics/045-compression-oriented-transforms/measurements/run.py
 ```
 
+`cargo bench -p topic045` runs a smoke of the running example and ignores arguments;
+timed samples come from the experiment example, which the runner schedules.
 The Python runner requires Linux, rustc, lscpu and taskset. It prints its retained
 scratch path. It compares sizes and allocating encode/decode times on 12 workloads.
 Use second differences for stable increments, XOR for stable bits, shuffle for

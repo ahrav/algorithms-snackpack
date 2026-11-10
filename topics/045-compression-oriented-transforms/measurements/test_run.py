@@ -12,8 +12,10 @@ after a byte that is not UTF-8, or prints a complete object whose mode or operat
 differs from the invocation. The runner must write that attempt as a row in raw.jsonl,
 then halt. One stub fails the first A/A control process after a complete main schedule.
 One stub answers every invocation, and the 1020 retained rows must follow the declared
-schedule. A last case makes `dump` print a frame for another mode; the Python oracle must
-halt the runner before any timed attempt. Run from anywhere:
+schedule. The last cases vary `dump`. A frame for another mode, a header shorter than five
+bytes, and decodable frames whose packets differ from the Python packet encoding must halt
+the runner before any timed attempt. Hand-derived frames for a 129-byte run and for a pair
+that straddles a full literal must pass. Run from anywhere:
 python3 topics/045-compression-oriented-transforms/measurements/test_run.py
 """
 import collections
@@ -36,7 +38,7 @@ while [ $# -gt 1 ]; do [ "$1" = -o ] && out=$2; shift; done
 cat > "$out" <<'STUB'
 #!/bin/sh
 if [ "$1" = dump ]; then
-    echo "{\\"values\\":[],\\"frame\\":[DUMP_MODE,0,0,0,0]}"
+    DUMP
 else
     echo stub
 fi
@@ -83,6 +85,38 @@ WRONG_OPERATION_TASKSET = """#!/bin/sh
 echo '{"case":0,"mode":0,"operation":"decode","n":16,"bytes":69,"reps":4096,"ns":40.5}'
 """
 
+def dump(values, frame):
+    """Shell command that prints one dump object."""
+    return "echo '" + json.dumps({"values": values, "frame": frame}, separators=(",", ":")) + "'"
+
+
+def dump_cases(cases, otherwise):
+    """Shell `case` on `<case> <mode>` (the dump arguments `$2 $3`) with a default answer."""
+    arms = "".join(f"    '{key}') {command} ;;\n" for key, command in cases.items())
+    return 'case "$2 $3" in\n' + arms + f"    *) {otherwise} ;;\n    esac"
+
+
+# Empty workload: the frame is the five-byte header for the requested mode.
+EMPTY_DUMP = 'echo "{\\"values\\":[],\\"frame\\":[$3,0,0,0,0]}"'
+
+# One zero word: four zero bytes, stored raw in mode 0 and as one four-byte run in modes 1-5.
+ZERO_WORD_DUMP = 'if [ "$3" = 0 ]; then ' + dump([0], [0, 1, 0, 0, 0, 0, 0, 0, 0]) + '; else echo "{\\"values\\":[0],\\"frame\\":[$3,1,0,0,0,131,0]}"; fi'
+ALL_LITERAL_DUMP = ZERO_WORD_DUMP.replace("131,0", "3,0,0,0,0")
+SHORT_RUNS_DUMP = ZERO_WORD_DUMP.replace("131,0", "129,0,129,0")
+
+# Mode 1 stores the little-endian bytes. 129 sevens then three zeros: a full 128-byte run,
+# a one-byte literal for the remaining seven, and a three-byte run.
+CAP_VALUES = [0x07070707] * 32 + [7]
+CAP_FRAME = [1, 33, 0, 0, 0, 255, 7, 0, 7, 130, 0]
+CAP_TAIL_AS_RUN_FRAME = [1, 33, 0, 0, 0, 255, 7, 128, 7, 130, 0]
+
+# 127 alternating bytes, a pair of fives, then 1 2 3: the first five fills the 128-byte
+# literal and the second five opens the next literal.
+SPLIT_BYTES = [i % 2 for i in range(127)] + [5, 5, 1, 2, 3]
+SPLIT_VALUES = [int.from_bytes(bytes(SPLIT_BYTES[i:i + 4]), "little") for i in range(0, 132, 4)]
+SPLIT_FRAME = [1, 33, 0, 0, 0, 127, *SPLIT_BYTES[:128], 3, *SPLIT_BYTES[128:]]
+SPLIT_FLUSHED_EARLY_FRAME = [1, 33, 0, 0, 0, 126, *SPLIT_BYTES[:127], 4, *SPLIT_BYTES[127:]]
+
 # Arguments are `-c <cpu> ./experiment <operation> <case> <mode>`.
 ECHO = 'echo "{\\"case\\":$5,\\"mode\\":$6,\\"operation\\":\\"$4\\",\\"n\\":16,\\"bytes\\":69,\\"reps\\":4096,\\"ns\\":40.5}"'
 
@@ -97,7 +131,7 @@ fi
 """ + ECHO + "\n"
 
 
-def run_with_stub(taskset, dump_mode="$3"):
+def run_with_stub(taskset, dump=EMPTY_DUMP):
     with tempfile.TemporaryDirectory(prefix="topic045-test-") as tmp:
         tmp = pathlib.Path(tmp)
         for rel in INPUTS:
@@ -105,7 +139,7 @@ def run_with_stub(taskset, dump_mode="$3"):
             shutil.copy(CRATE / rel, tmp / rel)
         bin_dir = tmp / "bin"
         bin_dir.mkdir()
-        for name, body in [("rustc", RUSTC.replace("DUMP_MODE", dump_mode)), ("taskset", taskset)]:
+        for name, body in [("rustc", RUSTC.replace("DUMP", dump)), ("taskset", taskset)]:
             (bin_dir / name).write_text(body)
             (bin_dir / name).chmod(0o755)
         env = dict(os.environ, PATH=str(bin_dir) + os.pathsep + os.environ["PATH"], TMPDIR=str(tmp),
@@ -212,10 +246,31 @@ class RunTests(unittest.TestCase):
         self.assertTrue(all(seen == set(range(6)) for seen in positions.values()), positions)
 
     def test_frames_must_satisfy_the_python_oracle_before_timing(self):
-        returncode, output, rows, _ = run_with_stub(ECHOING_TASKSET, dump_mode="6")
+        returncode, output, rows, _ = run_with_stub(ECHOING_TASKSET, dump=EMPTY_DUMP.replace("$3", "6"))
         self.assertNotEqual(returncode, 0, output)
         self.assertIn("assert frame[0] == mode", output)
         self.assertEqual(rows, [], output)
+
+    def test_frames_equal_to_the_python_encoding_are_accepted(self):
+        known = {"0 1": dump(CAP_VALUES, CAP_FRAME), "1 1": dump(SPLIT_VALUES, SPLIT_FRAME)}
+        returncode, output, rows, _ = run_with_stub(ECHOING_TASKSET, dump=dump_cases(known, ZERO_WORD_DUMP))
+        self.assertEqual(returncode, 0, output)
+        self.assertEqual(len(rows), 1020, output)
+
+    def test_workload_frames_must_equal_the_python_encoding_before_timing(self):
+        rejected = {
+            "one literal for four equal bytes": ALL_LITERAL_DUMP,
+            "two short runs for four equal bytes": SHORT_RUNS_DUMP,
+            "run tag on the byte left after a full run": dump_cases({"0 1": dump(CAP_VALUES, CAP_TAIL_AS_RUN_FRAME)}, ZERO_WORD_DUMP),
+            "literal closed before its 128th byte": dump_cases({"1 1": dump(SPLIT_VALUES, SPLIT_FLUSHED_EARLY_FRAME)}, ZERO_WORD_DUMP),
+            "header shorter than five bytes": 'echo "{\\"values\\":[],\\"frame\\":[$3]}"',
+        }
+        for name, stub in rejected.items():
+            with self.subTest(name):
+                returncode, output, rows, _ = run_with_stub(ECHOING_TASKSET, dump=stub)
+                self.assertNotEqual(returncode, 0, output)
+                self.assertIn("assert frame == [mode", output)
+                self.assertEqual(rows, [], output)
 
 
 if __name__ == "__main__":

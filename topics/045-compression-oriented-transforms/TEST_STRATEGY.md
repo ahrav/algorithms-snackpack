@@ -2,8 +2,10 @@ Scope: bounded independent u32 frames and reversible block transforms.
 Contract and failure classes: header, output cap and exact payload/consumption.
 Primary technique: finite boundary tables and exact known-byte fixtures.
 Secondary techniques: independent Python full-workload arithmetic model.
-Oracle: Python modulo arithmetic, byte extraction and prefix reconstruction;
-it invokes no Rust codec helper. Hard-coded Rust fixture bytes are separately derived.
+Oracle: Python modulo arithmetic, byte extraction, packet encoding of the transformed
+bytes and prefix reconstruction; each dumped frame must equal the Python frame byte for
+byte, so an encoder packet-choice change requires the same change in run.py's pack.
+It invokes no Rust codec helper. Hard-coded Rust fixture bytes are separately derived.
 Input/model/schedule domain and bounds: lengths0/1/2/3/31/32/33/127/128/129/1024,
 wraparound values; 12 synthetic workload cells through65536 words and six modes.
 Replay assets: library, example, measurements/run.py, retained raw archives;
