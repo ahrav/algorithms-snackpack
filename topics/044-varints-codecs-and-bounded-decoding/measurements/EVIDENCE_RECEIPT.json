@@ -1,0 +1,70 @@
+{
+  "source_commit": "7c35370523cefbc65aec9a46f4d5e47b409da73b",
+  "inputs": {
+    "lib.rs": {
+      "sha256": "8eae8cbf7e39f8e25dafa9b39562a165e8c76151d2dadabec5b910f99937845c",
+      "git_path": "topics/044-varints-codecs-and-bounded-decoding/src/lib.rs"
+    },
+    "experiment.rs": {
+      "sha256": "bff1b2345616c7eddf367fcb98774a254a28599d9f94b950785e67180fc5528e",
+      "git_path": "topics/044-varints-codecs-and-bounded-decoding/examples/experiment.rs"
+    },
+    "run.py": {
+      "sha256": "1aa789f099478ec0309ce223775b819b8008eb728c716968de7030a10ba28328",
+      "git_path": "topics/044-varints-codecs-and-bounded-decoding/measurements/run.py"
+    }
+  },
+  "verification": "Both archive digests, all member hashes, input/binary identities, 180-row schedules and balanced orders verified. Three independent contract groups and all Python workload encoding checks pass.",
+  "hosts": {
+    "arm": {
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-044/20261109/native-arm.tar.gz",
+      "archive_sha256": "218429a5a7974fcee95aca9a4f50c91348c7b37218e48d73cd51bc19a71dcd92",
+      "archive_bytes": 2666974,
+      "members": 9,
+      "binary_sha256": "99e3666edbe107032b0c15b1f2bbab94ef26304122d074c9392d6ee448eeeb3d",
+      "environment_sha256": "8cc77ffe8e904402fbe6f8c6c2b6db0c89491a8a19b5add7f435affee9b50b07",
+      "run_id": "2026-11-09T15:35:49Z",
+      "manifest_sha256": "12c5c27fb0e68d0810f20d275c3437fc3e26843b5ce8145a1c8df8f9e0c339a4",
+      "records": 180,
+      "main_measured": 144,
+      "warmup": 24,
+      "AA": 12,
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "available_cpus": 64,
+      "flags": [
+        "--edition=2024",
+        "-C",
+        "opt-level=3",
+        "-C",
+        "target-cpu=native"
+      ],
+      "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n"
+    },
+    "x86": {
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-044/20261109/native-x86.tar.gz",
+      "archive_sha256": "9d5078776d2ce2ae38fd160bbe6566a8704fd24838ec60219c550d9ab9c097b9",
+      "archive_bytes": 3189562,
+      "members": 9,
+      "binary_sha256": "946c91328b0cdcd958563c923f982f4cc80b78143ed7d88e272093cf6735a9c3",
+      "environment_sha256": "ec5b0ae07401a8b8ab29793707271f2b6417ceaba70509459ced9cce570bb4a0",
+      "run_id": "2026-11-09T15:35:48Z",
+      "manifest_sha256": "ae9073998dc37936c32c3be3dba0a70ce4e6d41b2467ab45b80a17294327c8c1",
+      "records": 180,
+      "main_measured": 144,
+      "warmup": 24,
+      "AA": 12,
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "available_cpus": 192,
+      "flags": [
+        "--edition=2024",
+        "-C",
+        "opt-level=3",
+        "-C",
+        "target-cpu=native"
+      ],
+      "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n"
+    }
+  }
+}

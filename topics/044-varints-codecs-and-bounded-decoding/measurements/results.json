@@ -1,0 +1,539 @@
+{
+  "arm": {
+    "cells": [
+      {
+        "case": 0,
+        "n": 32,
+        "shape": "small",
+        "winner": "unrolled",
+        "candidates": {
+          "scalar": {
+            "median_ns": 42.543355000000005,
+            "range_ns": [
+              34.43028,
+              43.413
+            ],
+            "bytes": 32
+          },
+          "unrolled": {
+            "median_ns": 32.546899999999994,
+            "range_ns": [
+              32.39764,
+              33.58786
+            ],
+            "bytes": 32
+          },
+          "fixed": {
+            "median_ns": 40.72752,
+            "range_ns": [
+              40.58433,
+              42.68327
+            ],
+            "bytes": 128
+          }
+        }
+      },
+      {
+        "case": 1,
+        "n": 32,
+        "shape": "threshold",
+        "winner": "fixed",
+        "candidates": {
+          "scalar": {
+            "median_ns": 62.741235,
+            "range_ns": [
+              62.36333,
+              62.84882
+            ],
+            "bytes": 96
+          },
+          "unrolled": {
+            "median_ns": 61.808905,
+            "range_ns": [
+              61.64287,
+              62.02062
+            ],
+            "bytes": 96
+          },
+          "fixed": {
+            "median_ns": 40.61962,
+            "range_ns": [
+              40.569,
+              42.63145
+            ],
+            "bytes": 128
+          }
+        }
+      },
+      {
+        "case": 2,
+        "n": 32,
+        "shape": "full32",
+        "winner": "fixed",
+        "candidates": {
+          "scalar": {
+            "median_ns": 94.034165,
+            "range_ns": [
+              93.27314,
+              95.23832
+            ],
+            "bytes": 157
+          },
+          "unrolled": {
+            "median_ns": 91.748885,
+            "range_ns": [
+              91.64789,
+              91.82244
+            ],
+            "bytes": 157
+          },
+          "fixed": {
+            "median_ns": 40.62242,
+            "range_ns": [
+              40.61207,
+              42.27509
+            ],
+            "bytes": 128
+          }
+        }
+      },
+      {
+        "case": 3,
+        "n": 32,
+        "shape": "alternating",
+        "winner": "fixed",
+        "candidates": {
+          "scalar": {
+            "median_ns": 72.86453499999999,
+            "range_ns": [
+              71.97111,
+              74.87349
+            ],
+            "bytes": 96
+          },
+          "unrolled": {
+            "median_ns": 68.70413,
+            "range_ns": [
+              67.65789,
+              70.97892
+            ],
+            "bytes": 96
+          },
+          "fixed": {
+            "median_ns": 40.620335,
+            "range_ns": [
+              40.56376,
+              40.78352
+            ],
+            "bytes": 128
+          }
+        }
+      },
+      {
+        "case": 4,
+        "n": 65536,
+        "shape": "small",
+        "winner": "unrolled",
+        "candidates": {
+          "scalar": {
+            "median_ns": 77198.73,
+            "range_ns": [
+              75869.72,
+              80632.26
+            ],
+            "bytes": 65536
+          },
+          "unrolled": {
+            "median_ns": 66258.83,
+            "range_ns": [
+              66204.54,
+              66670.74
+            ],
+            "bytes": 65536
+          },
+          "fixed": {
+            "median_ns": 85285.95999999999,
+            "range_ns": [
+              85161.9,
+              85644.66
+            ],
+            "bytes": 262144
+          }
+        }
+      },
+      {
+        "case": 5,
+        "n": 65536,
+        "shape": "threshold",
+        "winner": "fixed",
+        "candidates": {
+          "scalar": {
+            "median_ns": 128061.25,
+            "range_ns": [
+              127916.68,
+              130722.8
+            ],
+            "bytes": 196608
+          },
+          "unrolled": {
+            "median_ns": 125901.98,
+            "range_ns": [
+              125647.72,
+              126196.14
+            ],
+            "bytes": 196608
+          },
+          "fixed": {
+            "median_ns": 85275.19,
+            "range_ns": [
+              85157.68,
+              88311.58
+            ],
+            "bytes": 262144
+          }
+        }
+      },
+      {
+        "case": 6,
+        "n": 65536,
+        "shape": "full32",
+        "winner": "fixed",
+        "candidates": {
+          "scalar": {
+            "median_ns": 200986.24,
+            "range_ns": [
+              200671.66,
+              203067.38
+            ],
+            "bytes": 323623
+          },
+          "unrolled": {
+            "median_ns": 202364.74,
+            "range_ns": [
+              201928.9,
+              203558.18
+            ],
+            "bytes": 323623
+          },
+          "fixed": {
+            "median_ns": 85310.85,
+            "range_ns": [
+              85170.68,
+              85440.68
+            ],
+            "bytes": 262144
+          }
+        }
+      },
+      {
+        "case": 7,
+        "n": 65536,
+        "shape": "alternating",
+        "winner": "fixed",
+        "candidates": {
+          "scalar": {
+            "median_ns": 122896.6,
+            "range_ns": [
+              122754.02,
+              123116.6
+            ],
+            "bytes": 196608
+          },
+          "unrolled": {
+            "median_ns": 119172.20000000001,
+            "range_ns": [
+              118862.5,
+              121496.22
+            ],
+            "bytes": 196608
+          },
+          "fixed": {
+            "median_ns": 85446.41,
+            "range_ns": [
+              85221.16,
+              88395.08
+            ],
+            "bytes": 262144
+          }
+        }
+      }
+    ],
+    "AA_ratio_range": [
+      0.9816363670019527,
+      1.0220474946092282
+    ],
+    "selection_counts": {
+      "unrolled": 2,
+      "fixed": 6
+    }
+  },
+  "x86": {
+    "cells": [
+      {
+        "case": 0,
+        "n": 32,
+        "shape": "small",
+        "winner": "unresolved",
+        "candidates": {
+          "scalar": {
+            "median_ns": 43.490465,
+            "range_ns": [
+              43.20261,
+              44.24715
+            ],
+            "bytes": 32
+          },
+          "unrolled": {
+            "median_ns": 32.574709999999996,
+            "range_ns": [
+              32.51736,
+              32.7889
+            ],
+            "bytes": 32
+          },
+          "fixed": {
+            "median_ns": 33.75923,
+            "range_ns": [
+              33.7416,
+              34.00953
+            ],
+            "bytes": 128
+          }
+        }
+      },
+      {
+        "case": 1,
+        "n": 32,
+        "shape": "threshold",
+        "winner": "fixed",
+        "candidates": {
+          "scalar": {
+            "median_ns": 61.281310000000005,
+            "range_ns": [
+              59.84073,
+              62.85756
+            ],
+            "bytes": 96
+          },
+          "unrolled": {
+            "median_ns": 69.62683000000001,
+            "range_ns": [
+              66.28623,
+              69.74397
+            ],
+            "bytes": 96
+          },
+          "fixed": {
+            "median_ns": 33.76056,
+            "range_ns": [
+              33.73411,
+              33.95024
+            ],
+            "bytes": 128
+          }
+        }
+      },
+      {
+        "case": 2,
+        "n": 32,
+        "shape": "full32",
+        "winner": "fixed",
+        "candidates": {
+          "scalar": {
+            "median_ns": 87.044055,
+            "range_ns": [
+              85.40492,
+              89.7791
+            ],
+            "bytes": 157
+          },
+          "unrolled": {
+            "median_ns": 84.728385,
+            "range_ns": [
+              84.70449,
+              84.78211
+            ],
+            "bytes": 157
+          },
+          "fixed": {
+            "median_ns": 33.873909999999995,
+            "range_ns": [
+              33.73414,
+              35.23498
+            ],
+            "bytes": 128
+          }
+        }
+      },
+      {
+        "case": 3,
+        "n": 32,
+        "shape": "alternating",
+        "winner": "fixed",
+        "candidates": {
+          "scalar": {
+            "median_ns": 57.901055,
+            "range_ns": [
+              55.18648,
+              59.78371
+            ],
+            "bytes": 96
+          },
+          "unrolled": {
+            "median_ns": 62.74678,
+            "range_ns": [
+              60.94374,
+              63.23162
+            ],
+            "bytes": 96
+          },
+          "fixed": {
+            "median_ns": 33.73177,
+            "range_ns": [
+              33.64405,
+              34.2437
+            ],
+            "bytes": 128
+          }
+        }
+      },
+      {
+        "case": 4,
+        "n": 65536,
+        "shape": "small",
+        "winner": "unrolled",
+        "candidates": {
+          "scalar": {
+            "median_ns": 82273.04,
+            "range_ns": [
+              82208.48,
+              82425.12
+            ],
+            "bytes": 65536
+          },
+          "unrolled": {
+            "median_ns": 61955.66,
+            "range_ns": [
+              61536.46,
+              62364.38
+            ],
+            "bytes": 65536
+          },
+          "fixed": {
+            "median_ns": 72922.76999999999,
+            "range_ns": [
+              72493.54,
+              76135.12
+            ],
+            "bytes": 262144
+          }
+        }
+      },
+      {
+        "case": 5,
+        "n": 65536,
+        "shape": "threshold",
+        "winner": "fixed",
+        "candidates": {
+          "scalar": {
+            "median_ns": 117167.44,
+            "range_ns": [
+              115488.46,
+              121201.34
+            ],
+            "bytes": 196608
+          },
+          "unrolled": {
+            "median_ns": 130898.66,
+            "range_ns": [
+              128413.28,
+              137178.88
+            ],
+            "bytes": 196608
+          },
+          "fixed": {
+            "median_ns": 72484.54000000001,
+            "range_ns": [
+              72414.22,
+              73231.98
+            ],
+            "bytes": 262144
+          }
+        }
+      },
+      {
+        "case": 6,
+        "n": 65536,
+        "shape": "full32",
+        "winner": "fixed",
+        "candidates": {
+          "scalar": {
+            "median_ns": 212167.61,
+            "range_ns": [
+              201249.16,
+              231074.58
+            ],
+            "bytes": 323623
+          },
+          "unrolled": {
+            "median_ns": 224709.33000000002,
+            "range_ns": [
+              212435.72,
+              245774.7
+            ],
+            "bytes": 323623
+          },
+          "fixed": {
+            "median_ns": 72958.76999999999,
+            "range_ns": [
+              72461.06,
+              82613.74
+            ],
+            "bytes": 262144
+          }
+        }
+      },
+      {
+        "case": 7,
+        "n": 65536,
+        "shape": "alternating",
+        "winner": "fixed",
+        "candidates": {
+          "scalar": {
+            "median_ns": 115150.89,
+            "range_ns": [
+              108511.14,
+              126618.68
+            ],
+            "bytes": 196608
+          },
+          "unrolled": {
+            "median_ns": 116867.02,
+            "range_ns": [
+              112799.68,
+              122850.2
+            ],
+            "bytes": 196608
+          },
+          "fixed": {
+            "median_ns": 72951.13,
+            "range_ns": [
+              72344.74,
+              74244.88
+            ],
+            "bytes": 262144
+          }
+        }
+      }
+    ],
+    "AA_ratio_range": [
+      1.002763304887036,
+      1.0718687387076171
+    ],
+    "selection_counts": {
+      "unresolved": 1,
+      "fixed": 6,
+      "unrolled": 1
+    }
+  }
+}

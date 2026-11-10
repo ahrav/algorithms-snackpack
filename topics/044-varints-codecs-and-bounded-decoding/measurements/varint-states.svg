@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="380" viewBox="0 0 1000 380">
+<rect width="1000" height="380" fill="#f6f8fc"/>
+<g font-family="monospace" fill="#142238">
+<text x="30" y="40" font-size="23" font-weight="bold">Bounded u32 varint: before, during, after</text>
+<rect x="25" y="65" width="950" height="72" rx="8" fill="#dce9ff"/>
+<text x="45" y="94" font-size="20">BEFORE: input ac 02 | value=0 | cursor=0 | max 5 bytes</text>
+<text x="45" y="121" font-size="17">300 = 44 + 2*128. Each byte carries seven value bits.</text>
+<rect x="25" y="153" width="950" height="82" rx="8" fill="#fff0c9"/>
+<text x="45" y="183" font-size="20">DURING: ac = 1|0101100 | payload=44 | value=44</text>
+<text x="45" y="215" font-size="17">High bit 1: read next byte. Cursor=1. Shift next payload by 7.</text>
+<rect x="25" y="251" width="950" height="98" rx="8" fill="#d9f1e4"/>
+<text x="45" y="281" font-size="20">AFTER: 02 = 0|0000010 | value=44+(2&lt;&lt;7)=300</text>
+<text x="45" y="311" font-size="17">High bit 0: finish. Cursor=2. Canonical final payload is nonzero.</text>
+<text x="45" y="335" font-size="17">Reject: short input; byte 5 &gt; 0f; redundant final zero.</text>
+</g></svg>
