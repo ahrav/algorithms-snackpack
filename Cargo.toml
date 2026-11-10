@@ -7,6 +7,7 @@ publish = false
 
 [workspace]
 members = [
+    "topics/045-compression-oriented-transforms",
     "topics/043-multi-pattern-matching-and-automata",
     "topics/042-longest-common-subsequence-and-diff",
     "topics/041-edit-distance-and-automaton-lookup",
