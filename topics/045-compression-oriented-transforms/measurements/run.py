@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Frozen six-process screen with an independent arithmetic/byte oracle."""
-import hashlib, json, os, pathlib, platform, shutil, subprocess, tempfile, time
+import hashlib, json, math, os, pathlib, platform, shutil, subprocess, tempfile, time
+
+# The oracle checks frames with assert statements, which -O and PYTHONOPTIMIZE compile out.
+if not __debug__:
+    raise SystemExit("run.py needs assertions enabled: run python3 measurements/run.py without -O and with PYTHONOPTIMIZE unset")
 
 source = pathlib.Path(__file__).resolve().parent
 root = pathlib.Path(tempfile.mkdtemp(prefix="topic045-run-"))
@@ -16,6 +20,7 @@ def call(args):
 
 TIMEOUT = float(os.environ.get("TOPIC_045_PROCESS_TIMEOUT_S", 60))
 REQUIRED = {"case", "mode", "operation", "n", "bytes", "reps", "ns"}
+sizes = {}  # (case, mode) -> word count and frame length of the dump the oracle checked
 
 def measure(out, args, **meta):
     """Run one timed process and write its attempt row before any failure halts the run."""
@@ -33,10 +38,13 @@ def measure(out, args, **meta):
             decoded = json.loads(output)
             if not isinstance(decoded, dict) or not decoded.keys() >= REQUIRED:
                 raise ValueError("measurement object missing " + ",".join(sorted(REQUIRED)))
-            invocation = {k: meta[k] for k in ("case", "mode", "operation")}
+            invocation = dict({k: meta[k] for k in ("case", "mode", "operation")}, **sizes[meta["case"], meta["mode"]])
             printed = {k: decoded[k] for k in invocation}
             if printed != invocation:
                 raise ValueError("measurement labels " + json.dumps(printed) + " differ from invocation " + json.dumps(invocation))
+            reps, ns = decoded["reps"], decoded["ns"]
+            if type(reps) is not int or reps <= 0 or type(ns) not in (int, float) or not math.isfinite(ns) or ns <= 0:
+                raise ValueError("measurement values reps=" + repr(reps) + " ns=" + repr(ns) + " must be a positive count and a finite positive time")
             row.update(decoded)
         except ValueError as malformed:
             row.update(status="malformed", output=output, error=repr(malformed))
@@ -128,6 +136,7 @@ for case in range(12):
     for mode in range(6):
         row = json.loads(call(["./experiment", "dump", str(case), str(mode)]))
         oracle(row["frame"], row["values"], mode)
+        sizes[case, mode] = {"n": len(row["values"]), "bytes": len(row["frame"])}
 
 env = {"hostname": platform.node(), "architecture": platform.machine(), "uname": call(["uname", "-a"]),
        "cpu": call(["lscpu"]), "available_cpus": len(os.sched_getaffinity(0)), "affinity": sorted(os.sched_getaffinity(0)),

@@ -9,13 +9,16 @@ experiment process. In the failure cases its first call exits 3 with diagnostic 
 prints text that is not JSON, prints partial output and sleeps past the one second
 timeout set through TOPIC_045_PROCESS_TIMEOUT_S, prints JSON of the wrong shape, exits 2
 after a byte that is not UTF-8, or prints a complete object whose mode or operation
-differs from the invocation. The runner must write that attempt as a row in raw.jsonl,
+differs from the invocation, whose n or bytes differs from the dumped frame, or whose reps
+or ns is unusable. The runner must write that attempt as a row in raw.jsonl,
 then halt. One stub fails the first A/A control process after a complete main schedule.
 One stub answers every invocation, and the 1020 retained rows must follow the declared
 schedule. The last cases vary `dump`. A frame for another mode, a header shorter than five
 bytes, and decodable frames whose packets differ from the Python packet encoding must halt
 the runner before any timed attempt. Hand-derived frames for a 129-byte run and for a pair
-that straddles a full literal must pass. Run from anywhere:
+that straddles a full literal must pass. A runner started with -O, -OO or PYTHONOPTIMIZE,
+which strip the oracle's assert statements, must exit before it creates an evidence
+directory. Run from anywhere:
 python3 topics/045-compression-oriented-transforms/measurements/test_run.py
 """
 import collections
@@ -78,11 +81,11 @@ exit 2
 """
 
 WRONG_MODE_TASKSET = """#!/bin/sh
-echo '{"case":0,"mode":1,"operation":"encode","n":16,"bytes":69,"reps":4096,"ns":40.5}'
+echo '{"case":0,"mode":1,"operation":"encode","n":0,"bytes":5,"reps":4096,"ns":40.5}'
 """
 
 WRONG_OPERATION_TASKSET = """#!/bin/sh
-echo '{"case":0,"mode":0,"operation":"decode","n":16,"bytes":69,"reps":4096,"ns":40.5}'
+echo '{"case":0,"mode":0,"operation":"decode","n":0,"bytes":5,"reps":4096,"ns":40.5}'
 """
 
 def dump(values, frame):
@@ -117,8 +120,9 @@ SPLIT_VALUES = [int.from_bytes(bytes(SPLIT_BYTES[i:i + 4]), "little") for i in r
 SPLIT_FRAME = [1, 33, 0, 0, 0, 127, *SPLIT_BYTES[:128], 3, *SPLIT_BYTES[128:]]
 SPLIT_FLUSHED_EARLY_FRAME = [1, 33, 0, 0, 0, 126, *SPLIT_BYTES[:127], 4, *SPLIT_BYTES[127:]]
 
-# Arguments are `-c <cpu> ./experiment <operation> <case> <mode>`.
-ECHO = 'echo "{\\"case\\":$5,\\"mode\\":$6,\\"operation\\":\\"$4\\",\\"n\\":16,\\"bytes\\":69,\\"reps\\":4096,\\"ns\\":40.5}"'
+# Arguments are `-c <cpu> ./experiment <operation> <case> <mode>`. The default stub workload
+# is empty, so a correct process reports n 0 and the five-byte frame.
+ECHO = 'echo "{\\"case\\":$5,\\"mode\\":$6,\\"operation\\":\\"$4\\",\\"n\\":0,\\"bytes\\":5,\\"reps\\":4096,\\"ns\\":40.5}"'
 
 ECHOING_TASKSET = "#!/bin/sh\n" + ECHO + "\n"
 
@@ -131,7 +135,7 @@ fi
 """ + ECHO + "\n"
 
 
-def run_with_stub(taskset, dump=EMPTY_DUMP):
+def run_with_stub(taskset, dump=EMPTY_DUMP, optimize_env=None, python_flags=()):
     with tempfile.TemporaryDirectory(prefix="topic045-test-") as tmp:
         tmp = pathlib.Path(tmp)
         for rel in INPUTS:
@@ -144,7 +148,11 @@ def run_with_stub(taskset, dump=EMPTY_DUMP):
             (bin_dir / name).chmod(0o755)
         env = dict(os.environ, PATH=str(bin_dir) + os.pathsep + os.environ["PATH"], TMPDIR=str(tmp),
                    TOPIC_045_PROCESS_TIMEOUT_S="1")
-        r = subprocess.run([sys.executable, str(tmp / "measurements/run.py")], cwd=tmp, env=env,
+        # Each runner process gets exactly the optimization setting its test names.
+        env.pop("PYTHONOPTIMIZE", None)
+        if optimize_env is not None:
+            env["PYTHONOPTIMIZE"] = optimize_env
+        r = subprocess.run([sys.executable, *python_flags, str(tmp / "measurements/run.py")], cwd=tmp, env=env,
                            text=True, capture_output=True, timeout=300)
         output = r.stdout + r.stderr
         prefix = "Evidence directory: "
@@ -253,9 +261,27 @@ class RunTests(unittest.TestCase):
 
     def test_frames_equal_to_the_python_encoding_are_accepted(self):
         known = {"0 1": dump(CAP_VALUES, CAP_FRAME), "1 1": dump(SPLIT_VALUES, SPLIT_FRAME)}
-        returncode, output, rows, _ = run_with_stub(ECHOING_TASKSET, dump=dump_cases(known, ZERO_WORD_DUMP))
-        self.assertEqual(returncode, 0, output)
-        self.assertEqual(len(rows), 1020, output)
+        returncode, output, rows, _ = run_with_stub(FAILING_TASKSET, dump=dump_cases(known, ZERO_WORD_DUMP))
+        # All 72 frames pass the oracle, so the run reaches its first timed attempt.
+        self.assert_single_retained_attempt(returncode, output, rows, "failed")
+
+    def test_unusable_measurement_values_are_retained_as_malformed_before_halting(self):
+        valid = '\\"n\\":0,\\"bytes\\":5,\\"reps\\":4096,\\"ns\\":40.5'
+        for name, printed, error in [
+            ("ns is NaN", valid.replace("40.5", "NaN"), "ns=nan"),
+            ("ns is a string", valid.replace("40.5", '\\"40.5\\"'), "ns='40.5'"),
+            ("ns is zero", valid.replace("40.5", "0"), "ns=0"),
+            ("reps is zero", valid.replace("4096", "0"), "reps=0"),
+            ("reps is fractional", valid.replace("4096", "4.5"), "reps=4.5"),
+            ("n differs from the dumped workload", valid.replace('n\\":0', 'n\\":16'), '"n": 16'),
+            ("bytes differs from the dumped frame", valid.replace('bytes\\":5', 'bytes\\":6'), '"bytes": 6'),
+        ]:
+            with self.subTest(name):
+                self.assertNotEqual(printed, valid)
+                returncode, output, rows, _ = run_with_stub(ECHOING_TASKSET.replace(valid, printed))
+                self.assert_single_retained_attempt(returncode, output, rows, "malformed")
+                self.assertIn(error, rows[0]["error"])
+                self.assertNotIn("reps", rows[0])
 
     def test_workload_frames_must_equal_the_python_encoding_before_timing(self):
         rejected = {
@@ -270,6 +296,20 @@ class RunTests(unittest.TestCase):
                 returncode, output, rows, _ = run_with_stub(ECHOING_TASKSET, dump=stub)
                 self.assertNotEqual(returncode, 0, output)
                 self.assertIn("assert frame == [mode", output)
+                self.assertEqual(rows, [], output)
+
+    def test_an_interpreter_that_strips_assertions_is_refused_at_startup(self):
+        for name, dump_stub, options in [
+            ("PYTHONOPTIMIZE with a frame the oracle rejects", ALL_LITERAL_DUMP, {"optimize_env": "1"}),
+            ("PYTHONOPTIMIZE with frames the oracle accepts", EMPTY_DUMP, {"optimize_env": "1"}),
+            ("-O with frames the oracle accepts", EMPTY_DUMP, {"python_flags": ("-O",)}),
+            ("-OO with frames the oracle accepts", EMPTY_DUMP, {"python_flags": ("-OO",)}),
+        ]:
+            with self.subTest(name):
+                returncode, output, rows, _ = run_with_stub(ECHOING_TASKSET, dump=dump_stub, **options)
+                self.assertNotEqual(returncode, 0, output)
+                self.assertIn("assertions enabled", output)
+                self.assertNotIn("Evidence directory", output)
                 self.assertEqual(rows, [], output)
 
 
