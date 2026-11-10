@@ -1,0 +1,57 @@
+{
+  "source_commit": "842b5aca4c4a3e6c729f1577ec36863aa2f3a11d",
+  "inputs": {
+    "lib.rs": "31d0b48c816c8797654178fe16c66495423dc6533ef2903e973853886937be49",
+    "experiment.rs": "65317532b289b3e72ef064f56f23913650ee299a4de026f90700e802795c1de3",
+    "run.py": "888f552fae0e0fd493a1343a1aaf563e8d2ac186e41e1c6d63b73258eafecfbf"
+  },
+  "verification": "Archive SHA, all executable inputs, linked binary, all1020records, balanced positions and independent oracle verified on both hosts.",
+  "hosts": {
+    "arm": {
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-045/20261110/topic045-arm-native-20261110.tar.gz",
+      "sha256": "f42520fd5e5ce5e505ebefc3b04f5e575bf472028ab6741ca5884802ec4789b8",
+      "size": 2692008,
+      "member_count": 10,
+      "manifest_sha256": "c87ad69ff7d097dbec9c910553f25690f08c555b42199d76cce235139c240ff2",
+      "run_id": "topic045-20261110-arm",
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+      "flags": [
+        "--edition=2024",
+        "-C",
+        "opt-level=3",
+        "-C",
+        "target-cpu=native"
+      ],
+      "available_cpus": 64,
+      "affinity_cpu": 0,
+      "binary_sha256": "a53230851e2850f6905c5fffdacd038e09293b675c4558b6d26d80088a2d836f",
+      "environment_sha256": "b7c0947f41e0cc7a97acbf60726faed24e8f469a3441706cf7fe6c47830947da",
+      "raw_sha256": "1d946ab9854c504bbed37459a3b259d7df5032529bd85ee6c184b05e434d8658"
+    },
+    "x86": {
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-045/20261110/topic045-x86-native-20261110.tar.gz",
+      "sha256": "c54a1e5b1e16f9f00fc08db051fa5b939264142d806d04e713abcdd57c83203c",
+      "size": 3217825,
+      "member_count": 10,
+      "manifest_sha256": "0c1ae54dbae3a0ed127647fa1580661c1804a482ae30c5b6c951709b62f61190",
+      "run_id": "topic045-20261110-x86",
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+      "flags": [
+        "--edition=2024",
+        "-C",
+        "opt-level=3",
+        "-C",
+        "target-cpu=native"
+      ],
+      "available_cpus": 192,
+      "affinity_cpu": 0,
+      "binary_sha256": "7778b97dda612ce761a7886f6653bab8965ff5a2ea9c2b0495a079a0033e1319",
+      "environment_sha256": "49a7e7c27b30644a5870ec325839b3a18063882c8afba7d3baa08b80a279ac51",
+      "raw_sha256": "55455481fe6c58c2946fb206f614a7d0c4f568d50b9a4e852ef92a73b73caf57"
+    }
+  }
+}
