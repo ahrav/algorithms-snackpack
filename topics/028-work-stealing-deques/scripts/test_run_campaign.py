@@ -1569,7 +1569,9 @@ class RunCampaignTests(unittest.TestCase):
 
     def test_a_timed_out_build_takes_its_descendants_with_it(self):
         marker = "topic028-build-marker-" + os.urandom(6).hex()
-        sleeper = pathlib.Path(tempfile.mkdtemp(prefix="topic028-sleeper-")) / marker
+        # A multi-call coreutils binary selects its program from argv[0], so the copy keeps the name
+        # `sleep` and its directory carries the marker that `pgrep -f` matches.
+        sleeper = pathlib.Path(tempfile.mkdtemp(prefix=marker + "-")) / "sleep"
         shutil.copy(shutil.which("sleep") or "/bin/sleep", sleeper)
         command, env, out, _, _ = start_campaign({}, repetitions=4, build=f"{sleeper} 300 & {sleeper} 300")
         command += ["--build-timeout", "1"]
