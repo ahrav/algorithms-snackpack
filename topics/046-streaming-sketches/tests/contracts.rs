@@ -10,8 +10,11 @@ fn running_example_answers() {
         [3, 0]
     );
     assert_eq!(
-        evaluate(&data, &[], "exact-distinct", 7).unwrap().estimate,
-        3.0
+        evaluate(&data, &[], "exact-distinct", 7)
+            .unwrap()
+            .estimate
+            .to_bits(),
+        3.0_f64.to_bits()
     );
     assert_eq!(
         evaluate(&data, &[], "rank-summary", 7).unwrap().values[50],

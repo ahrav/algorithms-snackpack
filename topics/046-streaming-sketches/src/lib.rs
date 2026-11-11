@@ -309,7 +309,7 @@ mod tests {
             "rank-summary",
         ] {
             let r = evaluate(&[], &[0], c, 7).unwrap();
-            assert_eq!(r.estimate, 0.0);
+            assert_eq!(r.estimate.to_bits(), 0.0_f64.to_bits());
             assert!(r.values.is_empty() || r.values == [0]);
         }
         assert_eq!(
