@@ -127,4 +127,3 @@ A/A B/A observed range 0.957..1.006.
 | 16384 | reverse | rank-summary | 1146.010 | 1123.522..1169.838 | 864 | exact-quantile |
 
 A/A B/A observed range 0.813..1.053.
-
