@@ -1,0 +1,49 @@
+{
+  "frozen_source": "71f970442a3a9d3a04bc57c067df9d01183c7fde",
+  "source_archive_sha256": "ca974bdc3a760831ff486dac5a8805cbc5a48a1157f5d3f0083d04266b4a4dd5",
+  "verification": "all archive/manifest members, source inputs, linked binary and all360 outputs per host verified locally",
+  "hosts": {
+    "arm": {
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-046/20261111/algorithms046-arm-native-20261111.tar.gz",
+      "sha256": "93d379501145af7e811014e21a7df1a7fc34d227116fc53065fbd81e8e7a9a27",
+      "bytes": 3013935,
+      "members": 371,
+      "manifest_members": 364,
+      "verified": true,
+      "source_hashes": {
+        "src/lib.rs": "5e94231aa01244ef681de8d8e75cce69480c81ecb221a9197c943ac7bcbce27c",
+        "main.rs": "74c34317fc4469d1def08ff35ae83289262876ba31599552dd903d6da711fa64",
+        "run.py": "62ec2973e466e0b3a38a10c02f6b86f77a056b750f1304c5de82e5eb3a6ffd91",
+        "sketch-lab": "8c8754987791a8bad4e2bca3af1b30bd2d4b9416bde334cb4122e28929f5b260"
+      },
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "main": 216,
+      "processes": 360,
+      "all_360_outputs_rechecked_locally": true,
+      "run_id": "topic046-71f9704-arm-20261111",
+      "manifest_sha256": "10bb4656d0d24597b97c979f41a002d29754cd4798df94dbaf2cc16bcecf0e0c"
+    },
+    "x86": {
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-046/20261111/algorithms046-x86-native-20261111.tar.gz",
+      "sha256": "02faa23cbaa8edb55534185ca57e4517ae2d6e418ff6e0947267a40da026d29b",
+      "bytes": 3533280,
+      "members": 371,
+      "manifest_members": 364,
+      "verified": true,
+      "source_hashes": {
+        "src/lib.rs": "5e94231aa01244ef681de8d8e75cce69480c81ecb221a9197c943ac7bcbce27c",
+        "main.rs": "74c34317fc4469d1def08ff35ae83289262876ba31599552dd903d6da711fa64",
+        "run.py": "62ec2973e466e0b3a38a10c02f6b86f77a056b750f1304c5de82e5eb3a6ffd91",
+        "sketch-lab": "de55e6286ff7598ea2ce0951e96989a7a70299a86a548679ef3533cece110d21"
+      },
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "main": 216,
+      "processes": 360,
+      "all_360_outputs_rechecked_locally": true,
+      "run_id": "topic046-71f9704-x86-20261111",
+      "manifest_sha256": "36dc7fa7ab10189c9b7b7f5ce2bb7d4265c05d3c879fd8ef48a8ef6169c89621"
+    }
+  }
+}
