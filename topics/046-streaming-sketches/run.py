@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """Fixed balanced process campaign with independent correctness checks."""
 import bisect, collections, hashlib, json, math, os, pathlib, platform, statistics, subprocess, sys, time
+if not __debug__:
+    raise SystemExit('run.py needs assertions enabled: run python3 run.py without -O and with PYTHONOPTIMIZE unset')
 ROOT=pathlib.Path(__file__).resolve().parent
-OUT=ROOT/'raw'; OUT.mkdir(exist_ok=True)
+OUT=ROOT/'raw'
+TIMEOUT=float(os.environ.get('TOPIC_046_PROCESS_TIMEOUT_S',120))
 MASK=(1<<64)-1
 CANDIDATES=['exact-frequency','count-min','exact-distinct','hll','exact-quantile','rank-summary']
 WORKLOADS=[(128,'uniform'),(4096,'uniform'),(16384,'uniform'),(16384,'skew'),(16384,'sorted'),(16384,'reverse')]
@@ -16,6 +19,7 @@ def inputs(n,shape):
 def check(r):
     data=inputs(r['n'],r['shape']); n=len(data); c=r['candidate']; seed=r['seed']
     counts=collections.Counter(data); ordered=sorted(data)
+    assert r['bytes']=={'exact-frequency':16*len(counts),'count-min':10240,'exact-distinct':8*len(counts),'hll':1024,'exact-quantile':8*n,'rank-summary':8*len(r['state'])}[c]
     if c in ('exact-frequency','count-min'):
         exact=[counts[i] for i in range(4096)]
         if c=='exact-frequency': assert r['values']==exact
@@ -42,36 +46,57 @@ def check(r):
             target=1+(n-1)*q//100
             lo=bisect.bisect_left(ordered,x)+1; hi=bisect.bisect_right(ordered,x)
             allowance=0 if c=='exact-quantile' else n//50
-            assert lo<=target+allowance and hi+allowance>=target,(r['shape'],q,x,lo,hi,target)
+            assert lo<=hi and lo<=target+allowance and hi+allowance>=target,(r['shape'],q,x,lo,hi,target)
         assert r['values'][0]==ordered[0] and r['values'][-1]==ordered[-1]
         if c=='rank-summary':
             state=r['state']; assert len(state)%3==0
             cumulative=0; previous=-1
             for i in range(0,len(state),3):
                 value,gap,delta=state[i:i+3]; cumulative+=gap
-                assert value>=previous and gap>=1
+                assert value in counts and value>=previous and gap>=1
                 assert gap+delta<=max(1,n//25)
                 assert cumulative<=bisect.bisect_right(ordered,value)
                 assert cumulative+delta>=bisect.bisect_left(ordered,value)+1
                 previous=value
             assert cumulative==n
     return True
-def cmd(*args): return subprocess.check_output(args,text=True,stderr=subprocess.STDOUT)
+def cmd(*args): return subprocess.check_output(args,text=True,stderr=subprocess.STDOUT,cwd=ROOT)
 def one(c,n,shape,seed,repeats,label):
     args=[str(ROOT/'sketch-lab'),c,str(n),shape,str(seed),str(repeats)]
     if hasattr(os,'sched_getaffinity'): args=['taskset','-c',str(min(os.sched_getaffinity(0)))]+args
-    p=subprocess.run(args,capture_output=True,text=True,timeout=120)
     path=OUT/f'{label}.json'
+    def text(captured):
+        return (captured or b'').decode(errors='replace')
+    def halt(status,**detail):
+        path.write_text(json.dumps({'label':label,'status':status,'command':args,**detail}))
+        return SystemExit(f'attempt {status}; retained in {path}')
+    try:
+        p=subprocess.run(args,capture_output=True,timeout=TIMEOUT)
+    except subprocess.TimeoutExpired as expired:
+        raise halt('timeout',timeout_s=TIMEOUT,stdout=text(expired.stdout),stderr=text(expired.stderr)) from None
+    stdout,stderr=text(p.stdout),text(p.stderr)
     if p.returncode:
-        path.write_text(json.dumps({'command':args,'exit':p.returncode,'stdout':p.stdout,'stderr':p.stderr})); raise RuntimeError(path)
-    r=json.loads(p.stdout); check(r); r['label']=label; r['oracle']='PASS'; r['command']=args
-    path.write_text(json.dumps(r)); return r
+        raise halt('failed',exit=p.returncode,stdout=stdout,stderr=stderr)
+    try:
+        r=json.loads(stdout)
+        assert (r['candidate'],r['n'],r['shape'],r['seed'],r['repeats'])==(c,n,shape,seed,repeats)
+        assert type(r['ns']) in (int,float) and math.isfinite(r['ns']) and r['ns']>0
+        check(r)
+    except Exception as error:
+        raise halt('rejected',error=repr(error),stdout=stdout,stderr=stderr) from None
+    r.update(label=label,status='ok',oracle='PASS',command=args)
+    path.write_text(json.dumps(r))
+    return r
 
 def main():
+    earlier=[str(p) for p in (OUT,ROOT/'results.json',ROOT/'manifest.json') if p.exists()]
+    if earlier:
+        raise SystemExit('outputs of an earlier campaign exist; archive them outside the repository, then remove: '+' '.join(earlier))
+    OUT.mkdir()
     flags=['--edition','2024','-C','opt-level=3','-C','target-cpu=native']
     (OUT/'build.txt').write_text(cmd('rustc',*flags,'main.rs','-o','sketch-lab'))
     (OUT/'contracts.txt').write_text(cmd('rustc','--edition','2024','--test','-O','src/lib.rs','-o','contracts')+cmd('./contracts'))
-    (OUT/'generated.s').write_text(cmd('rustc',*flags,'--emit=asm','main.rs','-o','generated.s')+pathlib.Path('generated.s').read_text())
+    (OUT/'generated.s').write_text(cmd('rustc',*flags,'--emit=asm','main.rs','-o','generated.s')+(ROOT/'generated.s').read_text())
     env={'hostname':platform.node(),'uname':list(platform.uname()),'cpus_available':sorted(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else [],'cpuinfo':pathlib.Path('/proc/cpuinfo').read_text(),'rustc':cmd('rustc','-vV'),'target_features':cmd('rustc','-C','target-cpu=native','--print','cfg'),'flags':flags,'python':sys.version,'start':time.time(),'hashes':{f:hashlib.sha256((ROOT/f).read_bytes()).hexdigest() for f in ['src/lib.rs','main.rs','run.py','sketch-lab']}}
     (OUT/'environment.json').write_text(json.dumps(env,indent=2))
     records=[]; accuracy=[]

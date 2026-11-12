@@ -24,7 +24,12 @@ ranges, with no nominal confidence interval or multiple-comparison significance
 claim. No pilot-driven allocation, repeated looks, optional stopping or winner
 reruns. This is a finite synthetic screen, not a population estimate. All failures
 and partial processes are retained. Correctness failure stops the campaign;
-missing pairs cannot produce a selected winner.
+missing pairs cannot produce a selected winner. Each process has a120 second limit,
+which TOPIC_046_PROCESS_TIMEOUT_S replaces.
+A timeout, nonzero exit or rejected output is written as a raw record with its
+status and stops the campaign; such a campaign yields no results.json. A new
+campaign starts only after the earlier raw/, results.json and manifest.json are
+archived and removed.
 
 A/A: six fresh paired exact-frequency processes at N16384 uniform, distinct A/B
 labels, alternating order, same path/controls/parser. Six more HLL seeds per cell

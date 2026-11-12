@@ -1,7 +1,18 @@
 # Measurements
 
-Frozen source: `71f970442a3a9d3a04bc57c067df9d01183c7fde`. All three native
-inputs remain byte-identical at publication. Python reconstructed and checked all
+Frozen source: `71f970442a3a9d3a04bc57c067df9d01183c7fde`. The receipt hashes bind
+src/lib.rs, main.rs and run.py at this commit. src/lib.rs and main.rs are
+byte-identical at HEAD. run.py at HEAD keeps the same schedule, build commands and
+binary inputs, and differs from the archived runner in five ways. It exits at
+startup when assertions are disabled, and when raw/, results.json or manifest.json
+of an earlier campaign exist. It builds inside the topic directory from any working
+directory. It writes one record with a status for every attempt, including a
+timeout (TOPIC_046_PROCESS_TIMEOUT_S, default 120), a nonzero exit and rejected
+output, before halting. Its oracle also requires printed labels equal to the
+invocation, a finite positive time, logical bytes equal to the retained entries, and
+quantile values and summary entries that occur in the input. The archived runs used
+the 71f9704 checks. test_run.py checks the HEAD behavior with stub processes.
+Python reconstructed and checked all
 360 outputs per host:216 main,36 warmup,96 HLL seed sensitivity,12 A/A processes.
 Four contract groups also pass on both hosts. The receipt identifies complete
 archives, source/runner/binary/manifest identities and local independent rechecks.
@@ -126,4 +137,8 @@ A/A B/A observed range 0.957..1.006.
 | 16384 | reverse | exact-quantile | 23.238 | 21.645..25.666 | 131072 | exact-quantile |
 | 16384 | reverse | rank-summary | 1146.010 | 1123.522..1169.838 | 864 | exact-quantile |
 
-A/A B/A observed range 0.813..1.053.
+A/A B/A observed range 0.813..1.053. This identical-artifact control left the 5%
+band on both sides: below 1/1.05 = 0.952 and above 1.05. The 5% rule is therefore
+uncalibrated against x86 null variation. The x86 medians and selections remain
+nominal descriptive screens; a stable x86 speed recommendation requires a new
+predeclared experiment. The Arm control stayed inside the band.

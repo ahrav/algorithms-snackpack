@@ -44,3 +44,4 @@ jobs:
       - run: python3 measurements/test_run.py
         working-directory: >-
           topics/045-compression-oriented-transforms
+      - run: python3 topics/046-streaming-sketches/test_run.py

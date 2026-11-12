@@ -43,10 +43,17 @@ cargo test -p topic-046-streaming-sketches --all-targets
 cargo run -p topic-046-streaming-sketches --release --example sketch-lab -- count-min 16384 skew 7 1
 cd topics/046-streaming-sketches
 python3 run.py
+python3 test_run.py
 ```
 
-The replay needs rustc, Python 3 and taskset on Linux. It creates raw/, binaries,
-assembly, a hash manifest and results.json. Read BENCHMARK.md before interpreting
+The replay needs rustc, Python 3 with assertions enabled and taskset on Linux. It
+starts from any working directory and builds inside the topic directory. It creates
+raw/, binaries, assembly, a hash manifest and results.json. Each attempt writes one
+raw record with a status; a nonzero exit, a timeout (TOPIC_046_PROCESS_TIMEOUT_S,
+default 120) or rejected output stops the campaign after its record is written.
+The runner exits at startup while raw/, results.json or manifest.json exist: archive
+them outside the repository, remove them, then start again. test_run.py checks this
+behavior with stub processes. Read BENCHMARK.md before interpreting
 results. Python independently reconstructs counts, registers, cardinality estimates
 and quantile rank intervals. Statistical error coverage requires separate evidence.
 
@@ -54,8 +61,11 @@ and quantile rank intervals. Statistical error coverage requires separate eviden
 
 Under independent ideal hashes, Count-Min sizing w≈e/epsilon, d≈ln(1/delta)
 controls additive frequency error. At w256/d5 this suggests epsilon≈0.0106 and
-per-query delta≈0.00674. Reproducible SplitMix64-derived rows have unproved
-independence; theoretical probability coverage is therefore conditional. HLL's
+per-query delta≈0.00674. Row r hashes key x to the bucket row 0 gives key x+r:
+the row number is added to the seed and the mixer adds the seed to the key. The
+five rows are shifted copies of one SplitMix64 function, so the ideal-hash bound
+is an empirical assumption here; theoretical probability coverage is therefore
+conditional. HLL's
 ideal-hash typical relative standard error is 1.04/sqrt(1024)=3.25%, rather than
 a per-stream bound. Rank tolerance epsilon=.02 gives 327 positions at N16,384;
 value error can be large across gaps in the distribution.
