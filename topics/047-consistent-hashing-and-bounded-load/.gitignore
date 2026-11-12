@@ -4,5 +4,5 @@ placement-lab
 contracts
 unit-tests
 libtopic047_placement.rlib
-results.json
-manifest.json
+/results.json
+/manifest.json

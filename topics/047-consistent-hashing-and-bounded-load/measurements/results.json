@@ -1,0 +1,3268 @@
+{
+  "arm": {
+    "cells": [
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 114.4443359375,
+            "min_ns": 114.337890625,
+            "max_ns": 115.49609375,
+            "payload_bytes": 32
+          },
+          "ring1": {
+            "median_ns": 177.2177734375,
+            "min_ns": 170.619140625,
+            "max_ns": 181.86328125,
+            "payload_bytes": 160
+          },
+          "ring32": {
+            "median_ns": 315.6025390625,
+            "min_ns": 313.091796875,
+            "max_ns": 318.576171875,
+            "payload_bytes": 4128
+          },
+          "hrw": {
+            "median_ns": 467.6318359375,
+            "min_ns": 465.685546875,
+            "max_ns": 490.958984375,
+            "payload_bytes": 32
+          }
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 177.2177734375,
+            "min_ns": 170.619140625,
+            "max_ns": 181.86328125,
+            "payload_bytes": 160
+          },
+          "ring32": {
+            "median_ns": 315.6025390625,
+            "min_ns": 313.091796875,
+            "max_ns": 318.576171875,
+            "payload_bytes": 4128
+          },
+          "hrw": {
+            "median_ns": 467.6318359375,
+            "min_ns": 465.685546875,
+            "max_ns": 490.958984375,
+            "payload_bytes": 32
+          }
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 366.0478515625,
+            "min_ns": 360.87890625,
+            "max_ns": 392.228515625,
+            "payload_bytes": 4128
+          }
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 129354.875,
+            "min_ns": 128630.75,
+            "max_ns": 131543.5,
+            "payload_bytes": 32
+          },
+          "ring1": {
+            "median_ns": 323968.125,
+            "min_ns": 320714.25,
+            "max_ns": 329714.25,
+            "payload_bytes": 160
+          },
+          "ring32": {
+            "median_ns": 1104740.75,
+            "min_ns": 1099588.75,
+            "max_ns": 1117870.5,
+            "payload_bytes": 4128
+          },
+          "hrw": {
+            "median_ns": 491598.5,
+            "min_ns": 490103.25,
+            "max_ns": 492347.75,
+            "payload_bytes": 32
+          }
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 323968.125,
+            "min_ns": 320714.25,
+            "max_ns": 329714.25,
+            "payload_bytes": 160
+          },
+          "ring32": {
+            "median_ns": 1104740.75,
+            "min_ns": 1099588.75,
+            "max_ns": 1117870.5,
+            "payload_bytes": 4128
+          },
+          "hrw": {
+            "median_ns": 491598.5,
+            "min_ns": 490103.25,
+            "max_ns": 492347.75,
+            "payload_bytes": 32
+          }
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 1116589.625,
+            "min_ns": 1107688,
+            "max_ns": 1149997.75,
+            "payload_bytes": 4128
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 114.615234375,
+            "min_ns": 114.228515625,
+            "max_ns": 115.3046875,
+            "payload_bytes": 256
+          },
+          "ring1": {
+            "median_ns": 255.318359375,
+            "min_ns": 254.865234375,
+            "max_ns": 281.203125,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 417.0244140625,
+            "min_ns": 412.001953125,
+            "max_ns": 417.3671875,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 3630.2509765625,
+            "min_ns": 3607.44140625,
+            "max_ns": 4291.146484375,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 255.318359375,
+            "min_ns": 254.865234375,
+            "max_ns": 281.203125,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 417.0244140625,
+            "min_ns": 412.001953125,
+            "max_ns": 417.3671875,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 3630.2509765625,
+            "min_ns": 3607.44140625,
+            "max_ns": 4291.146484375,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 479.1708984375,
+            "min_ns": 472.330078125,
+            "max_ns": 514.447265625,
+            "payload_bytes": 33024
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 129580.125,
+            "min_ns": 128470.25,
+            "max_ns": 131842.75,
+            "payload_bytes": 256
+          },
+          "ring1": {
+            "median_ns": 816570.75,
+            "min_ns": 815452.25,
+            "max_ns": 820252.25,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 1643958.875,
+            "min_ns": 1637283.5,
+            "max_ns": 1680185.75,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 3716839.25,
+            "min_ns": 3711376.75,
+            "max_ns": 3744395.5,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 816570.75,
+            "min_ns": 815452.25,
+            "max_ns": 820252.25,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 1643958.875,
+            "min_ns": 1637283.5,
+            "max_ns": 1680185.75,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 3716839.25,
+            "min_ns": 3711376.75,
+            "max_ns": 3744395.5,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 1658526.375,
+            "min_ns": 1629949.75,
+            "max_ns": 1665365,
+            "payload_bytes": 33024
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 115.03515625,
+            "min_ns": 114.591796875,
+            "max_ns": 115.8359375,
+            "payload_bytes": 1024
+          },
+          "ring1": {
+            "median_ns": 318.3955078125,
+            "min_ns": 314.978515625,
+            "max_ns": 320.9453125,
+            "payload_bytes": 5120
+          },
+          "ring32": {
+            "median_ns": 486.556640625,
+            "min_ns": 485.15234375,
+            "max_ns": 489.642578125,
+            "payload_bytes": 132096
+          },
+          "hrw": {
+            "median_ns": 14433.001953125,
+            "min_ns": 14415.98828125,
+            "max_ns": 14756.880859375,
+            "payload_bytes": 1024
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 318.3955078125,
+            "min_ns": 314.978515625,
+            "max_ns": 320.9453125,
+            "payload_bytes": 5120
+          },
+          "ring32": {
+            "median_ns": 486.556640625,
+            "min_ns": 485.15234375,
+            "max_ns": 489.642578125,
+            "payload_bytes": 132096
+          },
+          "hrw": {
+            "median_ns": 14433.001953125,
+            "min_ns": 14415.98828125,
+            "max_ns": 14756.880859375,
+            "payload_bytes": 1024
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 547.7509765625,
+            "min_ns": 541.8125,
+            "max_ns": 584.896484375,
+            "payload_bytes": 132096
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 132077.125,
+            "min_ns": 129243,
+            "max_ns": 141013.25,
+            "payload_bytes": 1024
+          },
+          "ring1": {
+            "median_ns": 1132315.125,
+            "min_ns": 1119340.25,
+            "max_ns": 1148044.5,
+            "payload_bytes": 5120
+          },
+          "ring32": {
+            "median_ns": 2403626.125,
+            "min_ns": 2390305.5,
+            "max_ns": 2428319.75,
+            "payload_bytes": 132096
+          },
+          "hrw": {
+            "median_ns": 14767274.5,
+            "min_ns": 14739308.75,
+            "max_ns": 14779346.75,
+            "payload_bytes": 1024
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 1132315.125,
+            "min_ns": 1119340.25,
+            "max_ns": 1148044.5,
+            "payload_bytes": 5120
+          },
+          "ring32": {
+            "median_ns": 2403626.125,
+            "min_ns": 2390305.5,
+            "max_ns": 2428319.75,
+            "payload_bytes": 132096
+          },
+          "hrw": {
+            "median_ns": 14767274.5,
+            "min_ns": 14739308.75,
+            "max_ns": 14779346.75,
+            "payload_bytes": 1024
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 2386802.125,
+            "min_ns": 2377851.75,
+            "max_ns": 2397716.75,
+            "payload_bytes": 132096
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 13648.5,
+            "min_ns": 13503.25,
+            "max_ns": 13724,
+            "payload_bytes": 256
+          },
+          "ring1": {
+            "median_ns": 85285.125,
+            "min_ns": 85039.75,
+            "max_ns": 86221.25,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 123538.25,
+            "min_ns": 122861.25,
+            "max_ns": 124942,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 460283.0,
+            "min_ns": 459579.75,
+            "max_ns": 460923.25,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 85285.125,
+            "min_ns": 85039.75,
+            "max_ns": 86221.25,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 123538.25,
+            "min_ns": 122861.25,
+            "max_ns": 124942,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 460283.0,
+            "min_ns": 459579.75,
+            "max_ns": 460923.25,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 131240.125,
+            "min_ns": 130712,
+            "max_ns": 134516.25,
+            "payload_bytes": 33024
+          }
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "build",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "unresolved",
+        "stats": {
+          "modulo": {
+            "median_ns": 26.61328125,
+            "min_ns": 26.51953125,
+            "max_ns": 26.685546875,
+            "payload_bytes": 32
+          },
+          "ring1": {
+            "median_ns": 64.015625,
+            "min_ns": 63.58984375,
+            "max_ns": 65.03125,
+            "payload_bytes": 160
+          },
+          "ring32": {
+            "median_ns": 1676.740234375,
+            "min_ns": 1659.392578125,
+            "max_ns": 1725.4375,
+            "payload_bytes": 4128
+          },
+          "hrw": {
+            "median_ns": 26.669921875,
+            "min_ns": 26.38671875,
+            "max_ns": 26.8203125,
+            "payload_bytes": 32
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "build",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "unresolved",
+        "stats": {
+          "modulo": {
+            "median_ns": 54.0546875,
+            "min_ns": 53.716796875,
+            "max_ns": 77.431640625,
+            "payload_bytes": 256
+          },
+          "ring1": {
+            "median_ns": 416.767578125,
+            "min_ns": 410.203125,
+            "max_ns": 439.396484375,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 17778.34765625,
+            "min_ns": 17729.48046875,
+            "max_ns": 17884.19140625,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 54.0361328125,
+            "min_ns": 53.328125,
+            "max_ns": 55.0625,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "build",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "unresolved",
+        "stats": {
+          "modulo": {
+            "median_ns": 139.365234375,
+            "min_ns": 138.03125,
+            "max_ns": 159.583984375,
+            "payload_bytes": 1024
+          },
+          "ring1": {
+            "median_ns": 1978.5654296875,
+            "min_ns": 1957.03515625,
+            "max_ns": 2099.970703125,
+            "payload_bytes": 5120
+          },
+          "ring32": {
+            "median_ns": 96164.0361328125,
+            "min_ns": 95955.919921875,
+            "max_ns": 96485.255859375,
+            "payload_bytes": 132096
+          },
+          "hrw": {
+            "median_ns": 138.625,
+            "min_ns": 138.23828125,
+            "max_ns": 141.791015625,
+            "payload_bytes": 1024
+          }
+        }
+      }
+    ],
+    "ledgers": [
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "modulo",
+        "max_count": 10,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9310344827586207,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 22,
+          "key_fraction": 0.6875,
+          "weighted_fraction": 0.9686520376175548
+        },
+        "removed": {
+          "keys": 23,
+          "key_fraction": 0.71875,
+          "weighted_fraction": 0.9717868338557993
+        },
+        "replaced": {
+          "keys": 27,
+          "key_fraction": 0.84375,
+          "weighted_fraction": 0.9843260188087775
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "ring1",
+        "max_count": 22,
+        "count_ratio": 2.75,
+        "max_work_fraction": 0.9122257053291536,
+        "reference_token_visits": 32,
+        "added": {
+          "keys": 2,
+          "key_fraction": 0.0625,
+          "weighted_fraction": 0.006269592476489028
+        },
+        "removed": {
+          "keys": 4,
+          "key_fraction": 0.125,
+          "weighted_fraction": 0.012539184952978056
+        },
+        "replaced": {
+          "keys": 6,
+          "key_fraction": 0.1875,
+          "weighted_fraction": 0.018808777429467086
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "ring32",
+        "max_count": 14,
+        "count_ratio": 1.75,
+        "max_work_fraction": 0.9435736677115988,
+        "reference_token_visits": 32,
+        "added": {
+          "keys": 9,
+          "key_fraction": 0.28125,
+          "weighted_fraction": 0.02821316614420063
+        },
+        "removed": {
+          "keys": 14,
+          "key_fraction": 0.4375,
+          "weighted_fraction": 0.9435736677115988
+        },
+        "replaced": {
+          "keys": 17,
+          "key_fraction": 0.53125,
+          "weighted_fraction": 0.9529780564263323
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "hrw",
+        "max_count": 10,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9310344827586207,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 7,
+          "key_fraction": 0.21875,
+          "weighted_fraction": 0.0219435736677116
+        },
+        "removed": {
+          "keys": 6,
+          "key_fraction": 0.1875,
+          "weighted_fraction": 0.018808777429467086
+        },
+        "replaced": {
+          "keys": 12,
+          "key_fraction": 0.375,
+          "weighted_fraction": 0.03761755485893417
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "bounded",
+        "max_count": 10,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9310344827586207,
+        "reference_token_visits": 37,
+        "added": {
+          "keys": 10,
+          "key_fraction": 0.3125,
+          "weighted_fraction": 0.03134796238244514
+        },
+        "removed": {
+          "keys": 10,
+          "key_fraction": 0.3125,
+          "weighted_fraction": 0.9310344827586207
+        },
+        "replaced": {
+          "keys": 15,
+          "key_fraction": 0.46875,
+          "weighted_fraction": 0.9467084639498433
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "modulo",
+        "max_count": 8214,
+        "count_ratio": 1.002685546875,
+        "max_work_fraction": 0.9250089264188428,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 26207,
+          "key_fraction": 0.799774169921875,
+          "weighted_fraction": 0.9799773558879269
+        },
+        "removed": {
+          "keys": 24654,
+          "key_fraction": 0.75238037109375,
+          "weighted_fraction": 0.9752379615416307
+        },
+        "replaced": {
+          "keys": 24611,
+          "key_fraction": 0.751068115234375,
+          "weighted_fraction": 0.9751067355552232
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "ring1",
+        "max_count": 22035,
+        "count_ratio": 2.6898193359375,
+        "max_work_fraction": 0.9173886639058346,
+        "reference_token_visits": 32768,
+        "added": {
+          "keys": 2932,
+          "key_fraction": 0.0894775390625,
+          "weighted_fraction": 0.00894778121271122
+        },
+        "removed": {
+          "keys": 1709,
+          "key_fraction": 0.052154541015625,
+          "weighted_fraction": 0.005215470017913873
+        },
+        "replaced": {
+          "keys": 4641,
+          "key_fraction": 0.141632080078125,
+          "weighted_fraction": 0.014163251230625094
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "ring32",
+        "max_count": 10837,
+        "count_ratio": 1.3228759765625,
+        "max_work_fraction": 0.9330716951650854,
+        "reference_token_visits": 32768,
+        "added": {
+          "keys": 7871,
+          "key_fraction": 0.240203857421875,
+          "weighted_fraction": 0.024020459046811056
+        },
+        "removed": {
+          "keys": 10837,
+          "key_fraction": 0.330718994140625,
+          "weighted_fraction": 0.9330716951650854
+        },
+        "replaced": {
+          "keys": 14697,
+          "key_fraction": 0.448516845703125,
+          "weighted_fraction": 0.9448515162704965
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "hrw",
+        "max_count": 8372,
+        "count_ratio": 1.02197265625,
+        "max_work_fraction": 0.925143204172376,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 6431,
+          "key_fraction": 0.196258544921875,
+          "weighted_fraction": 0.019625914385725054
+        },
+        "removed": {
+          "keys": 8007,
+          "key_fraction": 0.244354248046875,
+          "weighted_fraction": 0.024435499375913623
+        },
+        "replaced": {
+          "keys": 12847,
+          "key_fraction": 0.392059326171875,
+          "weighted_fraction": 0.03920605226456379
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "bounded",
+        "max_count": 10240,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9312497901910101,
+        "reference_token_visits": 33498,
+        "added": {
+          "keys": 8232,
+          "key_fraction": 0.251220703125,
+          "weighted_fraction": 0.02512214697920831
+        },
+        "removed": {
+          "keys": 10240,
+          "key_fraction": 0.3125,
+          "weighted_fraction": 0.9312497901910101
+        },
+        "replaced": {
+          "keys": 14397,
+          "key_fraction": 0.439361572265625,
+          "weighted_fraction": 0.9439359861327702
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "modulo",
+        "max_count": 4,
+        "count_ratio": 4.0,
+        "max_work_fraction": 0.9122257053291536,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 30,
+          "key_fraction": 0.9375,
+          "weighted_fraction": 0.09404388714733543
+        },
+        "removed": {
+          "keys": 30,
+          "key_fraction": 0.9375,
+          "weighted_fraction": 0.9937304075235109
+        },
+        "replaced": {
+          "keys": 32,
+          "key_fraction": 1.0,
+          "weighted_fraction": 1.0
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "ring1",
+        "max_count": 6,
+        "count_ratio": 6.0,
+        "max_work_fraction": 0.9028213166144201,
+        "reference_token_visits": 32,
+        "added": {
+          "keys": 2,
+          "key_fraction": 0.0625,
+          "weighted_fraction": 0.006269592476489028
+        },
+        "removed": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "replaced": {
+          "keys": 3,
+          "key_fraction": 0.09375,
+          "weighted_fraction": 0.009404388714733543
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "ring32",
+        "max_count": 4,
+        "count_ratio": 4.0,
+        "max_work_fraction": 0.9059561128526645,
+        "reference_token_visits": 32,
+        "added": {
+          "keys": 3,
+          "key_fraction": 0.09375,
+          "weighted_fraction": 0.009404388714733543
+        },
+        "removed": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "replaced": {
+          "keys": 4,
+          "key_fraction": 0.125,
+          "weighted_fraction": 0.012539184952978056
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "hrw",
+        "max_count": 4,
+        "count_ratio": 4.0,
+        "max_work_fraction": 0.9059561128526645,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "removed": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "replaced": {
+          "keys": 2,
+          "key_fraction": 0.0625,
+          "weighted_fraction": 0.006269592476489028
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "bounded",
+        "max_count": 2,
+        "count_ratio": 2.0,
+        "max_work_fraction": 0.9059561128526645,
+        "reference_token_visits": 36,
+        "added": {
+          "keys": 2,
+          "key_fraction": 0.0625,
+          "weighted_fraction": 0.006269592476489028
+        },
+        "removed": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "replaced": {
+          "keys": 3,
+          "key_fraction": 0.09375,
+          "weighted_fraction": 0.009404388714733543
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "modulo",
+        "max_count": 1098,
+        "count_ratio": 1.072265625,
+        "max_work_fraction": 0.9030880831545507,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 31751,
+          "key_fraction": 0.968963623046875,
+          "weighted_fraction": 0.09689665800982059
+        },
+        "removed": {
+          "keys": 31760,
+          "key_fraction": 0.96923828125,
+          "weighted_fraction": 0.9969238187372398
+        },
+        "replaced": {
+          "keys": 31779,
+          "key_fraction": 0.969818115234375,
+          "weighted_fraction": 0.9969818023126291
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "ring1",
+        "max_count": 4795,
+        "count_ratio": 4.6826171875,
+        "max_work_fraction": 0.9059109677458732,
+        "reference_token_visits": 32768,
+        "added": {
+          "keys": 590,
+          "key_fraction": 0.01800537109375,
+          "weighted_fraction": 0.001800542604194959
+        },
+        "removed": {
+          "keys": 393,
+          "key_fraction": 0.011993408203125,
+          "weighted_fraction": 0.001199344480421388
+        },
+        "replaced": {
+          "keys": 983,
+          "key_fraction": 0.029998779296875,
+          "weighted_fraction": 0.002999887084616347
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "ring32",
+        "max_count": 1509,
+        "count_ratio": 1.4736328125,
+        "max_work_fraction": 0.9024105908526332,
+        "reference_token_visits": 32768,
+        "added": {
+          "keys": 843,
+          "key_fraction": 0.025726318359375,
+          "weighted_fraction": 0.0025726396870107636
+        },
+        "removed": {
+          "keys": 1261,
+          "key_fraction": 0.038482666015625,
+          "weighted_fraction": 0.003848278345576006
+        },
+        "replaced": {
+          "keys": 2104,
+          "key_fraction": 0.064208984375,
+          "weighted_fraction": 0.0064209180325867695
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "hrw",
+        "max_count": 1082,
+        "count_ratio": 1.056640625,
+        "max_work_fraction": 0.9031124972915566,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 1040,
+          "key_fraction": 0.03173828125,
+          "weighted_fraction": 0.0031738378107843347
+        },
+        "removed": {
+          "keys": 1009,
+          "key_fraction": 0.030792236328125,
+          "weighted_fraction": 0.0030792330298859555
+        },
+        "replaced": {
+          "keys": 2023,
+          "key_fraction": 0.061737060546875,
+          "weighted_fraction": 0.006173724895400682
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "bounded",
+        "max_count": 1280,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9024289014553878,
+        "reference_token_visits": 33243,
+        "added": {
+          "keys": 1011,
+          "key_fraction": 0.030853271484375,
+          "weighted_fraction": 0.003085336564137464
+        },
+        "removed": {
+          "keys": 1498,
+          "key_fraction": 0.04571533203125,
+          "weighted_fraction": 0.004571547154379744
+        },
+        "replaced": {
+          "keys": 2475,
+          "key_fraction": 0.075531005859375,
+          "weighted_fraction": 0.007553123636241566
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "modulo",
+        "max_count": 2,
+        "count_ratio": 8.0,
+        "max_work_fraction": 0.9028213166144201,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 31,
+          "key_fraction": 0.96875,
+          "weighted_fraction": 0.9968652037617555
+        },
+        "removed": {
+          "keys": 32,
+          "key_fraction": 1.0,
+          "weighted_fraction": 1.0
+        },
+        "replaced": {
+          "keys": 32,
+          "key_fraction": 1.0,
+          "weighted_fraction": 1.0
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "ring1",
+        "max_count": 3,
+        "count_ratio": 12.0,
+        "max_work_fraction": 0.9028213166144201,
+        "reference_token_visits": 32,
+        "added": {
+          "keys": 0,
+          "key_fraction": 0.0,
+          "weighted_fraction": 0.0
+        },
+        "removed": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "replaced": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "ring32",
+        "max_count": 2,
+        "count_ratio": 8.0,
+        "max_work_fraction": 0.9028213166144201,
+        "reference_token_visits": 32,
+        "added": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "removed": {
+          "keys": 0,
+          "key_fraction": 0.0,
+          "weighted_fraction": 0.0
+        },
+        "replaced": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "hrw",
+        "max_count": 2,
+        "count_ratio": 8.0,
+        "max_work_fraction": 0.9059561128526645,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 0,
+          "key_fraction": 0.0,
+          "weighted_fraction": 0.0
+        },
+        "removed": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "replaced": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "bounded",
+        "max_count": 1,
+        "count_ratio": 4.0,
+        "max_work_fraction": 0.9028213166144201,
+        "reference_token_visits": 35,
+        "added": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "removed": {
+          "keys": 0,
+          "key_fraction": 0.0,
+          "weighted_fraction": 0.0
+        },
+        "replaced": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "modulo",
+        "max_count": 302,
+        "count_ratio": 1.1796875,
+        "max_work_fraction": 0.900762636604726,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 32470,
+          "key_fraction": 0.99090576171875,
+          "weighted_fraction": 0.9990905733965253
+        },
+        "removed": {
+          "keys": 32536,
+          "key_fraction": 0.992919921875,
+          "weighted_fraction": 0.999291990026825
+        },
+        "replaced": {
+          "keys": 32512,
+          "key_fraction": 0.9921875,
+          "weighted_fraction": 0.999218747615807
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "ring1",
+        "max_count": 1239,
+        "count_ratio": 4.83984375,
+        "max_work_fraction": 0.9002102667549645,
+        "reference_token_visits": 32768,
+        "added": {
+          "keys": 322,
+          "key_fraction": 0.00982666015625,
+          "weighted_fraction": 0.000982669014492842
+        },
+        "removed": {
+          "keys": 393,
+          "key_fraction": 0.011993408203125,
+          "weighted_fraction": 0.001199344480421388
+        },
+        "replaced": {
+          "keys": 715,
+          "key_fraction": 0.021820068359375,
+          "weighted_fraction": 0.0021820134949142303
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "ring32",
+        "max_count": 382,
+        "count_ratio": 1.4921875,
+        "max_work_fraction": 0.9006924459608336,
+        "reference_token_visits": 32768,
+        "added": {
+          "keys": 220,
+          "key_fraction": 0.0067138671875,
+          "weighted_fraction": 0.0006713887676659169
+        },
+        "removed": {
+          "keys": 299,
+          "key_fraction": 0.009124755859375,
+          "weighted_fraction": 0.0009124783706004962
+        },
+        "replaced": {
+          "keys": 519,
+          "key_fraction": 0.015838623046875,
+          "weighted_fraction": 0.0015838671382664132
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "hrw",
+        "max_count": 291,
+        "count_ratio": 1.13671875,
+        "max_work_fraction": 0.9006802388923306,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 264,
+          "key_fraction": 0.008056640625,
+          "weighted_fraction": 0.0008056665211991004
+        },
+        "removed": {
+          "keys": 265,
+          "key_fraction": 0.008087158203125,
+          "weighted_fraction": 0.0008087182883248545
+        },
+        "replaced": {
+          "keys": 527,
+          "key_fraction": 0.016082763671875,
+          "weighted_fraction": 0.0016082812752724466
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "bounded",
+        "max_count": 320,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9007046530293367,
+        "reference_token_visits": 33158,
+        "added": {
+          "keys": 286,
+          "key_fraction": 0.00872802734375,
+          "weighted_fraction": 0.000872805397965692
+        },
+        "removed": {
+          "keys": 367,
+          "key_fraction": 0.011199951171875,
+          "weighted_fraction": 0.0011199985351517795
+        },
+        "replaced": {
+          "keys": 600,
+          "key_fraction": 0.018310546875,
+          "weighted_fraction": 0.0018310602754525007
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "candidate": "modulo",
+        "max_count": 157,
+        "count_ratio": 1.2265625,
+        "max_work_fraction": 0.9032691227813179,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 3973,
+          "key_fraction": 0.969970703125,
+          "weighted_fraction": 0.996996996996997
+        },
+        "removed": {
+          "keys": 3951,
+          "key_fraction": 0.964599609375,
+          "weighted_fraction": 0.996459874508655
+        },
+        "replaced": {
+          "keys": 3958,
+          "key_fraction": 0.96630859375,
+          "weighted_fraction": 0.996630777118582
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "candidate": "ring1",
+        "max_count": 962,
+        "count_ratio": 7.515625,
+        "max_work_fraction": 0.905393198076125,
+        "reference_token_visits": 4096,
+        "added": {
+          "keys": 32,
+          "key_fraction": 0.0078125,
+          "weighted_fraction": 0.0007812690739520008
+        },
+        "removed": {
+          "keys": 0,
+          "key_fraction": 0.0,
+          "weighted_fraction": 0.0
+        },
+        "replaced": {
+          "keys": 32,
+          "key_fraction": 0.0078125,
+          "weighted_fraction": 0.0007812690739520008
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "candidate": "ring32",
+        "max_count": 4096,
+        "count_ratio": 32.0,
+        "max_work_fraction": 1.0,
+        "reference_token_visits": 4096,
+        "added": {
+          "keys": 122,
+          "key_fraction": 0.02978515625,
+          "weighted_fraction": 0.002978588344442003
+        },
+        "removed": {
+          "keys": 0,
+          "key_fraction": 0.0,
+          "weighted_fraction": 0.0
+        },
+        "replaced": {
+          "keys": 122,
+          "key_fraction": 0.02978515625,
+          "weighted_fraction": 0.002978588344442003
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "candidate": "hrw",
+        "max_count": 150,
+        "count_ratio": 1.171875,
+        "max_work_fraction": 0.9034644400498059,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 135,
+          "key_fraction": 0.032958984375,
+          "weighted_fraction": 0.0032959789057350032
+        },
+        "removed": {
+          "keys": 115,
+          "key_fraction": 0.028076171875,
+          "weighted_fraction": 0.002807685734515003
+        },
+        "replaced": {
+          "keys": 248,
+          "key_fraction": 0.060546875,
+          "weighted_fraction": 0.006054835323128006
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "candidate": "bounded",
+        "max_count": 160,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9039039039039038,
+        "reference_token_visits": 10579,
+        "added": {
+          "keys": 272,
+          "key_fraction": 0.06640625,
+          "weighted_fraction": 0.006640787128592006
+        },
+        "removed": {
+          "keys": 416,
+          "key_fraction": 0.1015625,
+          "weighted_fraction": 0.01015649796137601
+        },
+        "replaced": {
+          "keys": 305,
+          "key_fraction": 0.074462890625,
+          "weighted_fraction": 0.007446470861105008
+        }
+      }
+    ],
+    "aa_ratios": [
+      1.0100379152098893,
+      0.9831430215021073,
+      0.9993530899913563,
+      0.9407006207285955,
+      0.9959072485464417,
+      1.0048332494290313
+    ],
+    "main_processes": 282,
+    "warmups": 47,
+    "aa_processes": 12,
+    "criterion": "six balanced process blocks, all paired differences >5%, descriptive screen"
+  },
+  "x86": {
+    "cells": [
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 106.962890625,
+            "min_ns": 105.587890625,
+            "max_ns": 136.564453125,
+            "payload_bytes": 32
+          },
+          "ring1": {
+            "median_ns": 151.6630859375,
+            "min_ns": 151.142578125,
+            "max_ns": 152.755859375,
+            "payload_bytes": 160
+          },
+          "ring32": {
+            "median_ns": 353.1865234375,
+            "min_ns": 352.34375,
+            "max_ns": 354.435546875,
+            "payload_bytes": 4128
+          },
+          "hrw": {
+            "median_ns": 409.373046875,
+            "min_ns": 405.765625,
+            "max_ns": 428.439453125,
+            "payload_bytes": 32
+          }
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 151.6630859375,
+            "min_ns": 151.142578125,
+            "max_ns": 152.755859375,
+            "payload_bytes": 160
+          },
+          "ring32": {
+            "median_ns": 353.1865234375,
+            "min_ns": 352.34375,
+            "max_ns": 354.435546875,
+            "payload_bytes": 4128
+          },
+          "hrw": {
+            "median_ns": 409.373046875,
+            "min_ns": 405.765625,
+            "max_ns": 428.439453125,
+            "payload_bytes": 32
+          }
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 416.1064453125,
+            "min_ns": 414.552734375,
+            "max_ns": 422.611328125,
+            "payload_bytes": 4128
+          }
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 136390.875,
+            "min_ns": 135472,
+            "max_ns": 144283.75,
+            "payload_bytes": 32
+          },
+          "ring1": {
+            "median_ns": 182788.75,
+            "min_ns": 179129.75,
+            "max_ns": 188599.5,
+            "payload_bytes": 160
+          },
+          "ring32": {
+            "median_ns": 381896.0,
+            "min_ns": 377820,
+            "max_ns": 387356.25,
+            "payload_bytes": 4128
+          },
+          "hrw": {
+            "median_ns": 885227.0,
+            "min_ns": 883192.5,
+            "max_ns": 900270.5,
+            "payload_bytes": 32
+          }
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 182788.75,
+            "min_ns": 179129.75,
+            "max_ns": 188599.5,
+            "payload_bytes": 160
+          },
+          "ring32": {
+            "median_ns": 381896.0,
+            "min_ns": 377820,
+            "max_ns": 387356.25,
+            "payload_bytes": 4128
+          },
+          "hrw": {
+            "median_ns": 885227.0,
+            "min_ns": 883192.5,
+            "max_ns": 900270.5,
+            "payload_bytes": 32
+          }
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 417125.125,
+            "min_ns": 409037.25,
+            "max_ns": 434397.5,
+            "payload_bytes": 4128
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 106.3955078125,
+            "min_ns": 105.75,
+            "max_ns": 129.72265625,
+            "payload_bytes": 256
+          },
+          "ring1": {
+            "median_ns": 271.755859375,
+            "min_ns": 266.80859375,
+            "max_ns": 285.541015625,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 515.36328125,
+            "min_ns": 514.08984375,
+            "max_ns": 518.98828125,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 2991.9365234375,
+            "min_ns": 2970.900390625,
+            "max_ns": 3025.03515625,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 271.755859375,
+            "min_ns": 266.80859375,
+            "max_ns": 285.541015625,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 515.36328125,
+            "min_ns": 514.08984375,
+            "max_ns": 518.98828125,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 2991.9365234375,
+            "min_ns": 2970.900390625,
+            "max_ns": 3025.03515625,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 593.22265625,
+            "min_ns": 590.724609375,
+            "max_ns": 612.189453125,
+            "payload_bytes": 33024
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 176157.0,
+            "min_ns": 138710,
+            "max_ns": 199464.75,
+            "payload_bytes": 256
+          },
+          "ring1": {
+            "median_ns": 303314.625,
+            "min_ns": 300800.25,
+            "max_ns": 425732.5,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 795623.0,
+            "min_ns": 556206.75,
+            "max_ns": 913979.5,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 4965293.25,
+            "min_ns": 4933259.5,
+            "max_ns": 6629480,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 303314.625,
+            "min_ns": 300800.25,
+            "max_ns": 425732.5,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 795623.0,
+            "min_ns": 556206.75,
+            "max_ns": 913979.5,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 4965293.25,
+            "min_ns": 4933259.5,
+            "max_ns": 6629480,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 741377.125,
+            "min_ns": 589647,
+            "max_ns": 1100055.25,
+            "payload_bytes": 33024
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 105.8701171875,
+            "min_ns": 105.1875,
+            "max_ns": 106.263671875,
+            "payload_bytes": 1024
+          },
+          "ring1": {
+            "median_ns": 353.6591796875,
+            "min_ns": 351.49609375,
+            "max_ns": 533.5234375,
+            "payload_bytes": 5120
+          },
+          "ring32": {
+            "median_ns": 747.5322265625,
+            "min_ns": 738.2109375,
+            "max_ns": 1368.470703125,
+            "payload_bytes": 132096
+          },
+          "hrw": {
+            "median_ns": 12202.1953125,
+            "min_ns": 11930.234375,
+            "max_ns": 13364.796875,
+            "payload_bytes": 1024
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 353.6591796875,
+            "min_ns": 351.49609375,
+            "max_ns": 533.5234375,
+            "payload_bytes": 5120
+          },
+          "ring32": {
+            "median_ns": 747.5322265625,
+            "min_ns": 738.2109375,
+            "max_ns": 1368.470703125,
+            "payload_bytes": 132096
+          },
+          "hrw": {
+            "median_ns": 12202.1953125,
+            "min_ns": 11930.234375,
+            "max_ns": 13364.796875,
+            "payload_bytes": 1024
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 842.2939453125,
+            "min_ns": 837.806640625,
+            "max_ns": 903.875,
+            "payload_bytes": 132096
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 138496.5,
+            "min_ns": 136745.75,
+            "max_ns": 140462.75,
+            "payload_bytes": 1024
+          },
+          "ring1": {
+            "median_ns": 381628.25,
+            "min_ns": 378580.75,
+            "max_ns": 387253.25,
+            "payload_bytes": 5120
+          },
+          "ring32": {
+            "median_ns": 886030.75,
+            "min_ns": 882547.5,
+            "max_ns": 1355769.5,
+            "payload_bytes": 132096
+          },
+          "hrw": {
+            "median_ns": 15306833.5,
+            "min_ns": 15144671,
+            "max_ns": 16037641.25,
+            "payload_bytes": 1024
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 381628.25,
+            "min_ns": 378580.75,
+            "max_ns": 387253.25,
+            "payload_bytes": 5120
+          },
+          "ring32": {
+            "median_ns": 886030.75,
+            "min_ns": 882547.5,
+            "max_ns": 1355769.5,
+            "payload_bytes": 132096
+          },
+          "hrw": {
+            "median_ns": 15306833.5,
+            "min_ns": 15144671,
+            "max_ns": 16037641.25,
+            "payload_bytes": 1024
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 937021.75,
+            "min_ns": 927495.5,
+            "max_ns": 940387.75,
+            "payload_bytes": 132096
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "phase": "batch",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "modulo",
+        "stats": {
+          "modulo": {
+            "median_ns": 15050.375,
+            "min_ns": 14905,
+            "max_ns": 20678,
+            "payload_bytes": 256
+          },
+          "ring1": {
+            "median_ns": 35326.5,
+            "min_ns": 34839.25,
+            "max_ns": 60556,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 67698.0,
+            "min_ns": 67577.75,
+            "max_ns": 68055.75,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 604080.5,
+            "min_ns": 597666.5,
+            "max_ns": 618018.5,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "phase": "batch",
+        "group": [
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "ring1",
+        "stats": {
+          "ring1": {
+            "median_ns": 35326.5,
+            "min_ns": 34839.25,
+            "max_ns": 60556,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 67698.0,
+            "min_ns": 67577.75,
+            "max_ns": 68055.75,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 604080.5,
+            "min_ns": 597666.5,
+            "max_ns": 618018.5,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "phase": "batch",
+        "group": [
+          "bounded"
+        ],
+        "winner": "bounded",
+        "stats": {
+          "bounded": {
+            "median_ns": 105094.0,
+            "min_ns": 103277.25,
+            "max_ns": 106936.75,
+            "payload_bytes": 33024
+          }
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "build",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "unresolved",
+        "stats": {
+          "modulo": {
+            "median_ns": 26.4140625,
+            "min_ns": 25.40234375,
+            "max_ns": 37.59765625,
+            "payload_bytes": 32
+          },
+          "ring1": {
+            "median_ns": 56.228515625,
+            "min_ns": 55.060546875,
+            "max_ns": 74.3046875,
+            "payload_bytes": 160
+          },
+          "ring32": {
+            "median_ns": 1434.30859375,
+            "min_ns": 1405.91796875,
+            "max_ns": 1546.935546875,
+            "payload_bytes": 4128
+          },
+          "hrw": {
+            "median_ns": 25.8193359375,
+            "min_ns": 25.642578125,
+            "max_ns": 26.634765625,
+            "payload_bytes": 32
+          }
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "build",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "unresolved",
+        "stats": {
+          "modulo": {
+            "median_ns": 44.55078125,
+            "min_ns": 43.474609375,
+            "max_ns": 228.5703125,
+            "payload_bytes": 256
+          },
+          "ring1": {
+            "median_ns": 346.48828125,
+            "min_ns": 345.703125,
+            "max_ns": 350.947265625,
+            "payload_bytes": 1280
+          },
+          "ring32": {
+            "median_ns": 14946.4326171875,
+            "min_ns": 14837.083984375,
+            "max_ns": 15549.47265625,
+            "payload_bytes": 33024
+          },
+          "hrw": {
+            "median_ns": 43.6982421875,
+            "min_ns": 43.197265625,
+            "max_ns": 67.2578125,
+            "payload_bytes": 256
+          }
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "phase": "build",
+        "group": [
+          "modulo",
+          "ring1",
+          "ring32",
+          "hrw"
+        ],
+        "winner": "unresolved",
+        "stats": {
+          "modulo": {
+            "median_ns": 106.2529296875,
+            "min_ns": 104.98828125,
+            "max_ns": 106.892578125,
+            "payload_bytes": 1024
+          },
+          "ring1": {
+            "median_ns": 1575.06640625,
+            "min_ns": 1552.66796875,
+            "max_ns": 1589.837890625,
+            "payload_bytes": 5120
+          },
+          "ring32": {
+            "median_ns": 72384.015625,
+            "min_ns": 72108.953125,
+            "max_ns": 75048.392578125,
+            "payload_bytes": 132096
+          },
+          "hrw": {
+            "median_ns": 107.921875,
+            "min_ns": 105.943359375,
+            "max_ns": 110.54296875,
+            "payload_bytes": 1024
+          }
+        }
+      }
+    ],
+    "ledgers": [
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "modulo",
+        "max_count": 10,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9310344827586207,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 22,
+          "key_fraction": 0.6875,
+          "weighted_fraction": 0.9686520376175548
+        },
+        "removed": {
+          "keys": 23,
+          "key_fraction": 0.71875,
+          "weighted_fraction": 0.9717868338557993
+        },
+        "replaced": {
+          "keys": 27,
+          "key_fraction": 0.84375,
+          "weighted_fraction": 0.9843260188087775
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "ring1",
+        "max_count": 22,
+        "count_ratio": 2.75,
+        "max_work_fraction": 0.9122257053291536,
+        "reference_token_visits": 32,
+        "added": {
+          "keys": 2,
+          "key_fraction": 0.0625,
+          "weighted_fraction": 0.006269592476489028
+        },
+        "removed": {
+          "keys": 4,
+          "key_fraction": 0.125,
+          "weighted_fraction": 0.012539184952978056
+        },
+        "replaced": {
+          "keys": 6,
+          "key_fraction": 0.1875,
+          "weighted_fraction": 0.018808777429467086
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "ring32",
+        "max_count": 14,
+        "count_ratio": 1.75,
+        "max_work_fraction": 0.9435736677115988,
+        "reference_token_visits": 32,
+        "added": {
+          "keys": 9,
+          "key_fraction": 0.28125,
+          "weighted_fraction": 0.02821316614420063
+        },
+        "removed": {
+          "keys": 14,
+          "key_fraction": 0.4375,
+          "weighted_fraction": 0.9435736677115988
+        },
+        "replaced": {
+          "keys": 17,
+          "key_fraction": 0.53125,
+          "weighted_fraction": 0.9529780564263323
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "hrw",
+        "max_count": 10,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9310344827586207,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 7,
+          "key_fraction": 0.21875,
+          "weighted_fraction": 0.0219435736677116
+        },
+        "removed": {
+          "keys": 6,
+          "key_fraction": 0.1875,
+          "weighted_fraction": 0.018808777429467086
+        },
+        "replaced": {
+          "keys": 12,
+          "key_fraction": 0.375,
+          "weighted_fraction": 0.03761755485893417
+        }
+      },
+      {
+        "n": 4,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "bounded",
+        "max_count": 10,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9310344827586207,
+        "reference_token_visits": 37,
+        "added": {
+          "keys": 10,
+          "key_fraction": 0.3125,
+          "weighted_fraction": 0.03134796238244514
+        },
+        "removed": {
+          "keys": 10,
+          "key_fraction": 0.3125,
+          "weighted_fraction": 0.9310344827586207
+        },
+        "replaced": {
+          "keys": 15,
+          "key_fraction": 0.46875,
+          "weighted_fraction": 0.9467084639498433
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "modulo",
+        "max_count": 8214,
+        "count_ratio": 1.002685546875,
+        "max_work_fraction": 0.9250089264188428,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 26207,
+          "key_fraction": 0.799774169921875,
+          "weighted_fraction": 0.9799773558879269
+        },
+        "removed": {
+          "keys": 24654,
+          "key_fraction": 0.75238037109375,
+          "weighted_fraction": 0.9752379615416307
+        },
+        "replaced": {
+          "keys": 24611,
+          "key_fraction": 0.751068115234375,
+          "weighted_fraction": 0.9751067355552232
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "ring1",
+        "max_count": 22035,
+        "count_ratio": 2.6898193359375,
+        "max_work_fraction": 0.9173886639058346,
+        "reference_token_visits": 32768,
+        "added": {
+          "keys": 2932,
+          "key_fraction": 0.0894775390625,
+          "weighted_fraction": 0.00894778121271122
+        },
+        "removed": {
+          "keys": 1709,
+          "key_fraction": 0.052154541015625,
+          "weighted_fraction": 0.005215470017913873
+        },
+        "replaced": {
+          "keys": 4641,
+          "key_fraction": 0.141632080078125,
+          "weighted_fraction": 0.014163251230625094
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "ring32",
+        "max_count": 10837,
+        "count_ratio": 1.3228759765625,
+        "max_work_fraction": 0.9330716951650854,
+        "reference_token_visits": 32768,
+        "added": {
+          "keys": 7871,
+          "key_fraction": 0.240203857421875,
+          "weighted_fraction": 0.024020459046811056
+        },
+        "removed": {
+          "keys": 10837,
+          "key_fraction": 0.330718994140625,
+          "weighted_fraction": 0.9330716951650854
+        },
+        "replaced": {
+          "keys": 14697,
+          "key_fraction": 0.448516845703125,
+          "weighted_fraction": 0.9448515162704965
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "hrw",
+        "max_count": 8372,
+        "count_ratio": 1.02197265625,
+        "max_work_fraction": 0.925143204172376,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 6431,
+          "key_fraction": 0.196258544921875,
+          "weighted_fraction": 0.019625914385725054
+        },
+        "removed": {
+          "keys": 8007,
+          "key_fraction": 0.244354248046875,
+          "weighted_fraction": 0.024435499375913623
+        },
+        "replaced": {
+          "keys": 12847,
+          "key_fraction": 0.392059326171875,
+          "weighted_fraction": 0.03920605226456379
+        }
+      },
+      {
+        "n": 4,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "bounded",
+        "max_count": 10240,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9312497901910101,
+        "reference_token_visits": 33498,
+        "added": {
+          "keys": 8232,
+          "key_fraction": 0.251220703125,
+          "weighted_fraction": 0.02512214697920831
+        },
+        "removed": {
+          "keys": 10240,
+          "key_fraction": 0.3125,
+          "weighted_fraction": 0.9312497901910101
+        },
+        "replaced": {
+          "keys": 14397,
+          "key_fraction": 0.439361572265625,
+          "weighted_fraction": 0.9439359861327702
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "modulo",
+        "max_count": 4,
+        "count_ratio": 4.0,
+        "max_work_fraction": 0.9122257053291536,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 30,
+          "key_fraction": 0.9375,
+          "weighted_fraction": 0.09404388714733543
+        },
+        "removed": {
+          "keys": 30,
+          "key_fraction": 0.9375,
+          "weighted_fraction": 0.9937304075235109
+        },
+        "replaced": {
+          "keys": 32,
+          "key_fraction": 1.0,
+          "weighted_fraction": 1.0
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "ring1",
+        "max_count": 6,
+        "count_ratio": 6.0,
+        "max_work_fraction": 0.9028213166144201,
+        "reference_token_visits": 32,
+        "added": {
+          "keys": 2,
+          "key_fraction": 0.0625,
+          "weighted_fraction": 0.006269592476489028
+        },
+        "removed": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "replaced": {
+          "keys": 3,
+          "key_fraction": 0.09375,
+          "weighted_fraction": 0.009404388714733543
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "ring32",
+        "max_count": 4,
+        "count_ratio": 4.0,
+        "max_work_fraction": 0.9059561128526645,
+        "reference_token_visits": 32,
+        "added": {
+          "keys": 3,
+          "key_fraction": 0.09375,
+          "weighted_fraction": 0.009404388714733543
+        },
+        "removed": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "replaced": {
+          "keys": 4,
+          "key_fraction": 0.125,
+          "weighted_fraction": 0.012539184952978056
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "hrw",
+        "max_count": 4,
+        "count_ratio": 4.0,
+        "max_work_fraction": 0.9059561128526645,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "removed": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "replaced": {
+          "keys": 2,
+          "key_fraction": 0.0625,
+          "weighted_fraction": 0.006269592476489028
+        }
+      },
+      {
+        "n": 32,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "bounded",
+        "max_count": 2,
+        "count_ratio": 2.0,
+        "max_work_fraction": 0.9059561128526645,
+        "reference_token_visits": 36,
+        "added": {
+          "keys": 2,
+          "key_fraction": 0.0625,
+          "weighted_fraction": 0.006269592476489028
+        },
+        "removed": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "replaced": {
+          "keys": 3,
+          "key_fraction": 0.09375,
+          "weighted_fraction": 0.009404388714733543
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "modulo",
+        "max_count": 1098,
+        "count_ratio": 1.072265625,
+        "max_work_fraction": 0.9030880831545507,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 31751,
+          "key_fraction": 0.968963623046875,
+          "weighted_fraction": 0.09689665800982059
+        },
+        "removed": {
+          "keys": 31760,
+          "key_fraction": 0.96923828125,
+          "weighted_fraction": 0.9969238187372398
+        },
+        "replaced": {
+          "keys": 31779,
+          "key_fraction": 0.969818115234375,
+          "weighted_fraction": 0.9969818023126291
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "ring1",
+        "max_count": 4795,
+        "count_ratio": 4.6826171875,
+        "max_work_fraction": 0.9059109677458732,
+        "reference_token_visits": 32768,
+        "added": {
+          "keys": 590,
+          "key_fraction": 0.01800537109375,
+          "weighted_fraction": 0.001800542604194959
+        },
+        "removed": {
+          "keys": 393,
+          "key_fraction": 0.011993408203125,
+          "weighted_fraction": 0.001199344480421388
+        },
+        "replaced": {
+          "keys": 983,
+          "key_fraction": 0.029998779296875,
+          "weighted_fraction": 0.002999887084616347
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "ring32",
+        "max_count": 1509,
+        "count_ratio": 1.4736328125,
+        "max_work_fraction": 0.9024105908526332,
+        "reference_token_visits": 32768,
+        "added": {
+          "keys": 843,
+          "key_fraction": 0.025726318359375,
+          "weighted_fraction": 0.0025726396870107636
+        },
+        "removed": {
+          "keys": 1261,
+          "key_fraction": 0.038482666015625,
+          "weighted_fraction": 0.003848278345576006
+        },
+        "replaced": {
+          "keys": 2104,
+          "key_fraction": 0.064208984375,
+          "weighted_fraction": 0.0064209180325867695
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "hrw",
+        "max_count": 1082,
+        "count_ratio": 1.056640625,
+        "max_work_fraction": 0.9031124972915566,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 1040,
+          "key_fraction": 0.03173828125,
+          "weighted_fraction": 0.0031738378107843347
+        },
+        "removed": {
+          "keys": 1009,
+          "key_fraction": 0.030792236328125,
+          "weighted_fraction": 0.0030792330298859555
+        },
+        "replaced": {
+          "keys": 2023,
+          "key_fraction": 0.061737060546875,
+          "weighted_fraction": 0.006173724895400682
+        }
+      },
+      {
+        "n": 32,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "bounded",
+        "max_count": 1280,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9024289014553878,
+        "reference_token_visits": 33243,
+        "added": {
+          "keys": 1011,
+          "key_fraction": 0.030853271484375,
+          "weighted_fraction": 0.003085336564137464
+        },
+        "removed": {
+          "keys": 1498,
+          "key_fraction": 0.04571533203125,
+          "weighted_fraction": 0.004571547154379744
+        },
+        "replaced": {
+          "keys": 2475,
+          "key_fraction": 0.075531005859375,
+          "weighted_fraction": 0.007553123636241566
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "modulo",
+        "max_count": 2,
+        "count_ratio": 8.0,
+        "max_work_fraction": 0.9028213166144201,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 31,
+          "key_fraction": 0.96875,
+          "weighted_fraction": 0.9968652037617555
+        },
+        "removed": {
+          "keys": 32,
+          "key_fraction": 1.0,
+          "weighted_fraction": 1.0
+        },
+        "replaced": {
+          "keys": 32,
+          "key_fraction": 1.0,
+          "weighted_fraction": 1.0
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "ring1",
+        "max_count": 3,
+        "count_ratio": 12.0,
+        "max_work_fraction": 0.9028213166144201,
+        "reference_token_visits": 32,
+        "added": {
+          "keys": 0,
+          "key_fraction": 0.0,
+          "weighted_fraction": 0.0
+        },
+        "removed": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "replaced": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "ring32",
+        "max_count": 2,
+        "count_ratio": 8.0,
+        "max_work_fraction": 0.9028213166144201,
+        "reference_token_visits": 32,
+        "added": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "removed": {
+          "keys": 0,
+          "key_fraction": 0.0,
+          "weighted_fraction": 0.0
+        },
+        "replaced": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "hrw",
+        "max_count": 2,
+        "count_ratio": 8.0,
+        "max_work_fraction": 0.9059561128526645,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 0,
+          "key_fraction": 0.0,
+          "weighted_fraction": 0.0
+        },
+        "removed": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "replaced": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        }
+      },
+      {
+        "n": 128,
+        "k": 32,
+        "shape": "uniform",
+        "candidate": "bounded",
+        "max_count": 1,
+        "count_ratio": 4.0,
+        "max_work_fraction": 0.9028213166144201,
+        "reference_token_visits": 35,
+        "added": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        },
+        "removed": {
+          "keys": 0,
+          "key_fraction": 0.0,
+          "weighted_fraction": 0.0
+        },
+        "replaced": {
+          "keys": 1,
+          "key_fraction": 0.03125,
+          "weighted_fraction": 0.003134796238244514
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "modulo",
+        "max_count": 302,
+        "count_ratio": 1.1796875,
+        "max_work_fraction": 0.900762636604726,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 32470,
+          "key_fraction": 0.99090576171875,
+          "weighted_fraction": 0.9990905733965253
+        },
+        "removed": {
+          "keys": 32536,
+          "key_fraction": 0.992919921875,
+          "weighted_fraction": 0.999291990026825
+        },
+        "replaced": {
+          "keys": 32512,
+          "key_fraction": 0.9921875,
+          "weighted_fraction": 0.999218747615807
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "ring1",
+        "max_count": 1239,
+        "count_ratio": 4.83984375,
+        "max_work_fraction": 0.9002102667549645,
+        "reference_token_visits": 32768,
+        "added": {
+          "keys": 322,
+          "key_fraction": 0.00982666015625,
+          "weighted_fraction": 0.000982669014492842
+        },
+        "removed": {
+          "keys": 393,
+          "key_fraction": 0.011993408203125,
+          "weighted_fraction": 0.001199344480421388
+        },
+        "replaced": {
+          "keys": 715,
+          "key_fraction": 0.021820068359375,
+          "weighted_fraction": 0.0021820134949142303
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "ring32",
+        "max_count": 382,
+        "count_ratio": 1.4921875,
+        "max_work_fraction": 0.9006924459608336,
+        "reference_token_visits": 32768,
+        "added": {
+          "keys": 220,
+          "key_fraction": 0.0067138671875,
+          "weighted_fraction": 0.0006713887676659169
+        },
+        "removed": {
+          "keys": 299,
+          "key_fraction": 0.009124755859375,
+          "weighted_fraction": 0.0009124783706004962
+        },
+        "replaced": {
+          "keys": 519,
+          "key_fraction": 0.015838623046875,
+          "weighted_fraction": 0.0015838671382664132
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "hrw",
+        "max_count": 291,
+        "count_ratio": 1.13671875,
+        "max_work_fraction": 0.9006802388923306,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 264,
+          "key_fraction": 0.008056640625,
+          "weighted_fraction": 0.0008056665211991004
+        },
+        "removed": {
+          "keys": 265,
+          "key_fraction": 0.008087158203125,
+          "weighted_fraction": 0.0008087182883248545
+        },
+        "replaced": {
+          "keys": 527,
+          "key_fraction": 0.016082763671875,
+          "weighted_fraction": 0.0016082812752724466
+        }
+      },
+      {
+        "n": 128,
+        "k": 32768,
+        "shape": "uniform",
+        "candidate": "bounded",
+        "max_count": 320,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9007046530293367,
+        "reference_token_visits": 33158,
+        "added": {
+          "keys": 286,
+          "key_fraction": 0.00872802734375,
+          "weighted_fraction": 0.000872805397965692
+        },
+        "removed": {
+          "keys": 367,
+          "key_fraction": 0.011199951171875,
+          "weighted_fraction": 0.0011199985351517795
+        },
+        "replaced": {
+          "keys": 600,
+          "key_fraction": 0.018310546875,
+          "weighted_fraction": 0.0018310602754525007
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "candidate": "modulo",
+        "max_count": 157,
+        "count_ratio": 1.2265625,
+        "max_work_fraction": 0.9032691227813179,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 3973,
+          "key_fraction": 0.969970703125,
+          "weighted_fraction": 0.996996996996997
+        },
+        "removed": {
+          "keys": 3951,
+          "key_fraction": 0.964599609375,
+          "weighted_fraction": 0.996459874508655
+        },
+        "replaced": {
+          "keys": 3958,
+          "key_fraction": 0.96630859375,
+          "weighted_fraction": 0.996630777118582
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "candidate": "ring1",
+        "max_count": 962,
+        "count_ratio": 7.515625,
+        "max_work_fraction": 0.905393198076125,
+        "reference_token_visits": 4096,
+        "added": {
+          "keys": 32,
+          "key_fraction": 0.0078125,
+          "weighted_fraction": 0.0007812690739520008
+        },
+        "removed": {
+          "keys": 0,
+          "key_fraction": 0.0,
+          "weighted_fraction": 0.0
+        },
+        "replaced": {
+          "keys": 32,
+          "key_fraction": 0.0078125,
+          "weighted_fraction": 0.0007812690739520008
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "candidate": "ring32",
+        "max_count": 4096,
+        "count_ratio": 32.0,
+        "max_work_fraction": 1.0,
+        "reference_token_visits": 4096,
+        "added": {
+          "keys": 122,
+          "key_fraction": 0.02978515625,
+          "weighted_fraction": 0.002978588344442003
+        },
+        "removed": {
+          "keys": 0,
+          "key_fraction": 0.0,
+          "weighted_fraction": 0.0
+        },
+        "replaced": {
+          "keys": 122,
+          "key_fraction": 0.02978515625,
+          "weighted_fraction": 0.002978588344442003
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "candidate": "hrw",
+        "max_count": 150,
+        "count_ratio": 1.171875,
+        "max_work_fraction": 0.9034644400498059,
+        "reference_token_visits": 0,
+        "added": {
+          "keys": 135,
+          "key_fraction": 0.032958984375,
+          "weighted_fraction": 0.0032959789057350032
+        },
+        "removed": {
+          "keys": 115,
+          "key_fraction": 0.028076171875,
+          "weighted_fraction": 0.002807685734515003
+        },
+        "replaced": {
+          "keys": 248,
+          "key_fraction": 0.060546875,
+          "weighted_fraction": 0.006054835323128006
+        }
+      },
+      {
+        "n": 32,
+        "k": 4096,
+        "shape": "cluster",
+        "candidate": "bounded",
+        "max_count": 160,
+        "count_ratio": 1.25,
+        "max_work_fraction": 0.9039039039039038,
+        "reference_token_visits": 10579,
+        "added": {
+          "keys": 272,
+          "key_fraction": 0.06640625,
+          "weighted_fraction": 0.006640787128592006
+        },
+        "removed": {
+          "keys": 416,
+          "key_fraction": 0.1015625,
+          "weighted_fraction": 0.01015649796137601
+        },
+        "replaced": {
+          "keys": 305,
+          "key_fraction": 0.074462890625,
+          "weighted_fraction": 0.007446470861105008
+        }
+      }
+    ],
+    "aa_ratios": [
+      1.0104266991797906,
+      0.9964953742577455,
+      1.001942315688355,
+      0.995148285637119,
+      0.9955170727117965,
+      1.004088180385728
+    ],
+    "main_processes": 282,
+    "warmups": 47,
+    "aa_processes": 12,
+    "criterion": "six balanced process blocks, all paired differences >5%, descriptive screen"
+  }
+}
