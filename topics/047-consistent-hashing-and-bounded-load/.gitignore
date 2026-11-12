@@ -1,0 +1,8 @@
+__pycache__/
+raw/
+placement-lab
+contracts
+unit-tests
+libtopic047_placement.rlib
+results.json
+manifest.json

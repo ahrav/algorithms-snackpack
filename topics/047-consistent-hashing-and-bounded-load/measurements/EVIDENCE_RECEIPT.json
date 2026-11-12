@@ -1,0 +1,7 @@
+{
+  "status": "pending",
+  "required": [
+    "Arm64 exact committed source",
+    "x86-64 exact committed source"
+  ]
+}
