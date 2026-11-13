@@ -62,11 +62,11 @@ pub fn run() -> Result<(), Box<dyn std::error::Error>> {
     }
     let elapsed_ns = start.elapsed().as_nanos();
     let state = c.snapshot();
-    let hit_count = hits.iter().filter(|&&h| h).count();
     let hit_string: String = hits
         .into_iter()
         .map(|h| if h { '1' } else { '0' })
         .collect();
+    let hit_count = hit_string.matches('1').count();
     println!(
         "{{\"policy\":\"{policy_name}\",\"workload\":\"{name}\",\"capacity\":{cap},\"n\":{n},\"universe\":{universe},\"setup_ns\":{setup_ns},\"elapsed_ns\":{elapsed_ns},\"hits\":{hit_count},\"inspections\":{},\"list_operations\":{},\"hit_string\":\"{hit_string}\",\"queues\":{:?},\"slots\":{:?},\"bits\":{:?},\"hand\":{}}}",
         c.inspections, c.list_operations, state.queues, state.slots, state.bits, state.hand

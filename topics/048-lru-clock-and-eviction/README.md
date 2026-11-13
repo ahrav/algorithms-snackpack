@@ -19,7 +19,7 @@ With N requests, M misses, C slots and U possible keys, timestamp LRU costs
 O(N+MC), indexed LRU and segmented LRU cost O(N), and CLOCK has amortized O(N)
 work with an O(C) single eviction. All use O(U+C) metadata for direct lookup.
 Dense-universe lookup removes hashing from this comparison. Sparse identifiers
-require a separately measured index. CLOCK uses Rust's packed Vec<bool>.
+require a separately measured index. CLOCK uses Rust's byte-sized bool entries.
 
 ```text
 capacity 3; trace A B A B | C D E | A B
