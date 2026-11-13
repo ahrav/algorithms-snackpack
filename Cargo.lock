@@ -193,3 +193,7 @@ version = "0.1.0"
 [[package]]
 name = "topic047-placement"
 version = "0.1.0"
+
+[[package]]
+name = "topic048-eviction"
+version = "0.1.0"

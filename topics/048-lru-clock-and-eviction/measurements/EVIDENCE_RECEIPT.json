@@ -1,0 +1,64 @@
+{
+  "frozen_source": "d6d74abc7bd7a437551e04ce13d1dc76d58324be",
+  "hosts": {
+    "arm": {
+      "path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-048/20261113/arm-final.tar.gz",
+      "sha256": "b5e2fe3d07bdf01df562319d7d6a3076b722eeb41b7dd607c5f8c7f8bba4998b",
+      "bytes": 4664323,
+      "members": 953,
+      "processes": 460,
+      "measured": 384,
+      "warmup": 64,
+      "aa": 12,
+      "source_verified": true,
+      "oracle_local_verified": true,
+      "binary_sha256": "4795979cf7b81f8531a9e4451de5c44ff8a37595056ea50ccb658f9f4484eb31",
+      "schedule_sha256": "35cfe76b2384665571db576e0f2d73220acad8bfbbc6134d2e3590e1782f3497",
+      "run_id": "topic048-20261113-arm-final",
+      "source_commit": "d6d74abc7bd7a437551e04ce13d1dc76d58324be",
+      "source_archive_sha256": "2fe0cc051c166f0d76908203d8e639d3f29dc06084cdbff315155f52217025e2",
+      "environment": {
+        "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+        "uname": "Linux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.113-138.209.amzn2023.aarch64 #1 SMP Tue Oct 20 21:58:08 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+        "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+        "pinned_cpus": [
+          0
+        ],
+        "flags": "-C opt-level=3 -C target-cpu=native --edition=2024"
+      },
+      "raw/environment.json_sha256": "52379da867c6923b2cb236dd065cce233bb0eeb238f283bc9de551455cd71062",
+      "source.sha256_sha256": "5a4d278a40a9b43beec2d086b34f10458a3c13faede9d41063c20d50153f1658",
+      "archive_member_hashes": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-048/20261113/arm-members.json"
+    },
+    "x86": {
+      "path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-048/20261113/x86-final.tar.gz",
+      "sha256": "d4421b2d30638acb4fd5bbdb14c63a7116ca6523f1addb49938cc4aed31e2eae",
+      "bytes": 5191094,
+      "members": 953,
+      "processes": 460,
+      "measured": 384,
+      "warmup": 64,
+      "aa": 12,
+      "source_verified": true,
+      "oracle_local_verified": true,
+      "binary_sha256": "8794c36385ee5c0565ec5b2dc857818d6cd6d576ce96d76d82b29a62c288103d",
+      "schedule_sha256": "35cfe76b2384665571db576e0f2d73220acad8bfbbc6134d2e3590e1782f3497",
+      "run_id": "topic048-20261113-x86-final",
+      "source_commit": "d6d74abc7bd7a437551e04ce13d1dc76d58324be",
+      "source_archive_sha256": "2fe0cc051c166f0d76908203d8e639d3f29dc06084cdbff315155f52217025e2",
+      "environment": {
+        "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+        "uname": "Linux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.113-138.209.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Tue Oct 20 21:57:40 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux",
+        "compiler": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+        "pinned_cpus": [
+          0
+        ],
+        "flags": "-C opt-level=3 -C target-cpu=native --edition=2024"
+      },
+      "raw/environment.json_sha256": "6405b50b5e98a9ac380a3a316bb0ae757800f22fbdf79a5137e84bf4b7294a48",
+      "source.sha256_sha256": "5a4d278a40a9b43beec2d086b34f10458a3c13faede9d41063c20d50153f1658",
+      "archive_member_hashes": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-048/20261113/x86-members.json"
+    }
+  },
+  "verification": "Archive SHA-256 and every frozen source file checked. Both host contracts/doctests and all460 process hit streams/state/work counters independently checked again locally. Published executable files must match frozen source."
+}
