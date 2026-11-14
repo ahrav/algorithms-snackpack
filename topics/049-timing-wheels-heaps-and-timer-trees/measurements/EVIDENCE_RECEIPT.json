@@ -1,0 +1,58 @@
+{
+  "frozen_source": "5bcc0b43b9e3ed77ae7b200a121890b38e0a3c4c",
+  "hosts": {
+    "arm": {
+      "path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-049/20261114/arm-native.tar.gz",
+      "sha256": "bcc9094cd2b5ba8e16c5868f4459ca9ba354803806147ee6ee0c6480e69f3461",
+      "bytes": 5887906,
+      "members": 730,
+      "run_id": "topic049-20261114-arm-5bcc0b4",
+      "processes": 348,
+      "measured": 288,
+      "warmup": 48,
+      "aa": 12,
+      "source_commit": "5bcc0b43b9e3ed77ae7b200a121890b38e0a3c4c",
+      "inputs": {
+        "src/lib.rs": "449edd353a233faa13c34a936a093f4dcfbe45b8f85a36e5707297ebb3dd05ad",
+        "examples/replay.rs": "6df584d0d83c999521b144e3bdee95b61de36104e0cf88d68ddb3c06efa41268",
+        "tests/contracts.rs": "f27cf2ed73220dd95310402c65fd37d117e1faf2c2177b602ef72017df8d52b0",
+        "benches/run.py": "368a9edd11d6a146401549912efbfde0b32b0137d055087011cf167171fb09a4",
+        "benches/native.sh": "02034533af4b542c8eb09718b7418ed97dd487bf053865e63c0bfa78e8466939"
+      },
+      "binary_sha256": "93b841489dcd9c1d95e8afe37403bad301bbc1a14a4a2e57ecca3f6fe587d238",
+      "schedule_sha256": "4495a03a84b900bde8f065665f676dc32b466ce660ec6b096b3baab97edc985e",
+      "member_manifest_sha256": "d7abdaca8bdf7a8a64d5255c5e63a4f7b25e8b1aa8345435b5fe6a002c11fac3",
+      "input_manifest_sha256": "c2ba32ccbee39336e2c08e5f42ce23ad64e24cc26d6223ae4c2f86161d4c742f",
+      "environment_sha256": "8471ebb0521eea8937e737b54285ac94088176e1658052bb251d08914cb2af7c",
+      "source_verified": true,
+      "oracle_local_verified": true
+    },
+    "x86": {
+      "path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-049/20261114/x86-native.tar.gz",
+      "sha256": "8859f8a567ce42215cb1c6658078292b31e687c8ec75be9100cc7a2a84c91f85",
+      "bytes": 6728875,
+      "members": 730,
+      "run_id": "topic049-20261114-x86-5bcc0b4",
+      "processes": 348,
+      "measured": 288,
+      "warmup": 48,
+      "aa": 12,
+      "source_commit": "5bcc0b43b9e3ed77ae7b200a121890b38e0a3c4c",
+      "inputs": {
+        "src/lib.rs": "449edd353a233faa13c34a936a093f4dcfbe45b8f85a36e5707297ebb3dd05ad",
+        "examples/replay.rs": "6df584d0d83c999521b144e3bdee95b61de36104e0cf88d68ddb3c06efa41268",
+        "tests/contracts.rs": "f27cf2ed73220dd95310402c65fd37d117e1faf2c2177b602ef72017df8d52b0",
+        "benches/run.py": "368a9edd11d6a146401549912efbfde0b32b0137d055087011cf167171fb09a4",
+        "benches/native.sh": "02034533af4b542c8eb09718b7418ed97dd487bf053865e63c0bfa78e8466939"
+      },
+      "binary_sha256": "323ba8d4bdc47fd9cb64d038b99b349d02d555e428397debb66b62048721c8fd",
+      "schedule_sha256": "4495a03a84b900bde8f065665f676dc32b466ce660ec6b096b3baab97edc985e",
+      "member_manifest_sha256": "1c91e28d64c565e571bdc9c36c525ec51714c4cfcf6fc53ade959102e61545f3",
+      "input_manifest_sha256": "c2ba32ccbee39336e2c08e5f42ce23ad64e24cc26d6223ae4c2f86161d4c742f",
+      "environment_sha256": "c22e1fdea1bd9a72a031d76974f37a5cffa5d97decee4de16061b5f62ab90a79",
+      "source_verified": true,
+      "oracle_local_verified": true
+    }
+  },
+  "verification": "Both archive SHA-256 hashes, every native member manifest, five committed native input files, binary and schedule hashes verified. All348 process outputs per host and all work counters independently verified locally. Three native contract groups pass per host."
+}
