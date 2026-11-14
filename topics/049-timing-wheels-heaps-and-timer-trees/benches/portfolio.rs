@@ -10,7 +10,9 @@ fn main() {
         Candidate::Wheel,
     ] {
         let t = Instant::now();
-        black_box(replay(c, 4096, &events).expect("valid workload"));
+        black_box(
+            replay(black_box(c), black_box(4096), black_box(&events)).expect("valid workload"),
+        );
         println!("{c:?}: {:?}", t.elapsed());
     }
 }

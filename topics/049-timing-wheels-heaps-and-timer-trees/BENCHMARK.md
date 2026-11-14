@@ -1,6 +1,4 @@
-# Benchmark decision
-
-benchmark = true
+benchmark_required: true
 
 Claim: select among four correct finite replay implementations for each declared
 workload/host using per-process nanoseconds per complete replay. Timing includes
@@ -29,6 +27,9 @@ unresolved cells, medians and min/max process ranges. This is an exploratory
 descriptive screen with fixed sample count, no power or confidence claim and no
 population-wide inference. Stop after six blocks. Retain failures and partial
 attempts; a semantic runner/source repair needs a new frozen campaign.
+Each process has a 60 second limit, which TOPIC_049_PROCESS_TIMEOUT_S replaces.
+A timeout, nonzero exit or rejected output is written to attempts.jsonl with its
+status and retained stdout/stderr, and stops the campaign.
 
 Controls: fixed workload/source/runner, CPU0 affinity, native optimization flags,
 same binary for all candidates on each host, separate full-output Python oracle,

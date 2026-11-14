@@ -9,8 +9,7 @@ rustc --edition=2024 --crate-type rlib --crate-name topic_049_timers -C opt-leve
 rustc --edition=2024 -C opt-level=3 -C target-cpu=native examples/replay.rs --extern topic_049_timers=native/libtopic_049_timers.rlib -o native/replay
 rustc --edition=2024 --test tests/contracts.rs --extern topic_049_timers=native/libtopic_049_timers.rlib -o native/contracts
 native/contracts > native/contracts.txt
-rustc --edition=2024 --test src/lib.rs -o native/unit-tests
-native/unit-tests > native/unit-tests.txt
+rustdoc --edition=2024 --test src/lib.rs --extern topic_049_timers=native/libtopic_049_timers.rlib > native/doctest.txt
 rustc --edition=2024 --crate-type rlib --crate-name topic_049_timers -C opt-level=3 -C target-cpu=native --emit=asm src/lib.rs -o native/library.s
 python3 benches/run.py --binary native/replay --out native/results > native/summary.json
 find native -type f ! -name members.sha256 -print0 | sort -z | xargs -0 sha256sum > native/members.sha256

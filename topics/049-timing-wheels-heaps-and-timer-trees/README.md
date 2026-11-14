@@ -1,7 +1,7 @@
 # Timing wheels, heaps, and timer trees
 
 Choose a timer index from its clock, cancellation and deadline distribution.
-Run `cargo test -p topic-049-timers --all-targets` and
+Run `cargo test -p topic-049-timers` and
 `cargo run -p topic-049-timers --release --example replay -- heap 4096 near 90`.
 
 ## Contract
@@ -45,7 +45,7 @@ over the input; ID-array initialization/final-state construction add O(U).
 
 - Scan: O(A+C+UP+sum(e[p] log(e[p]+1))).
 - Heap: O((A+E+S) log(H+1)+C+P), where S is popped stale records.
-- Tree: O((A+C+E) log(L+1)+P).
+- Tree: O((A+C+E+P) log(L+1)); each poll descends to the minimum key.
 - Wheel: O(A+C+T+V+sum(e[p] log(e[p]+1))).
 
 For two IDs armed A@5/B@5, rearm A@9, then poll 5 and 9: U=2,
@@ -66,6 +66,11 @@ large jumps, bounded horizon and monotonic simulated clock.
 Revisit: indexed d-ary heaps, intrusive red-black timer trees, direct-removal
 wheel handles, hierarchical wheels/cascades, empty-slot bitmaps and tick skipping,
 periodic missed-tick/drift policy, concurrent callback admission and real wakeups.
+The next measured revision of this source also has three items. Scan and tree
+keep the (deadline, serial) ID slot they share with heap and wheel: 24 bytes on
+64-bit targets, where the deadline alone takes 8. A same-deadline rearm removes
+and reinserts the tree key. `Work` counters are `usize`; 65,536 IDs polled
+65,536 times reach 2^32 scan inspections, which the 64-bit measured hosts hold.
 The catalog currently supplies title/slug/ID without a coverage array;
 ALGORITHM_INDEX.md is unavailable at the inspected base.
 
