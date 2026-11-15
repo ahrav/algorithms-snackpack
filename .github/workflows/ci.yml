@@ -48,3 +48,6 @@ jobs:
       - run: python3 benches/test_run.py
         working-directory: >-
           topics/049-timing-wheels-heaps-and-timer-trees
+      - run: python3 benches/test_run.py
+        working-directory: >-
+          topics/050-token-buckets-and-rate-accounting
