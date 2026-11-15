@@ -1,7 +1,8 @@
 # Two-host exact-source results
 
-Frozen source: `c88066d26429e0c339ac20cc572b938d2b3ee940`. All five executable inputs match this
-commit and the final publication head. Each host ran 396 fresh processes:
+Frozen source: `c88066d26429e0c339ac20cc572b938d2b3ee940`. All five executable inputs of both
+runs match this commit. At HEAD four are byte-identical and benches/run.py
+differs as listed under Replay. Each host ran 396 fresh processes:
 48 complete-output correctness, 48 warmup, 288 measured, 12 A/A. Every process
 checksum and all 48 full output vectors match the independent ledger. Both
 native contract suites pass. Rust history-oracle tests compare 24,576 candidate
@@ -83,4 +84,23 @@ Inner replays are timing stabilization, not independent samples.
 Extract frozen-source.tar.gz from the retained delivery, then run
 `python3 benches/run.py --source c88066d26429e0c339ac20cc572b938d2b3ee940` on Linux.
 The INPUTS.json in that archive binds source, tests, example, benchmark and runner.
-See BENCHMARK.md for controls and the receipt for raw evidence identities.
+That replay runs the archived runner. See BENCHMARK.md for controls and the
+receipt for raw evidence identities.
+
+The receipt hashes bind the five inputs at c88066d. src/lib.rs and
+benches/replay.rs, the inputs of the measured binary, tests/contracts.rs and
+examples/running.rs are byte-identical at HEAD. benches/run.py keeps the
+schedule, the build commands, the flags and the CPU affinity, and differs from
+the archived runner as follows. It exits at startup when assertions are
+disabled and when raw/ exists; the archived runner reused raw/. It accepts
+`--source` as a 40-digit lowercase commit id. It computes the five input hashes
+itself and requires INPUTS.json, when present, to equal them; the archived
+runner required INPUTS.json and checked the paths that file listed. In a
+checkout it requires each input to equal its blob at the source commit, and it
+records `source_check` (`git` or `label`) in environment.json; the archived
+runner recorded the label as given. It works in the topic directory that holds
+it; the archived runner used the current directory. The archived runs used the
+c88066d checks. `python3 benches/test_run.py` checks the HEAD runner with stub
+processes, and a replay of HEAD on the x86 host under Rust 1.93.0 accepted all
+396 process digests and all 48 complete outputs; that replay is a check of the
+tooling and adds no measurement.

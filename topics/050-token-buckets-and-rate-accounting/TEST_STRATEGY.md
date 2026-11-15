@@ -13,3 +13,9 @@ cost fails the running example; dropping the backward guard fails state
 preservation; narrowing the unguarded multiplication fails maximum arithmetic.
 These are executable contract checks, not an exhaustive interleaving proof.
 Serial scope gives the caller responsibility for synchronization and composition.
+
+Runner: benches/test_run.py runs benches/run.py on stub tools whose answers come
+from a separate per-flow refill simulation. It covers the 396-process schedule,
+a rejecting candidate, disabled assertions, an existing raw/, INPUTS.json
+equality, the commit-id form of `--source` and, in a scratch Git repository,
+equality of each tracked input with its blob at the source commit. CI runs it.

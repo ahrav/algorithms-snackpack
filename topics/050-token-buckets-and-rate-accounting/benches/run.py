@@ -1,8 +1,20 @@
 #!/usr/bin/env python3
 """Exact-source fresh-process screen with an independent accepted-cost ledger."""
-import argparse, hashlib, json, os, platform, statistics, subprocess, time
+import argparse
+import hashlib
+import json
+import os
+import platform
+import re
+import statistics
+import subprocess
+import time
 from pathlib import Path
 
+if not __debug__:
+    raise SystemExit('run.py needs assertions enabled: run it without -O and with PYTHONOPTIMIZE unset')
+
+INPUTS = ['src/lib.rs', 'tests/contracts.rs', 'examples/running.rs', 'benches/replay.rs', 'benches/run.py']
 MODES = ['wide', 'bounded', 'virtual']
 MASK = (1 << 64) - 1
 
@@ -42,13 +54,42 @@ def sha(path):
 def command(args):
     return subprocess.check_output(args, text=True, stderr=subprocess.STDOUT)
 
+def committed(source, name):
+    """Bytes of one input at the source commit, or None when this repository lacks the commit or the path."""
+    blob = subprocess.run(['git', 'cat-file', 'blob', f'{source}^{{commit}}:./{name}'], capture_output=True)
+    return blob.stdout if blob.returncode == 0 else None
+
+def pinned():
+    """The path-to-sha256 object in INPUTS.json, which a frozen-source archive carries; None in a plain checkout."""
+    try:
+        return json.loads(Path('INPUTS.json').read_text())
+    except FileNotFoundError:
+        return None
+    except ValueError as error:
+        raise SystemExit(f'INPUTS.json is not JSON: {error}') from error
+
+def tracked():
+    """True when Git tracks every input in this directory, as in a checkout."""
+    try:
+        return subprocess.run(['git', 'ls-files', '--error-unmatch', '--', *INPUTS], capture_output=True).returncode == 0
+    except OSError:
+        return False
+
 def main():
     p=argparse.ArgumentParser(); p.add_argument('--source',required=True); a=p.parse_args()
-    root=Path('.'); out=root/'raw'; out.mkdir(exist_ok=True)
-    manifest=json.loads(Path('INPUTS.json').read_text())
-    for name, expected in manifest.items(): assert sha(name)==expected, name
+    if not re.fullmatch('[0-9a-f]{40}', a.source):
+        p.error('--source takes a 40-digit lowercase hexadecimal commit id')
+    os.chdir(Path(__file__).resolve().parents[1])
+    inputs={name:sha(name) for name in INPUTS}
+    if pinned() not in (None, inputs):
+        raise SystemExit('INPUTS.json differs from the sha256 of '+', '.join(INPUTS))
+    check='git' if tracked() else 'label'
+    for name in INPUTS if check=='git' else []:
+        if committed(a.source,name)!=Path(name).read_bytes():
+            raise SystemExit(f'{name} differs from commit {a.source}, or this repository lacks that commit')
+    Path('raw').mkdir()
     cpu=min(os.sched_getaffinity(0))
-    env={'source':a.source,'hostname':platform.node(),'uname':command(['uname','-a']), 'cpu':command(['lscpu']), 'rustc':command(['rustc','-Vv']), 'affinity':sorted(os.sched_getaffinity(0)), 'available_cpus':len(os.sched_getaffinity(0)), 'pinned_cpu':cpu, 'flags':['--edition=2024','-O','-C','target-cpu=native'], 'start_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'inputs':manifest}
+    env={'source':a.source,'source_check':check,'hostname':platform.node(),'uname':command(['uname','-a']), 'cpu':command(['lscpu']), 'rustc':command(['rustc','-Vv']), 'affinity':sorted(os.sched_getaffinity(0)), 'available_cpus':len(os.sched_getaffinity(0)), 'pinned_cpu':cpu, 'flags':['--edition=2024','-O','-C','target-cpu=native'], 'start_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'inputs':inputs}
     Path('raw/environment.json').write_text(json.dumps(env,indent=2))
     flags=['--edition=2024','-O','-C','target-cpu=native']
     command(['rustc',*flags,'--crate-name','topic050_rate_accounting','--crate-type','rlib','src/lib.rs','-o','raw/libtopic050_rate_accounting.rlib'])
@@ -89,6 +130,6 @@ def main():
         summary.append({'n':n,'flows':flows,'pattern':pattern,'winner':winners[0] if winners else 'unresolved','ns':{m:{'median':statistics.median(v),'min':min(v),'max':max(v)} for m,v in values.items()}})
     aa=[next(r['ns'] for r in records if r['phase']=='aa-a' and r['block']==b)/next(r['ns'] for r in records if r['phase']=='aa-b' and r['block']==b) for b in range(6)]
     Path('raw/summary.json').write_text(json.dumps({'cells':summary,'aa_ratios':aa,'processes':len(records),'binary_sha256':sha('raw/replay'),'verified':True},indent=2))
-    Path('raw/MANIFEST.json').write_text(json.dumps({str(p):sha(p) for p in out.iterdir() if p.is_file()},indent=2))
+    Path('raw/MANIFEST.json').write_text(json.dumps({str(p):sha(p) for p in Path('raw').iterdir() if p.is_file()},indent=2))
     print(json.dumps({'processes':len(records),'aa':aa,'winners':{m:sum(c['winner']==m for c in summary) for m in MODES+['unresolved']}}))
 if __name__=='__main__': main()

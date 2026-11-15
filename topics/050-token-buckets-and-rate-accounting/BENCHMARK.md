@@ -31,11 +31,19 @@ State storage is size_of(candidate)*F (Vec metadata/allocation overhead excluded
 Inspect emitted assembly for wide arithmetic/division; generated code establishes
 code shape, while hardware causal attribution requires separate measurement.
 
-Replay standalone from this topic directory on Linux:
+Replay on Linux. The runner works in the topic directory that holds it:
 
 ```sh
-python3 benches/run.py --source FROZEN_COMMIT
+python3 benches/run.py --source "$(git rev-parse HEAD)"
 ```
 
-INPUTS.json must contain the frozen path-limited input hashes. Raw output and
-host artifacts live outside Git and are linked by measurements/EVIDENCE_RECEIPT.json.
+`--source` takes a 40-digit lowercase commit id. The runner hashes src/lib.rs,
+tests/contracts.rs, examples/running.rs, benches/replay.rs and benches/run.py
+into environment.json. In a checkout, where Git tracks these five inputs, each
+must equal its blob at the source commit (`source_check: git`). In an extracted
+frozen-source archive the runner records the id as given (`source_check: label`).
+An INPUTS.json in the topic directory, which a frozen-source archive carries,
+must equal the five computed hashes. The runner requires enabled assertions and
+creates raw/ itself: archive raw/ outside the repository and remove it before
+another run. Raw output and host artifacts live outside Git and are linked by
+measurements/EVIDENCE_RECEIPT.json.
