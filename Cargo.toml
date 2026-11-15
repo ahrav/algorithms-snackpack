@@ -7,6 +7,7 @@ publish = false
 
 [workspace]
 members = [
+    "topics/050-token-buckets-and-rate-accounting",
     "topics/049-timing-wheels-heaps-and-timer-trees",
     "topics/048-lru-clock-and-eviction",
     "topics/047-consistent-hashing-and-bounded-load",
