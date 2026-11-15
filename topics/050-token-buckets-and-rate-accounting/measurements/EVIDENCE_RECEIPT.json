@@ -1,0 +1,55 @@
+{
+  "source": "c88066d26429e0c339ac20cc572b938d2b3ee940",
+  "runs": [
+    {
+      "host": "arm",
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-050/20261115/arm-raw.tar.gz",
+      "sha256": "f323a8f768927cb021ab87deb47927875910b24795123e48b6b9f353fc168de2",
+      "bytes": 2696771,
+      "members": 20,
+      "source": "c88066d26429e0c339ac20cc572b938d2b3ee940",
+      "input_hashes": {
+        "src/lib.rs": "9df652a43b1833ad26dee8a9a95423adf46e7679b103903ef1469ef94bfb9d5e",
+        "tests/contracts.rs": "7ac2cbecaf3d14ca00e69d347cdc3a63963c5626138404424c2363f9c8d1c99d",
+        "examples/running.rs": "517491889adeefa6422e57f5f22c6ae610c6be0bcbf812998e75c643c74432b0",
+        "benches/replay.rs": "698d2ce31da6b55e80f3e3f0acd272d9144533983948e5db0d1c5c6c0de2254a",
+        "benches/run.py": "13cc33451805938fb3a6803213bf045b9ed5d486bd457ec1815507820e6dd4a4"
+      },
+      "manifest_sha256": "b10db346a58e8fe7acdacd1122e47991964510a5cef7e5e8e7fa1c4156f4b127",
+      "linked_image_sha256": "dc84f7d8b5d95348de39919befa9669d3dde752070ea4b8bd2340b7ef6918bae",
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01)",
+      "available_cpus": 64,
+      "pinned_cpu": 0,
+      "verification": "archive member hashes, source/runner/binary identity, all oracle checks and process schedule passed"
+    },
+    {
+      "host": "x86",
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-050/20261115/x86-raw.tar.gz",
+      "sha256": "e92b25aa22b84c9535661b91f09aa67a6abf042303a2a4d09ec0f6f5ef2bb886",
+      "bytes": 3211318,
+      "members": 20,
+      "source": "c88066d26429e0c339ac20cc572b938d2b3ee940",
+      "input_hashes": {
+        "src/lib.rs": "9df652a43b1833ad26dee8a9a95423adf46e7679b103903ef1469ef94bfb9d5e",
+        "tests/contracts.rs": "7ac2cbecaf3d14ca00e69d347cdc3a63963c5626138404424c2363f9c8d1c99d",
+        "examples/running.rs": "517491889adeefa6422e57f5f22c6ae610c6be0bcbf812998e75c643c74432b0",
+        "benches/replay.rs": "698d2ce31da6b55e80f3e3f0acd272d9144533983948e5db0d1c5c6c0de2254a",
+        "benches/run.py": "13cc33451805938fb3a6803213bf045b9ed5d486bd457ec1815507820e6dd4a4"
+      },
+      "manifest_sha256": "30b0ad08d9df2135736177046ef13f8db00834f70ff981fdcefd91a77489079d",
+      "linked_image_sha256": "10cd6ec7250c9afe038fa992afe04a2db46a295ea3d546289d69117b05ec5811",
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)",
+      "available_cpus": 192,
+      "pinned_cpu": 0,
+      "verification": "archive member hashes, source/runner/binary identity, all oracle checks and process schedule passed"
+    }
+  ],
+  "visual": {
+    "external": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-050/20261115/accounting.png",
+    "sha256": "059115c03ce94471dcf9da0291105f4f039550c7e82b3365961a00aa6cb06a07"
+  }
+}
