@@ -1,0 +1,34 @@
+{
+  "source": {
+    "commit": "5e33b3ddb2e7570b68a731e3d66fe58dd656cdef",
+    "inputs": {
+      "src/lib.rs": "934b3c128bd459298e09cde33bb6703a4051072d0d84ed5038a2f4424c076a1c",
+      "tests/contracts.rs": "bdeacea182ec6483e40a855236eae4e7870dc5040682df85c53f4463bbc79ef4",
+      "examples/replay.rs": "48466bf571d7857a2b46643e656cfe1942fb7221f7d4579632eb2c732d353b7f",
+      "measure.py": "9f645b3a71ddd39ec3872f872fe9d0160258a419358fe52b17334efb645686ad"
+    }
+  },
+  "verification": "source, archive member hashes, binary identities, full independent outputs and fixed process schedule PASS",
+  "hosts": {
+    "arm": {
+      "archive_path": "/Users/ahrav/Documents/Codex/2026-11-16/algorithms-daily-curriculum-deliver-a-new/outputs/arm-raw.tar.gz",
+      "sha256": "5ec8a1a89278b2064b501f6b7a9159807675ebfbab5db74f004242199a2e50b1",
+      "size": 3473020,
+      "members": 45,
+      "run_id": "topic051-20261116-arm",
+      "manifest_sha256": "836429a68cd3a0dc83709367e2dac20d6efa4a6963d51dacf93d012c6a8d0421",
+      "linked_image_sha256": "34c6383a240782f80f28d6b1960dd4a46ed70ea724a1b38167123741054f71fb",
+      "environment_sha256": "528f4f3a511b611dcc21b664e59b7e6eceb2a01a1d0adb7636510cd5423d286f"
+    },
+    "x86": {
+      "archive_path": "/Users/ahrav/Documents/Codex/2026-11-16/algorithms-daily-curriculum-deliver-a-new/outputs/x86-raw.tar.gz",
+      "sha256": "1084f3570c97b6e6a22e838afe94f026683b5f007bacbf2880127e13891311eb",
+      "size": 4001404,
+      "members": 45,
+      "run_id": "topic051-20261116-x86",
+      "manifest_sha256": "2ad415850f479a171917d015a51d51d23894ce36111bbbed2eb85050ffd0bffb",
+      "linked_image_sha256": "9856de685a9ad9d44840a8cf5b8e8a0423eafdadbeeb628ff2f9570353b30864",
+      "environment_sha256": "fafb06a57f313c2a3b60643b5a0ceae6767740e28ca8a66f5c8faefa149bc7b8"
+    }
+  }
+}
