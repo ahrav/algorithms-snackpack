@@ -7,6 +7,7 @@ over the traces of src/lib.rs `workload`. It shares no code with measure.py's
 free-interval oracle. Run:
 python3 topics/051-buddy-allocation/test_measure.py
 """
+import hashlib
 import json
 import os
 import pathlib
@@ -28,6 +29,8 @@ WRONG = "#!/bin/sh\n" + LOG + 'sed "s/^A 0 1 0$/A 0 1 5/" "$STUB_ANSWERS/$1-$2-$
 FIXED = "#!/bin/sh\n" + LOG + 'cat "$STUB_ANSWER"\n'
 TIMED_FIXED = ("#!/bin/sh\n" + LOG + 'if [ "$4" = check ]; then cat "$STUB_ANSWERS/$1-$2-$3-check"; '
                'else cat "$STUB_ANSWER"; fi\n')
+REBUILT = ("#!/bin/sh\n" + LOG + 'if [ "$(wc -l < "$STUB_LOG")" -eq 10 ]; then echo "# rebuilt" >> "$0"; fi\n'
+           'cat "$STUB_ANSWERS/$1-$2-$3${4:+-check}"\n')
 FAILING = "#!/bin/sh\n" + LOG + "echo 'stub output'\necho 'stub failure' >&2\nexit 3\n"
 HANGING = "#!/bin/sh\n" + LOG + "echo 'partial'\nexec sleep 30\n"
 
@@ -150,6 +153,10 @@ class MeasureTest(unittest.TestCase):
         self.assertEqual(len(records), 1, "the halting attempt is not the one retained record")
         return records[0]
 
+    @staticmethod
+    def results_of(lines):
+        return [int(line.split()[3]) for line in lines]
+
     def launches(self):
         return self.log.read_text().splitlines()
 
@@ -196,9 +203,20 @@ class MeasureTest(unittest.TestCase):
         def changed(**fields):
             return good.replace(json.dumps(summary), json.dumps({**summary, **fields}))
 
+        lines = good.splitlines()
+        mixed = self.check["scan", 64, "mixed"]
+        self.assertEqual(lines[-3], "F 0 0 1")
+        short = [*lines[:-3], "STATE " + json.dumps([1] + [0] * 63),
+                 json.dumps({**summary, "ops": summary["ops"] - 1, "digest": fold(self.results_of(lines[:-3]))})]
         cases = {
             "empty": "",
             "text": "not json\n",
+            "summary only": json.dumps({**summary, "ops": 0, "digest": 0}) + "\n",
+            "last operation missing": "\n".join(short) + "\n",
+            "other trace of equal length": mixed.replace('"shape": "mixed"', '"shape": "tiny"'),
+            "no state": "\n".join(lines[:-2] + lines[-1:]) + "\n",
+            "two states": "\n".join(lines[:-1] + lines[-2:]) + "\n",
+            "ops": changed(ops=summary["ops"] - 1),
             "answer": good.replace("A 0 1 0", "A 0 1 5", 1),
             "failure for address 1": good.replace("A 1 1 1", "A 1 1 -1", 1),
             "state": good.replace("STATE [0", "STATE [1", 1),
@@ -246,6 +264,7 @@ class MeasureTest(unittest.TestCase):
         process = self.start(MODEL)
         self.assertEqual(process.returncode, 0, process.stderr)
         self.assertIn("PASS 24 complete independent-oracle traces; 204 process records", process.stdout)
+        self.assertIn("binary_sha256 " + hashlib.sha256(MODEL.encode()).hexdigest(), process.stdout)
         schedule = declared_schedule()
         self.assertEqual([sum(s[3].startswith(p) for s in schedule) for p in ("check", "warmup", "measure", "AA")],
                          [24, 24, 144, 12])
@@ -260,6 +279,16 @@ class MeasureTest(unittest.TestCase):
         self.assertEqual(sorted(p.name for p in checks.iterdir()),
                          sorted(f"{kind}-{n}-{shape}.txt" for kind in KINDS for n, shape in CELLS))
         self.assertEqual((checks / "tree-4096-holes.txt").read_text(), self.check["tree", 4096, "holes"])
+
+    def test_changed_binary_stops_the_run_before_the_next_launch(self):
+        process = self.start(REBUILT)
+        self.assertNotEqual(process.returncode, 0)
+        self.assertNotIn("PASS", process.stdout)
+        self.assertNotIn("binary_sha256", process.stdout)
+        self.assertIn(hashlib.sha256(REBUILT.encode()).hexdigest(), process.stderr)
+        self.assertEqual([r["status"] for r in self.records()], ["ok"] * 10)
+        self.assertEqual(len(self.launches()), 10)
+        self.assertEqual(self.binary.read_text(), REBUILT + "# rebuilt\n")
 
     def test_refuses_an_existing_results_file(self):
         self.results.parent.mkdir()

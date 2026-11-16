@@ -15,9 +15,11 @@ across candidates, a Python free-interval oracle on every complete trace
 (measure.py), generator domain tables (tests/workload.rs) and stub-process
 tests of the runner (test_measure.py).
 Oracle: hand-computed values for the sequences. For complete traces, measure.py
-keeps disjoint free intervals, splits the selected interval and unions adjacent
-free ranges; it shares no Rust placement helper. For the runner tests, an
-occupancy-map model in test_measure.py that shares no code with that oracle.
+holds its own definition of the four traces and requires each check output to
+be those operations in order. It keeps disjoint free intervals, splits the
+selected interval and unions adjacent free ranges; it shares no Rust code. For
+the runner tests, an occupancy-map model and a separately written trace
+definition in test_measure.py that share no code with measure.py.
 Input/model/schedule domain and bounds: arenas of 8 and 16 units in the
 sequences; 256 histories over 4 IDs with requests 1 and 3; 24 complete traces
 (3 candidates, 64 and 4096 units, tiny/mixed/holes/churn), all checked before
@@ -103,16 +105,19 @@ Comparator: exact vectors for churn, bounds elsewhere.
 Smallest discriminating case: 4 units, where n / 4 - 1 is 0.
 Mutation backstop: each of those four mutants fails at least one of the tests.
 
-test_measure.py (seven tests)
+test_measure.py (eight tests)
 Claim and scope: a failed, timed-out or rejected process leaves one line with
 its status, command, stdout and stderr and stops the run; the runner refuses
-disabled assertions and an existing results file; a timed process agrees with
-its check process; a complete run keeps the declared 204-process order.
+disabled assertions and an existing results file; a check output is the
+declared trace; a timed process agrees with its check process; a changed
+binary stops the run; a complete run keeps the declared 204-process order.
 Plausible violation: the 5e33b3d runner, which lost those attempts, passed a
-wrong candidate under -O and accepted a timed process with a different work.
+wrong candidate under -O, accepted a summary with no operations and a timed
+process with a different work, and ran a rebuilt binary to PASS.
 Observation: result lines, the stub launch log, exit status and checks files.
 Oracle and independence: stub processes answer from the occupancy-map model.
 Comparator: exact record equality for ok lines; exact status, command and
 output for the others.
 Smallest discriminating case: the first process, scan 64 tiny check.
-Mutation backstop: all seven tests fail on the 5e33b3d runner.
+Mutation backstop: all eight tests fail on the 5e33b3d runner. A changed mixed
+or churn term in measure.py's trace fails the complete-run test.

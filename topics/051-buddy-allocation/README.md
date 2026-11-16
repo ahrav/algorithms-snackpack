@@ -51,8 +51,9 @@ Revisit: arbitrary runs and alignment, word/hierarchical bitmaps, intrusive
 constant-time buddy membership, first-sufficient-order placement, reserved holes,
 non-power-of-two arenas, slab frontends and concurrent sharded free lists.
 For the next measured revision: a churn bound check in `workload`, a replay
-digest that keeps the sign of each result, and an untimed replay inside each
-measured process.
+digest that keeps the sign of each result, an untimed replay inside each
+measured process, and A/A arms inside the cell permutation schedule under
+distinct arm labels.
 The authoritative catalog currently supplies no coverage array or algorithm index.
 
 Sources: [Linux physical memory](https://docs.kernel.org/mm/physical_memory.html),

@@ -8,16 +8,37 @@ if not __debug__:
 
 KINDS=['scan','buddy','tree']
 TIMEOUT_S=float(os.environ.get('TOPIC_051_PROCESS_TIMEOUT_S','60'))
-def oracle(text,n):
+def image(path): return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+def trace(n,shape):
+    # Declared operations of one BENCHMARK.md workload, in order: (type, ID, request).
+    if shape=='holes':
+        evens=range(0,n,2)
+        return [('A',i,1) for i in range(n)]+[('F',i,0) for i in evens]+[('A',i,2) for i in evens]+[('F',i,0) for i in range(n)]
+    ops=[];count=8 if shape=='churn' else n//2
+    for rnd in range(8):
+        for i in range(count):
+            if shape=='tiny': r=1
+            elif shape=='mixed': r=(1,3,5,9,17,33)[(i+rnd)%6]
+            elif shape=='churn': r=(n//2-1,3,1,n//4+1)[i%4]
+            else: raise ValueError(shape)
+            ops.append(('A',i,r))
+        ops+=[('F',i,0) for i in range(count-1,-1,-1)]
+    return ops
+def oracle(text,n,shape):
     # Free intervals are split and unioned independently of candidate metadata.
     free=[(0,n)]; live={}; answers=[]
-    for line in text.splitlines():
-        if line.startswith('STATE '):
+    want=trace(n,shape);lines=text.splitlines()
+    # A check output is the declared operations in order, one STATE line and the summary.
+    assert len(lines)==len(want)+2,f'{len(lines)} lines for {len(want)} declared operations'
+    for index,line in enumerate(lines[:-1]):
+        if index==len(want):
+            assert line.startswith('STATE '),line[:40]
             expected=[0]*n
             for a,s in live.values(): expected[a:a+s]=[1]*s
             assert json.loads(line[6:])==expected
-        elif line.startswith(('A ','F ')):
+        else:
             typ,ids,rs,actual=line.split(); i=int(ids);r=int(rs)
+            assert (typ,i,r)==want[index],(line,want[index])
             if typ=='A':
                 size=1
                 while size<r: size*=2
@@ -40,12 +61,13 @@ def oracle(text,n):
             answers.append(got)
     digest=0
     for x in answers: digest=(digest*31+abs(x))%(1<<64)
-    result=json.loads(text.splitlines()[-1]);assert result['digest']==digest
+    result=json.loads(lines[-1]);assert result['digest']==digest and result['ops']==len(want)
     return result
 
 def main():
     binary,out=sys.argv[1:3];target=Path(out)
     if target.exists(): raise SystemExit(f'{target} exists: archive it and remove it before another run')
+    pinned=image(binary)
     target.parent.mkdir(parents=True,exist_ok=True)
     raw=target.parent/'checks';raw.mkdir(exist_ok=True)
     expected={}
@@ -53,6 +75,10 @@ def main():
         def run(kind,n,shape,phase,block,check=False):
             # Every attempt leaves one classified line; the first one that is not ok halts the run.
             cmd=[binary,kind,str(n),shape]+(['check'] if check else [])
+            # One image runs the whole campaign: a changed or unreadable binary stops it before the launch.
+            try: current=image(binary)
+            except OSError as error: current=repr(error)
+            if current!=pinned: raise SystemExit(f'{binary} is {current} before {phase} {kind} {n} {shape}, pinned sha256 {pinned}; run stopped')
             try:
                 p=subprocess.run(cmd,capture_output=True,timeout=TIMEOUT_S,check=False)
                 stdout,stderr=p.stdout,p.stderr
@@ -64,7 +90,7 @@ def main():
             if check: (raw/f'{kind}-{n}-{shape}.txt').write_text(text)
             if r['status']=='ok':
                 try:
-                    data=oracle(text,n) if check else json.loads(text)
+                    data=oracle(text,n,shape) if check else json.loads(text)
                     assert [data[k] for k in ('kind','n','shape')]==[kind,n,shape],'kind, n or shape differs from the request'
                     agreed=[data[k] for k in ('digest','ops','work')]
                     # A timed process repeats the digest, operation count and work of its verified check process.
@@ -86,5 +112,5 @@ def main():
             for label in (['A','B'] if block%2==0 else ['B','A']):
                 run('scan',4096,'mixed','AA'+label,block)
     print('PASS 24 complete independent-oracle traces; 204 process records')
-    print('binary_sha256',hashlib.sha256(Path(binary).read_bytes()).hexdigest())
+    print('binary_sha256',pinned)
 if __name__=='__main__': main()
