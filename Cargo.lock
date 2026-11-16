@@ -205,3 +205,7 @@ version = "0.1.0"
 [[package]]
 name = "topic050-rate-accounting"
 version = "0.1.0"
+
+[[package]]
+name = "topic051-buddy-allocation"
+version = "0.1.0"
