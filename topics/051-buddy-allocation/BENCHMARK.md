@@ -41,14 +41,16 @@ Each process appends one line to the results file with a status: ok, failed
 (nonzero exit), timeout (over 60 seconds; TOPIC_051_PROCESS_TIMEOUT_S replaces
 the limit) or rejected (unparsable or wrong output). A line that is not ok keeps
 the command, stdout and stderr, and the campaign stops there; later cells stay
-unresolved. The runner requires enabled assertions and a new results path.
+unresolved. The runner requires enabled assertions and exits when the results
+file or the checks directory beside it exists.
 It hashes the binary before the first launch and before every later launch; a
 changed or unreadable binary stops the campaign before that launch.
 The runner holds its own definition of the four traces. A check output must be
 those operations in order, one state line and a summary with that operation
 count. Complete answers and final state are verified in the 24 check processes. A
 warmup, measured or A/A process must echo its kind, n and shape and repeat the
-digest, operation count and work of its check process. The digest folds result
+digest, operation count and work of its check process. Every accepted summary
+holds a positive integer ns and a nonnegative integer setup_ns. The digest folds result
 magnitudes: a failed allocation (-1), address 1 and a successful free add the
 same term.
 

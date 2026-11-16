@@ -105,12 +105,13 @@ Comparator: exact vectors for churn, bounds elsewhere.
 Smallest discriminating case: 4 units, where n / 4 - 1 is 0.
 Mutation backstop: each of those four mutants fails at least one of the tests.
 
-test_measure.py (eight tests)
+test_measure.py (nine tests)
 Claim and scope: a failed, timed-out or rejected process leaves one line with
 its status, command, stdout and stderr and stops the run; the runner refuses
-disabled assertions and an existing results file; a check output is the
-declared trace; a timed process agrees with its check process; a changed
-binary stops the run; a complete run keeps the declared 204-process order.
+disabled assertions and an existing results file or checks directory; a check
+output is the declared trace; a timed process agrees with its check process
+and reports integer timings; a changed binary stops the run; a complete run
+keeps the declared 204-process order.
 Plausible violation: the 5e33b3d runner, which lost those attempts, passed a
 wrong candidate under -O, accepted a summary with no operations and a timed
 process with a different work, and ran a rebuilt binary to PASS.
@@ -119,5 +120,5 @@ Oracle and independence: stub processes answer from the occupancy-map model.
 Comparator: exact record equality for ok lines; exact status, command and
 output for the others.
 Smallest discriminating case: the first process, scan 64 tiny check.
-Mutation backstop: all eight tests fail on the 5e33b3d runner. A changed mixed
+Mutation backstop: all nine tests fail on the 5e33b3d runner. A changed mixed
 or churn term in measure.py's trace fails the complete-run test.

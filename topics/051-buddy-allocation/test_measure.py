@@ -224,6 +224,8 @@ class MeasureTest(unittest.TestCase):
             "kind echo": changed(kind="tree"),
             "n echo": changed(n=4096),
             "shape echo": changed(shape="mixed"),
+            "ns negative": changed(ns=-1),
+            "setup_ns string": changed(setup_ns="10"),
         }
         for name, answer in cases.items():
             with self.subTest(name):
@@ -247,11 +249,23 @@ class MeasureTest(unittest.TestCase):
             "kind echo": {"kind": "buddy"},
             "n echo": {"n": 4096},
             "shape echo": {"shape": "holes"},
+            "ns missing": {"ns": ...},
+            "ns zero": {"ns": 0},
+            "ns negative": {"ns": -1},
+            "ns string": {"ns": "1000"},
+            "ns fraction": {"ns": 1.5},
+            "ns true": {"ns": True},
+            "ns null": {"ns": None},
+            "setup_ns missing": {"setup_ns": ...},
+            "setup_ns negative": {"setup_ns": -1},
+            "setup_ns string": {"setup_ns": "10"},
+            "setup_ns false": {"setup_ns": False},
         }
         for name, fields in cases.items():
             with self.subTest(name):
                 self.fresh()
-                process = self.start(TIMED_FIXED, answer=json.dumps({**summary, **fields}) + "\n")
+                answer = {k: v for k, v in {**summary, **fields}.items() if v is not ...}
+                process = self.start(TIMED_FIXED, answer=json.dumps(answer) + "\n")
                 self.assertNotEqual(process.returncode, 0)
                 records = self.records()
                 self.assertEqual([(r["phase"], r.get("status")) for r in records],
@@ -296,6 +310,16 @@ class MeasureTest(unittest.TestCase):
         process = self.start(MODEL)
         self.assertNotEqual(process.returncode, 0)
         self.assertEqual(self.results.read_text(), "earlier\n")
+        self.assertEqual(self.launches(), [])
+
+    def test_refuses_an_existing_checks_directory(self):
+        earlier = self.results.parent / "checks" / "scan-64-tiny.txt"
+        earlier.parent.mkdir(parents=True)
+        earlier.write_text("earlier\n")
+        process = self.start(MODEL)
+        self.assertNotEqual(process.returncode, 0)
+        self.assertEqual(earlier.read_text(), "earlier\n")
+        self.assertFalse(self.results.exists())
         self.assertEqual(self.launches(), [])
 
 

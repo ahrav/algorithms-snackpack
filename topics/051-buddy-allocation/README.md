@@ -38,7 +38,8 @@ taskset -c 0 python3 topics/051-buddy-allocation/measure.py target/release/examp
 The last two commands apply the declared controls on Linux: native target and
 CPU 0, which the replay processes inherit. They use the workspace toolchain; the
 archived hosts used Rust 1.98.1 and 1.99.0, so a replay checks the procedure and
-builds a different image. The runner needs a new results path.
+builds a different image. The runner exits when the results file or the
+checks/ directory beside it exists: archive both and remove them first.
 
 `workload(n, "churn")` yields positive requests from 4 units. For 1 unit,
 `n / 2 - 1` underflows: a debug build panics and a release build requests

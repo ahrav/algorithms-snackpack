@@ -66,10 +66,11 @@ def oracle(text,n,shape):
 
 def main():
     binary,out=sys.argv[1:3];target=Path(out)
-    if target.exists(): raise SystemExit(f'{target} exists: archive it and remove it before another run')
+    raw=target.parent/'checks'
+    for old in (target,raw):
+        if old.exists(): raise SystemExit(f'{old} exists: archive it and remove it before another run')
     pinned=image(binary)
-    target.parent.mkdir(parents=True,exist_ok=True)
-    raw=target.parent/'checks';raw.mkdir(exist_ok=True)
+    raw.mkdir(parents=True)
     expected={}
     with target.open('x') as f:
         def run(kind,n,shape,phase,block,check=False):
@@ -95,6 +96,8 @@ def main():
                     agreed=[data[k] for k in ('digest','ops','work')]
                     # A timed process repeats the digest, operation count and work of its verified check process.
                     assert agreed==expected.setdefault((kind,n,shape),agreed),'digest, ops or work differs from the check process'
+                    assert type(data['ns']) is int and data['ns']>0,'ns is not a positive integer'
+                    assert type(data['setup_ns']) is int and data['setup_ns']>=0,'setup_ns is not a nonnegative integer'
                     r=dict(data,status='ok')
                 except Exception as error:  # any parse, oracle or agreement failure is a rejected attempt
                     r.update(status='rejected',error=repr(error))
