@@ -1,4 +1,4 @@
-# Benchmark decision: true
+benchmark_required: true
 
 Claim: select the fastest correct reservation implementation among scan, buddy
 ordered sets and largest-block tree for each fixed trace and host.
@@ -6,7 +6,12 @@ ordered sets and largest-block tree for each fixed trace and host.
 Workloads: U=64,4096; tiny (eight fill-half/free rounds), mixed requests
 1,3,5,9,17,33 (eight rounds), alternating occupied/free holes with failed
 size-two probes, churn with large/small split/merge requests (eight rounds).
-Logical arenas start empty; CPUs/caches are warm. No cache-flush policy.
+Logical arenas start empty. Each timed interval is the first and only replay in
+a fresh process, after that process generated its trace and constructed its pool.
+The warmup process of a cell warms host state only (binary page cache, CPU
+frequency). Allocator growth, first-touch pages and first execution of the
+operation code are inside every timed interval. Steady-state repetition inside
+one process is outside this experiment. No cache-flush policy.
 
 Boundary: timed operation loop includes all metadata mutations, ID bookkeeping,
 result-vector writes and dynamic ordered-set allocation/deallocation.
@@ -25,6 +30,17 @@ in all six paired blocks. Otherwise unresolved. Report median and full range.
 Exploratory descriptive screen; no confidence level, power or universal optimum
 claim. Six alternating-label identical-binary A/A pairs check asymmetry but do
 not establish statistical calibration or a noise floor. Retain every attempt.
+
+Each process appends one line to the results file with a status: ok, failed
+(nonzero exit), timeout (over 60 seconds; TOPIC_051_PROCESS_TIMEOUT_S replaces
+the limit) or rejected (unparsable or wrong output). A line that is not ok keeps
+the command, stdout and stderr, and the campaign stops there; later cells stay
+unresolved. The runner requires enabled assertions and a new results path.
+Complete answers and final state are verified in the 24 check processes. A
+warmup, measured or A/A process must echo its kind, n and shape and repeat the
+digest, operation count and work of its check process. The digest folds result
+magnitudes: a failed allocation (-1), address 1 and a successful free add the
+same term.
 
 Logical probes, split checks and summary repairs describe algorithms. No hardware
 cause is inferred. External raw bundles hold outputs, identities and manifests.

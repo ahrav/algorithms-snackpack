@@ -30,15 +30,29 @@ across these candidates; conventional first-sufficient-order lists differ.
 
 ```bash
 cargo test -p topic051-buddy-allocation
-cargo build --release -p topic051-buddy-allocation --example replay
-python3 topics/051-buddy-allocation/measure.py target/release/examples/replay /tmp/topic051/results.jsonl
+python3 topics/051-buddy-allocation/test_measure.py
+RUSTFLAGS='-C target-cpu=native' cargo build --release -p topic051-buddy-allocation --example replay
+taskset -c 0 python3 topics/051-buddy-allocation/measure.py target/release/examples/replay /tmp/topic051/results.jsonl
 ```
+
+The last two commands apply the declared controls on Linux: native target and
+CPU 0, which the replay processes inherit. They use the workspace toolchain; the
+archived hosts used Rust 1.98.1 and 1.99.0, so a replay checks the procedure and
+builds a different image. The runner needs a new results path.
+
+`workload(n, "churn")` yields positive requests from 4 units. For 1 unit,
+`n / 2 - 1` underflows: a debug build panics and a release build requests
+`usize::MAX`, which `alloc` rejects. For 2 units each cycle starts with request
+0, which `alloc` rejects. The measured sizes are 64 and 4096.
 
 Use measured workload winners in measurements/README.md. Include construction,
 metadata allocation and backing-memory work when those belong to the application.
 Revisit: arbitrary runs and alignment, word/hierarchical bitmaps, intrusive
 constant-time buddy membership, first-sufficient-order placement, reserved holes,
 non-power-of-two arenas, slab frontends and concurrent sharded free lists.
+For the next measured revision: a churn bound check in `workload`, a replay
+digest that keeps the sign of each result, and an untimed replay inside each
+measured process.
 The authoritative catalog currently supplies no coverage array or algorithm index.
 
 Sources: [Linux physical memory](https://docs.kernel.org/mm/physical_memory.html),

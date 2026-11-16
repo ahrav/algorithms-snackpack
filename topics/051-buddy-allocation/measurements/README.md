@@ -1,6 +1,6 @@
 # Exact-source results
 
-Frozen executable commit: `5e33b3ddb2e7570b68a731e3d66fe58dd656cdef`. All four native inputs remain byte-identical to the published artifact.
+Frozen executable commit: `5e33b3ddb2e7570b68a731e3d66fe58dd656cdef`. The receipt hashes bind src/lib.rs, tests/contracts.rs, examples/replay.rs and measure.py at this commit. The first three are byte-identical at HEAD; measure.py differs as listed under Replay.
 
 | Host | Units/trace | Winner | scan us | buddy us | tree us |
 |---|---|---|---|---|---|
@@ -27,6 +27,12 @@ Arm: Neoverse V1, 64 available CPUs, AArch64 Linux 6.12.115, Rust 1.98.1. x86: I
 
 A/A B/A range: Arm 0.970..1.024; x86 0.798..1.093. The x86 control varies materially. The cell winners satisfy the fixed finite screen; stable cross-window x86 recommendations need new evidence.
 
-All candidates preserve identical placement, so this compares metadata cost under one policy. It does not measure a general-purpose allocator, cold service latency, concurrent ownership, backing-memory traffic or hardware causation. Logical counters are representation-specific. Construction medians and raw process ranges are retained externally; construction/destruction are outside the operation interval.
+All candidates preserve identical placement, so this compares metadata cost under one policy. It does not measure a general-purpose allocator, cold service latency, concurrent ownership, backing-memory traffic or hardware causation. Logical counters are representation-specific. Construction medians and raw process ranges are retained externally; construction/destruction are outside the operation interval. Each timed interval is the first replay in a fresh process, so allocator growth, first-touch pages and first execution of the operation code are inside it; steady-state repetition inside one process is unmeasured.
 
 External evidence: /Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-051/20261116/delivery. Reproduce with measure.py and the commands in README.md.
+
+## Replay
+
+measure.py keeps the 204-process schedule and the replay command lines, and differs from the archived runner as follows. It exits at startup when assertions are disabled or the results file exists; the archived runner overwrote the file. Each process has a 60 second limit (TOPIC_051_PROCESS_TIMEOUT_S). Every attempt appends one line with a status (`ok`, `failed`, `timeout`, `rejected`); a line that is not `ok` keeps the command, stdout and stderr, and the run stops there. The archived runner raised before it wrote such a line. Each process must echo its kind, n and shape, and a warmup, measured or A/A process must repeat the digest, `ops` and `work` of its check process; the archived runner compared the digest. The digest folds result magnitudes, so -1 and 1 add the same term; complete answers are verified in the check processes. The archived runs used the 5e33b3d checks.
+
+`python3 topics/051-buddy-allocation/test_measure.py` checks the HEAD runner with stub processes. A replay of HEAD with the README commands on an aarch64 host under Rust 1.93.0 accepted all 204 processes and 24 complete traces; that replay checks the tooling and adds no measurement. tests/workload.rs and tests/placement.rs are HEAD additions to the three archived contract tests.

@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 """Fixed exploratory schedule and independent free-interval oracle."""
-import hashlib,itertools,json,subprocess,sys
+import hashlib,itertools,json,os,subprocess,sys
 from pathlib import Path
 
+if not __debug__:
+    raise SystemExit('measure.py needs assertions enabled: run it without -O and with PYTHONOPTIMIZE unset')
+
 KINDS=['scan','buddy','tree']
+TIMEOUT_S=float(os.environ.get('TOPIC_051_PROCESS_TIMEOUT_S','60'))
 def oracle(text,n):
     # Free intervals are split and unioned independently of candidate metadata.
     free=[(0,n)]; live={}; answers=[]
@@ -40,19 +44,38 @@ def oracle(text,n):
     return result
 
 def main():
-    binary,out=sys.argv[1:3];target=Path(out);target.parent.mkdir(parents=True,exist_ok=True)
+    binary,out=sys.argv[1:3];target=Path(out)
+    if target.exists(): raise SystemExit(f'{target} exists: archive it and remove it before another run')
+    target.parent.mkdir(parents=True,exist_ok=True)
     raw=target.parent/'checks';raw.mkdir(exist_ok=True)
     expected={}
-    with target.open('w') as f:
+    with target.open('x') as f:
         def run(kind,n,shape,phase,block,check=False):
+            # Every attempt leaves one classified line; the first one that is not ok halts the run.
             cmd=[binary,kind,str(n),shape]+(['check'] if check else [])
-            text=subprocess.check_output(cmd,text=True)
-            if check:
-                (raw/f'{kind}-{n}-{shape}.txt').write_text(text)
-                r=oracle(text,n); expected[kind,n,shape]=r['digest']
-            else:
-                r=json.loads(text);assert r['digest']==expected[kind,n,shape]
+            try:
+                p=subprocess.run(cmd,capture_output=True,timeout=TIMEOUT_S,check=False)
+                stdout,stderr=p.stdout,p.stderr
+                r=dict(status='ok' if p.returncode==0 else 'failed',exit=p.returncode)
+            except subprocess.TimeoutExpired as expired:
+                stdout,stderr=expired.stdout or b'',expired.stderr or b''
+                r=dict(status='timeout',timeout_s=TIMEOUT_S)
+            text=stdout.decode(errors='replace')
+            if check: (raw/f'{kind}-{n}-{shape}.txt').write_text(text)
+            if r['status']=='ok':
+                try:
+                    data=oracle(text,n) if check else json.loads(text)
+                    assert [data[k] for k in ('kind','n','shape')]==[kind,n,shape],'kind, n or shape differs from the request'
+                    agreed=[data[k] for k in ('digest','ops','work')]
+                    # A timed process repeats the digest, operation count and work of its verified check process.
+                    assert agreed==expected.setdefault((kind,n,shape),agreed),'digest, ops or work differs from the check process'
+                    r=dict(data,status='ok')
+                except Exception as error:  # any parse, oracle or agreement failure is a rejected attempt
+                    r.update(status='rejected',error=repr(error))
+            if r['status']!='ok':
+                r=dict(kind=kind,n=n,shape=shape,**r,command=cmd,stdout=text,stderr=stderr.decode(errors='replace'))
             r.update(phase=phase,block=block);f.write(json.dumps(r)+'\n');f.flush()
+            if r['status']!='ok': raise SystemExit(f"{phase} {kind} {n} {shape} {r['status']}; retained in {target}")
         for n in [64,4096]:
             for shape in ['tiny','mixed','holes','churn']:
                 for k in KINDS: run(k,n,shape,'check',-1,True)
