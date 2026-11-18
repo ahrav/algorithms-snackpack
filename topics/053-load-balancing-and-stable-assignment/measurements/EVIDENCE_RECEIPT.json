@@ -1,0 +1,41 @@
+{
+  "topic": 53,
+  "source_commit": "7a5786c11202312dc005918b58a6dd03a91d7909",
+  "verification": "verified",
+  "runs": [
+    {
+      "run_id": "topic053-20261118-arm",
+      "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "kernel": "Linux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.115-140.210.amzn2023.aarch64 #1 SMP Wed Nov 11 00:31:12 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+      "cpu": 0,
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-053/20261118/delivery/arm-raw.tar.gz",
+      "archive_sha256": "23495b54c7161dcc895cf5168ccfcbdfef2778ba6e313d671ba5daa64db4224d",
+      "archive_bytes": 1206486,
+      "member_count": 67,
+      "member_manifest_sha256": "26dff0804f0404f052aa56084eeda05e01ff626847eb6daf475f3979508a4948",
+      "source_manifest_sha256": "5c0e3c28d6756cd45f7a64cd988a6fd8963abe00fda25c68ade72a5a193d1a94",
+      "runner_sha256": "7f5b0cfe672fb5bd21e4f6e46ed0ad53c8580ceb0fbf97cd8d1f49b8ce208e66",
+      "transfer_manifest_sha256": "c280cd0a3fe4983751196ce564b9a2f224261e31910b506eb895903658f9214c",
+      "environment_sha256": "6f96a6a0770ce49c5f6d4603e23dbb4f0dff8d8296175257c6d712f91277ef60",
+      "linked_image_sha256": "0233a3289cda0e6b6dc5386281ad8983b86bfd5901defe22b142768d7e624e57",
+      "fresh_processes": 348
+    },
+    {
+      "run_id": "topic053-20261118-x86",
+      "host": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "kernel": "Linux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.115-140.210.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Wed Nov 11 00:39:58 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux",
+      "cpu": 0,
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-053/20261118/delivery/x86-raw.tar.gz",
+      "archive_sha256": "431c4b968d713b04785c621a0ce65b62b4f2e87aa657e0a5983c2a513dd029c5",
+      "archive_bytes": 1209467,
+      "member_count": 67,
+      "member_manifest_sha256": "9f961cc724ae23471f8e61819abb6866cd4f32477d9935ad3c9a49839bcf877e",
+      "source_manifest_sha256": "5c0e3c28d6756cd45f7a64cd988a6fd8963abe00fda25c68ade72a5a193d1a94",
+      "runner_sha256": "7f5b0cfe672fb5bd21e4f6e46ed0ad53c8580ceb0fbf97cd8d1f49b8ce208e66",
+      "transfer_manifest_sha256": "c280cd0a3fe4983751196ce564b9a2f224261e31910b506eb895903658f9214c",
+      "environment_sha256": "a54a26a18fc745c19e8a91f26aab44144033a3595abacfac0c7b6508b9f07ef3",
+      "linked_image_sha256": "91f2cff56075cbdd50f91af49ffddef61d64ed364674139ac7302d2a7510acc6",
+      "fresh_processes": 348
+    }
+  ]
+}
