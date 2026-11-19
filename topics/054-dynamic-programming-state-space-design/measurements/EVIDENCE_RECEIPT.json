@@ -1,0 +1,55 @@
+{
+  "topic": 54,
+  "source_commit": "0b171624485e871c10e5be5b3f21d1b6d3e4b675",
+  "verified": true,
+  "figure_sha256": "d08692129d9e22fc58158bf0194d2e7313bf559030e6b43666afe9ff9f0ef605",
+  "frozen_source_sha256": "ec9c6519b7c5d97219a8326c911ddab85b75c1dc6f3aca0e8a1a629fd5070f7f",
+  "input_manifest_sha256": "4eb2d2d70d7b07543fafdf516b61cc6121d69c6393aa86122a4763e59ae4ceff",
+  "native_driver_sha256": "1240b5d3efa45d3bd60ae9589632b3d67188aa0f99c82e265938c8136b062073",
+  "hosts": {
+    "arm": {
+      "run_id": "topic054-20261119-arm",
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "uname": "Linux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.115-140.210.amzn2023.aarch64 #1 SMP Wed Nov 11 00:31:12 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+      "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+      "cpu_identity": "CPU part\t: 0xd40",
+      "build_flags": "-C opt-level=3 -C target-cpu=native --edition=2024",
+      "pinned_cpu": 0,
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-054/20261119/arm-raw.tar.gz",
+      "archive_sha256": "5878ca782febbfa2e58675a813cf2db47778aabb8824fccf36b4a516798f4fcc",
+      "archive_bytes": 3632755,
+      "archive_file_count": 14,
+      "member_manifest_sha256": "7088a66a91a027c188c27fa136afd17c6246353e07ac74ca6ed06b5582bed42a",
+      "environment_sha256": "ab545cb79a7860546df89fccdbba9a63bebb56a555f10b6637906d7662d9794b",
+      "binary_sha256": "771d0b2da94744760c6099e525d7ccf458fd88eb578840297921bb9017d26dd6",
+      "processes": {
+        "total": 390,
+        "measured": 300,
+        "warmup": 30,
+        "aa": 60
+      }
+    },
+    "x86": {
+      "run_id": "topic054-20261119-x86",
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "uname": "Linux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.115-140.210.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Wed Nov 11 00:39:58 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux",
+      "compiler": "rustc 1.99.0 (b940084d7 2026-09-28)",
+      "cpu_identity": "Model name:                              Intel(R) Xeon(R) Platinum 8488C",
+      "build_flags": "-C opt-level=3 -C target-cpu=native --edition=2024",
+      "pinned_cpu": 0,
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-054/20261119/x86-raw.tar.gz",
+      "archive_sha256": "2072ad50441c45e3516ec97b805ee7e9bc46da8ddc96fdaccda81e57300e50d6",
+      "archive_bytes": 4354913,
+      "archive_file_count": 14,
+      "member_manifest_sha256": "6cafc1fc3a16f74ccf8062831da8f17542f798d760a6cff4812632a77156f6ae",
+      "environment_sha256": "d904b5cdb75779a99f5d39900b76c0e1ddc80c13ba6855bb41d6cb5c21f09921",
+      "binary_sha256": "210fafe6ba36202fbd967b7141e6ab7380bed04af0f7ea2fd6244805616235ed",
+      "processes": {
+        "total": 390,
+        "measured": 300,
+        "warmup": 30,
+        "aa": 60
+      }
+    }
+  }
+}
