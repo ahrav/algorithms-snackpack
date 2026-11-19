@@ -118,14 +118,15 @@ def run_schedule(binary):
                 measured[record["candidate"]].append(record["solve_ns"])
             if record["phase"] == "aa":
                 aa.append(record["solve_ns"])
+        assert len(aa) == 10 and all(len(samples) == 10 for samples in measured.values())
         timing = {name: describe(samples) for name, samples in measured.items()}
         leader = min(CANDIDATES, key=lambda name: timing[name]["median"])
         ratios = {
-            name: describe([x / y for x, y in zip(measured[leader], measured[name], strict=True)])
+            name: describe([x / y for x, y in zip(measured[leader], measured[name])])
             for name in CANDIDATES if name != leader
         }
         clears_margin = all(summary["max"] <= 0.95 for summary in ratios.values())
-        aa_ratio = describe([a / b for a, b in zip(aa, measured["rolling"], strict=True)])
+        aa_ratio = describe([a / b for a, b in zip(aa, measured["rolling"])])
         budget, items = identity
         work = logical_work(items, budget)
         assert expected == work["frontier_score"]
