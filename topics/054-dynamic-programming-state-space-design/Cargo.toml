@@ -1,0 +1,18 @@
+[package]
+name = "topic-054-dynamic-programming"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.93"
+publish = false
+
+[lints.rust]
+missing_docs = "deny"
+unsafe_code = "deny"
+
+[lints.clippy]
+all = "deny"
+pedantic = "deny"
+
+[[bench]]
+name = "portfolio"
+harness = false

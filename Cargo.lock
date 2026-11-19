@@ -131,6 +131,10 @@ name = "topic-053-stable-assignment"
 version = "0.1.0"
 
 [[package]]
+name = "topic-054-dynamic-programming"
+version = "0.1.0"
+
+[[package]]
 name = "topic021-heaps-and-priority-queues"
 version = "0.1.0"
 
