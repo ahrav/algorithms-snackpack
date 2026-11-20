@@ -34,7 +34,7 @@ def main():
         writer = csv.writer(file)
         writer.writerow(["size", "shape", "phase", "block", "position", "candidate",
                          "iterations", "selected", "runs", "ns_per_call"])
-        print("size", "shape", "selected", "runs", "winner", *CANDIDATES, "max_win_ratio",
+        print("size", "shape", "selected", "selected_runs", "winner", *CANDIDATES, "max_win_ratio",
               sep="\t", file=summary)
         for size, shape in CELLS:
             repeats = max(4, min(32768, 4194304 // size))
