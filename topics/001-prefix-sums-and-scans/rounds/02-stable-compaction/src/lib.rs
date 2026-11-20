@@ -67,7 +67,15 @@ pub fn tiles(
     let mut count = 0;
     for (flags, offset) in keep.chunks(tile_len).zip(offsets.iter_mut()) {
         *offset = count;
-        count += flags.iter().filter(|&&selected| selected).count();
+        // Each batch fits in u32. Sum the batch totals at index width.
+        // This also avoids an incorrect native Arm usize reduction observed
+        // on rustc 1.98.1. The full-width total remains bounded by input length.
+        for batch in flags.chunks(256) {
+            count += batch
+                .iter()
+                .map(|&selected| u32::from(selected))
+                .sum::<u32>() as usize;
+        }
     }
     for ((values, flags), &offset) in values
         .chunks(tile_len)

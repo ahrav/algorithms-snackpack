@@ -94,3 +94,23 @@ fn invalid_shape_panics_before_writes() {
     assert!(panic.is_err());
     assert_eq!(output, [9; 2]);
 }
+
+#[test]
+fn full_tile_counts_every_lane() {
+    let values: Vec<_> = (0..4097_u32).collect();
+    let flags = vec![true; values.len()];
+    let mut output = vec![0; values.len()];
+    let mut offsets = [usize::MAX; 17];
+    assert_eq!(
+        tiles(
+            &values,
+            &flags,
+            &mut output,
+            NonZeroUsize::new(256).unwrap(),
+            &mut offsets
+        ),
+        values.len(),
+    );
+    assert_eq!(output, values);
+    assert_eq!(offsets, std::array::from_fn(|tile| tile * 256));
+}
