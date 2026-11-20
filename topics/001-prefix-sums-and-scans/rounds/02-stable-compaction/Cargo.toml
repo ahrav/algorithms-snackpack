@@ -1,0 +1,9 @@
+[package]
+name = "stable-flag-compaction"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[[bench]]
+name = "compact"
+harness = false

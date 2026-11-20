@@ -67,6 +67,10 @@ name = "sorting_lab"
 version = "0.1.0"
 
 [[package]]
+name = "stable-flag-compaction"
+version = "0.1.0"
+
+[[package]]
 name = "swisstable-metadata-filtering"
 version = "0.1.0"
 
