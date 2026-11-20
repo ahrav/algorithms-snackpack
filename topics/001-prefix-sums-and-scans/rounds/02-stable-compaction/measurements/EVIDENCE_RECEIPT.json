@@ -1,0 +1,32 @@
+{
+  "frozen_source": "785187bb74510b70b4d54b50bbe67c791b430a4f",
+  "external_evidence": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-001/20261120-round-02/delivery",
+  "hosts": {
+    "arm": {
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "archive": "arm-raw.tar.gz",
+      "sha256": "c0c33757d11dba4dc79f35af2a3f2f8f41b257a3cbdd346d0cf956ff9b0a34a3",
+      "bytes": 3623478,
+      "members": 16,
+      "run_id": "codex-alg001-r2-native.BTvuw0",
+      "environment_sha256": "0c6d83b8a9c6c9d8928d262905760bb19ac1fb64bad75bbd0d687dc25eb5739e",
+      "manifest_sha256": "ffe7fa3324c3c627c9a3751f389e3514cb24bb3ada9f71bbc6b09f61bd8070a5",
+      "benchmark_binary_sha256": "d98ccaa5908e0a55392bc8139875af0fbd3b01bdd0de6a06c369476e6bc24843",
+      "campaign_processes": 428,
+      "verification": "archive, member bytes, source manifest, binary hashes, balance and full process oracle passed"
+    },
+    "x86": {
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "archive": "x86-raw.tar.gz",
+      "sha256": "c273d29574fa192a88118dd33b595880c27c64b78bdf24d10d309d8a8ee665d7",
+      "bytes": 4343807,
+      "members": 16,
+      "run_id": "codex-alg001-r2-native.4ENHX2",
+      "environment_sha256": "ce1369fdb4ee0666647081bc45581c8c9c01011ea3d090c34409e58e56a51780",
+      "manifest_sha256": "ffe7fa3324c3c627c9a3751f389e3514cb24bb3ada9f71bbc6b09f61bd8070a5",
+      "benchmark_binary_sha256": "512f9cf7480e876449a409acb72aa3a790bec7e04cb96e0174128179824b8470",
+      "campaign_processes": 428,
+      "verification": "archive, member bytes, source manifest, binary hashes, balance and full process oracle passed"
+    }
+  }
+}
