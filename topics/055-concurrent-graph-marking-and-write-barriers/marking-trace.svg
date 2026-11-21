@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1020" height="340" viewBox="0 0 1020 340" role="img" aria-labelledby="title desc">
+<title id="title">A live object escapes an unguarded scan</title>
+<desc id="desc">The root reaches B and G. B has been scanned, and G has a reference to white X. The mutator copies that reference into B and removes it from G. An unguarded collector leaves the live X white.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="#324a60"/></marker></defs>
+<rect width="1020" height="340" fill="#f0f4fa"/>
+<g font-family="sans-serif" fill="#132b40">
+<text x="26" y="39" font-size="24" font-weight="700">A pointer moves behind the collector</text>
+<g fill="white" stroke="#9aadc0"><rect x="26" y="57" width="306" height="237" rx="8"/><rect x="357" y="57" width="306" height="237" rx="8"/><rect x="688" y="57" width="306" height="237" rx="8"/></g>
+<g font-size="16" font-weight="700"><text x="44" y="86">Before · B already scanned</text><text x="375" y="86">During · Mutator moves pointer</text><text x="706" y="86">After · Unguarded scan ends</text></g>
+<g fill="none" stroke="#324a60" stroke-width="2.4" marker-end="url(#arrow)">
+<path d="M116 129 L83 171"/><path d="M134 129 L174 171"/><path d="M199 190 L256 190"/>
+<path d="M447 129 L414 171"/><path d="M465 129 L505 171"/><path d="M420 204 Q490 239 585 199"/>
+<path d="M778 129 L745 171"/><path d="M796 129 L836 171"/><path d="M751 204 Q821 239 916 199"/>
+</g>
+<g stroke-width="2">
+<g fill="#183952" stroke="#183952">
+<circle cx="125" cy="114" r="15"/><circle cx="72" cy="190" r="17"/>
+<circle cx="456" cy="114" r="15"/><circle cx="403" cy="190" r="17"/>
+<circle cx="787" cy="114" r="15"/><circle cx="734" cy="190" r="17"/><circle cx="851" cy="190" r="17"/>
+</g>
+<g fill="#d5e0e9" stroke="#5a748a"><circle cx="189" cy="190" r="17"/><circle cx="520" cy="190" r="17"/></g>
+<g fill="#fff" stroke="#aa4b2a"><circle cx="279" cy="190" r="17"/><circle cx="610" cy="190" r="17"/><circle cx="941" cy="190" r="17"/></g></g>
+<g text-anchor="middle" font-size="15" font-weight="700">
+<g fill="white"><text x="125" y="119">R</text><text x="72" y="195">B</text><text x="456" y="119">R</text><text x="403" y="195">B</text><text x="787" y="119">R</text><text x="734" y="195">B</text><text x="851" y="195">G</text></g>
+<text x="189" y="195">G</text><text x="279" y="195">X</text><text x="520" y="195">G</text><text x="610" y="195">X</text><text x="941" y="195">X</text>
+</g>
+<g font-size="15"><text x="44" y="268">G still has the only edge to X.</text><text x="375" y="268">Copy G → X into B. Clear G → X.</text><text x="706" y="268">X is reachable, but stays white.</text>
+<text x="26" y="319">Dark = scanned. Gray = pending scan. White = undiscovered.</text></g>
+</g>
+</svg>
