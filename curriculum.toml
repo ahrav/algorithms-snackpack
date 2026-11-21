@@ -5,268 +5,862 @@ source_conversation = "https://chatgpt.com/c/6984b0e8-e0f8-8323-a05e-73eca3e1584
 id = 1
 slug = "prefix-sums-and-scans"
 title = "Prefix sums and scans"
+coverage = ["inclusive scans", "exclusive scans", "serial scans", "blocked and parallel scans", "stable compaction"]
 
 [[topics]]
 id = 2
 slug = "difference-arrays-and-range-updates"
 title = "Difference arrays and deferred range updates"
+coverage = ["difference arrays", "boundary events", "offline range updates", "prefix materialization"]
 
 [[topics]]
 id = 3
 slug = "density-adaptive-bitmaps"
 title = "Bitsets and density-adaptive bitmaps"
+coverage = ["dense bitsets", "sorted sparse sets", "Roaring-style adaptive bitmaps", "bitmap intersections"]
 
 [[topics]]
 id = 4
 slug = "interval-sets-and-compressed-ranges"
 title = "Interval sets and compressed ranges"
+coverage = ["canonical disjoint intervals", "interval union", "interval intersections", "compressed ranges"]
 
 [[topics]]
 id = 5
 slug = "two-pointers-and-sliding-windows"
 title = "Two pointers and sliding windows"
+coverage = ["two-pointer walks", "monotone window endpoints", "bounded windows", "nonnegative sums"]
 
 [[topics]]
 id = 6
 slug = "monotonic-stacks-and-deques"
 title = "Monotonic stacks and deques"
+coverage = ["monotone stacks", "monotone deques", "sliding extrema", "block extrema"]
 
 [[topics]]
 id = 7
 slug = "binary-galloping-branch-aware-search"
 title = "Binary, galloping, and branch-aware search"
+coverage = ["binary search", "galloping search", "branch-aware search", "lower-bound semantics"]
 
 [[topics]]
 id = 8
 slug = "selection-quickselect-top-k"
 title = "Selection, Quickselect, and Top-K"
+coverage = ["Quickselect", "partition strategies", "bounded heaps", "sorted top-k"]
 
 [[topics]]
 id = 9
 slug = "reservoir-and-weighted-sampling"
 title = "Reservoir and weighted sampling"
+coverage = ["reservoir sampling", "skip-based sampling", "weighted sampling", "reproducible random trials"]
 
 [[topics]]
 id = 10
 slug = "sorting-algorithm-portfolios"
 title = "Sorting algorithm portfolios"
+coverage = ["comparison sorting", "radix sorting", "adaptive sort portfolios", "key and payload movement"]
 
 [[topics]]
 id = 11
 slug = "merge-algorithms-and-duplicate-runs"
 title = "Merge algorithms and duplicate-run joins"
+coverage = ["sorted merging", "galloping merge", "duplicate runs", "join multiplicity"]
 
 [[topics]]
 id = 12
 slug = "radix-partitioning"
 title = "Radix partitioning"
+coverage = ["radix partitioning", "histograms", "prefix offsets", "stable scatter", "skew"]
 
 [[topics]]
 id = 13
 slug = "open-addressed-hash-tables"
 title = "Open-addressed hash tables"
+coverage = ["linear probing", "probe invariants", "deletion markers", "resizing and load factor"]
 
 [[topics]]
 id = 14
 slug = "swisstable-metadata-filtering"
 title = "SwissTable-style metadata filtering"
+coverage = ["SwissTable metadata", "control bytes", "group probing", "fingerprint filters"]
 
 [[topics]]
 id = 15
 slug = "robin-hood-hashing"
 title = "Robin Hood hashing"
+coverage = ["Robin Hood insertion", "probe distances", "early exit", "backward-shift deletion"]
 
 [[topics]]
 id = 16
 slug = "cuckoo-hashing"
 title = "Cuckoo hashing"
+coverage = ["cuckoo hashing", "choice locations", "kick-out chains", "stash and rehash"]
 
 [[topics]]
 id = 17
 slug = "probabilistic-membership-filters"
 title = "Bloom, cuckoo, and quotient filters"
+coverage = ["Bloom filters", "cuckoo filters", "quotient filters", "false-positive budgets", "deletions"]
 
 [[topics]]
 id = 18
 slug = "hash-joins-partitioning-and-spill"
 title = "Hash joins, recursive partitioning, and spill"
+coverage = ["hash joins", "recursive partitioning", "skew handling", "spill"]
 
 [[topics]]
 id = 19
 slug = "fenwick-trees"
 title = "Fenwick trees"
+coverage = ["Fenwick trees", "point updates", "prefix queries", "range reductions"]
 
 [[topics]]
 id = 20
 slug = "segment-trees-and-lazy-propagation"
 title = "Segment trees and lazy propagation"
+coverage = ["segment trees", "lazy propagation", "tag composition", "range queries"]
 
 [[topics]]
 id = 21
 slug = "heaps-and-priority-queues"
 title = "Heaps and priority queues"
+coverage = ["binary heaps", "d-ary heaps", "indexed priority queues", "update and pop costs"]
 
 [[topics]]
 id = 22
 slug = "skip-lists-and-hybrid-indexes"
 title = "Skip lists and hybrid ordered indexes"
+coverage = ["skip lists", "randomized height", "ordered iteration", "hybrid point lookup"]
 
 [[topics]]
 id = 23
 slug = "b-trees-and-posting-list-deduplication"
 title = "B-trees and posting-list deduplication"
+coverage = ["B-trees", "page layouts", "posting lists", "duplicate-key compression"]
 
 [[topics]]
 id = 24
 slug = "tries-radix-trees-and-art"
 title = "Tries, radix trees, ART, and sparse radix arrays"
+coverage = ["tries", "radix trees", "adaptive radix trees", "sparse radix arrays"]
 
 [[topics]]
 id = 25
 slug = "finite-state-transducers"
 title = "Finite-state transducers and compact dictionaries"
+coverage = ["finite-state transducers", "minimal automata", "sorted dictionaries", "prefix lookup"]
 
 [[topics]]
 id = 26
 slug = "dynamic-arrays-and-growth-policies"
 title = "Dynamic arrays and growth policies"
+coverage = ["geometric growth", "dynamic arrays", "capacity and slack", "amortized copies"]
 
 [[topics]]
 id = 27
 slug = "ring-buffers-and-bounded-queues"
 title = "Ring buffers and bounded queues"
+coverage = ["ring buffers", "bounded queues", "wraparound", "producer and consumer ownership"]
 
 [[topics]]
 id = 28
 slug = "work-stealing-deques"
 title = "Work-stealing deques"
+coverage = ["Chase-Lev deques", "work stealing", "owner and thief coordination", "last-item races"]
 
 [[topics]]
 id = 29
 slug = "union-find-and-equivalence-classes"
 title = "Union-find and equivalence-class indexes"
+coverage = ["union-find", "path compression", "union by rank", "class enumeration", "offline rollback"]
 
 [[topics]]
 id = 30
 slug = "breadth-first-and-depth-first-traversal"
 title = "Breadth-first and depth-first traversal"
+coverage = ["breadth-first search", "depth-first search", "frontier order", "visited-state representation"]
 
 [[topics]]
 id = 31
 slug = "dijkstra-and-shortest-path-queues"
 title = "Dijkstra and shortest-path queues"
+coverage = ["Dijkstra", "shortest-path heaps", "stale queue entries", "integer-weight queues"]
 
 [[topics]]
 id = 32
 slug = "topological-order-and-incremental-dags"
 title = "Topological order and incremental DAG evaluation"
+coverage = ["topological sorting", "DAG evaluation", "incremental order repair", "affected descendants"]
 
 [[topics]]
 id = 33
 slug = "tarjan-strongly-connected-components"
 title = "Tarjan strongly connected components"
+coverage = ["Tarjan SCCs", "lowlinks", "explicit stacks", "condensation graphs"]
 
 [[topics]]
 id = 34
 slug = "dominator-trees"
 title = "Dominator trees and incremental maintenance"
+coverage = ["dominators", "immediate dominators", "Cooper-Harvey-Kennedy", "Lengauer-Tarjan", "graph edits"]
 
 [[topics]]
 id = 35
 slug = "reachability-indexes"
 title = "Reachability indexes for large DAGs"
+coverage = ["DAG reachability", "bitset transitive closure", "negative reachability labels", "incremental updates"]
 
 [[topics]]
 id = 36
 slug = "merkle-trees"
 title = "Merkle trees and incremental rebuild caches"
+coverage = ["Merkle trees", "content hashes", "incremental rebuild", "proof verification"]
 
 [[topics]]
 id = 37
 slug = "best-first-and-approximate-graph-search"
 title = "Best-first and approximate graph search"
+coverage = ["best-first exploration", "approximate graph search", "beam budgets", "recall and work"]
 
 [[topics]]
 id = 38
 slug = "kmp-and-prefix-function-matching"
 title = "KMP and prefix-function matching"
+coverage = ["Knuth-Morris-Pratt", "prefix function", "failure links", "streaming matches"]
 
 [[topics]]
 id = 39
 slug = "adaptive-string-search"
 title = "Boyer-Moore, Two-Way, and adaptive string search"
+coverage = ["Boyer-Moore", "Horspool", "Two-Way", "adaptive substring search"]
 
 [[topics]]
 id = 40
 slug = "rolling-hashes-and-content-defined-chunking"
 title = "Rolling hashes and content-defined chunking"
+coverage = ["rolling hashes", "content-defined chunking", "buzhash and gear-style hashing", "candidate verification"]
 
 [[topics]]
 id = 41
 slug = "edit-distance-and-automaton-lookup"
 title = "Edit distance and automaton-guided lookup"
+coverage = ["Levenshtein distance", "banded dynamic programming", "Myers bit vectors", "trie pruning"]
 
 [[topics]]
 id = 42
 slug = "longest-common-subsequence-and-diff"
 title = "Longest common subsequence and diff"
+coverage = ["longest common subsequence", "Myers diff", "Hirschberg", "edit-script reconstruction"]
 
 [[topics]]
 id = 43
 slug = "multi-pattern-matching-and-automata"
 title = "Multi-pattern matching and automata"
+coverage = ["Aho-Corasick", "literal-set matching", "dense and sparse automata", "output ordering"]
 
 [[topics]]
 id = 44
 slug = "varints-codecs-and-bounded-decoding"
 title = "Varints, codecs, and bounded decoding"
+coverage = ["varints", "bounded decoding", "canonical encodings", "integer codec trade-offs"]
 
 [[topics]]
 id = 45
 slug = "compression-oriented-transforms"
 title = "Compression-oriented transforms"
+coverage = ["delta coding", "XOR transforms", "byte shuffles", "run-length and transform selection"]
 
 [[topics]]
 id = 46
 slug = "streaming-sketches"
 title = "Streaming sketches"
+coverage = ["Count-Min", "HyperLogLog", "quantile sketches", "error budgets and merge"]
 
 [[topics]]
 id = 47
 slug = "consistent-hashing-and-bounded-load"
 title = "Consistent hashing and bounded-load placement"
+coverage = ["consistent hashing", "rendezvous hashing", "bounded-load placement", "membership churn"]
 
 [[topics]]
 id = 48
 slug = "lru-clock-and-eviction"
 title = "LRU, CLOCK, and workload-aware eviction"
+coverage = ["LRU", "CLOCK", "eviction metadata", "workload-dependent retention"]
 
 [[topics]]
 id = 49
 slug = "timing-wheels-heaps-and-timer-trees"
 title = "Timing wheels, heaps, and timer trees"
+coverage = ["timing wheels", "deadline heaps", "timer trees", "expiry and cancellation"]
 
 [[topics]]
 id = 50
 slug = "token-buckets-and-rate-accounting"
 title = "Token buckets and rate accounting"
+coverage = ["token buckets", "integer refill", "burst policies", "byte-rate accounting"]
 
 [[topics]]
 id = 51
 slug = "buddy-allocation"
 title = "Buddy allocation and hierarchical free-space tracking"
+coverage = ["buddy allocation", "order bitmaps", "split and coalesce", "fragmentation"]
 
 [[topics]]
 id = 52
 slug = "red-black-trees-and-intrusive-representation"
 title = "Red-black trees and intrusive representations"
+coverage = ["red-black trees", "left-leaning red-black trees", "intrusive and arena layouts", "identity stability"]
 
 [[topics]]
 id = 53
 slug = "load-balancing-and-stable-assignment"
 title = "Load balancing and stable assignment"
+coverage = ["round robin", "power of two choices", "rendezvous assignment", "locality and skew"]
 
 [[topics]]
 id = 54
 slug = "dynamic-programming-state-space-design"
 title = "Dynamic programming as state-space design"
+coverage = ["state-space design", "knapsack", "rolling state", "value-axis dynamic programming", "sparse frontiers"]
+
+[[topics]]
+id = 55
+slug = "concurrent-graph-marking-and-write-barriers"
+title = "Concurrent graph marking, write barriers, and work-list termination"
+coverage = ["tricolor marking", "insertion barriers", "snapshot-at-the-beginning barriers", "work-list termination"]
+question = "Which barrier and termination conditions keep reachable objects marked during mutation?"
+experiment = "Enumerate collector and mutator steps and check live objects against snapshot or graph traversal semantics."
+source = "https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD630.html"
+
+[[topics]]
+id = 56
+slug = "cycle-detection-and-deadlock-resolution"
+title = "Cycle detection, topological constraints, and deadlock resolution"
+coverage = ["wait-for graphs", "single-instance cycle detection", "multi-instance resource reduction", "victim selection"]
+question = "Which wait cycles are actual deadlocks under the declared resource model?"
+experiment = "Compare graph cycles and resource-reduction results against exhaustive completion sequences."
+source = "https://doi.org/10.1145/356586.356588"
+
+[[topics]]
+id = 57
+slug = "deadline-scheduling-and-admission-control"
+title = "Deadline scheduling: EDF, CBS, and admission control"
+coverage = ["earliest deadline first", "constant bandwidth server", "periodic task demand", "admission control"]
+question = "When can a workload meet every deadline under a stated processor and task model?"
+experiment = "Compare earliest-deadline dispatch with fixed priorities against exhaustive small schedules and test utilization assumptions."
+source = "https://www.cis.upenn.edu/~lee/01cis642/papers/AB98.pdf"
+
+[[topics]]
+id = 58
+slug = "deficit-round-robin-and-fair-queueing"
+title = "Deficit round robin, fair queueing, and active queue management"
+coverage = ["deficit round robin", "weighted fair queueing", "variable packet sizes", "active queue management"]
+question = "How do packet costs and queue policies affect service share and queue delay?"
+experiment = "Replay fixed arrivals and compare byte fairness with a fluid-service oracle while varying packet sizes."
+source = "https://repository.library.washu.edu/cse_research/339/"
+
+[[topics]]
+id = 59
+slug = "k-way-merge-tombstones-and-snapshots"
+title = "K-way merge, sweep-line tombstones, and snapshot semantics"
+coverage = ["heap merge", "loser trees", "range tombstone sweep", "snapshot visibility"]
+question = "Which version survives when sorted runs and overlapping tombstones meet at one snapshot?"
+experiment = "Compare heap and loser-tree merges with a materialized version-history oracle over overlapping deletes."
+source = "https://github.com/facebook/rocksdb/wiki/DeleteRange"
+
+[[topics]]
+id = 60
+slug = "associative-reductions-and-deferred-merges"
+title = "Associative reductions, deferred merges, and compaction"
+coverage = ["associative merge", "distributive aggregates", "algebraic aggregates", "order-sensitive merge contracts"]
+question = "Which reducer state can be regrouped and merged without changing the answer?"
+experiment = "Compare raw recomputation with partial-state merges over multiple parenthesizations and numeric contracts."
+source = "https://arxiv.org/abs/cs/0701155"
+
+[[topics]]
+id = 61
+slug = "block-range-indexes-and-lossy-summaries"
+title = "Block range indexes and lossy summaries"
+coverage = ["block range indexes", "min/max summaries", "multi-range summaries", "false-positive rechecks"]
+question = "How much scanning can a compact file summary safely rule out?"
+experiment = "Compare a full scan with per-block summaries on clustered and shuffled data using exact rechecks."
+source = "https://www.postgresql.org/docs/17/brin.html"
+
+[[topics]]
+id = 62
+slug = "inverted-file-vector-search-and-coarse-quantization"
+title = "Inverted-file vector search and coarse quantization"
+coverage = ["inverted file lists", "coarse centroid search", "probe budgets", "product quantization", "exact reranking"]
+question = "How do coarse partitioning and compressed distances spend a recall budget?"
+experiment = "Compare exhaustive search with inverted-file probes and exact reranking over varied density and skew."
+source = "https://doi.org/10.1109/TPAMI.2010.57"
+
+[[topics]]
+id = 63
+slug = "tinylfu-and-frequency-based-admission"
+title = "TinyLFU and frequency-based cache admission"
+coverage = ["TinyLFU", "Window TinyLFU", "frequency sketch aging", "admission versus eviction"]
+question = "When should a hot cache entry survive a miss for an unproven key?"
+experiment = "Hold the eviction policy fixed while comparing always-admit and TinyLFU on scans and shifting hot sets."
+source = "https://arxiv.org/abs/1512.00727"
+
+[[topics]]
+id = 64
+slug = "sharded-free-lists-and-cross-thread-reclamation"
+title = "Sharded free lists and cross-thread reclamation"
+coverage = ["page-local free lists", "remote free queues", "batch reclamation", "ownership transfer"]
+question = "How can another thread return an object without violating the owning thread's reuse invariant?"
+experiment = "Model ownership states and compare direct and batched remote returns under same-thread and cross-thread workloads."
+source = "https://www.microsoft.com/en-us/research/publication/mimalloc-free-list-sharding-in-action/"
+
+[[topics]]
+id = 65
+slug = "spatial-indexes-r-trees-and-str-packing"
+title = "Spatial indexes, R-trees, and STR packing"
+coverage = ["R-trees", "Sort-Tile-Recursive packing", "bounding-box candidate queries", "exact predicate refinement", "spatial joins", "index construction versus query reuse"]
+question = "How does rectangle overlap change the number of spatial candidates that must be checked?"
+experiment = "Compare a full scan, incremental insertion and bulk packing on clustered and elongated rectangles."
+source = "https://citeseerx.ist.psu.edu/document?doi=e680839472e7f5cab0f12fcc7c4aba6834a2e096&repid=rep1&type=pdf"
+
+[[topics]]
+id = 66
+slug = "incremental-multiset-computation-and-differential-dataflow"
+title = "Incremental multiset computation and differential dataflow"
+coverage = ["signed multiplicities", "timestamped updates", "incremental joins and aggregates", "arrangements", "update consolidation", "frontiers and history compaction"]
+question = "How do weighted updates propagate through joins and iteration?"
+experiment = "Replay insertions and deletions and compare each consolidated output with full multiset recomputation."
+source = "https://www.cidrdb.org/cidr2013/Papers/CIDR13_Paper111.pdf"
+
+[[topics]]
+id = 67
+slug = "cumulative-resource-scheduling-and-edge-finding"
+title = "Cumulative resource scheduling, timetables, and edge finding"
+coverage = ["boundary-event resource profiles", "compulsory parts", "timetable propagation", "overload checking", "timetable edge finding", "optional interval presence", "propagation versus complete feasibility"]
+question = "Which possible task starts can a shared-capacity constraint rule out?"
+experiment = "Compare timetable and edge-finding bounds against exhaustive feasible starts on small schedules."
+source = "https://vilim.eu/petr/cpaior2011.pdf"
+
+[[topics]]
+id = 68
+slug = "static-range-minimum-queries"
+title = "Static range minima, Cartesian trees, and RMQ"
+coverage = ["range minimum queries", "sparse tables", "Cartesian trees", "Fischer-Heun indexing", "deterministic ties"]
+question = "How can preprocessing answer immutable range minima with small query cost?"
+experiment = "Compare scans, sparse tables and blocked RMQ across query reuse and repeated minima."
+source = "https://epubs.siam.org/doi/10.1137/090779759"
+
+[[topics]]
+id = 69
+slug = "wavelet-trees-and-matrices"
+title = "Wavelet trees and matrices"
+coverage = ["wavelet trees", "wavelet matrices", "range quantile", "alphabet rank", "range frequency"]
+question = "How can a sequence index answer order statistics without sorting each subrange?"
+experiment = "Compare subrange sorting and wavelet indexes over skewed alphabets using an independent sorted-slice oracle."
+source = "https://repositorio.uchile.cl/bitstream/handle/2250/133661/The-wavelet-matrix.pdf"
+
+[[topics]]
+id = 70
+slug = "succinct-bitvector-rank-and-select"
+title = "Succinct bitvectors and rank/select"
+coverage = ["rank directories", "sampled select", "word popcount", "boundary indexes"]
+question = "How much support data does a static bitmap need to answer positional queries?"
+experiment = "Compare direct scans, dense prefix counts and sampled directories at different bit densities."
+source = "https://gwern.net/doc/cs/algorithm/information/compression/1989-jacobson.pdf"
+
+[[topics]]
+id = 71
+slug = "elias-fano-monotone-indexes"
+title = "Elias-Fano and compressed monotone indexes"
+coverage = ["Elias-Fano", "partitioned Elias-Fano", "monotone predecessor", "compressed random access"]
+question = "When can sorted integer addresses stay compressed during search?"
+experiment = "Compare a plain sorted array, delta blocks and partitioned Elias-Fano with duplicate and gap-heavy sequences."
+source = "https://doi.org/10.1145/2600428.2609615"
+
+[[topics]]
+id = 72
+slug = "minimal-perfect-hashing"
+title = "Minimal perfect hashing for static keys"
+coverage = ["static key bijections", "hypergraph peeling", "RecSplit", "absent-key verification"]
+question = "How do static keys map to a dense range while handling unknown keys?"
+experiment = "Measure build, lookup and verification against a sorted-key baseline with hits and misses."
+source = "https://arxiv.org/abs/1910.06416"
+
+[[topics]]
+id = 73
+slug = "bounded-learned-sorted-indexes"
+title = "Learned sorted indexes and bounded search"
+coverage = ["PGM-index", "piecewise linear rank models", "error-bounded correction", "duplicate-key lower bounds"]
+question = "What bound turns a rank prediction into an exact lower-bound query?"
+experiment = "Compare binary search and a bounded model on clustered, gapped and shifted key distributions."
+source = "https://arxiv.org/abs/1910.06169"
+
+[[topics]]
+id = 74
+slug = "suffix-arrays-and-lcp"
+title = "Suffix arrays, induced sorting, and longest common prefixes"
+coverage = ["suffix arrays", "prefix doubling", "induced sorting", "longest common prefix arrays"]
+question = "How can an indexed text answer substring queries with reusable suffix order?"
+experiment = "Compare explicit suffix sorting and induced sorting against brute-force match positions on repeated and varied text."
+source = "https://www.cin.ufpe.br/~paguso/courses/if767/bib/Nong_2011.pdf"
+
+[[topics]]
+id = 75
+slug = "fm-index-and-backward-search"
+title = "FM-index and backward search"
+coverage = ["Burrows-Wheeler transform", "backward search", "occurrence rank", "sampled suffix locations"]
+question = "How can a compressed text index count and locate arbitrary substrings?"
+experiment = "Compare suffix-array search with backward search and vary location sampling density."
+source = "https://people.unipmn.it/manzini/fmindex/"
+
+[[topics]]
+id = 76
+slug = "palindromic-substrings-and-eertrees"
+title = "Palindromic substrings, Manacher radii, and eertrees"
+coverage = ["Manacher radii", "palindromic trees", "suffix links", "online distinct palindrome queries"]
+question = "Which representation fits longest-palindrome queries or online distinct counts?"
+experiment = "Compare center expansion, radii and a palindromic tree against enumeration on repeated and alternating text."
+source = "https://arxiv.org/abs/1506.04862"
+
+[[topics]]
+id = 77
+slug = "suffix-automata-and-substring-indexing"
+title = "Suffix automata and substring occurrence"
+coverage = ["Suffix automata", "end-position equivalence", "cloned states", "occurrence propagation"]
+question = "How does an online automaton represent all substrings and share their right contexts?"
+experiment = "Check membership and counts against enumeration and compare state growth across alphabets."
+source = "https://doi.org/10.1016/0304-3975(85)90157-4"
+
+[[topics]]
+id = 78
+slug = "regular-expression-automata"
+title = "Regular expression automata and bounded matching"
+coverage = ["Thompson NFA", "epsilon closure", "DFA caching", "submatch priority and output contracts"]
+question = "How does a regular-expression engine preserve matching semantics while bounding active state?"
+experiment = "Compare a Thompson simulator with a bounded deterministic cache against exhaustive small input match sets."
+source = "https://people.csail.mit.edu/virgi/6.s078/papers/regexp2.pdf"
+
+[[topics]]
+id = 79
+slug = "erasure-coding-and-reconstruction"
+title = "Erasure coding and reconstruction"
+coverage = ["XOR parity", "Reed-Solomon erasure coding", "finite-field matrix inversion", "systematic codes"]
+question = "Which missing chunks can be recovered from a redundancy budget?"
+experiment = "Exhaust small erasure masks and compare XOR parity and systematic Reed-Solomon encoding costs."
+source = "https://sites.math.rutgers.edu/~zeilberg/akherim/reed.pdf"
+
+[[topics]]
+id = 80
+slug = "lempel-ziv-and-dictionary-parsing"
+title = "Lempel-Ziv parsing and dictionary compression"
+coverage = ["LZ77", "match-finder search", "greedy parsing", "lazy parsing", "optimal parse cost"]
+question = "When is a shorter local match cheaper over the whole encoded block?"
+experiment = "Compare greedy, lazy and exhaustive small parses under one fixed token-cost and decoder contract."
+source = "https://courses.cs.duke.edu/spring03/cps296.5/papers/ziv_lempel_1977_universal_algorithm.pdf"
+
+[[topics]]
+id = 81
+slug = "entropy-coding-and-normalized-models"
+title = "Entropy coding and normalized symbol models"
+coverage = ["canonical Huffman", "range coding", "asymmetric numeral systems", "frequency normalization"]
+question = "How does a symbol model become a reversible stream with bounded decode state?"
+experiment = "Compare coded size, model cost and round trips for fixed and shifting symbol frequencies."
+source = "https://arxiv.org/abs/0902.0271"
+
+[[topics]]
+id = 82
+slug = "fractional-cascading"
+title = "Fractional cascading over sorted catalogs"
+coverage = ["linked catalog search", "sampled bridge entries", "lower-bound queries", "duplicate-key policy"]
+question = "How does a search result in one list narrow the search in a neighboring list?"
+experiment = "Compare independent binary searches and fractional cascading across list lengths and query paths."
+source = "https://www.cs.princeton.edu/~chazelle/pubs/FractionalCascading1.pdf"
+
+[[topics]]
+id = 83
+slug = "robust-geometric-predicates-and-hulls"
+title = "Robust geometric predicates and convex hulls"
+coverage = ["orientation predicates", "integer widening", "adaptive exact predicates", "monotone-chain hulls"]
+question = "Which arithmetic guarantee keeps a geometric decision correct near degeneracy?"
+experiment = "Compare integer and filtered predicates with an exact arithmetic oracle on nearly collinear inputs."
+source = "https://people.eecs.berkeley.edu/~jrs/jrspapers.html"
+
+[[topics]]
+id = 84
+slug = "geometric-sweep-line-intersections"
+title = "Sweep-line algorithms for geometric intersections"
+coverage = ["Bentley-Ottmann", "event ordering", "sweep status", "coincident intersection policy"]
+question = "How do ordered events expose all segment intersections without testing all pairs?"
+experiment = "Compare event sweep and brute-force pairs under clustered intersections and tied coordinates."
+source = "https://doi.org/10.1109/TC.1979.1675432"
+
+[[topics]]
+id = 85
+slug = "delaunay-triangulation-and-voronoi"
+title = "Delaunay triangulations and Voronoi diagrams"
+coverage = ["empty-circle predicates", "Delaunay triangulation", "Voronoi duality", "edge flips", "degeneracies"]
+question = "How do local geometric updates maintain a global triangulation invariant?"
+experiment = "Validate small triangulations using exact orientation and empty-circle tests, then compare insertion orders."
+source = "https://doi.org/10.1145/800061.808751"
+
+[[topics]]
+id = 86
+slug = "exact-spatial-nearest-neighbors"
+title = "Exact spatial nearest-neighbor search"
+coverage = ["k-d trees", "ball trees", "vantage-point trees", "distance lower bounds", "exact top-k"]
+question = "Which metric bound safely prunes a subtree in an exact nearest-neighbor query?"
+experiment = "Compare tree pruning with flat exhaustive search across dimensionality and clustered queries."
+source = "https://doi.org/10.1145/355744.355745"
+
+[[topics]]
+id = 87
+slug = "minimum-spanning-forests"
+title = "Minimum spanning forests and cut certificates"
+coverage = ["Kruskal", "Prim", "Boruvka", "cut property", "equal-weight ties"]
+question = "How can local minimum edges certify an optimal spanning forest?"
+experiment = "Compare three edge-selection strategies against exhaustive forest cost on small graphs."
+source = "https://www.cs.yale.edu/homes/lans/readings/routing/kruskal-1956.pdf"
+
+[[topics]]
+id = 88
+slug = "fully-dynamic-graph-connectivity"
+title = "Fully dynamic graph connectivity"
+coverage = ["Euler-tour trees", "spanning forest witnesses", "replacement edge search", "level promotion"]
+question = "How do online deletions replace a removed tree edge or prove that connectivity changed?"
+experiment = "Replay insertions and deletions against fresh traversal with varied bridge frequency and component sizes."
+source = "https://u.cs.biu.ac.il/~rodittl/p723-holm.pdf"
+
+[[topics]]
+id = 89
+slug = "heavy-light-tree-path-queries"
+title = "Heavy-light decomposition and tree path queries"
+coverage = ["heavy-light decomposition", "path aggregates", "linearized heavy chains", "noncommutative query order"]
+question = "How can a fixed tree path become a small set of contiguous ranges?"
+experiment = "Compare an explicit path walk and heavy-light ranges under chains, stars and mixed query/update loads."
+source = "https://www.cs.cmu.edu/~sleator/papers/dynamic-trees.pdf"
+
+[[topics]]
+id = 90
+slug = "link-cut-trees-and-dynamic-paths"
+title = "Link-cut trees and dynamic path aggregates"
+coverage = ["link-cut trees", "preferred paths", "splay access", "link and cut", "path reversal"]
+question = "How can path queries survive online changes to the forest itself?"
+experiment = "Replay links, cuts and path queries against a forest walk and test orientation-sensitive aggregates."
+source = "https://www.cs.cmu.edu/~sleator/papers/dynamic-trees.pdf"
+
+[[topics]]
+id = 91
+slug = "offline-range-queries-with-mo-order"
+title = "Offline range queries with Mo ordering"
+coverage = ["Mo ordering", "reversible window state", "block-size selection", "frequency queries"]
+question = "When does reordering queries save more endpoint movement than it costs?"
+experiment = "Compare naive scans and offline orders on identical distinct-count queries, including original answer order."
+source = "https://codeforces.com/blog/entry/7383"
+
+[[topics]]
+id = 92
+slug = "max-flow-and-min-cut"
+title = "Maximum flow and minimum cut"
+coverage = ["residual networks", "augmenting paths", "blocking flows", "max-flow min-cut certificates"]
+question = "How does reverse residual capacity repair an earlier flow choice?"
+experiment = "Compare Edmonds-Karp and Dinic against exhaustive cuts on small integral networks."
+source = "https://www.mathnet.ru/eng/dan35701"
+
+[[topics]]
+id = 93
+slug = "bipartite-cardinality-matching"
+title = "Bipartite cardinality matching and vertex covers"
+coverage = ["augmenting paths", "Hopcroft-Karp", "alternating layers", "minimum vertex cover certificate"]
+question = "When do batches of shortest augmenting paths reduce the work to find a maximum matching?"
+experiment = "Compare one-path augmentation with layered batches and check both matching and cover sizes."
+source = "https://epubs.siam.org/doi/abs/10.1137/0202019"
+
+[[topics]]
+id = 94
+slug = "min-cost-flow-and-weighted-assignment"
+title = "Minimum-cost flow and weighted assignment"
+coverage = ["minimum-cost flow", "reduced costs", "successive shortest paths", "Hungarian assignment", "optimality witnesses"]
+question = "How can a solver improve assignment cost without breaking capacity and balance?"
+experiment = "Compare weighted assignment and generic min-cost flow with enumeration and optimality certificates."
+source = "https://doi.org/10.1002/nav.3800020109"
+
+[[topics]]
+id = 95
+slug = "general-graph-matching-and-blossoms"
+title = "General graph matching and blossom contraction"
+coverage = ["blossom contraction", "odd alternating cycles", "augmenting path lifting", "maximum cardinality"]
+question = "Why do odd cycles require contraction before a general-graph augmenting search can continue?"
+experiment = "Compare a blossom implementation and exhaustive matchings on small odd-cycle and nested fixtures."
+source = "https://doi.org/10.4153/CJM-1965-045-4"
+
+[[topics]]
+id = 96
+slug = "contraction-hierarchies-for-routing"
+title = "Contraction hierarchies for route queries"
+coverage = ["contraction order", "shortcut witnesses", "upward bidirectional queries", "path unpacking"]
+question = "When does one-time route preprocessing justify its shortcut storage and query savings?"
+experiment = "Compare baseline Dijkstra and shortcut queries with exact distances and reconstructed paths."
+source = "https://publikationen.bibliothek.kit.edu/1000015090"
+
+[[topics]]
+id = 97
+slug = "k-shortest-paths-and-walks"
+title = "K shortest paths, loopless routes, and walks"
+coverage = ["Yen spur paths", "Eppstein sidetracks", "loopless path contract", "duplicate suppression"]
+question = "How do path and walk semantics change the enumeration algorithm and output order?"
+experiment = "Compare a small exhaustive path oracle with spur-path enumeration and include cycles and tied costs."
+source = "https://pubsonline.informs.org/doi/10.1287/mnsc.17.11.712"
+
+[[topics]]
+id = 98
+slug = "timetable-routing-and-transfers"
+title = "Timetable routing with transfers"
+coverage = ["RAPTOR", "connection scanning", "earliest arrival", "transfer counts", "Pareto route labels"]
+question = "What state must a route search retain when a later departure can arrive earlier?"
+experiment = "Compare chronological scans and route rounds against a time-expanded graph with transfer limits."
+source = "https://renatowerneck.files.wordpress.com/2016/06/dpw14-raptor.pdf"
+
+[[topics]]
+id = 99
+slug = "random-walks-and-personalized-pagerank"
+title = "Random walks and personalized PageRank"
+coverage = ["transition matrices", "power iteration", "teleportation", "dangling vertices", "personalized residual pushes"]
+question = "How do teleportation and residual error define what a graph ranking converges to?"
+experiment = "Compare dense iteration and sparse pushes against a small linear-solve oracle with dangling nodes."
+source = "https://bytes.usc.edu/files/cs103/pagerank/pagerank.pdf"
+
+[[topics]]
+id = 100
+slug = "random-spanning-trees"
+title = "Random spanning trees and loop-erased walks"
+coverage = ["Wilson's algorithm", "loop erasure", "uniform spanning trees", "weighted walks"]
+question = "How can a randomized traversal sample trees with the intended distribution?"
+experiment = "Enumerate small spanning trees and compare empirical frequencies for loop-erased and cover-time walks."
+source = "https://www.cs.cmu.edu/~15859n/RelatedWork/RandomTrees-Wilson.pdf"
+
+[[topics]]
+id = 101
+slug = "polynomial-convolution-and-fast-transforms"
+title = "Polynomial convolution with FFT and NTT"
+coverage = ["naive convolution", "fast Fourier transform", "number-theoretic transform", "padding", "coefficient reconstruction"]
+question = "When can transforms replace nested coefficient products while preserving the output contract?"
+experiment = "Compare schoolbook, floating and modular methods using exact coefficients and an overflow bound."
+source = "https://web.stanford.edu/class/cme324/classics/cooley-tukey.pdf"
+
+[[topics]]
+id = 102
+slug = "multiprecision-integer-multiplication"
+title = "Multiprecision integer multiplication"
+coverage = ["schoolbook limb multiplication", "Karatsuba", "carry propagation", "unbalanced operands"]
+question = "Where does subquadratic splitting repay allocations, carries, and asymmetry?"
+experiment = "Compare limb multiplication and Karatsuba against exact host integers and vary operand aspect ratios."
+source = "https://www.mathnet.ru/eng/dan26729"
+
+[[topics]]
+id = 103
+slug = "modular-arithmetic-and-montgomery-reduction"
+title = "Modular arithmetic and Montgomery reduction"
+coverage = ["modular multiplication", "Montgomery representation", "Barrett reduction", "conversion costs"]
+question = "How many repeated operations justify conversion into a cheaper modular representation?"
+experiment = "Compare exact wide-integer remainder, Barrett and Montgomery across repeated and one-off products."
+source = "https://doi.org/10.1090/S0025-5718-1985-0777282-X"
+
+[[topics]]
+id = 104
+slug = "sparse-direct-solves-and-fill"
+title = "Sparse direct solves, pivoting, and fill-in"
+coverage = ["sparse LU", "elimination order", "pivoting", "symbolic versus numeric factorization", "fill-in"]
+question = "Why do elimination order and pivot choices change both work and numerical error?"
+experiment = "Compare orderings on sparse systems with known solutions and report fill and residual separately."
+source = "https://epubs.siam.org/doi/10.1137/1.9780898718881"
+
+[[topics]]
+id = 105
+slug = "sparse-matrix-products"
+title = "Sparse matrix products and accumulators"
+coverage = ["sparse matrix multiplication", "Gustavson row accumulation", "heap merge", "symbolic sizing", "semiring operations"]
+question = "Which accumulator fits a sparse product as output rows get wider?"
+experiment = "Compare dense scratch, hash and merge accumulators with a dense oracle at varied skew and fill."
+source = "https://research.ibm.com/publications/two-fast-algorithms-for-sparse-matrices-multiplication-and-permuted-transposition"
+
+[[topics]]
+id = 106
+slug = "randomized-low-rank-approximation"
+title = "Randomized low-rank approximation"
+coverage = ["randomized range finding", "oversampling", "power iteration", "singular-value error", "matrix pass budget"]
+question = "How does a matrix spectrum trade extra passes for a tighter low-rank approximation?"
+experiment = "Compare randomized and exact decompositions on fixed spectra with measured residual and pass counts."
+source = "https://arxiv.org/abs/0909.4061"
+
+[[topics]]
+id = 107
+slug = "conjugate-gradient-and-preconditioning"
+title = "Conjugate gradients and preconditioning"
+coverage = ["conjugate gradients", "symmetric positive-definite systems", "Jacobi preconditioning", "residual stopping"]
+question = "When does better conditioning justify the cost of a preconditioner?"
+experiment = "Compare unpreconditioned and preconditioned solves with direct solutions and independently recomputed residuals."
+source = "https://nvlpubs.nist.gov/nistpubs/jres/049/jresv49n6p409_a1b.pdf"
+
+[[topics]]
+id = 108
+slug = "sat-and-conflict-driven-learning"
+title = "SAT solving with conflict-driven clause learning"
+coverage = ["unit propagation", "watched literals", "implication graphs", "clause learning", "backjumping"]
+question = "How does a conflict teach a solver to avoid repeating the same failed choices?"
+experiment = "Compare backtracking and learning on small formulas against exhaustive truth tables."
+source = "https://eprints.soton.ac.uk/262031/1/jpms-iccad96.pdf"
+
+[[topics]]
+id = 109
+slug = "exact-cover-and-dancing-links"
+title = "Exact cover and dancing links"
+coverage = ["Algorithm X", "dancing links", "minimum-column branching", "reversible deletions"]
+question = "How can exact-cover search undo candidate removal without rebuilding the remaining matrix?"
+experiment = "Enumerate solutions using both backtracking representations and test exact restoration after each undo."
+source = "https://arxiv.org/abs/cs/0011047"
+
+[[topics]]
+id = 110
+slug = "submodular-greedy-optimization"
+title = "Submodular greedy optimization"
+coverage = ["monotone submodularity", "maximum coverage", "greedy selection", "lazy marginal evaluation"]
+question = "Which diminishing-returns property justifies reusing a previous marginal score as an upper bound?"
+experiment = "Compare eager and lazy greedy with exact small optima and count marginal evaluations."
+source = "https://doi.org/10.1007/BF01588971"
+
+[[topics]]
+id = 111
+slug = "online-bipartite-matching"
+title = "Online bipartite matching and Ranking"
+coverage = ["irrevocable online matching", "randomized Ranking", "adversarial arrival order", "offline optimum"]
+question = "What can irrevocable matching guarantee when one side arrives over time?"
+experiment = "Compare greedy and Ranking against offline optimum over fixed seeds and adversarial arrival traces."
+source = "https://doi.org/10.1145/100216.100262"
+
+[[topics]]
+id = 112
+slug = "optimal-transport-and-sinkhorn"
+title = "Optimal transport and Sinkhorn scaling"
+coverage = ["transport plans", "earth mover distance", "entropic regularization", "Sinkhorn iteration", "log-domain stabilization"]
+question = "How does an entropy penalty trade transport accuracy for faster matrix scaling?"
+experiment = "Compare exact transport and regularized plans with marginal residual and transport cost reported separately."
+source = "https://arxiv.org/abs/1306.0895"
+
+[[topics]]
+id = 113
+slug = "rectangle-packing-and-skyline"
+title = "Rectangle packing with skyline and free rectangles"
+coverage = ["skyline packing", "guillotine splits", "MaxRects", "rotation and placement constraints", "fragmentation"]
+question = "Which free-space representation keeps packing efficiency under a required insertion order?"
+experiment = "Compare three placements against exhaustive small grids while checking bounds and pairwise overlap."
+source = "https://github.com/juj/RectangleBinPack"
+
+[[topics]]
+id = 114
+slug = "multilevel-graph-partitioning"
+title = "Multilevel graph partitioning and separators"
+coverage = ["graph coarsening", "balanced edge cuts", "partition refinement", "separator quality"]
+question = "When does grouping vertices expose a better balanced partition than local moves alone?"
+experiment = "Compare a greedy partition and multilevel refinement against exhaustive small balanced cuts."
+source = "https://aiichironakano.github.io/cs653/Karypis-METIS-SIAMJSC98.pdf"

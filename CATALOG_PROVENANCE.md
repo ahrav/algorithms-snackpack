@@ -23,3 +23,17 @@ The catalog is a semantic deduplication, not a transcript index:
 
 The source conversation remains useful context, but `curriculum.toml` is the
 durable topic authority for the scheduled curriculum.
+
+## 2026-11-20 expansion
+
+Topics 055–064 come from the saved daily rotation. Topics 065–067 retain the
+earlier catalog review's three distinct proposals. The remaining additions
+cover static and succinct indexes, substring data structures, geometry, graph
+optimization, arithmetic, numerical methods and combinatorial search.
+
+Each addition has a distinct question, a primary source and a runnable
+experiment plan with a correctness check. Coverage keeps variants under
+their closest topic. Topic 003 covers bitmap set operations. Topic 070 covers
+positional rank and select. Topic 029 covers offline rollback. Topic 088 covers
+online deletion and replacement edges. Topic 087 covers weight-optimal forests.
+Topic 100 covers sampling spanning trees from a specified distribution.
