@@ -1,0 +1,35 @@
+{
+  "source_commit": "733d121e09e03accf01ccdbd99efad68c94badd7",
+  "predeclared_campaign": "six balanced blocks; min-ratio winner at 1.05; bounded stack A/A",
+  "process_count_per_host": 330,
+  "runs": [
+    {
+      "run_id": "isotonic-lab-20261121-arm",
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "kernel_architecture": "Linux 6.12.115-140.210.amzn2023.aarch64 aarch64",
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/supplements/20261121-isotonic/publication-20261121/native/isotonic-arm-native.tar.gz",
+      "archive_sha256": "869716db8e9ad689da3bc34d1e7be4468da573219370fb55e9fabf64fb39f2f5",
+      "archive_bytes": 2659394,
+      "file_members": 21,
+      "input_manifest_sha256": "38f69b246b787926efc831967571262856ae8fe7dc36db4ed5d5deca97292594",
+      "result_manifest_sha256": "018d02da82a33746a984641101e3a43b32f030cecf9f3a8b7614510271436174",
+      "executable_sha256": "649bb6b8d97d0826964ab25eea243c61ca57ec51057beb9e65e32b6aec38a5b3",
+      "result_sha256": "4d268754a71c17d432c2d446223a0210fb0692c1f071b18086a9fef83ab04eb3",
+      "archive_and_manifest_verification": "passed"
+    },
+    {
+      "run_id": "isotonic-lab-20261121-x86",
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "kernel_architecture": "Linux 6.12.115-140.210.amzn2023.x86_64 x86_64",
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/supplements/20261121-isotonic/publication-20261121/native/isotonic-x86-native.tar.gz",
+      "archive_sha256": "6bc5c0961c969fa9d821f636f731fc415736d1094fb204fe466c257d71c2dbd7",
+      "archive_bytes": 3179480,
+      "file_members": 21,
+      "input_manifest_sha256": "38f69b246b787926efc831967571262856ae8fe7dc36db4ed5d5deca97292594",
+      "result_manifest_sha256": "15b532d3c3d2aadb4b6640510ab62e933e6dbb574707cffa4a017c48a5aea4ed",
+      "executable_sha256": "b5868d63f1d2f5f3937e231f916fcd51a12f97cafd521f4c90bc0dbe53b59872",
+      "result_sha256": "9fbf83180ac57faa0eed9e349baa07555ff888de623cc2987a13f627ba7589ca",
+      "archive_and_manifest_verification": "passed"
+    }
+  ]
+}
