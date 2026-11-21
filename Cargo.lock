@@ -23,6 +23,10 @@ name = "hash-joins"
 version = "0.1.0"
 
 [[package]]
+name = "isotonic-regression"
+version = "0.1.0"
+
+[[package]]
 name = "lower-bound-portfolio"
 version = "0.1.0"
 
