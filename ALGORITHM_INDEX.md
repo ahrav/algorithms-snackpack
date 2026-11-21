@@ -558,3 +558,11 @@ When does grouping vertices expose a better balanced partition than local moves 
 **Coverage.** graph coarsening, balanced edge cuts, partition refinement, separator quality.
 
 **Experiment.** Compare a greedy partition and multilevel refinement against exhaustive small balanced cuts. [Primary source](https://aiichironakano.github.io/cs653/Karypis-METIS-SIAMJSC98.pdf)
+
+### 115 Isotonic regression and adjacent pooling
+
+How can an ordered fit minimize squared error while preserving ties, exact comparisons, and the original predictor order?
+
+**Coverage.** ordered least-squares fitting, pool-adjacent-violators algorithm, weighted pooling, cumulative-sum lower hull, residual-prefix optimality certificates.
+
+**Experiment.** Compare block shifting, a pooling stack, and the cumulative lower hull against exact partition enumeration and residual-prefix certificates. [Primary source](https://escholarship.org/uc/item/9zx9c72c)

@@ -37,3 +37,9 @@ their closest topic. Topic 003 covers bitmap set operations. Topic 070 covers
 positional rank and select. Topic 029 covers offline rollback. Topic 088 covers
 online deletion and replacement edges. Topic 087 covers weight-optimal forests.
 Topic 100 covers sampling spanning trees from a specified distribution.
+
+## 2026-11-21 placement
+
+Topic 115 places isotonic regression after multilevel graph partitioning.
+This lesson fits an ordered signal and can revise previously fitted blocks.
+Topic 006 covers candidate stacks and deques for extrema and boundary queries.

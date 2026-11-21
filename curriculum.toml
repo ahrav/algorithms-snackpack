@@ -864,3 +864,12 @@ coverage = ["graph coarsening", "balanced edge cuts", "partition refinement", "s
 question = "When does grouping vertices expose a better balanced partition than local moves alone?"
 experiment = "Compare a greedy partition and multilevel refinement against exhaustive small balanced cuts."
 source = "https://aiichironakano.github.io/cs653/Karypis-METIS-SIAMJSC98.pdf"
+
+[[topics]]
+id = 115
+slug = "isotonic-regression-and-adjacent-pooling"
+title = "Isotonic regression and adjacent pooling"
+coverage = ["ordered least-squares fitting", "pool-adjacent-violators algorithm", "weighted pooling", "cumulative-sum lower hull", "residual-prefix optimality certificates"]
+question = "How can an ordered fit minimize squared error while preserving ties, exact comparisons, and the original predictor order?"
+experiment = "Compare block shifting, a pooling stack, and the cumulative lower hull against exact partition enumeration and residual-prefix certificates."
+source = "https://escholarship.org/uc/item/9zx9c72c"

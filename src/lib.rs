@@ -1,7 +1,7 @@
 #![doc = include_str!("../README.md")]
 
 /// Number of stable topics in the curriculum catalog.
-pub const TOPIC_COUNT: usize = 114;
+pub const TOPIC_COUNT: usize = 115;
 
 #[cfg(test)]
 mod tests {
