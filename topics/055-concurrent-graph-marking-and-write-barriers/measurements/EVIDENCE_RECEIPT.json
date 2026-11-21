@@ -1,0 +1,26 @@
+{
+  "source_commit": "1032dcac11abdf15c7c3cbb570c9d9ed5e126652",
+  "hosts": [
+    {
+      "host": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture_and_kernel": "Linux 6.12.115-140.210.amzn2023.aarch64 aarch64",
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-055/20261121/native/topic055-arm-native.tar.gz",
+      "sha256": "7908cbca265d5851e7c7fd14bdf876e7439c3db593af40977110a7eb1044e8e4",
+      "file_members": 15,
+      "input_manifest": "1a8b969cb6084cc93c785040ed5e4cca3d9706a0379a916b397c9b7ef9413441",
+      "output_manifest": "af6cc1db3bd54dc208fe21741c06cdfc406e87458ca88b275b105a8d42e6d1a4"
+    },
+    {
+      "host": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture_and_kernel": "Linux 6.12.115-140.210.amzn2023.x86_64 x86_64",
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-055/20261121/native/topic055-x86-native.tar.gz",
+      "sha256": "7c2d0f0125eaf5c60bd8535279ef74c6100348c963ebdf49a1ce53514fc2d121",
+      "file_members": 15,
+      "input_manifest": "1a8b969cb6084cc93c785040ed5e4cca3d9706a0379a916b397c9b7ef9413441",
+      "output_manifest": "45dd7af0766d6699ea87d27714589c93e19bfc347a0152c690e52780a99fb4a6"
+    }
+  ],
+  "verified": true,
+  "workloads_per_host": 15,
+  "rust_contracts_per_host": 3
+}
