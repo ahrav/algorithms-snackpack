@@ -37,8 +37,8 @@ the A/B cycle.
   snapshot and returns a decision.
 
 Peeling costs O(n + e) time and space for n tasks and e mandatory edges.
-Dense resource reduction costs O(nrp) time for r resource classes and p
-passes. There can be n passes, with O(n + r) working storage excluding the
+Dense resource reduction costs O(np(1 + r)) time for r resource classes
+and p passes. Task checks still cost work when r is zero. There can be n passes, with O(n + r) working storage excluding the
 input matrices. Trying q eligible victims adds at most q reductions. An
 exhaustive scheduler can examine up to n! complete orders. Use it on small
 inputs to check decisions and certificates.
