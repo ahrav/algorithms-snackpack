@@ -7,6 +7,7 @@ publish = false
 
 [workspace]
 members = [
+    "topics/055-concurrent-graph-marking-and-write-barriers",
     "topics/054-dynamic-programming-state-space-design",
     "topics/053-load-balancing-and-stable-assignment",
     "topics/052-red-black-trees-and-intrusive-representation",
