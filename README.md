@@ -161,6 +161,6 @@ contracts or cost models. `curriculum.toml` is the machine-readable authority. S
 | 112 | Optimal transport and Sinkhorn scaling | How does an entropy penalty trade transport accuracy for faster matrix scaling? |
 | 113 | Rectangle packing with skyline and free rectangles | Which free-space representation keeps packing efficiency under a required insertion order? |
 | 114 | Multilevel graph partitioning and separators | When does grouping vertices expose a better balanced partition than local moves alone? |
-| 115 | Isotonic regression and adjacent pooling | How can an ordered fit minimize squared error while preserving the original predictor order? |
+| 115 | Isotonic regression and adjacent pooling | How can an ordered fit minimize squared error while preserving ties, exact comparisons, and the original predictor order? |
 
 Source audit details are retained in [CATALOG_PROVENANCE.md](CATALOG_PROVENANCE.md).
