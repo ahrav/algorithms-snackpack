@@ -1,7 +1,7 @@
 #![doc = include_str!("../README.md")]
 
 /// Number of stable topics in the curriculum catalog.
-pub const TOPIC_COUNT: usize = 114;
+pub const TOPIC_COUNT: usize = 115;
 
 #[cfg(test)]
 mod tests {
@@ -15,5 +15,20 @@ mod tests {
             .count();
 
         assert_eq!(topic_headers, TOPIC_COUNT);
+    }
+
+    #[test]
+    fn readme_repeats_each_curriculum_question() {
+        let readme = include_str!("../README.md");
+        let questions = include_str!("../curriculum.toml")
+            .lines()
+            .filter_map(|line| line.strip_prefix("question = \"")?.strip_suffix('"'));
+
+        for question in questions {
+            assert!(
+                readme.contains(&format!("| {question} |")),
+                "README.md table omits the curriculum.toml question: {question}"
+            );
+        }
     }
 }
