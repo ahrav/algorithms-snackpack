@@ -62,6 +62,7 @@ members = [
     "topics/007-binary-galloping-branch-aware-search",
     "topics/008-selection-quickselect-top-k",
     "topics/028-work-stealing-deques",
+    "topics/056-cycle-detection-and-deadlock-resolution",
 ]
 resolver = "3"
 
