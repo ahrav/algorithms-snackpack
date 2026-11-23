@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="465" viewBox="0 0 1040 465">
+<rect width="1040" height="465" fill="#f8fafc"/>
+<text x="30" y="41" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#14253c" text-anchor="start">Deadline order and budget exhaustion</text>
+<text x="30" y="75" font-family="Arial,sans-serif" font-size="19" font-weight="400" fill="#14253c" text-anchor="start">At time 0, A needs 2 ticks by 5. B needs 2 ticks by 3.</text>
+<text x="235" y="111" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">0</text>
+<text x="310" y="111" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">1</text>
+<text x="385" y="111" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">2</text>
+<text x="460" y="111" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">3</text>
+<text x="535" y="111" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">4</text>
+<text x="610" y="111" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">5</text>
+<text x="30" y="144" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#14253c" text-anchor="start">Earliest deadline</text>
+<rect x="235" y="123" width="148" height="29" rx="3" fill="#713b97"/>
+<text x="309.0" y="143" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">B</text>
+<rect x="385" y="123" width="148" height="29" rx="3" fill="#225ba0"/>
+<text x="459.0" y="143" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">A</text>
+<rect x="535" y="123" width="73" height="29" rx="3" fill="#e1e8f2"/>
+<text x="571.5" y="143" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#334963" text-anchor="middle">idle</text>
+<text x="630" y="144" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#14253c" text-anchor="start">Both finish on time</text>
+<text x="30" y="186" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#14253c" text-anchor="start">Shortest period</text>
+<rect x="235" y="165" width="148" height="29" rx="3" fill="#225ba0"/>
+<text x="309.0" y="185" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">A</text>
+<rect x="385" y="165" width="148" height="29" rx="3" fill="#713b97"/>
+<text x="459.0" y="185" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">B</text>
+<rect x="535" y="165" width="73" height="29" rx="3" fill="#e1e8f2"/>
+<text x="571.5" y="185" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#334963" text-anchor="middle">idle</text>
+<text x="630" y="186" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#9a301a" text-anchor="start">B misses at 3</text>
+<text x="30" y="228" font-family="Arial,sans-serif" font-size="18" font-weight="400" fill="#14253c" text-anchor="start">Tighten A’s deadline to 3. Four ticks of work are due by tick 3.</text>
+<path d="M30 250H1010" stroke="#bccbdf"/>
+<text x="30" y="286" font-family="Arial,sans-serif" font-size="19" font-weight="400" fill="#14253c" text-anchor="start">Now give B 5 ticks of work and a server budget of 2 every 7.</text>
+<text x="235" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">0</text>
+<text x="280" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">1</text>
+<text x="325" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">2</text>
+<text x="370" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">3</text>
+<text x="415" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">4</text>
+<text x="460" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">5</text>
+<text x="505" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">6</text>
+<text x="550" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">7</text>
+<text x="595" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">8</text>
+<text x="640" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">9</text>
+<text x="685" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">10</text>
+<text x="730" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">11</text>
+<text x="775" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">12</text>
+<text x="820" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">13</text>
+<text x="865" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">14</text>
+<text x="910" y="319" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#334963" text-anchor="middle">15</text>
+<text x="30" y="351" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#14253c" text-anchor="start">Immediate refill</text>
+<rect x="235" y="330" width="88" height="29" rx="3" fill="#225ba0"/>
+<text x="279.0" y="350" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">A</text>
+<rect x="325" y="330" width="133" height="29" rx="3" fill="#713b97"/>
+<text x="391.5" y="350" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">B</text>
+<rect x="460" y="330" width="88" height="29" rx="3" fill="#225ba0"/>
+<text x="504.0" y="350" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">A</text>
+<rect x="550" y="330" width="88" height="29" rx="3" fill="#713b97"/>
+<text x="594.0" y="350" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">B</text>
+<rect x="640" y="330" width="43" height="29" rx="3" fill="#e1e8f2"/>
+<text x="661.5" y="350" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#334963" text-anchor="middle">idle</text>
+<rect x="685" y="330" width="88" height="29" rx="3" fill="#225ba0"/>
+<text x="729.0" y="350" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">A</text>
+<rect x="775" y="330" width="133" height="29" rx="3" fill="#e1e8f2"/>
+<text x="841.5" y="350" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#334963" text-anchor="middle">idle</text>
+<text x="924" y="351" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#14253c" text-anchor="start">B done at 9</text>
+<text x="30" y="393" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#14253c" text-anchor="start">Wait to refill</text>
+<rect x="235" y="372" width="88" height="29" rx="3" fill="#225ba0"/>
+<text x="279.0" y="392" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">A</text>
+<rect x="325" y="372" width="88" height="29" rx="3" fill="#713b97"/>
+<text x="369.0" y="392" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">B</text>
+<rect x="415" y="372" width="43" height="29" rx="3" fill="#e1e8f2"/>
+<text x="436.5" y="392" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#334963" text-anchor="middle">idle</text>
+<rect x="460" y="372" width="88" height="29" rx="3" fill="#225ba0"/>
+<text x="504.0" y="392" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">A</text>
+<rect x="550" y="372" width="88" height="29" rx="3" fill="#713b97"/>
+<text x="594.0" y="392" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">B</text>
+<rect x="640" y="372" width="43" height="29" rx="3" fill="#e1e8f2"/>
+<text x="661.5" y="392" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#334963" text-anchor="middle">idle</text>
+<rect x="685" y="372" width="88" height="29" rx="3" fill="#225ba0"/>
+<text x="729.0" y="392" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">A</text>
+<rect x="775" y="372" width="88" height="29" rx="3" fill="#e1e8f2"/>
+<text x="819.0" y="392" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#334963" text-anchor="middle">idle</text>
+<rect x="865" y="372" width="43" height="29" rx="3" fill="#713b97"/>
+<text x="886.5" y="392" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">B</text>
+<text x="924" y="393" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#14253c" text-anchor="start">B done at 15</text>
+<text x="30" y="433" font-family="Arial,sans-serif" font-size="16" font-weight="400" fill="#14253c" text-anchor="start">A releases again at 5 and 10. B has one request at 0. Time runs left to right.</text>
+</svg>

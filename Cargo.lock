@@ -23,6 +23,10 @@ name = "cycle-detection-and-deadlock-resolution"
 version = "0.1.0"
 
 [[package]]
+name = "deadline-scheduling-and-admission-control"
+version = "0.1.0"
+
+[[package]]
 name = "fenwick-trees"
 version = "0.1.0"
 
