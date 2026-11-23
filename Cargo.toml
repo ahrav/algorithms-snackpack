@@ -63,6 +63,7 @@ members = [
     "topics/008-selection-quickselect-top-k",
     "topics/028-work-stealing-deques",
     "topics/056-cycle-detection-and-deadlock-resolution",
+    "topics/057-deadline-scheduling-and-admission-control",
 ]
 resolver = "3"
 

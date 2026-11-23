@@ -1,0 +1,33 @@
+{
+  "benchmark": false,
+  "verification": "passed",
+  "source_commit": "c1549a95baec7beb232ce5fd26beacd630146c1a",
+  "executable_input_sha256": {
+    "src/lib.rs": "8067a237a9073143f290b592c1212887d6ba1b76a4b38cb5bd2b2e088c7bc83d",
+    "examples/deadline.rs": "952f2525831dac4f48d2c14ffb6e1edd59b826510cd840be9a88eb7b8a15a08d",
+    "tests/contracts.rs": "ea1393bc0b2561a02e79f219e0e86bff39a9c77a465876bbdb0ee72858608cf0",
+    "measurements/run.sh": "ce7c475124a365289e41dd6540a0e9a0e084ca6526a45bc785ea79efb5293ed3"
+  },
+  "hosts": {
+    "arm": {
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "arch": "aarch64",
+      "available_cpus": 64,
+      "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+      "log_sha256": "cd9817437aad780e970ddcecbb05b40d50b1199f26b23bcb1807cb547c636e7a"
+    },
+    "x86": {
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "arch": "x86_64",
+      "available_cpus": 192,
+      "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+      "log_sha256": "640de944adac9e612b5b83ef1e56d059054331c132bd5742daaf37e91eec3bbd"
+    }
+  },
+  "result_archive": {
+    "path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-057/20261123/native/replay-results.tar.gz",
+    "sha256": "ba89404b4f8efe7ea303de96943dcf8c56f7a154e145d8d3839886a3d0043d06",
+    "bytes": 3477,
+    "members": 3
+  }
+}
