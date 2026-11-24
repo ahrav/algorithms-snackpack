@@ -1,0 +1,67 @@
+{
+  "source_commit": "781a2eb1de25b3332d141c378883145a40647d76",
+  "source_manifest_sha256": "94360afd904924fa359365f122021f74fcf4b2b77f263042633c5b90eea40a9d",
+  "transferred_source_archive_sha256": "6b32869e05f620a2cc45b9ba676a499a69650128ed707b9193074f0444f2fbae",
+  "build_flags": [
+    "--edition=2024",
+    "-C",
+    "opt-level=3",
+    "-C",
+    "target-cpu=native"
+  ],
+  "hosts": [
+    {
+      "run_id": "20261124-topic058-aarch64",
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-058/20261124/native/aarch64-replay.tar.gz",
+      "archive_sha256": "e7df5a2ad03de0bc340fc140e024da29188ecbfa5bbbe89ecc05c7c80dcda139",
+      "archive_bytes": 3646653,
+      "archive_member_count": 7,
+      "process_records_sha256": "0b069a077695322783f3f51bf94fe7e26702c6ee6081b12bb0c7ac0b00998bf5",
+      "linked_benchmark_sha256": "86c70bb989d30149a2e9b7208efd51585a63e16e8d63dfc1c8183f40fe7bb0f5",
+      "environment_log": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-058/20261124/native/aarch64.log",
+      "environment_log_sha256": "a4f4d134c27a2fbacc1baec0a5566b8bc81c4314e5912916c2719bb9ce8f9e33",
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "architecture": "aarch64",
+      "cpu": "ARM part 0xd40, c7g.16xlarge",
+      "available_logical_cpus": 64,
+      "pinned_cpu": 0,
+      "rustc": "1.98.1",
+      "kernel": "6.12.115-140.210.amzn2023.aarch64",
+      "verified": true
+    },
+    {
+      "run_id": "20261124-topic058-x86_64",
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-058/20261124/native/x86_64-replay.tar.gz",
+      "archive_sha256": "c87474706194e4bee2a965b5d91b8265fc0e4d8946bad2e7ab22ee2e02916291",
+      "archive_bytes": 4369387,
+      "archive_member_count": 7,
+      "process_records_sha256": "f4af57a22475e3a30a003d88119e3ea256735744a95b771134c9e766d5d2145f",
+      "linked_benchmark_sha256": "44c35dc0a16d2d31f7227663c93779ebce6201a25b768ebd3341a1617f8a2166",
+      "environment_log": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-058/20261124/native/x86_64.log",
+      "environment_log_sha256": "f369943341c46a3e7cf0f20a80893d6867cea54f0ef84548b3be3cc58f490fe1",
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "architecture": "x86_64",
+      "cpu": "Intel Xeon Platinum 8488C",
+      "available_logical_cpus": 192,
+      "pinned_cpu": 0,
+      "rustc": "1.99.0",
+      "kernel": "6.12.115-140.210.amzn2023.x86_64",
+      "verified": true
+    }
+  ],
+  "verification": "Both hosts verified the transferred archive and all six input hashes before executing. Local verification matched every logged replay artifact hash and all 132 portable process identities across hosts.",
+  "allocation_diagnostic": {
+    "scope": "Archived benchmark binaries; counts between two benchmark clock reads. Diagnostic timings excluded.",
+    "directory": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-058/20261124/native/allocator",
+    "sha256": {
+      "meter.c": "7d880781c84c8306208647030870162646f8ebcad1d306e236760d94c87f2346",
+      "trace-host.sh": "b7d66327f5a8c622d0102b364e07339398bcee6358130921dd86d026c3a4a3b3",
+      "trace-host-first.sh": "6827bb9eb635ad9e367a667410c8232c4b0425b1bd5c67634bded463c68165da",
+      "aarch64.log": "048faca6ca64f401d9de79ce9b9a062d4a5abff2e65fb148651a39d73826f909",
+      "x86_64.log": "a1511ffaab8a43f17e56e0345427f1ad856888c536b33ae6a9ed53e63edcb484",
+      "x86_64-first.log": "8c3b69731375512215b745f06326ce1dc11d1b7dcf991b8a2bd493303956137f",
+      "verified-counts.json": "49c47f9cbbf629ffaa3bc47eda41238fbcf086399ddf8c129a7ae8b4f2c01307"
+    },
+    "verified_processes": 24
+  }
+}

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="373" viewBox="0 0 960 373">
+  <rect width="960" height="373" fill="#f7f9fc"/>
+  <g font-family="Arial, sans-serif" fill="#13283e">
+    <text x="32" y="42" font-size="25" font-weight="bold">Deficit round robin with two backlogged flows</text>
+    <text x="32" y="72" font-size="17">Equal weights • 1,500 byte quantum per visit • Both queues stay backlogged</text>
+    <g stroke="#b1c2d3" fill="#fff">
+      <rect x="32" y="105" width="230" height="203" rx="8"/>
+      <rect x="285" y="105" width="302" height="203" rx="8"/>
+      <rect x="610" y="105" width="318" height="203" rx="8"/>
+    </g>
+    <g font-size="19" font-weight="bold">
+      <text x="48" y="141">Before either visit</text>
+      <text x="301" y="141">During round 1</text>
+      <text x="626" y="141">After round 2</text>
+    </g>
+    <g font-size="16">
+      <text x="48" y="184" fill="#17487d" font-weight="bold">A  400 byte packets</text>
+      <text x="48" y="216" fill="#81450e" font-weight="bold">B  1,500 byte packets</text>
+      <text x="48" y="263">Both credits start at 0</text>
+      <text x="301" y="184" fill="#17487d">A sends 3 × 400 = 1,200 bytes</text>
+      <text x="301" y="210">A carries 300 bytes of credit</text>
+      <text x="301" y="251" fill="#81450e">B sends 1 × 1,500 bytes</text>
+      <text x="301" y="277">B carries 0 bytes of credit</text>
+      <text x="626" y="184" fill="#17487d">A sends 4 × 400 = 1,600 bytes</text>
+      <text x="626" y="210">A total 2,800, credit 200</text>
+      <text x="626" y="251" fill="#81450e">B sends 1 × 1,500 bytes</text>
+      <text x="626" y="277">B total 3,000, credit 0</text>
+      <text x="32" y="343">Across the first two visits per flow, each receives 3,000 bytes of credit.</text>
+    </g>
+  </g>
+</svg>
