@@ -64,6 +64,7 @@ members = [
     "topics/028-work-stealing-deques",
     "topics/056-cycle-detection-and-deadlock-resolution",
     "topics/057-deadline-scheduling-and-admission-control",
+    "topics/058-deficit-round-robin-and-fair-queueing",
 ]
 resolver = "3"
 
