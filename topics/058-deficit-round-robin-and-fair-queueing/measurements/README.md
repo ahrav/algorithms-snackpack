@@ -33,6 +33,11 @@ Packet RR made one visit per packet. Heap WFQ made one selection per
 packet, with potentially multiple comparisons per selection. Compiled
 assembly on both architectures shows allocator calls inside the timed
 batch loop and wide integer multiplication for finish comparisons.
+A glibc interposer ran the archived binaries and counted one allocation and
+one free per batch for every policy on both hosts. Reallocation calls per
+batch were 0, 2, 2, and 6 in workload order. Every accepted process had two
+monotonic clock reads and matched the original work count and output digest.
+The CPU comparison uses the original uninstrumented runs.
 The measurements cover total policy cost within that loop; the experiment
 does not attribute the timing differences to individual instructions,
 allocations, or memory effects.

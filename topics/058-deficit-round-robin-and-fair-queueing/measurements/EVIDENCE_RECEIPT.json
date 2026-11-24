@@ -49,5 +49,19 @@
       "verified": true
     }
   ],
-  "verification": "Both hosts verified the transferred archive and all six input hashes before executing. Local verification matched every logged replay artifact hash and all 132 portable process identities across hosts."
+  "verification": "Both hosts verified the transferred archive and all six input hashes before executing. Local verification matched every logged replay artifact hash and all 132 portable process identities across hosts.",
+  "allocation_diagnostic": {
+    "scope": "Archived benchmark binaries; counts between two benchmark clock reads. Diagnostic timings excluded.",
+    "directory": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-058/20261124/native/allocator",
+    "sha256": {
+      "meter.c": "7d880781c84c8306208647030870162646f8ebcad1d306e236760d94c87f2346",
+      "trace-host.sh": "b7d66327f5a8c622d0102b364e07339398bcee6358130921dd86d026c3a4a3b3",
+      "trace-host-first.sh": "6827bb9eb635ad9e367a667410c8232c4b0425b1bd5c67634bded463c68165da",
+      "aarch64.log": "048faca6ca64f401d9de79ce9b9a062d4a5abff2e65fb148651a39d73826f909",
+      "x86_64.log": "a1511ffaab8a43f17e56e0345427f1ad856888c536b33ae6a9ed53e63edcb484",
+      "x86_64-first.log": "8c3b69731375512215b745f06326ce1dc11d1b7dcf991b8a2bd493303956137f",
+      "verified-counts.json": "49c47f9cbbf629ffaa3bc47eda41238fbcf086399ddf8c129a7ae8b4f2c01307"
+    },
+    "verified_processes": 24
+  }
 }
