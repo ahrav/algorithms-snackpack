@@ -1,0 +1,58 @@
+{
+  "source_commit": "c7b59fecde0b95eb9915a63303ca8e573e04139c",
+  "source_archive_sha256": "1d04010ae569ad2c0d58fa29c56f61341ff838c423306cf3bd8c3f9a109cd5d7",
+  "hosts": {
+    "arm": {
+      "run_id": "20261125-topic059-arm",
+      "environment": {
+        "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+        "uname": "Linux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.115-140.210.amzn2023.aarch64 #1 SMP Wed Nov 11 00:31:12 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+        "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+        "cpus_available": 64,
+        "target_cpu": "native",
+        "pinned_cpu": 0,
+        "cpu_identification": "0x00000000411fd401"
+      },
+      "archive_path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-059/20261125/native/native-arm.tar.gz",
+      "sha256": "c8f601a6f812d93d9367de41970334b1f876fe9bcc60087bea3263096eeed431",
+      "bytes": 3921669,
+      "members_including_directory": 13,
+      "binary_sha256": "f613ed0017aa5b6e8fbb05f0ad8ed0bfdf69e12152dcc4431bd9a2a94bf2a8c7",
+      "member_manifest_sha256": "bbedc5457b0c77151675bc620b9262db25fec03ffea3d2e0a258ea4fc7a218c7",
+      "raw_sha256": "2017c21d05e70a04c0f7201030743a407771baf8c8448c327cf1561a2f15f58d",
+      "processes": {
+        "check": 7,
+        "warmup": 28,
+        "timed": 224,
+        "control": 112
+      },
+      "verification": "Transfer SHA, member SHA, all binary SHA, semantic vectors, and process schedule verified."
+    },
+    "x86": {
+      "run_id": "20261125-topic059-x86",
+      "environment": {
+        "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+        "uname": "Linux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.115-140.210.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Wed Nov 11 00:39:58 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux",
+        "compiler": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "cpus_available": 192,
+        "target_cpu": "native",
+        "pinned_cpu": 0,
+        "cpu_identification": "Intel(R) Xeon(R) Platinum 8488C"
+      },
+      "archive_path": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-059/20261125/native/native-x86.tar.gz",
+      "sha256": "f40773623e4ca58a293c67cd554547726c9d7fe8d1beec4dc718ab43c428d6ad",
+      "bytes": 4626070,
+      "members_including_directory": 13,
+      "binary_sha256": "e640866990666c42b786b57ea3644e92e25b1b0dcad1030192d6045c871d8177",
+      "member_manifest_sha256": "bbedc5457b0c77151675bc620b9262db25fec03ffea3d2e0a258ea4fc7a218c7",
+      "raw_sha256": "391b7714c12e9d879e845b2f7ca04683a1919dfeadc1436d25b70be39edee046",
+      "processes": {
+        "check": 7,
+        "warmup": 28,
+        "timed": 224,
+        "control": 112
+      },
+      "verification": "Transfer SHA, member SHA, all binary SHA, semantic vectors, and process schedule verified."
+    }
+  }
+}
