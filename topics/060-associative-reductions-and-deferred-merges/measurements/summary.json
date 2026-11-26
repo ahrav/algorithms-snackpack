@@ -1,0 +1,978 @@
+{
+  "arm": {
+    "tiny": {
+      "selection": "compact",
+      "median_absolute_AA_ratio_error": 0.007052969135955545,
+      "arms": {
+        "chunked": {
+          "total_ns_median_mad": [
+            157.180825,
+            1.1428750000000036
+          ],
+          "phase_ns_medians": {
+            "build": 63.988074999999995,
+            "read": 43.377449999999996,
+            "drop": 49.819225
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              0.8030760060863866,
+              1.0289133256406113
+            ],
+            "compact": [
+              0.7466982126141992,
+              0.8554444080290473
+            ]
+          },
+          "visits": 5,
+          "buffers": 2,
+          "reserved_bytes": 72,
+          "digest": "0000000000280325"
+        },
+        "compact": {
+          "total_ns_median_mad": [
+            132.566275,
+            0.4485250000000036
+          ],
+          "phase_ns_medians": {
+            "build": 50.294349999999994,
+            "read": 40.62835,
+            "drop": 41.80475
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              1.0755027834803677,
+              1.2116777343080045
+            ],
+            "chunked": [
+              1.1689830345656362,
+              1.3392291331446853
+            ]
+          },
+          "visits": 5,
+          "buffers": 1,
+          "reserved_bytes": 48,
+          "digest": "0000000000280325"
+        },
+        "raw": {
+          "total_ns_median_mad": [
+            144.45999999999998,
+            0.7280500000000245
+          ],
+          "phase_ns_medians": {
+            "build": 51.13785,
+            "read": 43.454,
+            "drop": 49.802775
+          },
+          "paired_speedup_ranges": {
+            "chunked": [
+              0.9718991630100529,
+              1.2452121498104258
+            ],
+            "compact": [
+              0.8253019525617553,
+              0.9297976865889294
+            ]
+          },
+          "visits": 9,
+          "buffers": 2,
+          "reserved_bytes": 44,
+          "digest": "0000000000280325"
+        }
+      }
+    },
+    "large-once": {
+      "selection": "compact",
+      "median_absolute_AA_ratio_error": 0.013509511600826807,
+      "arms": {
+        "chunked": {
+          "total_ns_median_mad": [
+            34134.5078125,
+            93.3671875
+          ],
+          "phase_ns_medians": {
+            "build": 32208.3203125,
+            "read": 1772.78125,
+            "drop": 160.0859375
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              1.5543322005244116,
+              1.7665729545576823
+            ],
+            "compact": [
+              0.7794182923826852,
+              0.9250092284473806
+            ]
+          },
+          "visits": 8192,
+          "buffers": 2,
+          "reserved_bytes": 131104,
+          "digest": "fffffffffffaf129"
+        },
+        "compact": {
+          "total_ns_median_mad": [
+            27142.7734375,
+            260.875
+          ],
+          "phase_ns_medians": {
+            "build": 26976.1875,
+            "read": 67.75,
+            "drop": 100.984375
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              1.6803423714305465,
+              2.2398320756931183
+            ],
+            "chunked": [
+              1.081070295567203,
+              1.2830081225615009
+            ]
+          },
+          "visits": 4,
+          "buffers": 1,
+          "reserved_bytes": 64,
+          "digest": "fffffffffffaf129"
+        },
+        "raw": {
+          "total_ns_median_mad": [
+            53942.7265625,
+            481.40625
+          ],
+          "phase_ns_medians": {
+            "build": 28027.3828125,
+            "read": 25782.046875,
+            "drop": 207.9140625
+          },
+          "paired_speedup_ranges": {
+            "chunked": [
+              0.5660677626814353,
+              0.6433631109634176
+            ],
+            "compact": [
+              0.4464620409949924,
+              0.5951168148837774
+            ]
+          },
+          "visits": 262144,
+          "buffers": 2,
+          "reserved_bytes": 1048608,
+          "digest": "fffffffffffaf129"
+        }
+      }
+    },
+    "large-read": {
+      "selection": "compact",
+      "median_absolute_AA_ratio_error": 0.007839407200186055,
+      "arms": {
+        "compact": {
+          "total_ns_median_mad": [
+            27482.25,
+            291.6875
+          ],
+          "phase_ns_medians": {
+            "build": 26991.125,
+            "read": 358.5625,
+            "drop": 105.875
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              52.212200568670575,
+              59.17681702583322
+            ],
+            "chunked": [
+              5.155244524109174,
+              5.671207078796383
+            ]
+          },
+          "visits": 224,
+          "buffers": 1,
+          "reserved_bytes": 64,
+          "digest": "bbbbbbbbbbbbbbbb"
+        },
+        "chunked": {
+          "total_ns_median_mad": [
+            151423.875,
+            253.125
+          ],
+          "phase_ns_medians": {
+            "build": 35670.0,
+            "read": 115382.9375,
+            "drop": 207.4375
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              10.127977504169472,
+              10.60072064980851
+            ],
+            "compact": [
+              0.17632930452122247,
+              0.1939772197658849
+            ]
+          },
+          "visits": 458752,
+          "buffers": 2,
+          "reserved_bytes": 131104,
+          "digest": "bbbbbbbbbbbbbbbb"
+        },
+        "raw": {
+          "total_ns_median_mad": [
+            1586989.4375,
+            12349.3125
+          ],
+          "phase_ns_medians": {
+            "build": 52576.5,
+            "read": 1533882.6875,
+            "drop": 286.3125
+          },
+          "paired_speedup_ranges": {
+            "chunked": [
+              0.09433320931988372,
+              0.09873639624380301
+            ],
+            "compact": [
+              0.016898509420732396,
+              0.019152611633075668
+            ]
+          },
+          "visits": 14680064,
+          "buffers": 2,
+          "reserved_bytes": 1048608,
+          "digest": "bbbbbbbbbbbbbbbb"
+        }
+      }
+    },
+    "dense-cuts": {
+      "selection": "raw",
+      "median_absolute_AA_ratio_error": 0.014498668890581823,
+      "arms": {
+        "raw": {
+          "total_ns_median_mad": [
+            45747.75,
+            266.2708333333321
+          ],
+          "phase_ns_medians": {
+            "build": 23337.25,
+            "read": 13604.8125,
+            "drop": 8683.541666666668
+          },
+          "paired_speedup_ranges": {
+            "chunked": [
+              2.4175105431726616,
+              2.7048544252091737
+            ],
+            "compact": [
+              1.6387463126177366,
+              2.0704235402489735
+            ]
+          },
+          "visits": 137288,
+          "buffers": 2,
+          "reserved_bytes": 196608,
+          "digest": "0ad59a33704693bf"
+        },
+        "chunked": {
+          "total_ns_median_mad": [
+            111800.47916666666,
+            107.6458333333212
+          ],
+          "phase_ns_medians": {
+            "build": 84015.29166666666,
+            "read": 27692.104166666668,
+            "drop": 92.625
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              0.3697056635211217,
+              0.4136486613570805
+            ],
+            "compact": [
+              0.611816855218544,
+              0.8323766915718905
+            ]
+          },
+          "visits": 137288,
+          "buffers": 2,
+          "reserved_bytes": 393216,
+          "digest": "0ad59a33704693bf"
+        },
+        "compact": {
+          "total_ns_median_mad": [
+            76126.20833333333,
+            454.3125
+          ],
+          "phase_ns_medians": {
+            "build": 48174.3125,
+            "read": 27736.916666666668,
+            "drop": 63.75
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              0.4829929628213885,
+              0.6102225782602055
+            ],
+            "chunked": [
+              1.2013791473564253,
+              1.6344760551632647
+            ]
+          },
+          "visits": 137288,
+          "buffers": 1,
+          "reserved_bytes": 262144,
+          "digest": "0ad59a33704693bf"
+        }
+      }
+    },
+    "medium-stripes": {
+      "selection": "compact",
+      "median_absolute_AA_ratio_error": 0.005699222734383169,
+      "arms": {
+        "compact": {
+          "total_ns_median_mad": [
+            3287.1875,
+            14.864583333333258
+          ],
+          "phase_ns_medians": {
+            "build": 2942.390625,
+            "read": 291.78125,
+            "drop": 52.0625
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              6.34758081950068,
+              6.948072997767779
+            ],
+            "chunked": [
+              1.6802422393998353,
+              1.8668933203816924
+            ]
+          },
+          "visits": 1556,
+          "buffers": 1,
+          "reserved_bytes": 4096,
+          "digest": "000368edf0644cba"
+        },
+        "raw": {
+          "total_ns_median_mad": [
+            22537.921875,
+            103.140625
+          ],
+          "phase_ns_medians": {
+            "build": 2746.708333333333,
+            "read": 19693.828125,
+            "drop": 95.109375
+          },
+          "paired_speedup_ranges": {
+            "chunked": [
+              0.2572027248995395,
+              0.2705373900563059
+            ],
+            "compact": [
+              0.14392479761241309,
+              0.15754033362251274
+            ]
+          },
+          "visits": 199168,
+          "buffers": 2,
+          "reserved_bytes": 133120,
+          "digest": "000368edf0644cba"
+        },
+        "chunked": {
+          "total_ns_median_mad": [
+            5858.291666666666,
+            28.609374999999545
+          ],
+          "phase_ns_medians": {
+            "build": 4800.791666666667,
+            "read": 989.2395833333334,
+            "drop": 67.04166666666666
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              3.696346740803088,
+              3.8879836922046174
+            ],
+            "compact": [
+              0.5356492463080572,
+              0.5951522801600259
+            ]
+          },
+          "visits": 6224,
+          "buffers": 2,
+          "reserved_bytes": 18432,
+          "digest": "000368edf0644cba"
+        }
+      }
+    },
+    "short-stripes": {
+      "selection": "compact",
+      "median_absolute_AA_ratio_error": 0.009995967903397351,
+      "arms": {
+        "raw": {
+          "total_ns_median_mad": [
+            21033.354166666664,
+            118.53125
+          ],
+          "phase_ns_medians": {
+            "build": 11610.552083333332,
+            "read": 3597.40625,
+            "drop": 5806.640625
+          },
+          "paired_speedup_ranges": {
+            "chunked": [
+              1.1543722383270947,
+              1.1785679404102476
+            ],
+            "compact": [
+              0.7560788434983443,
+              0.7826025559908905
+            ]
+          },
+          "visits": 32768,
+          "buffers": 2,
+          "reserved_bytes": 163840,
+          "digest": "ffffffffffff92bf"
+        },
+        "compact": {
+          "total_ns_median_mad": [
+            16193.109375,
+            76.86979166666697
+          ],
+          "phase_ns_medians": {
+            "build": 14995.755208333332,
+            "read": 1090.390625,
+            "drop": 70.625
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              1.2777878021799356,
+              1.3226133869492274
+            ],
+            "chunked": [
+              1.498304955065529,
+              1.5317510894613975
+            ]
+          },
+          "visits": 4096,
+          "buffers": 1,
+          "reserved_bytes": 65536,
+          "digest": "ffffffffffff92bf"
+        },
+        "chunked": {
+          "total_ns_median_mad": [
+            24503.354166666668,
+            103.96874999999818
+          ],
+          "phase_ns_medians": {
+            "build": 23286.90625,
+            "read": 1100.9427083333335,
+            "drop": 110.02604166666667
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              0.8484873597120843,
+              0.8662716988492296
+            ],
+            "compact": [
+              0.6528475852768124,
+              0.6674208722457736
+            ]
+          },
+          "visits": 4096,
+          "buffers": 2,
+          "reserved_bytes": 98304,
+          "digest": "ffffffffffff92bf"
+        }
+      }
+    }
+  },
+  "x86": {
+    "tiny": {
+      "selection": "unresolved",
+      "median_absolute_AA_ratio_error": 0.07575099543624658,
+      "arms": {
+        "chunked": {
+          "total_ns_median_mad": [
+            164.72875,
+            5.883499999999998
+          ],
+          "phase_ns_medians": {
+            "build": 73.4757,
+            "read": 40.9798,
+            "drop": 49.27065
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              0.7571531100676507,
+              1.0929095146400827
+            ],
+            "compact": [
+              0.7804348649704987,
+              1.0500046513126735
+            ]
+          },
+          "visits": 5,
+          "buffers": 2,
+          "reserved_bytes": 72,
+          "digest": "0000000000280325"
+        },
+        "compact": {
+          "total_ns_median_mad": [
+            143.948325,
+            5.0576500000000095
+          ],
+          "phase_ns_medians": {
+            "build": 60.5976,
+            "read": 41.7654,
+            "drop": 41.614275
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              0.8472908911254413,
+              1.2281535024588135
+            ],
+            "chunked": [
+              0.9523767335219329,
+              1.281336912130138
+            ]
+          },
+          "visits": 5,
+          "buffers": 1,
+          "reserved_bytes": 48,
+          "digest": "0000000000280325"
+        },
+        "raw": {
+          "total_ns_median_mad": [
+            151.09575,
+            12.36037499999999
+          ],
+          "phase_ns_medians": {
+            "build": 58.143874999999994,
+            "read": 44.5704,
+            "drop": 47.892250000000004
+          },
+          "paired_speedup_ranges": {
+            "chunked": [
+              0.9149888317417754,
+              1.3207368320928525
+            ],
+            "compact": [
+              0.8142304671182871,
+              1.1802322088836785
+            ]
+          },
+          "visits": 9,
+          "buffers": 2,
+          "reserved_bytes": 44,
+          "digest": "0000000000280325"
+        }
+      }
+    },
+    "large-once": {
+      "selection": "compact",
+      "median_absolute_AA_ratio_error": 0.047799075937676905,
+      "arms": {
+        "chunked": {
+          "total_ns_median_mad": [
+            31081.359375,
+            1253.203125
+          ],
+          "phase_ns_medians": {
+            "build": 28112.0546875,
+            "read": 3018.421875,
+            "drop": 73.5078125
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              1.163758884037461,
+              2.6487027149723175
+            ],
+            "compact": [
+              0.38342516393131093,
+              0.7952471112981109
+            ]
+          },
+          "visits": 8192,
+          "buffers": 2,
+          "reserved_bytes": 131104,
+          "digest": "fffffffffffaf129"
+        },
+        "compact": {
+          "total_ns_median_mad": [
+            22014.59375,
+            482.5390625
+          ],
+          "phase_ns_medians": {
+            "build": 21907.8359375,
+            "read": 68.171875,
+            "drop": 47.21875
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              2.703591535214259,
+              3.6100147152584046
+            ],
+            "chunked": [
+              1.2574707732891521,
+              2.6080708677199547
+            ]
+          },
+          "visits": 4,
+          "buffers": 1,
+          "reserved_bytes": 64,
+          "digest": "fffffffffffaf129"
+        },
+        "raw": {
+          "total_ns_median_mad": [
+            67398.59375,
+            3223.1640625
+          ],
+          "phase_ns_medians": {
+            "build": 40958.8359375,
+            "read": 26423.9609375,
+            "drop": 136.25
+          },
+          "paired_speedup_ranges": {
+            "chunked": [
+              0.37754331369364397,
+              0.85928452509911
+            ],
+            "compact": [
+              0.2770071810990998,
+              0.3698783588330588
+            ]
+          },
+          "visits": 262144,
+          "buffers": 2,
+          "reserved_bytes": 1048608,
+          "digest": "fffffffffffaf129"
+        }
+      }
+    },
+    "large-read": {
+      "selection": "unresolved",
+      "median_absolute_AA_ratio_error": 0.14371940176393155,
+      "arms": {
+        "compact": {
+          "total_ns_median_mad": [
+            24860.75,
+            1290.5
+          ],
+          "phase_ns_medians": {
+            "build": 24211.1875,
+            "read": 672.0,
+            "drop": 64.75
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              49.59316200282322,
+              68.71223666974193
+            ],
+            "chunked": [
+              5.896280832212049,
+              10.38041708808939
+            ]
+          },
+          "visits": 224,
+          "buffers": 1,
+          "reserved_bytes": 64,
+          "digest": "bbbbbbbbbbbbbbbb"
+        },
+        "chunked": {
+          "total_ns_median_mad": [
+            188694.1875,
+            36669.9375
+          ],
+          "phase_ns_medians": {
+            "build": 46950.9375,
+            "read": 131542.1875,
+            "drop": 228.0625
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              6.4869641430418055,
+              11.097954129898056
+            ],
+            "compact": [
+              0.09633524274736624,
+              0.1695984347517654
+            ]
+          },
+          "visits": 458752,
+          "buffers": 2,
+          "reserved_bytes": 131104,
+          "digest": "bbbbbbbbbbbbbbbb"
+        },
+        "raw": {
+          "total_ns_median_mad": [
+            1501279.3125,
+            140942.1875
+          ],
+          "phase_ns_medians": {
+            "build": 105032.8125,
+            "read": 1398977.0,
+            "drop": 653.75
+          },
+          "paired_speedup_ranges": {
+            "chunked": [
+              0.09010669789181998,
+              0.15415531486676132
+            ],
+            "compact": [
+              0.014553448533576251,
+              0.020164070198691354
+            ]
+          },
+          "visits": 14680064,
+          "buffers": 2,
+          "reserved_bytes": 1048608,
+          "digest": "bbbbbbbbbbbbbbbb"
+        }
+      }
+    },
+    "dense-cuts": {
+      "selection": "unresolved",
+      "median_absolute_AA_ratio_error": 0.05181890145999346,
+      "arms": {
+        "raw": {
+          "total_ns_median_mad": [
+            57765.29166666667,
+            7430.875
+          ],
+          "phase_ns_medians": {
+            "build": 36273.5,
+            "read": 13515.604166666668,
+            "drop": 8996.520833333334
+          },
+          "paired_speedup_ranges": {
+            "chunked": [
+              1.1485584877874409,
+              5.102159575342445
+            ],
+            "compact": [
+              0.6689764919623455,
+              2.1185296522772643
+            ]
+          },
+          "visits": 137288,
+          "buffers": 2,
+          "reserved_bytes": 196608,
+          "digest": "0ad59a33704693bf"
+        },
+        "chunked": {
+          "total_ns_median_mad": [
+            192890.16666666666,
+            42014.0
+          ],
+          "phase_ns_medians": {
+            "build": 149290.08333333334,
+            "read": 43346.95833333333,
+            "drop": 173.72916666666669
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              0.19599543785983653,
+              0.8706565757277012
+            ],
+            "compact": [
+              0.275073952413626,
+              0.6794684273202152
+            ]
+          },
+          "visits": 137288,
+          "buffers": 2,
+          "reserved_bytes": 393216,
+          "digest": "0ad59a33704693bf"
+        },
+        "compact": {
+          "total_ns_median_mad": [
+            79790.125,
+            6988.833333333336
+          ],
+          "phase_ns_medians": {
+            "build": 46562.33333333333,
+            "read": 34652.416666666664,
+            "drop": 77.72916666666666
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              0.47202549132369853,
+              1.494820837525464
+            ],
+            "chunked": [
+              1.4717387295594337,
+              3.6353860161078067
+            ]
+          },
+          "visits": 137288,
+          "buffers": 1,
+          "reserved_bytes": 262144,
+          "digest": "0ad59a33704693bf"
+        }
+      }
+    },
+    "medium-stripes": {
+      "selection": "unresolved",
+      "median_absolute_AA_ratio_error": 0.05002051317321454,
+      "arms": {
+        "compact": {
+          "total_ns_median_mad": [
+            3971.151041666667,
+            433.6927083333335
+          ],
+          "phase_ns_medians": {
+            "build": 3497.859375,
+            "read": 401.4635416666667,
+            "drop": 56.4375
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              3.6050054756881234,
+              6.004247576453379
+            ],
+            "chunked": [
+              1.2299353576492662,
+              4.1883512629983475
+            ]
+          },
+          "visits": 1556,
+          "buffers": 1,
+          "reserved_bytes": 4096,
+          "digest": "000368edf0644cba"
+        },
+        "raw": {
+          "total_ns_median_mad": [
+            20748.765625,
+            679.5
+          ],
+          "phase_ns_medians": {
+            "build": 3333.8333333333335,
+            "read": 17300.130208333332,
+            "drop": 97.82291666666666
+          },
+          "paired_speedup_ranges": {
+            "chunked": [
+              0.25828768841491473,
+              0.7755795685196659
+            ],
+            "compact": [
+              0.1665487619001023,
+              0.27739208906724894
+            ]
+          },
+          "visits": 199168,
+          "buffers": 2,
+          "reserved_bytes": 133120,
+          "digest": "000368edf0644cba"
+        },
+        "chunked": {
+          "total_ns_median_mad": [
+            6138.494791666666,
+            433.3958333333335
+          ],
+          "phase_ns_medians": {
+            "build": 4719.020833333333,
+            "read": 1363.7135416666667,
+            "drop": 67.13020833333333
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              1.28935835933466,
+              3.871651824122544
+            ],
+            "compact": [
+              0.23875743394170867,
+              0.813050859771416
+            ]
+          },
+          "visits": 6224,
+          "buffers": 2,
+          "reserved_bytes": 18432,
+          "digest": "000368edf0644cba"
+        }
+      }
+    },
+    "short-stripes": {
+      "selection": "unresolved",
+      "median_absolute_AA_ratio_error": 0.06229293101900085,
+      "arms": {
+        "raw": {
+          "total_ns_median_mad": [
+            22302.645833333336,
+            810.1666666666697
+          ],
+          "phase_ns_medians": {
+            "build": 14415.005208333332,
+            "read": 2995.932291666667,
+            "drop": 5084.557291666667
+          },
+          "paired_speedup_ranges": {
+            "chunked": [
+              0.8276583192686282,
+              2.384024435568036
+            ],
+            "compact": [
+              0.4780030890159962,
+              4.221233162506553
+            ]
+          },
+          "visits": 32768,
+          "buffers": 2,
+          "reserved_bytes": 163840,
+          "digest": "ffffffffffff92bf"
+        },
+        "compact": {
+          "total_ns_median_mad": [
+            18152.239583333332,
+            2788.005208333332
+          ],
+          "phase_ns_medians": {
+            "build": 16690.46875,
+            "read": 1221.3229166666665,
+            "drop": 59.59895833333333
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              0.2368975987590801,
+              2.092036689676153
+            ],
+            "chunked": [
+              0.3085629074165376,
+              3.193824634196175
+            ]
+          },
+          "visits": 4096,
+          "buffers": 1,
+          "reserved_bytes": 65536,
+          "digest": "ffffffffffff92bf"
+        },
+        "chunked": {
+          "total_ns_median_mad": [
+            27171.234375,
+            2054.817708333334
+          ],
+          "phase_ns_medians": {
+            "build": 25867.755208333332,
+            "read": 1520.4322916666665,
+            "drop": 75.34895833333334
+          },
+          "paired_speedup_ranges": {
+            "raw": [
+              0.4194587878717494,
+              1.2082280534359444
+            ],
+            "compact": [
+              0.31310422910921065,
+              3.2408302357939363
+            ]
+          },
+          "visits": 4096,
+          "buffers": 2,
+          "reserved_bytes": 98304,
+          "digest": "ffffffffffff92bf"
+        }
+      }
+    }
+  }
+}
