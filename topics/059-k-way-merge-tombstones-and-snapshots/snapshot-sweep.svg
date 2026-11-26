@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="390" viewBox="0 0 1000 390" role="img" aria-label="Snapshot 10. Start with two overlapping range deletes. At keys 8, 10, 11, 12, 13 and 14 their newest covering sequences are none, 7, 10, 10, 10 and none. Final rows 8 A, 10 F and 14 E.">
+  <rect width="1000" height="390" fill="#f5f7fb"/>
+  <g font-family="DejaVu Sans, sans-serif" fill="#14263d">
+    <text x="32" y="45" font-size="27" font-weight="bold">Forward scan at snapshot 10</text>
+    <text x="32" y="90" font-size="17" font-weight="bold">Before · visible ranges</text>
+    <text x="32" y="230" font-size="17" font-weight="bold">During · covering delete seq</text>
+    <text x="32" y="334" font-size="17" font-weight="bold">After · returned rows</text>
+    <g text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-size="17">
+      <text x="330" y="90">8</text><text x="448" y="90">10</text><text x="566" y="90">11</text>
+      <text x="684" y="90">12</text><text x="802" y="90">13</text><text x="920" y="90">14</text>
+    </g>
+    <g stroke="#b7c1d0" stroke-width="1">
+      <path d="M330 100v105m118-105v105m118-105v105m118-105v105m118-105v105m118-105v105"/>
+    </g>
+    <path d="M448 119H802" stroke="#821f50" stroke-width="5"/>
+    <circle cx="448" cy="119" r="6" fill="#821f50"/><circle cx="802" cy="119" r="6" fill="#f5f7fb" stroke="#821f50" stroke-width="3"/>
+    <path d="M566 167H920" stroke="#1d577e" stroke-width="5"/>
+    <circle cx="566" cy="167" r="6" fill="#1d577e"/><circle cx="920" cy="167" r="6" fill="#f5f7fb" stroke="#1d577e" stroke-width="3"/>
+    <text x="607" y="147" font-size="16" fill="#821f50">[10, 13) @7</text>
+    <text x="725" y="195" font-size="16" fill="#1d577e">[11, 14) @10</text>
+    <g text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-size="17">
+      <text x="330" y="230">none</text><text x="448" y="230">7</text><text x="566" y="230">10</text>
+      <text x="684" y="230">10</text><text x="802" y="230">10</text><text x="920" y="230">none</text>
+      <text x="330" y="276">A @2</text><text x="448" y="276">F @9</text>
+      <text x="566" y="276" fill="#821f50">C @4</text><text x="684" y="276" fill="#821f50">D @5</text>
+      <text x="802" y="276">no point</text><text x="920" y="276">E @6</text>
+    </g>
+    <text x="32" y="276" font-size="17">Newest visible point</text>
+    <g text-anchor="middle" font-size="13" fill="#821f50"><text x="566" y="296">hidden</text><text x="684" y="296">hidden</text></g>
+    <rect x="294" y="308" width="653" height="44" rx="7" fill="#e0eedf"/>
+    <g text-anchor="middle" font-size="18" font-weight="bold" fill="#214e29">
+      <text x="330" y="336">8 A</text><text x="448" y="336">10 F</text><text x="920" y="336">14 E</text>
+    </g>
+  </g>
+</svg>
