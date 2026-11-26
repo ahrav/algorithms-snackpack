@@ -20,6 +20,9 @@ fn fixture(name: &str) -> (usize, usize, usize, usize) {
 
 fn main() {
     let args: Vec<_> = std::env::args().collect();
+    if args.len() == 1 || args.get(1).is_some_and(|arg| arg == "--bench") {
+        return;
+    }
     let [_, name, arm] = args.as_slice() else {
         panic!("usage: reduction FIXTURE ARM");
     };
