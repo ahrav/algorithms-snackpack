@@ -1,0 +1,33 @@
+{
+  "source_commit": "08d897ad21e3884e880c4ae62af74795e824db30",
+  "source_tar_sha256": "2f09127124233ff3fca034c9e0a5c4cd9fa003569411bd457664d775be5f1b38",
+  "source_manifest_sha256": "25ed3947b69501a69663ec8c529e98fbd7264ad7a31c374c37acb37bb9ae73cc",
+  "raw_archives": {
+    "arm": {
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-060/20261126/lesson/final-replay/arm/raw.tar.gz",
+      "sha256": "36ce6935b5eca5993d7334d87f672a0f5804e7a9f0102b47794ea868d4802073",
+      "bytes": 664616,
+      "members": 10,
+      "run_id": "20261126-topic060-arm-exact",
+      "environment_sha256": "c1746edcb33258685cdc2e28af300e000144f42742ba68d392994c1360656d09",
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "linked_image_sha256": "11f577c51e59d74d848ee7920aa92445571cfe16bae5cd760288ec531469a0fb",
+      "process_manifest_sha256": "6a5141b281fe075aa295878e3a3fe265686eabc86a17ad7fd54bfa0a9c0143f2",
+      "processes": 378,
+      "verification": "archive, schedule, independent digests and visit counts verified"
+    },
+    "x86": {
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-060/20261126/lesson/final-replay/x86/raw.tar.gz",
+      "sha256": "9a09556d92edd07a396ca5ecf91f634d40706f3495ef6cd7a08af9c3850444a9",
+      "bytes": 765618,
+      "members": 10,
+      "run_id": "20261126-topic060-x86-exact",
+      "environment_sha256": "b58c7ee3f5df945cd8690ed1150dd7f2fb59d542d058321fc8527a556acafadd",
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "linked_image_sha256": "c539e99e31124bc066c782d61067df118c403df37faf0b77512f088d196832a3",
+      "process_manifest_sha256": "419ab098baf0bed597079246987208b358c051358b879794e982ae8122072c5a",
+      "processes": 378,
+      "verification": "archive, schedule, independent digests and visit counts verified"
+    }
+  }
+}
