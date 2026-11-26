@@ -28,7 +28,7 @@ def schedule():
         controls = [("raw-a", "raw-b"), ("raw-b", "raw-a")] * 6
         rng.shuffle(orders)
         rng.shuffle(controls)
-        for block, (order, control) in enumerate(zip(orders, controls, strict=True)):
+        for block, (order, control) in enumerate(zip(orders, controls)):
             phases = [("main", order), ("control", control)]
             if rng.getrandbits(1):
                 phases.reverse()
@@ -47,7 +47,10 @@ def main():
                 result = subprocess.run([binary.resolve(), name, arm], text=True,
                                         capture_output=True, timeout=20, check=False)
                 attempt.update(exit=result.returncode, stdout=result.stdout, stderr=result.stderr)
-                fields = dict(zip(KEYS, result.stdout.split(), strict=True))
+                values = result.stdout.split()
+                if len(values) != len(KEYS):
+                    raise ValueError("wrong number of process output fields")
+                fields = dict(zip(KEYS, values))
                 if result.returncode or (fields["fixture"], fields["arm"]) != (name, arm):
                     raise ValueError("process identity or status mismatch")
                 for key in KEYS[2:]:
