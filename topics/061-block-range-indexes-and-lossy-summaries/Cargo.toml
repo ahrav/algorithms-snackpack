@@ -1,0 +1,13 @@
+[package]
+name = "block-range-indexes-and-lossy-summaries"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[[bench]]
+name = "scan"
+harness = false
