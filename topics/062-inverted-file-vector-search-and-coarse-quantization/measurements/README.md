@@ -1,9 +1,13 @@
 # Topic 062 native measurements
 
 Frozen executable source: `57d8357c1ce996cf9c28eff660ff275c9d9a9202`.
-Replay from the topic directory with `bash benches/native.sh`. The
-[evidence receipt](EVIDENCE_RECEIPT.json) names both verified archives,
-their linked image hashes, and the environment and workload manifests.
+Replay from a scratch copy of the topic directory at that commit with
+`bash benches/native.sh`. The [evidence receipt](EVIDENCE_RECEIPT.json)
+names both verified archives, their linked image hashes, and the
+environment and workload manifests. Later commits change `benches/run.py`
+and `benches/native.sh` and add `benches/test_run.py`. The Rust sources
+are unchanged. Both scripts now refuse an existing output directory, and
+a replay of the later scripts writes the runner output to `evidence/run/`.
 
 On Arm the host exposed 64 CPUs and CPU implementer/part 0x41/0xd40.
 The x86-64 host exposed 192 CPUs and reported Intel Xeon Platinum 8488C.
@@ -21,7 +25,9 @@ skew order, were 0.040, 1.995, 1.965, 1.909 on Arm and 0.048, 2.526, 2.522,
 Both hosts selected raw1 on tiny, pq1 on balanced and raw4 on boundary.
 On skew, raw1 gave the lowest eligible point estimate on both hosts and
 fell short of the preset paired advantage rule. The skew raw1 p95 scan
-count reached 14,834 of 16,384 rows. Boundary raw1 recovered 247/480 true
+count reached 14,834 of 16,384 rows. The boundary rows cover 92 queries on
+an adjacent-centroid bisector and the four seeded from group 15, which keep
+their jittered coordinate. Boundary raw1 recovered 247/480 true
 IDs and raw4 recovered 480/480. With four probes PQ returned 196/480 and
 exact reranking from 16 compressed candidates returned 353/480. Scanning
 all codes also returned 196/480 in that workload. Expanding probes alone

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 export LC_ALL=C
-mkdir -p evidence bin
+mkdir evidence
+mkdir -p bin
 {
     date -u +%FT%TZ
     hostname
@@ -25,4 +26,4 @@ rustc +1.93.0 "${flags[@]}" "${linked[@]}" benches/search.rs -o bin/search
 sha256sum bin/* > evidence/image.sha256
 ./bin/contracts | tee evidence/contracts.log
 ./bin/demo | tee evidence/demo.log
-python3 benches/run.py "$PWD/bin/search" evidence | tee evidence/run.log
+python3 benches/run.py "$PWD/bin/search" evidence/run | tee evidence/run.log

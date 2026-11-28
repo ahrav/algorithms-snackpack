@@ -52,3 +52,6 @@ jobs:
         working-directory: >-
           topics/050-token-buckets-and-rate-accounting
       - run: python3 topics/051-buddy-allocation/test_measure.py
+      - run: python3 benches/test_run.py
+        working-directory: >-
+          topics/062-inverted-file-vector-search-and-coarse-quantization

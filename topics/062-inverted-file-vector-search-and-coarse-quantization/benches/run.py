@@ -39,9 +39,8 @@ def summary(samples, quality):
             "time_per_query": times}
 
 def main():
-    binary, destination = map(Path, sys.argv[1:])
-    directory = destination
-    directory.mkdir(exist_ok=True)
+    binary, directory = map(Path, sys.argv[1:])
+    directory.mkdir(parents=True, exist_ok=False)
     manifest = {}
     with (directory / "processes.csv").open("w", newline="") as out:
         writer = csv.writer(out)
