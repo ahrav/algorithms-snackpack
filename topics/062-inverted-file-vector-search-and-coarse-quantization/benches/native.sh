@@ -9,6 +9,7 @@ mkdir -p bin
     uname -a
     lscpu
     nproc
+    grep Cpus_allowed_list /proc/self/status
     rustc +1.93.0 -vV
     rustc +1.93.0 --print cfg -C target-cpu=native
     python3 --version

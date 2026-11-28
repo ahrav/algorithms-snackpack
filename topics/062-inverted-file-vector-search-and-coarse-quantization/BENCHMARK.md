@@ -13,7 +13,9 @@ mean exact ID recall@5 must reach 95%.
 The seven timed paths are flat, raw one/four probes, PQ one/four probes, and
 PQ one/four probes with a 16-ID exact rerank. Untimed controls scan all
 lists with raw and compressed scores. The corpus layout interleaves IDs by
-group. Raw list scoring loads the original coordinates through an ID.
+group. One linear congruential generator in `benches/search.rs` draws every
+cell, seeded with 23 for the corpus and 97 for the queries.
+Raw list scoring loads the original coordinates through an ID.
 The balanced query cell intentionally gives the fixed codec zero distortion.
 
 Run 16 complete process blocks per host and cell. Rotate eight slots
@@ -48,9 +50,12 @@ carry no family-wise guarantee. The runner sets no timeout. A process that
 exits non-zero or returns a digest different from the untimed run stops the
 runner before it writes `summary.json`. A campaign with a failed attempt
 therefore yields no winner labels, and no observation is censored or dropped
-from a summary. This paragraph and the group-15 clause of the boundary row
-were written after the measurements. They describe the rule and the generator
-as run and change no threshold, count, query or label.
+from a summary. The timed processes are not pinned. Each inherits the allowed
+CPU list of the shell that runs `benches/native.sh`, which the script records
+in `host.txt` on Linux. Placement within that list is uncontrolled. This
+paragraph, the seed sentence and the group-15 clause of the boundary row were
+written after the measurements. They describe the rule, the generator and the
+placement as run and change no threshold, count, query or label.
 
 ```bash
 cargo bench -p inverted-file-vector-search-and-coarse-quantization --bench search --no-run

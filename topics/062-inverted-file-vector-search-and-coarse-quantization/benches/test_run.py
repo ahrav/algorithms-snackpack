@@ -84,7 +84,11 @@ class RunnerTest(unittest.TestCase):
         result = self.run_py()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(sorted(self.snapshot()), sorted(OUTPUTS))
-        self.assertEqual(len((self.out / "processes.csv").read_text().splitlines()), PROCESS_ROWS)
+        rows = (self.out / "processes.csv").read_text().splitlines()
+        self.assertEqual(len(rows), PROCESS_ROWS)
+        # query_ns holds the stub's whole-batch time beside its search count.
+        self.assertEqual(rows[0], "cell,block,position,mode,query_ns,build_ns,queries,signature")
+        self.assertEqual(rows[1], "tiny,-1,0,flat,1000,10,96,7")
 
     def test_failed_process_leaves_no_summary(self):
         result = self.run_py(STUB_FAIL="1")
@@ -102,7 +106,7 @@ class RunnerTest(unittest.TestCase):
         self.out = topic / "evidence"
         return topic
 
-    def native(self, topic):
+    def native(self, topic, cpus=None):
         """Run native.sh with a stub rustc that writes the stub process to every -o path."""
         tools = self.dir / "tools"
         tools.mkdir()
@@ -110,8 +114,9 @@ class RunnerTest(unittest.TestCase):
         (tools / "rustc").chmod(0o755)
         env = dict(os.environ, PATH=f"{tools}{os.pathsep}{os.environ['PATH']}",
                    STUB_LOG=str(self.log), STUB_PROCESS=str(self.binary))
+        restrict = (lambda: os.sched_setaffinity(0, cpus)) if cpus else None
         return subprocess.run(["bash", "benches/native.sh"], cwd=topic, capture_output=True,
-                              text=True, env=env, timeout=300, check=False)
+                              text=True, env=env, timeout=300, check=False, preexec_fn=restrict)
 
     def test_native_refuses_existing_evidence_before_any_write(self):
         topic = self.topic()
@@ -133,6 +138,13 @@ class RunnerTest(unittest.TestCase):
             sorted(p.name for p in self.out.iterdir()),
             ["contracts.log", "demo.log", "host.txt", "image.sha256", "library.s", "run", "run.log", "source.sha256"],
         )
+
+    def test_native_records_the_inherited_cpu_list(self):
+        cpu = min(os.sched_getaffinity(0))
+        topic = self.topic()
+        result = self.native(topic, cpus={cpu})
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn(f"Cpus_allowed_list:\t{cpu}\n", (self.out / "host.txt").read_text())
 
 
 if __name__ == "__main__":

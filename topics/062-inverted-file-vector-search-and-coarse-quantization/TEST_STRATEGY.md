@@ -1,10 +1,39 @@
 # Test strategy
 
-The exact reference visits original rows and full-sorts distance/ID pairs.
-A second model independently sorts centroids, assigns rows, reconstructs
-coordinates, computes distances in position space and full-sorts each score.
-It does not use lookup tables, heap replacement, the index's assignments or
-the index's tie handling.
+- **Scope:** exact top-k search over a static corpus of eight-coordinate i16
+  vectors with supplied centroids and a fixed residual codebook, through the
+  flat, raw-list, PQ and rerank paths.
+- **Contract and failure classes:** squared Euclidean distance in 64 bits with
+  ties broken by smaller row ID, assignment and probe ties broken by centroid
+  position, complete scans of the opened lists, and empty results for zero k,
+  zero probes or an empty corpus. The failure classes are a wrong tie, narrowed
+  arithmetic, a wrong list or probe scope, a wrong residual score and a rerank
+  that leaves its shortlist.
+- **Primary technique:** exact comparison with an independent model on a fixed
+  corpus.
+- **Secondary techniques:** hand-derived boundary cases, and assertions on
+  every benchmark query in the untimed quality mode.
+- **Oracle:** the exact reference visits original rows and full-sorts
+  distance/ID pairs. A second model independently sorts centroids, assigns
+  rows, reconstructs coordinates, computes distances in position space and
+  full-sorts each score. It does not use lookup tables, heap replacement, the
+  index's assignments or the index's tie handling.
+- **Input/model/schedule domain and bounds:** 70 rows and four centroids with
+  one duplicate, 24 queries, probe counts 0, 1, 2, 4 and 7, k of 1, 5 and 77,
+  and shortlists of 0, 2, 9 and 100. The benchmark cells add 96 queries each
+  over 256 or 16,384 rows. Every run is deterministic and single-threaded.
+- **Replay assets:** `tests/contracts.rs`, `examples/demo.rs`, the quality mode
+  of `benches/search.rs`, and `benches/test_run.py` for the runner scripts.
+- **What a green run establishes:** exact equality of ordered hits and of
+  scanned and reranked counts on these finite inputs, under the fixed integer
+  and static-corpus contract.
+- **Known gaps and delegated skills:** no generated corpora or centroid sets,
+  no test of the panic for an empty centroid list, and no test that pins the
+  benchmark workload generator. Training, floating-point distances, updates,
+  persistence and concurrency are outside the contract.
+- **Concrete tests to add:** a panic test for `Index::new` without centroids, a
+  seeded sweep over generated corpora and centroid sets against the second
+  model, and a check of the boundary cell's query placement.
 
 | Claim and scope | Plausible violation | Observation and comparator | Oracle and independence | Smallest discriminating case | Mutation backstop |
 | --- | --- | --- | --- | --- | --- |
@@ -19,5 +48,4 @@ one fails `cargo test --test contracts`. The last row's mutations also fail the
 assertions of the benchmark quality mode.
 
 The focused case isolates routing and compressed ties. Measurements check
-the result and scanned-count digest against the untimed run. These are
-finite checks under the fixed integer and static-corpus contract.
+the result and scanned-count digest against the untimed run.

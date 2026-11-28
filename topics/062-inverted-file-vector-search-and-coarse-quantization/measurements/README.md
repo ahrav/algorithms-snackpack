@@ -7,13 +7,16 @@ names both verified archives, their linked image hashes, and the
 environment and workload manifests. Later commits change `benches/run.py`
 and `benches/native.sh` and add `benches/test_run.py`. The Rust sources
 are unchanged. Both scripts now refuse an existing output directory, and
-a replay of the later scripts writes the runner output to `evidence/run/`.
+a replay of the later scripts writes the runner output to `evidence/run/`
+and records the allowed CPU list in `host.txt`.
 
 On Arm the host exposed 64 CPUs and CPU implementer/part 0x41/0xd40.
 The x86-64 host exposed 192 CPUs and reported Intel Xeon Platinum 8488C.
 Both ran the declared Linux 6.12.115 kernel family and Rust 1.93.0
 with edition 2024, opt-level 3 and target-cpu=native. Exact host and
-target feature data are in the retained archives. Three integration tests
+target feature data are in the retained archives. Both runs were unpinned.
+Their host records hold the `nproc` count and no allowed CPU list, so their
+CPU placement cannot be reconstructed. Three integration tests
 and the demo passed on each host. Each host ran 512 timed processes
 (including 64 duplicate flat runs), 32 warmup processes and four untimed
 quality processes. Quality counts and timed output digests matched.
@@ -33,6 +36,11 @@ exact reranking from 16 compressed candidates returned 353/480. Scanning
 all codes also returned 196/480 in that workload. Expanding probes alone
 did not fix the fixed-codebook distortion. The balanced grid was deliberately
 representable exactly and does not predict accuracy on trained embeddings.
+
+Each `processes.csv` row holds one process. `query_ns` is the elapsed
+nanoseconds of the whole timed query batch, `queries` is the number of
+searches in that batch and `build_ns` is index construction. Time per query
+is `query_ns / queries`.
 
 Each time below is the process median [first, third quartile] in microseconds
 per query. Recall counts are shared by both hosts. Mean scans and p95 scans
