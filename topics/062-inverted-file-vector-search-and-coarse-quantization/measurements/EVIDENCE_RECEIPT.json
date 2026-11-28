@@ -1,0 +1,52 @@
+{
+  "schema": "topic-062-evidence-v1",
+  "source_commit": "57d8357c1ce996cf9c28eff660ff275c9d9a9202",
+  "runs": [
+    {
+      "run_id": "20261128-topic062-arm",
+      "hostname": "dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com",
+      "kernel": "Linux dev-dsk-ahrav-2b-7dc7bd93.us-west-2.amazon.com 6.12.115-140.210.amzn2023.aarch64 #1 SMP Wed Nov 11 00:31:12 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-062/20261128/native/arm.result.tar.gz",
+      "archive_sha256": "d71dded4a1c60e23ab4a2e1bfd4d6f7b3511804e6df164459b575148a1202a7f",
+      "archive_bytes": 27180,
+      "archive_members": 14,
+      "frozen_transfer_sha256": "b4e60558a601d7f7d9c4b4ab9b1de9cee0519ad494a9f964eb6cc46eddb506f9",
+      "manifest_sha256": {
+        "source.sha256": "75f3c452d8ee372122a753c9717c0de228a06e0899341b7dea9cc43f92c1e627",
+        "image.sha256": "27e51f902e1a1cfecadb213e1372109a558f1c85614448510b18ea33fb05d460",
+        "host.txt": "3e9be2668b4cd50175cb5a14a34bdb03251f3b2c23ded0ca0a63b7da18e5ccb6",
+        "summary.json": "d54332ce6323c5ff04c4721b1714265c754965be2c6121a405b046f730fcddb3"
+      },
+      "linked_image_sha256": {
+        "bin/contracts": "0abd099bcd93328f69bc6344a38fed2199dad239862e23dd69a2e484ed48b034",
+        "bin/demo": "1f7702e31ab872e556325313b8ac25dd71ebd5d62d084985fc6c4b5ed9b8a44b",
+        "bin/libinverted_file_vector_search_and_coarse_quantization.rlib": "a6c7c299ac12b05ee7e6e1b879cf3e9e1b7b54c24025867e5254e1bb424e4aa1",
+        "bin/search": "e0c04f66338f48c9108dd88934e89b2d11d6d4116c09470add2644a5257d3dd3"
+      },
+      "verification": "archive and source transfer SHA-256 verified on both ends; all extracted source hashes, process rounds, slot positions, and result signatures verified"
+    },
+    {
+      "run_id": "20261128-topic062-x86",
+      "hostname": "dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com",
+      "kernel": "Linux dev-dsk-ahrav-2c-32182091.us-west-2.amazon.com 6.12.115-140.210.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Wed Nov 11 00:39:58 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux",
+      "archive": "/Users/ahrav/.codex-amazon/automations/algorithms-daily-curriculum/evidence/topic-062/20261128/native/x86.result.tar.gz",
+      "archive_sha256": "4099355d6e9d01ee77b37bc710be8b0d2d9c362294df7a92a3abba55ba9fb266",
+      "archive_bytes": 29419,
+      "archive_members": 14,
+      "frozen_transfer_sha256": "b4e60558a601d7f7d9c4b4ab9b1de9cee0519ad494a9f964eb6cc46eddb506f9",
+      "manifest_sha256": {
+        "source.sha256": "75f3c452d8ee372122a753c9717c0de228a06e0899341b7dea9cc43f92c1e627",
+        "image.sha256": "44c3ba2f3def078bc730bf61307c91ebe82b223490e19da263a06384aaf0ab2a",
+        "host.txt": "b0ec2581e8a9569b7daa08aca03fbda362c03013529d4cef545852f54cb5dd4e",
+        "summary.json": "277dc6cd05f0eb1ea8642f31b9ad65d4c43af7466274526bea38a61cb0130f1f"
+      },
+      "linked_image_sha256": {
+        "bin/contracts": "739399f5756a5b1405f201f9fd15debeee1223b83768c734ebda64a66bfc9220",
+        "bin/demo": "b62a8a4257a1bf4aa2de07860ccbbb5dd9a27f9e91e8bb97a1ef047e63acb5ec",
+        "bin/libinverted_file_vector_search_and_coarse_quantization.rlib": "e53ac73fe38eb09e6df6f634e28b77255a07d6bc6db2e486bdde913abc0da1b3",
+        "bin/search": "d6728fade7d5a4640da0e2d42e687f2a27aeb8e9cb11a2e177eac10665269aae"
+      },
+      "verification": "archive and source transfer SHA-256 verified on both ends; all extracted source hashes, process rounds, slot positions, and result signatures verified"
+    }
+  ]
+}
